@@ -11,6 +11,11 @@ namespace PolishDiacriticMarksRestorer
         public SettingsWindow()
         {
             InitializeComponent();
+            var mainWindow = Application.Current.MainWindow;
+
+            if (mainWindow == null) return;
+            Left = mainWindow.Left + (mainWindow.Width)/ 2 - Width/2;
+            Top = mainWindow.Top + (mainWindow.Height) / 2 - Height/2;
         }
 
         #region MyRegion

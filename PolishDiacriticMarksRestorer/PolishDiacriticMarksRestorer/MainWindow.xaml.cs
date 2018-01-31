@@ -53,30 +53,30 @@ namespace PolishDiacriticMarksRestorer
             if (WindowState == WindowState.Maximized)
             {
                 WindowState = WindowState.Normal;
-                Uri resourceUri = new Uri("img/max.png", UriKind.Relative);
-                StreamResourceInfo streamInfo = Application.GetResourceStream(resourceUri);
+                var resourceUri = new Uri("img/max.png", UriKind.Relative);
+                var streamInfo = Application.GetResourceStream(resourceUri);
 
-                if (streamInfo != null)
+                if (streamInfo == null) return;
+                var temp = BitmapFrame.Create(streamInfo.Stream);
+                var brush = new ImageBrush
                 {
-                    BitmapFrame temp = BitmapFrame.Create(streamInfo.Stream);
-                    var brush = new ImageBrush();
-                    brush.ImageSource = temp;
-                    MaxButton.Background = brush;
-                }
+                    ImageSource = temp
+                };
+                MaxButton.Background = brush;
             }
             else
             {
                 WindowState = WindowState.Maximized;
-                Uri resourceUri = new Uri("img/min.png", UriKind.Relative);
-                StreamResourceInfo streamInfo = Application.GetResourceStream(resourceUri);
+                var resourceUri = new Uri("img/min.png", UriKind.Relative);
+                var streamInfo = Application.GetResourceStream(resourceUri);
 
-                if (streamInfo != null)
+                if (streamInfo == null) return;
+                var temp = BitmapFrame.Create(streamInfo.Stream);
+                var brush = new ImageBrush
                 {
-                    BitmapFrame temp = BitmapFrame.Create(streamInfo.Stream);
-                    var brush = new ImageBrush();
-                    brush.ImageSource = temp;
-                    MaxButton.Background = brush;
-                }
+                    ImageSource = temp
+                };
+                MaxButton.Background = brush;
             }
 
         }
@@ -98,7 +98,7 @@ namespace PolishDiacriticMarksRestorer
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow subWindow = new SettingsWindow();
+            var subWindow = new SettingsWindow();
             subWindow.ShowDialog();
         }
         #endregion

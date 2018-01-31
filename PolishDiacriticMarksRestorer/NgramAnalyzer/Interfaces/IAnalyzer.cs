@@ -2,8 +2,8 @@
 
 namespace NgramAnalyzer.Interfaces
 {
-    interface IAnalyzer
+    internal interface IAnalyzer
     {
-        String[] AnalyzeStrings(String[] str);
+        string[] AnalyzeStrings(string[] str);
     }
 }

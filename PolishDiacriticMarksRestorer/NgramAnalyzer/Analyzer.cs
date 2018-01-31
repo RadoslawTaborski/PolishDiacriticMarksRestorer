@@ -5,7 +5,7 @@ namespace NgramAnalyzer
 {
     public class Analyzer : IAnalyzer
     {
-        private String[] _str;
+        private string[] _str;
         public string[] AnalyzeStrings(string[] str)
         {
             _str = str;

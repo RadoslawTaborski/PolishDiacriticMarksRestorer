@@ -28,9 +28,6 @@
             <TabItem Header="Główne" Style="{StaticResource MyTabItem}">
                 <Grid Style="{StaticResource MyGrid}"/>
             </TabItem>
-            <TabItem Header="Główne" Style="{StaticResource MyTabItem}">
-                <Grid Style="{StaticResource MyGrid}"/>
-            </TabItem>
         </TabControl>
         <Button Content="Zastosuj" Style="{StaticResource MyButton}" Margin="300,360,10,10"/>
     </Grid>

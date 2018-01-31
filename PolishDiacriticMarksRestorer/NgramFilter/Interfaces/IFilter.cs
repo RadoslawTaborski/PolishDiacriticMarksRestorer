@@ -1,6 +1,6 @@
 ﻿namespace NgramFilter.Interfaces
 {
-    interface IFilter
+    internal interface IFilter
     {
     }
 }
