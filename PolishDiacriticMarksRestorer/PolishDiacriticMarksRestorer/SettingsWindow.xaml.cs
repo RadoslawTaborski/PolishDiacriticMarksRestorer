@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace PolishDiacriticMarksRestorer
@@ -22,8 +23,8 @@ namespace PolishDiacriticMarksRestorer
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Left) return;
-            if (Application.Current.Windows[2] != null) Application.Current.Windows[2].DragMove();
-
+            var thisCurrentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive);
+            thisCurrentWindow?.DragMove();
         }
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
