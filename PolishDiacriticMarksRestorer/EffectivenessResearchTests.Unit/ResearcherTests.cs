@@ -3,7 +3,7 @@ using EffectivenessResearch;
 
 namespace EffectivenessResearchTests.Unit
 {
-    public class UnitTest1
+    public class ResearcherTests
     {
         [Fact]
         public void Test1()

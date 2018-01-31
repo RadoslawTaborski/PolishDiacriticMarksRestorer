@@ -1,4 +1,5 @@
 using Xunit;
+using NgramFilter;
 
 namespace NgramFilterTests.Unit
 {
