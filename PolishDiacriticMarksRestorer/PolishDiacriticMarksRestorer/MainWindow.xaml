@@ -21,11 +21,11 @@
         </Grid.ColumnDefinitions>
 
         <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,6,12,12" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
-            <Button Content="Przywróć" Style="{StaticResource MyButton}" Margin="350,10,350,10" />
+            <Button Content="Przywróć" Style="{StaticResource MyButton}" Margin="350,10,350,10" Click="Button_Click" />
         </Border>
 
         <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,40,6,6" Grid.Row="0" Grid.Column="0">
-            <RichTextBox>
+            <RichTextBox x:Name="RtbInput">
                 <FlowDocument>
                     <Paragraph>
                         <Run Text=""/>
@@ -35,7 +35,7 @@
         </Border>
 
         <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="6,40,12,6" Grid.Row="0" Grid.Column="1">
-            <RichTextBox>
+            <RichTextBox x:Name="RtbResult">
                 <FlowDocument>
                     <Paragraph>
                         <Run Text=""/>
