@@ -55,6 +55,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -68,6 +71,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -99,18 +106,23 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="img\close.png" />
     <Resource Include="img\logo.ico" />
-    <Resource Include="img\logo.png" />
-    <Resource Include="img\max.png" />
-    <Resource Include="img\min.png" />
-    <Resource Include="img\minimize.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NgramAnalyzer\NgramAnalyzer.csproj">
       <Project>{2d963ce5-3efd-4bf6-a69c-e5f5100a3ba0}</Project>
       <Name>NgramAnalyzer</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\close.png" />
+    <Resource Include="img\max.png" />
+    <Resource Include="img\menu.png" />
+    <Resource Include="img\min.png" />
+    <Resource Include="img\minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\logo.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

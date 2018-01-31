@@ -5,7 +5,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="QRS Detector" Height="600" Width="1200"
+        Title="Polish Diacritic Marks Restorer" Height="600" Width="1200"
+        MinHeight="290" MinWidth="516"
         AllowsTransparency="True"
         ResizeMode="CanResizeWithGrip"
         Icon="./img/logo.ico">
@@ -21,11 +22,11 @@
         </Grid.ColumnDefinitions>
 
         <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,6,12,12" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
-            <Button Content="Przywróć" Style="{StaticResource MyButton}" Margin="350,10,350,10" Click="Button_Click" />
+            <Button Content="Przywróć" Style="{StaticResource MyButton}" HorizontalAlignment="Center" Margin="0,10,0,10" Click="Button_Click" Width="474" />
         </Border>
 
         <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,40,6,6" Grid.Row="0" Grid.Column="0">
-            <RichTextBox x:Name="RtbInput">
+            <RichTextBox x:Name="RtbInput" Style="{StaticResource MyRichTextBox}" Margin="6,6,6,6">
                 <FlowDocument>
                     <Paragraph>
                         <Run Text=""/>
@@ -35,7 +36,7 @@
         </Border>
 
         <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="6,40,12,6" Grid.Row="0" Grid.Column="1">
-            <RichTextBox x:Name="RtbResult">
+            <RichTextBox x:Name="RtbResult" Style="{StaticResource MyRichTextBox}" Margin="6,6,6,6">
                 <FlowDocument>
                     <Paragraph>
                         <Run Text=""/>
@@ -62,8 +63,13 @@
                         <ImageBrush ImageSource="./img/minimize.png"/>
                     </Button.Background>
                 </Button>
+                <Button x:Name="MenuButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,20,3" Click="MenuButton_Click" >
+                    <Button.Background>
+                        <ImageBrush ImageSource="./img/menu.png" />
+                    </Button.Background>
+                </Button>
 
-                <TextBlock Style="{StaticResource MyTextBlock}" Margin="32,7,70,0" DockPanel.Dock="Left" Height="23">Polish Diacritic Marks Restorer</TextBlock>
+                <TextBlock Style="{StaticResource MyTextBlock}" Margin="15,7,70,0" DockPanel.Dock="Left" Height="23">Polish Diacritic Marks Restorer</TextBlock>
             </DockPanel>
         </DockPanel>
     </Grid>

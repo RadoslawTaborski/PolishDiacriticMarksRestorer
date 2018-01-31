@@ -8,6 +8,78 @@
     <SolidColorBrush x:Key="MyAzure" Color="#84ceff" />
     <SolidColorBrush x:Key="MyPurple" Color="#68217a" />
     <SolidColorBrush x:Key="MyWhite" Color="White" />
+    <SolidColorBrush x:Key="Transparent" Color="Transparent"/>
+    <!--Control colors.-->
+    <Color x:Key="WindowColor">#FFE8EDF9</Color>
+    <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
+    <Color x:Key="ContentAreaColorDark">#FF7381F9</Color>
+
+    <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color>
+    <Color x:Key="DisabledControlDarkColor">#FFC5CBF9</Color>
+    <Color x:Key="DisabledForegroundColor">#FF888888</Color>
+
+    <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color>
+    <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
+
+    <Color x:Key="ControlLightColor">White</Color>
+    <Color x:Key="ControlMediumColor">#FF7381F9</Color>
+    <Color x:Key="ControlDarkColor">#FF211AA9</Color>
+
+    <Color x:Key="ControlMouseOverColor">#FF3843C4</Color>
+    <Color x:Key="ControlPressedColor">#FF211AA9</Color>
+
+
+    <Color x:Key="GlyphColor">#FF444444</Color>
+    <Color x:Key="GlyphMouseOver">sc#1, 0.004391443, 0.002428215, 0.242281124</Color>
+
+    <!--Border colors-->
+    <Color x:Key="BorderLightColor">#FFCCCCCC</Color>
+    <Color x:Key="BorderMediumColor">#FF888888</Color>
+    <Color x:Key="BorderDarkColor">#FF444444</Color>
+
+    <Color x:Key="PressedBorderLightColor">#FF888888</Color>
+    <Color x:Key="PressedBorderDarkColor">#FF444444</Color>
+
+    <Color x:Key="DisabledBorderLightColor">#FFAAAAAA</Color>
+    <Color x:Key="DisabledBorderDarkColor">#FF888888</Color>
+
+    <Color x:Key="DefaultBorderBrushDarkColor">Black</Color>
+
+    <!--Control-specific resources.-->
+    <Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
+    <Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
+    <Color x:Key="SliderTrackDarkColor">#FFC5CBF9</Color>
+
+    <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
+
+    <LinearGradientBrush x:Key="MenuPopupBrush"
+                     EndPoint="0.5,1"
+                     StartPoint="0.5,0">
+        <GradientStop Color="{DynamicResource ControlLightColor}"
+                Offset="0" />
+        <GradientStop Color="{DynamicResource ControlMediumColor}"
+                Offset="0.5" />
+        <GradientStop Color="{DynamicResource ControlLightColor}"
+                Offset="1" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill"
+                     StartPoint="0,0"
+                     EndPoint="1,0">
+        <LinearGradientBrush.GradientStops>
+            <GradientStopCollection>
+                <GradientStop Color="#000000FF"
+                    Offset="0" />
+                <GradientStop Color="#600000FF"
+                    Offset="0.4" />
+                <GradientStop Color="#600000FF"
+                    Offset="0.6" />
+                <GradientStop Color="#000000FF"
+                    Offset="1" />
+            </GradientStopCollection>
+        </LinearGradientBrush.GradientStops>
+    </LinearGradientBrush>
+
 
     <Style TargetType="Button" x:Key="MyButton">
         <Setter Property="BorderBrush" Value="{StaticResource MyLight}" />
@@ -56,6 +128,11 @@
 
     <Style x:Key="MyDataGridRowHeader"  TargetType="DataGridRowHeader">
         <Setter Property="Background" Value="{StaticResource MyDarkGrey}" />
+    </Style>
+
+    <Style x:Key="MyRichTextBox"  TargetType="RichTextBox">
+        <Setter Property="Background" Value="{StaticResource MyDarkGrey}" />
+        <Setter Property="Foreground" Value="{StaticResource MyAzure}" />
     </Style>
 
     <Style TargetType="DataGridColumnHeader" x:Key="MyDataGridColumnHeader">
@@ -195,6 +272,88 @@
                             <Setter Property="Background" Value="Blue" />
                             <Setter Property="Cursor" Value="Hand" />
                             <!-- If we don't tell the background to change on hover, it will remain the same -->
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="TabItem" x:Key="MyTabItem">
+        <Setter Property="Background" Value="{StaticResource MyDarkGrey}" />
+        <Setter Property="Foreground" Value="{StaticResource MyAzure}" />
+        <Setter Property="BorderBrush" Value="Black" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid>
+                        <Border Name="Border" Margin="0,0,0,0" Background="{StaticResource MyMediumGrey}"
+                                BorderBrush="Black" BorderThickness="1,1,1,1">
+                            <ContentPresenter x:Name="ContentSite" VerticalAlignment="Center"
+                                              HorizontalAlignment="Center"
+                                              ContentSource="Header" Margin="12,2,12,2"
+                                              RecognizesAccessKey="True">
+                            </ContentPresenter>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Panel.ZIndex" Value="100" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource MyAzure}" />
+                            <Setter Property="Foreground" Value="{StaticResource MyDarkGrey}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource MyDarkGrey}" />
+                            <Setter TargetName="Border" Property="BorderThickness" Value="1,1,1,0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource MyAzure}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="Black" />
+                            <Setter Property="Foreground" Value="DarkGray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style  x:Key="MyTabControl" TargetType="TabControl">
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid KeyboardNavigation.TabNavigation="Local">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TabPanel 
+                            Name="HeaderPanel"
+                            Grid.Row="0"
+                            Panel.ZIndex="1" 
+                            Margin="0,0,4,-1" 
+                            IsItemsHost="True"
+                            KeyboardNavigation.TabIndex="1"
+                            Background="Transparent" />
+                        <Border 
+                            Name="Border" 
+                            Grid.Row="1" 
+                            Background="{StaticResource MyLightGrey}" 
+                            BorderBrush="{StaticResource MyLight}" 
+                            BorderThickness="1" 
+                            CornerRadius="2" 
+                            KeyboardNavigation.TabNavigation="Local"
+                            KeyboardNavigation.DirectionalNavigation="Contained"
+                            KeyboardNavigation.TabIndex="2" >
+                            <ContentPresenter 
+                                Name="PART_SelectedContentHost"
+                                Margin="4"
+                                ContentSource="SelectedContent" />
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="{StaticResource MyAzure}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource MyPurple}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

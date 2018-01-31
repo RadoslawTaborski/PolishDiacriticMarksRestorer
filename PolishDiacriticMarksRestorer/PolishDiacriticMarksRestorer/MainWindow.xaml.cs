@@ -95,6 +95,12 @@ namespace PolishDiacriticMarksRestorer
         {
             Application.Current.Shutdown();
         }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow subWindow = new SettingsWindow();
+            subWindow.ShowDialog();
+        }
         #endregion
     }
 }
