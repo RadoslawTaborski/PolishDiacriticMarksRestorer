@@ -4,6 +4,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using MySql.Data.MySqlClient;
 using NgramAnalyzer;
 
 namespace PolishDiacriticMarksRestorer
@@ -14,7 +15,7 @@ namespace PolishDiacriticMarksRestorer
     /// </summary>
     public partial class MainWindow
     {
-        readonly Analyzer _analyzer = new Analyzer();
+        readonly Analyzer _analyzer = new Analyzer("localhost", "testowa", "root", "");
 
         public MainWindow()
         {
@@ -23,17 +24,33 @@ namespace PolishDiacriticMarksRestorer
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var text= new TextRange(RtbInput.Document.ContentStart, RtbInput.Document.ContentEnd).Text;
+            var text = new TextRange(RtbInput.Document.ContentStart, RtbInput.Document.ContentEnd).Text;
             var stringsArray = text.Split(' ');
-            var resultsArray = _analyzer.AnalyzeStrings(stringsArray);
-            RtbResult.Document.Blocks.Clear();
-            foreach (var item in resultsArray)
+
+            try
             {
-                RtbResult.AppendText(item+" ");
+                var resultsArray = _analyzer.AnalyzeStrings(stringsArray);
+                RtbResult.Document.Blocks.Clear();
+                foreach (var item in resultsArray)
+                {
+                    RtbResult.AppendText(item + " ");
+                }
+            }
+            catch (MySqlException ex)
+            {
+                switch (ex.Number)
+                {
+                    case 0:
+                        MessageBox.Show("Cannot connect to server.  Contact administrator");
+                        break;
+                    case 1045:
+                        MessageBox.Show("Invalid username/password, please try again");
+                        break;
+                }
             }
         }
 
-        #region MyRegion
+        #region TITLE_BAR
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Left) return;

@@ -19,7 +19,7 @@ namespace PolishDiacriticMarksRestorer
             Top = mainWindow.Top + (mainWindow.Height) / 2 - Height/2;
         }
 
-        #region MyRegion
+        #region TITLE_BAR
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Left) return;
