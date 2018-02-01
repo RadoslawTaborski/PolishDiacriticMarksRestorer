@@ -8,27 +8,30 @@
         Title="Ustawienia" Height="400" Width="400"
         AllowsTransparency="True"
         Icon="./img/logo.ico">
-
     <Window.Resources />
-    <Grid Margin="0,0,0,0" Style="{StaticResource MyGrid}">
+    <Border  Style="{StaticResource MyBorder2}" BorderThickness="2">
+        <Grid Margin="0,0,0,0" Style="{StaticResource MyGrid}">
 
-        <DockPanel x:Name="Dock" Style="{StaticResource MyDockPanel}" LastChildFill="False" Height="30" VerticalAlignment="Top">
-            <DockPanel x:Name="TitleBar" Style="{StaticResource MyDockPanel}" Width="{Binding ActualWidth, ElementName=Dock}" MouseDown="TitleBar_MouseDown" >
-                <Image Source="Img/logo.png" DockPanel.Dock="Left" Width="26" Height="26" Margin="13,0,0,0"/>
-                <Button x:Name="CloseButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,10,3" Click="CloseButton_Click">
-                    <Button.Background>
-                        <ImageBrush ImageSource="./img/close.png" />
-                    </Button.Background>
-                </Button>
+            <DockPanel x:Name="Dock" Style="{StaticResource MyDockPanel}" LastChildFill="False" Height="30" VerticalAlignment="Top">
+                <DockPanel x:Name="TitleBar" Style="{StaticResource MyDockPanel}" Width="{Binding ActualWidth, ElementName=Dock}" MouseDown="TitleBar_MouseDown" >
+                    <Image Source="Img/logo.png" DockPanel.Dock="Left" Width="26" Height="26" Margin="13,0,0,0"/>
+                    <Button x:Name="CloseButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,10,3" Click="CloseButton_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="./img/close.png" />
+                        </Button.Background>
+                    </Button>
 
-                <TextBlock Style="{StaticResource MyTextBlock}" Margin="15,7,10,0" DockPanel.Dock="Left" Height="23">Ustawienia</TextBlock>
+                    <TextBlock Style="{StaticResource MyTextBlock}" Margin="15,7,10,0" DockPanel.Dock="Left" Height="23">Ustawienia</TextBlock>
+                </DockPanel>
             </DockPanel>
-        </DockPanel>
-        <TabControl Style="{StaticResource MyTabControl}" HorizontalAlignment="Stretch" Margin="10,40,10,50" VerticalAlignment="Stretch">
-            <TabItem Header="Główne" Style="{StaticResource MyTabItem}">
-                <Grid Style="{StaticResource MyGrid}"/>
-            </TabItem>
-        </TabControl>
-        <Button Content="Zastosuj" Style="{StaticResource MyButton}" Margin="300,360,10,10"/>
-    </Grid>
+            <TabControl Style="{StaticResource MyTabControl}" HorizontalAlignment="Stretch" Margin="10,40,10,50" VerticalAlignment="Stretch">
+                <TabItem Header="Główne" Style="{StaticResource MyTabItem}">
+                    <Border Style="{StaticResource MyBorder}" BorderThickness="1" Margin="5,5,5,5">
+                        <Grid Style="{StaticResource MyGrid}"/>
+                    </Border>
+                </TabItem>
+            </TabControl>
+            <Button Content="Zastosuj" Style="{StaticResource MyButton}" Margin="300,360,10,10"/>
+        </Grid>
+    </Border>
 </Window>
