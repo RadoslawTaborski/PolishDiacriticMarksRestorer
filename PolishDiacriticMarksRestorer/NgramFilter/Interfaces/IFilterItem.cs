@@ -2,8 +2,8 @@
 
 namespace NgramFilter.Interfaces
 {
-    internal interface IFilter
+    public interface IFilterItem
     {
-        bool Start(List<string> list);
+        bool IsCorrect(List<string> strList);
     }
 }

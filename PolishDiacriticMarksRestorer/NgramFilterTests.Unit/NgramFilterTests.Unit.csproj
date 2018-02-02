@@ -18,4 +18,10 @@
     <ProjectReference Include="..\NgramFilter\NgramFilter.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="System">
+      <HintPath>System</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

@@ -4,7 +4,7 @@ using NgramAnalyzer.Interfaces;
 
 namespace NgramAnalyzer.Common
 {
-    public class DataBase : IDataAccess
+    public class DataBaseManager : IDataAccess
     {
         private MySqlConnection _connection;
         private readonly string _server;
@@ -12,7 +12,7 @@ namespace NgramAnalyzer.Common
         private readonly string _uid;
         private readonly string _password;
 
-        public DataBase(string server, string database, string uid, string password)
+        public DataBaseManager(string server, string database, string uid, string password)
         {
             _server = server;
             _database = database;

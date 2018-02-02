@@ -1,16 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using NgramAnalyzer.Interfaces;
-using NgramAnalyzer.Common;
 
 namespace NgramAnalyzer
 {
     public class Analyzer : IAnalyzer
     {
         private IDataAccess _db;
-        public Analyzer(string server, string database, string uid, string password)
+
+        public void SetData(IDataAccess db)
         {
-            _db = new DataBase(server, database, uid, password);
+            _db = db;
         }
 
         public string[] AnalyzeStrings(string[] str)

@@ -4,12 +4,12 @@ using Xunit;
 
 namespace NgramAnalyzerTests.Unit
 {
-    public class DataBaseTests
+    public class DataBaseManagerTests
     {
         [Fact]
         public void ConnectAndDisconnectFromDatabase()
         {
-            IDataAccess db = new DataBase("localhost", "testowa", "root", "");
+            IDataAccess db = new DataBaseManager("localhost", "testowa", "root", "");
 
             var connected = db.Connect();
             var disconnected = db.Disconnect();
@@ -22,7 +22,7 @@ namespace NgramAnalyzerTests.Unit
         public void ExecuteSqlCommand()
         {
             const string query = "SELECT * FROM `dane`";
-            IDataAccess db = new DataBase("localhost", "testowa", "root", "");
+            IDataAccess db = new DataBaseManager("localhost", "testowa", "root", "");
             var dt = db.ExecuteSqlCommand(query);
             Assert.NotNull(dt);
         }

@@ -6,6 +6,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using MySql.Data.MySqlClient;
 using NgramAnalyzer;
+using NgramAnalyzer.Common;
 
 namespace PolishDiacriticMarksRestorer
 {
@@ -15,11 +16,13 @@ namespace PolishDiacriticMarksRestorer
     /// </summary>
     public partial class MainWindow
     {
-        readonly Analyzer _analyzer = new Analyzer("localhost", "testowa", "root", "");
+        readonly Analyzer _analyzer = new Analyzer();
 
         public MainWindow()
         {
             InitializeComponent();
+            var data = new DataBaseManager("localhost","testowa","root","");
+            _analyzer.SetData(data);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
