@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NgramAnalyzer.Common;
 using NgramFilter.Interfaces;
 
 namespace NgramFilter
@@ -22,11 +23,11 @@ namespace NgramFilter
             return _filters.Count;
         }
 
-        public bool Start(List<string> list)
+        public bool Start(NGram ngram)
         {
             foreach (var item in _filters)
             {
-                if (!item.IsCorrect(list)) return false;
+                if (!item.IsCorrect(ngram)) return false;
             }
 
             return true;

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using NgramAnalyzer.Common;
 
 namespace NgramFilter.Interfaces
 {
     internal interface IFilter
     {
-        bool Start(List<string> list);
+        bool Start(NGram ngram);
     }
 }

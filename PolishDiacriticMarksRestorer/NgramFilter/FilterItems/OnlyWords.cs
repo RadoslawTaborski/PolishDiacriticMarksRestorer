@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using NgramAnalyzer.Common;
 using NgramFilter.Interfaces;
 
 namespace NgramFilter.FilterItems
 {
     internal class OnlyWords : IFilterItem
     {
-        public bool IsCorrect(List<string> strList)
+        public bool IsCorrect(NGram ngram)
         {
-            foreach (var item in strList)
+            foreach (var item in ngram.WordsList)
             {
                 if (OnlySpecialMarks(item)) return false;
             }
@@ -18,7 +19,7 @@ namespace NgramFilter.FilterItems
 
         private bool OnlySpecialMarks(string str)
         {
-            var reg = new Regex(@"[^a-z]");
+            var reg = new Regex(@"[^a-ząćęłńóśźżA-ZĄĆĘŁŃÓŚŹŻ]{" +str.Length + "}");
             var result = reg.IsMatch(str);
             return result;
         }

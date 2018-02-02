@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using NgramAnalyzer.Common;
 
 namespace NgramFilter.Interfaces
 {
     public interface IFilterItem
     {
-        bool IsCorrect(List<string> strList);
+        bool IsCorrect(NGram ngram);
     }
 }

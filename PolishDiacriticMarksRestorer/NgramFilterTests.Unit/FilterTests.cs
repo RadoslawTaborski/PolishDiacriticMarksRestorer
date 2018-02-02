@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Moq;
+using NgramAnalyzer.Common;
 using Xunit;
 using NgramFilter;
 using NgramFilter.Interfaces;
@@ -29,20 +29,20 @@ namespace NgramFilterTests.Unit
             filter.Add(itemMock1.Object);
             filter.Add(itemMock2.Object);
 
-            Assert.Equal(2,filter.Size());
+            Assert.Equal(2, filter.Size());
         }
 
         [Fact]
         public void Start_NGramIsCorrect_True()
         {
-            var list = new List<string>
-            {
-                "small",
-                "cat"
-            };
+            var mock = new Mock<IFilterItem>();
+            var ngram = new NGram();
+            mock.Setup(foo => foo.IsCorrect(ngram)).Returns(true);
             var filter = new Filter();
 
-            var result = filter.Start(list);
+            filter.Add(mock.Object);
+
+            var result = filter.Start(ngram);
 
             Assert.True(result);
         }
@@ -50,16 +50,15 @@ namespace NgramFilterTests.Unit
         [Fact]
         public void Start_NGramIsCorrect_False()
         {
-            var list = new List<string>
-            {
-                "-",
-                "cat"
-            };
+            var mock = new Mock<IFilterItem>();
+            var ngram = new NGram();
+            mock.Setup(foo => foo.IsCorrect(ngram)).Returns(false);
             var filter = new Filter();
+            filter.Add(mock.Object);
 
-            var result = filter.Start(list);
+            var result = filter.Start(ngram);
 
-            Assert.True(result);
+            Assert.False(result);
         }
     }
 }

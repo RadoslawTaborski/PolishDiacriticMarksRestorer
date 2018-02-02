@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NgramAnalyzer.Common;
 using NgramFilter.FilterItems;
 using Xunit;
 
@@ -6,31 +7,41 @@ namespace NgramFilterTests.Unit
 {
     public class OnlyWordsTests
     {
-        [Fact]
-        public void Check_HasOnlyWords_True()
+        [Theory]
+        [InlineData("small")]
+        [InlineData("small,")]
+        public void IsCorrect_HasOnlyWords_True(string str)
         {
             var item = new OnlyWords();
-            var list = new List<string>
+            var ngram = new NGram
             {
-                "small",
-                "cat"
+                WordsList = new List<string>
+                {
+                    str,
+                    "cat"
+                }
             };
 
-            var result = item.IsCorrect(list);
+            var result = item.IsCorrect(ngram);
             Assert.True(result);
         }
 
-        [Fact]
-        public void Check_HasOnlyWords_False()
+        [Theory]
+        [InlineData("-")]
+        [InlineData("-,?")]
+        public void IsCorrect_HasOnlyWords_False(string str)
         {
             var item = new OnlyWords();
-            var list = new List<string>
+            var ngram = new NGram
             {
-                "-",
-                "cat"
+                WordsList = new List<string>
+                {
+                    str,
+                    "cat"
+                }
             };
 
-            var result = item.IsCorrect(list);
+            var result = item.IsCorrect(ngram);
             Assert.False(result);
         }
     }
