@@ -4,8 +4,11 @@ namespace NgramAnalyzer.Interfaces
 {
     public interface IDataAccess
     {
-        bool Connect();
+        bool ConnectToDb();
+        bool ConnectToServer();
         bool Disconnect();
         DataSet ExecuteSqlCommand(string query);
+        void ExecuteNonQueryServer(string query);
+        void ExecuteNonQueryDb(string query);
     }
 }

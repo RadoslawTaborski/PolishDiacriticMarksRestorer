@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using NgramAnalyzer.Interfaces;
 
 namespace NgramAnalyzer.Common
@@ -70,6 +71,11 @@ namespace NgramAnalyzer.Common
         public string ReadLine()
         {
             return _type == FileManagerType.Read ? _sr.ReadLine() : "";
+        }
+
+        public int CountLines()
+        {
+            return File.ReadLines(_path).Count();
         }
 
         public void Create()

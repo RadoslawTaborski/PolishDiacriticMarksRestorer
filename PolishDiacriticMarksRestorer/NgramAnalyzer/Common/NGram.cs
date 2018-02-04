@@ -17,5 +17,14 @@ namespace NgramAnalyzer.Common
 
             return result;
         }
+
+        public void ChangeSpecialCharacters()
+        {
+            for (var index = 0; index < WordsList.Count; ++index)
+            {
+                WordsList[index] = WordsList[index].Replace(@"\", @"\\");
+                WordsList[index] = WordsList[index].Replace(@"'", @"\'");
+            }
+        }
     }
 }

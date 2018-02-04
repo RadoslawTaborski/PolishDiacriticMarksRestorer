@@ -351,9 +351,9 @@
 
         Try
         myCommand.CommandText = "Insert into Test (id, desc) VALUES (100, 'Description')"
-        myCommand.ExecuteNonQuery()
+        myCommand.ExecuteNonQueryServer()
         myCommand.CommandText = "Insert into Test (id, desc) VALUES (101, 'Description')"
-        myCommand.ExecuteNonQuery()
+        myCommand.ExecuteNonQueryServer()
         myTrans.Commit()
         Console.WriteLine("Both records are written to database.")
         Catch e As Exception
@@ -393,9 +393,9 @@
         try
         {
         myCommand.CommandText = "insert into Test (id, desc) VALUES (100, 'Description')";
-        myCommand.ExecuteNonQuery();
+        myCommand.ExecuteNonQueryServer();
         myCommand.CommandText = "insert into Test (id, desc) VALUES (101, 'Description')";
-        myCommand.ExecuteNonQuery();
+        myCommand.ExecuteNonQueryServer();
         myTrans.Commit();
         Console.WriteLine("Both records are written to database.");
         }
@@ -466,9 +466,9 @@
 
         Try
         myCommand.CommandText = "Insert into Test (id, desc) VALUES (100, 'Description')"
-        myCommand.ExecuteNonQuery()
+        myCommand.ExecuteNonQueryServer()
         myCommand.CommandText = "Insert into Test (id, desc) VALUES (101, 'Description')"
-        myCommand.ExecuteNonQuery()
+        myCommand.ExecuteNonQueryServer()
         myTrans.Commit()
         Console.WriteLine("Both records are written to database.")
         Catch e As Exception
@@ -508,9 +508,9 @@
         try
         {
         myCommand.CommandText = "insert into Test (id, desc) VALUES (100, 'Description')";
-        myCommand.ExecuteNonQuery();
+        myCommand.ExecuteNonQueryServer();
         myCommand.CommandText = "insert into Test (id, desc) VALUES (101, 'Description')";
-        myCommand.ExecuteNonQuery();
+        myCommand.ExecuteNonQueryServer();
         myTrans.Commit();
         Console.WriteLine("Both records are written to database.");
         }
@@ -681,7 +681,7 @@
       The following example creates a <see cref="MySqlCommand"/> and
       a <B>MySqlConnection</B>. The <B>MySqlConnection</B> is opened and set as the
       <see cref="MySqlCommand.Connection"/> for the <B>MySqlCommand</B>. The example then calls
-      <see cref="MySqlCommand.ExecuteNonQuery"/>, and closes the connection. To accomplish this, the <B>ExecuteNonQuery</B> is
+      <see cref="MySqlCommand.ExecuteNonQueryServer"/>, and closes the connection. To accomplish this, the <B>ExecuteNonQueryServer</B> is
       passed a connection string and a query string that is a SQL INSERT
       statement.
       <code lang="vbnet">
@@ -696,7 +696,7 @@
           Dim myCommand As New MySqlCommand(myInsertQuery)
           myCommand.Connection = myConnection
           myConnection.Open()
-          myCommand.ExecuteNonQuery()
+          myCommand.ExecuteNonQueryServer()
           myCommand.Connection.Close()
           End Sub
         </c>
@@ -715,7 +715,7 @@
           MySqlCommand myCommand = new MySqlCommand(myInsertQuery);
           myCommand.Connection = myConnection;
           myConnection.Open();
-          myCommand.ExecuteNonQuery();
+          myCommand.ExecuteNonQueryServer();
           myCommand.Connection.Close();
           }
         </c>

@@ -11,7 +11,7 @@ namespace NgramAnalyzerTests.Unit
         {
             IDataAccess db = new DataBaseManager("localhost", "testowa", "root", "");
 
-            var connected = db.Connect();
+            var connected = db.ConnectToDb();
             var disconnected = db.Disconnect();
 
             Assert.True(connected);

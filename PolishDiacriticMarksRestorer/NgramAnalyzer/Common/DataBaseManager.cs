@@ -6,7 +6,8 @@ namespace NgramAnalyzer.Common
 {
     public class DataBaseManager : IDataAccess
     {
-        private MySqlConnection _connection;
+        private MySqlConnection _connectionDb;
+        private MySqlConnection _connectionServer;
         private readonly string _server;
         private readonly string _database;
         private readonly string _uid;
@@ -21,37 +22,63 @@ namespace NgramAnalyzer.Common
             Initialize();
         }
 
-        public bool Connect()
+        public bool ConnectToDb()
         {
-            _connection.Open();
+            _connectionDb.Open();
+            return true;
+        }
+
+        public bool ConnectToServer()
+        {
+            var connection = $@"Server={_server};
+                User ID={_uid};
+                Password={_password};
+                Pooling=false;
+                SslMode = none;
+                charset=utf8";
+            _connectionServer = new MySqlConnection(connection);
+
+            _connectionServer.Open();
             return true;
         }
 
         public bool Disconnect()
         {
-            _connection.Close();
+            _connectionDb?.Close();
+            _connectionServer?.Close();
             return true;
         }
 
         public DataSet ExecuteSqlCommand(string query)
         {
             var ds = new DataSet();
-            if (!Connect()) return null;
 
-            var response = new MySqlCommand(query, _connection);
+            var response = new MySqlCommand(query, _connectionDb);
             var adp = new MySqlDataAdapter(response) { SelectCommand = response };
             adp.Fill(ds);
-            Disconnect();
 
             return ds;
         }
 
+        public void ExecuteNonQueryServer(string query)
+        {
+            var response = new MySqlCommand(query, _connectionServer);
+            response.ExecuteNonQuery();
+        }
+
+        public void ExecuteNonQueryDb(string query)
+        {
+            var response = new MySqlCommand(query, _connectionDb);
+            response.ExecuteNonQuery();
+        }
+
+
         private void Initialize()
         {
             var connectionString = "SERVER=" + _server + ";" + "DATABASE=" +
-                                      _database + ";" + "UID=" + _uid + ";" + "PASSWORD=" + _password + ";" + "SslMode=none";
+                                      _database + ";" + "UID=" + _uid + ";" + "PASSWORD=" + _password + ";" + "SslMode=none; charset=utf8";
 
-            _connection = new MySqlConnection(connectionString);
+            _connectionDb = new MySqlConnection(connectionString);
         }
     }
 }

@@ -51,8 +51,8 @@
       a <B>MySqlConnection</B>. The <B>MySqlConnection</B> is opened and set as the <A
 		href="frlrfsystemdatasqlclientsqlcommandclassconnectiontopic.htm">Connection</A>
       for the <B>MySqlCommand</B>. The example then calls <A
-		href="frlrfsystemdatasqlclientsqlcommandclassexecutenonquerytopic.htm">ExecuteNonQuery</A>,
-      and closes the connection. To accomplish this, the <B>ExecuteNonQuery</B> is
+		href="frlrfsystemdatasqlclientsqlcommandclassexecutenonquerytopic.htm">ExecuteNonQueryServer</A>,
+      and closes the connection. To accomplish this, the <B>ExecuteNonQueryServer</B> is
       passed a connection string and a query string that is a SQL INSERT
       statement.
       <code lang="vbnet">
@@ -66,7 +66,7 @@
         Dim myCommand As New MySqlCommand(myInsertQuery)
         myCommand.Connection = myConnection
         myConnection.Open()
-        myCommand.ExecuteNonQuery()
+        myCommand.ExecuteNonQueryServer()
         myCommand.Connection.Close()
         End Sub
       </code>
@@ -83,7 +83,7 @@
         MySqlCommand myCommand = new MySqlCommand(myInsertQuery);
         myCommand.Connection = myConnection;
         myConnection.Open();
-        myCommand.ExecuteNonQuery();
+        myCommand.ExecuteNonQueryServer();
         myCommand.Connection.Close();
         }
       </code>
@@ -444,13 +444,13 @@
 
 
 
-  <ExecuteNonQuery>
+  <ExecuteNonQueryServer>
     <summary>
       Executes a SQL statement against the connection and returns the number of rows affected.
     </summary>
     <returns>Number of rows affected</returns>
     <remarks>
-      You can use ExecuteNonQuery to perform any type of database operation,
+      You can use ExecuteNonQueryServer to perform any type of database operation,
       however any resultsets returned will not be available.  Any output parameters
       used in calling a stored procedure will be populated with data and can be
       retrieved after execution is complete.
@@ -460,14 +460,14 @@
     </remarks>
     <example>
       The following example creates a MySqlCommand and then
-      executes it using ExecuteNonQuery. The example is passed a string that is a
+      executes it using ExecuteNonQueryServer. The example is passed a string that is a
       SQL statement (such as UPDATE, INSERT, or DELETE) and a string to use to
       connect to the data source.
       <code lang="vbnet">
         Public Sub CreateMySqlCommand(myExecuteQuery As String, myConnection As MySqlConnection)
         Dim myCommand As New MySqlCommand(myExecuteQuery, myConnection)
         myCommand.Connection.Open()
-        myCommand.ExecuteNonQuery()
+        myCommand.ExecuteNonQueryServer()
         myConnection.Close()
         End Sub
       </code>
@@ -476,12 +476,12 @@
         {
         MySqlCommand myCommand = new MySqlCommand(myExecuteQuery, myConnection);
         myCommand.Connection.Open();
-        myCommand.ExecuteNonQuery();
+        myCommand.ExecuteNonQueryServer();
         myConnection.Close();
         }
       </code>
     </example>
-  </ExecuteNonQuery>
+  </ExecuteNonQueryServer>
 
   <ExecuteReader1>
     <summary>
@@ -613,10 +613,10 @@
         Dim cmd as New MySqlCommand("INSERT INTO mytable VALUES (@val)", myConnection)
         cmd.Parameters.Add( "@val", 10 )
         cmd.Prepare()
-        cmd.ExecuteNonQuery()
+        cmd.ExecuteNonQueryServer()
 
         cmd.Parameters(0).Value = 20
-        cmd.ExecuteNonQuery()
+        cmd.ExecuteNonQueryServer()
         end sub
       </code>
       <code lang="C#">
@@ -625,10 +625,10 @@
         MySqlCommand cmd = new MySqlCommand("INSERT INTO mytable VALUES (@val)", myConnection);
         cmd.Parameters.Add( "@val", 10 );
         cmd.Prepare();
-        cmd.ExecuteNonQuery();
+        cmd.ExecuteNonQueryServer();
 
         cmd.Parameters[0].Value = 20;
-        cmd.ExecuteNonQuery();
+        cmd.ExecuteNonQueryServer();
         }
       </code>
     </example>

@@ -9,5 +9,6 @@ namespace NgramAnalyzer.Interfaces
         string ReadLine();
         void WriteLine(string str);
         void Create();
+        int CountLines();
     }
 }
