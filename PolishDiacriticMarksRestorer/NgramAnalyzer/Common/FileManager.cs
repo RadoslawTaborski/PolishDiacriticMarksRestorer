@@ -30,39 +30,23 @@ namespace NgramAnalyzer.Common
             switch (_type)
             {
                 case FileManagerType.Read:
-                    _sr = new StreamReader(_fs.File.Open(_path,FileMode.Open));
+                    _sr = new StreamReader(_fs.File.Open(_path, FileMode.Open));
                     break;
                 case FileManagerType.Write:
                     _sw = new StreamWriter(_fs.File.Open(_path, FileMode.Open));
                     break;
                 case FileManagerType.Nothing:
                     return false;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
 
             return true;
 
         }
 
-        public bool Close()
+        public void Close()
         {
-            if (_sr == null && _sw == null) return false;
-
-            switch (_type)
-            {
-                case FileManagerType.Read:
-                    _sr?.Close();
-                    break;
-                case FileManagerType.Write:
-                    _sw?.Close();
-                    break;
-                case FileManagerType.Nothing:
-                    return false;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-            return true;
+            _sr?.Close();
+            _sw?.Close();
         }
 
         public void WriteLine(string str)
@@ -73,7 +57,7 @@ namespace NgramAnalyzer.Common
 
         public string ReadLine()
         {
-            return _type == FileManagerType.Read ? _sr.ReadLine() : "";
+            return _type == FileManagerType.Read ? _sr.ReadLine() : null;
         }
 
         public int CountLines()
