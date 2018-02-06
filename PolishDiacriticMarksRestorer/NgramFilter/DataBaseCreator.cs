@@ -1,4 +1,5 @@
-﻿using NgramAnalyzer.Common;
+﻿using System.Collections.Generic;
+using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
 using NgramFilter.Interfaces;
 
@@ -39,36 +40,47 @@ namespace NgramFilter
             _db.Disconnect();
         }
 
-        public void AddNgramToTable(string tableName, NGram ngram)
+        public void AddNgramsToTable(string tableName, List<NGram> ngrams)
         {
+            if (ngrams == null || ngrams.Count <= 0) return;
+
             var commandText = string.Format(
                 @"INSERT INTO `{0}` (`Value`", tableName);
 
-            for (var i = 0; i < ngram.WordsList.Count; ++i)
+            for (var i = 0; i < ngrams[0].WordsList.Count; ++i)
             {
                 commandText += string.Format(@", `Word{0}`", i + 1);
             }
 
-            commandText += string.Format(@") VALUES ('{0}'", ngram.Value);
+            commandText += @") VALUES";
 
-            foreach (var item in ngram.WordsList)
+            foreach (var item in ngrams)
             {
-                commandText += string.Format(@", '{0}'", item);
+                commandText += string.Format(@"('{0}'", item.Value);
+                foreach (var elem in item.WordsList)
+                {
+                    commandText += string.Format(@", '{0}'", elem);
+                }
+                commandText += "),";
             }
 
-            commandText += ")";
-      
+            var strBuilder =
+                new System.Text.StringBuilder(commandText) {[commandText.Length-1] = ';'};
+            commandText = strBuilder.ToString();
+
+            _db.ConnectToDb();
             _db.ExecuteNonQueryDb(commandText);
+            _db.Disconnect();
         }
 
         public void OpenDb()
         {
-            _db.ConnectToDb();
+
         }
 
         public void CloseDb()
         {
-            _db.Disconnect();
+
         }
     }
 }

@@ -1,60 +1,50 @@
 ﻿using System.Data;
-using MySql.Data.MySqlClient;
 using NgramAnalyzer.Interfaces;
 
 namespace NgramAnalyzer.Common
 {
     public class DataBaseManager : IDataAccess
     {
-        private MySqlConnection _connectionDb;
-        private MySqlConnection _connectionServer;
+        private readonly IDataBaseManagerFactory _connectionFactory;
+        private IDbConnection _connectionDb;
+        private IDbConnection _connectionServer;
         private readonly string _server;
         private readonly string _database;
         private readonly string _uid;
         private readonly string _password;
 
-        public DataBaseManager(string server, string database, string uid, string password)
+        public DataBaseManager(IDataBaseManagerFactory dbFactory, string server, string database, string uid, string password)
         {
             _server = server;
             _database = database;
             _uid = uid;
             _password = password;
-            Initialize();
+            _connectionFactory = dbFactory;
+            
         }
 
-        public bool ConnectToDb()
+        public void ConnectToDb()
         {
+            _connectionDb = _connectionFactory.CreateConnectionDb(InitializeDbString());
             _connectionDb.Open();
-            return true;
         }
 
-        public bool ConnectToServer()
+        public void ConnectToServer()
         {
-            var connection = $@"Server={_server};
-                User ID={_uid};
-                Password={_password};
-                Pooling=false;
-                SslMode = none;
-                charset=utf8";
-            _connectionServer = new MySqlConnection(connection);
-
+            _connectionServer = _connectionFactory.CreateConnectionServer(InitializeServerString());
             _connectionServer.Open();
-            return true;
         }
 
-        public bool Disconnect()
+        public void Disconnect()
         {
             _connectionDb?.Close();
             _connectionServer?.Close();
-            return true;
         }
 
         public DataSet ExecuteSqlCommand(string query)
         {
             var ds = new DataSet();
-
-            var response = new MySqlCommand(query, _connectionDb);
-            var adp = new MySqlDataAdapter(response) { SelectCommand = response };
+            var adp = _connectionFactory.CreateDataAdapter(query);
             adp.Fill(ds);
 
             return ds;
@@ -62,23 +52,33 @@ namespace NgramAnalyzer.Common
 
         public void ExecuteNonQueryServer(string query)
         {
-            var response = new MySqlCommand(query, _connectionServer);
-            response.ExecuteNonQuery();
+            var command = _connectionServer.CreateCommand();
+            command.ExecuteNonQuery();
         }
 
         public void ExecuteNonQueryDb(string query)
         {
-            var response = new MySqlCommand(query, _connectionDb);
-            response.ExecuteNonQuery();
+            var command = _connectionDb.CreateCommand();
+            command.ExecuteNonQuery();
         }
 
-
-        private void Initialize()
+        private string InitializeDbString()
         {
-            var connectionString = "SERVER=" + _server + ";" + "DATABASE=" +
-                                      _database + ";" + "UID=" + _uid + ";" + "PASSWORD=" + _password + ";" + "SslMode=none; charset=utf8";
+            return "SERVER=" + _server + ";" +
+                "DATABASE=" + _database + ";" +
+                "UID=" + _uid + ";" +
+                "PASSWORD=" + _password + ";" +
+                "SslMode=none; charset=utf8";
+        }
 
-            _connectionDb = new MySqlConnection(connectionString);
+        private string InitializeServerString()
+        {
+            return $@"Server={_server};
+                User ID={_uid};
+                Password={_password};
+                Pooling=false;
+                SslMode = none;
+                charset=utf8";
         }
     }
 }

@@ -6,13 +6,16 @@ namespace NgramFilterTests.Unit
 {
     public class MultipleInstancesTests
     {
-        [Fact]
-        public void IsCorrect_HasMultipleInstances_False()
+        [Theory]
+        [InlineData(-1)]
+        [InlineData(0)]
+        [InlineData(1)]
+        public void IsCorrect_HasMultipleInstances_False(int value)
         {
             var item = new MultipleInstances();
             var ngram = new NGram
             {
-                Value = 1
+                Value = value
             };
 
             var result = item.IsCorrect(ngram);

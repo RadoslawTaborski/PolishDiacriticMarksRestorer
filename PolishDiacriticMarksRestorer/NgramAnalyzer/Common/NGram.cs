@@ -12,6 +12,7 @@ namespace NgramAnalyzer.Common
         {
             var result = WordsList.Aggregate("", (current, item) => current + (item + " "));
             result = Value + " " + result;
+            result = result.Substring(0, result.Length - 1);
             result = result.Replace("{", "{{");
             result = result.Replace("}", "}}");
 

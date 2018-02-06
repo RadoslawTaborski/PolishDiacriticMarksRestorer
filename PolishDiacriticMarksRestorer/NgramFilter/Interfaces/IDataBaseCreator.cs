@@ -1,4 +1,5 @@
-﻿using NgramAnalyzer.Common;
+﻿using System.Collections.Generic;
+using NgramAnalyzer.Common;
 
 namespace NgramFilter.Interfaces
 {
@@ -6,7 +7,7 @@ namespace NgramFilter.Interfaces
     {
         void CreateDataBase(string name);
         void CreateTable(string dataBaseName, string tableName, int numberOfWords);
-        void AddNgramToTable(string tableName, NGram ngram);
+        void AddNgramsToTable(string tableName, List<NGram> ngrams);
         void OpenDb();
         void CloseDb();
     }

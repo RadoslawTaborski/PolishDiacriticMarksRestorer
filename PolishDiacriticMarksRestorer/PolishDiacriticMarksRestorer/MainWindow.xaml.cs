@@ -21,7 +21,7 @@ namespace PolishDiacriticMarksRestorer
         public MainWindow()
         {
             InitializeComponent();
-            var data = new DataBaseManager("localhost","testowa","root","");
+            var data = new DataBaseManager(new MySqlConnectionFactory(), "localhost","testowa","root","");
             _analyzer.SetData(data);
         }
 

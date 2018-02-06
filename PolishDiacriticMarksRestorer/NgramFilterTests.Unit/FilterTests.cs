@@ -20,7 +20,7 @@ namespace NgramFilterTests.Unit
         }
 
         [Fact]
-        public void Size_SizeOfFilerItemList_Verified()
+        public void Size_SizeOfFilterItemList_Verified()
         {
             var itemMock1 = new Mock<IFilterItem>();
             var itemMock2 = new Mock<IFilterItem>();

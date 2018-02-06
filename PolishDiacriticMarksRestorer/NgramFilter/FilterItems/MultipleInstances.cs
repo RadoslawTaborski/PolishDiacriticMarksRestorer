@@ -1,5 +1,4 @@
-﻿using System;
-using NgramAnalyzer.Common;
+﻿using NgramAnalyzer.Common;
 using NgramFilter.Interfaces;
 
 namespace NgramFilter.FilterItems
@@ -8,7 +7,7 @@ namespace NgramFilter.FilterItems
     {
         public bool IsCorrect(NGram ngram)
         {
-            return ngram.Value != 1;
+            return ngram.Value > 1;
         }
     }
 }

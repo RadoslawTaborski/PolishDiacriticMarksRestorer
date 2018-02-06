@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -116,13 +117,14 @@ namespace NgramFilter
                 var numberOfLines = inputManager.CountLines();
                 var counter = 0;
                 inputManager.Open(FileManagerType.Read);
-                var dbManager = new DataBaseManager("localhost", "NGrams", "root", "");
+                var dbManager = new DataBaseManager(new MySqlConnectionFactory(), "localhost", "NGrams", "root", "");
                 creator = new DataBaseCreator(dbManager);
                 creator.CreateDataBase(dbName);
                 creator.CreateTable(dbName, tableName, numberOfWords);
                 creator.OpenDb();
 
                 string str;
+                var ngrams = new List<NGram>();
                 while ((str = inputManager.ReadLine()) != null)
                 {
                     var list = str.Split(' ').ToList().Where(s => s != "").ToList();
@@ -132,11 +134,18 @@ namespace NgramFilter
                         WordsList = list.GetRange(1, list.Count - 1)
                     };
                     ngram.ChangeSpecialCharacters();
-                    creator.AddNgramToTable(tableName, ngram);
+                    ngrams.Add(ngram);
+                    if (counter%800 == 0)
+                    {
+                        creator.AddNgramsToTable(tableName, ngrams);
+                        ngrams=new List<NGram>();
+                    }
+
                     ++counter;
                     var percent = (double)counter * 100 / numberOfLines;
                     Console.Write(percent.ToString("F3", CultureInfo.InvariantCulture) + "%\r");
                 }
+                creator.AddNgramsToTable(tableName, ngrams);
 
                 Console.WriteLine("Ukończono pomyślnie");
             }
