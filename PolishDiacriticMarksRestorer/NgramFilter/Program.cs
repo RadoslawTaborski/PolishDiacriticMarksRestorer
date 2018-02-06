@@ -67,8 +67,11 @@ namespace NgramFilter
 
         private static void Filter(string input, string output)
         {
-            IFileAccess inputManager = new FileManager(input);
-            IFileAccess outputManager = new FileManager(output);
+            var fileInput = new System.IO.Abstractions.FileSystem();
+            IFileAccess inputManager = new FileManager(fileInput, input);
+
+            var fileOutput = new System.IO.Abstractions.FileSystem();
+            IFileAccess outputManager = new FileManager(fileOutput,output);
             try
             {
                 outputManager.Create();
@@ -110,7 +113,8 @@ namespace NgramFilter
 
         private static void CreateDb(string input, string dbName, string tableName, int numberOfWords)
         {
-            IFileAccess inputManager = new FileManager(input);
+            var fileInput = new System.IO.Abstractions.FileSystem();
+            IFileAccess inputManager = new FileManager(fileInput, input);
             IDataBaseCreator creator = null;
             try
             {

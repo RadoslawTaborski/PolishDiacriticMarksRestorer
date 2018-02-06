@@ -1,5 +1,9 @@
-﻿using NgramAnalyzer.Common;
+﻿using System.Collections.Generic;
+using System.IO;
+using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
+using System.IO.Abstractions;
+using System.IO.Abstractions.TestingHelpers;
 using Xunit;
 
 namespace NgramAnalyzerTests.Unit
@@ -9,7 +13,12 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void OpenAndCloseFile()
         {
-            IFileAccess file = new FileManager("E:\\PWr\\magisterskie\\magisterka\\Projekt\\PolishDiacriticMarksRestorer\\NgramAnalyzerTests.Unit/test.txt");
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                { @"C:\test1", new MockFileData(@"cat") }
+            });
+
+            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
 
             var opened = file.Open(FileManagerType.Read);
             var closed = file.Close();
@@ -19,15 +28,37 @@ namespace NgramAnalyzerTests.Unit
         }
 
         [Fact]
-        public void ReadLineFromFile()
+        public void ReadLineFromFile_Equal()
         {
-            IFileAccess file = new FileManager("E:\\PWr\\magisterskie\\magisterka\\Projekt\\PolishDiacriticMarksRestorer\\NgramAnalyzerTests.Unit/test.txt");
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                { @"C:\test1", new MockFileData(@"cat") }
+            });
+
+            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
 
             file.Open(FileManagerType.Read);
             var result = file.ReadLine();
             file.Close();
 
-            Assert.Equal("kot",result);
+            Assert.Equal(@"cat",result);
+        }
+
+        [Fact]
+        public void ReadLineFromFile_NotEqual()
+        {
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                { @"C:\test1", new MockFileData(@"cat") }
+            });
+
+            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
+
+            file.Open(FileManagerType.Read);
+            var result = file.ReadLine();
+            file.Close();
+
+            Assert.NotEqual(@"cat1", result);
         }
     }
 }

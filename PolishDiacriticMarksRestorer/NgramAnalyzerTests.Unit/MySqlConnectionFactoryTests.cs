@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-using NgramAnalyzer.Common;
+﻿using NgramAnalyzer.Common;
 using Xunit;
 
 namespace NgramAnalyzerTests.Unit

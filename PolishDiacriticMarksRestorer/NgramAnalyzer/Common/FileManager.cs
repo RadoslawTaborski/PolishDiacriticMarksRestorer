@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using NgramAnalyzer.Interfaces;
+using System.IO.Abstractions;
 
 namespace NgramAnalyzer.Common
 {
@@ -9,28 +10,30 @@ namespace NgramAnalyzer.Common
     {
         private StreamReader _sr;
         private StreamWriter _sw;
+        private readonly IFileSystem _fs;
         private FileManagerType _type;
         private readonly string _path;
 
-        public FileManager(string path)
+        public FileManager(IFileSystem fs, string path)
         {
             _type = FileManagerType.Nothing;
+            _fs = fs;
             _path = path;
         }
 
         public bool Open(FileManagerType type)
         {
-            if (!File.Exists(_path)) return false;
+            if (!_fs.File.Exists(_path)) return false;
 
             _type = type;
 
             switch (_type)
             {
                 case FileManagerType.Read:
-                    _sr = new StreamReader(_path);
+                    _sr = new StreamReader(_fs.File.Open(_path,FileMode.Open));
                     break;
                 case FileManagerType.Write:
-                    _sw = new StreamWriter(_path,true);
+                    _sw = new StreamWriter(_fs.File.Open(_path, FileMode.Open));
                     break;
                 case FileManagerType.Nothing:
                     return false;
@@ -75,12 +78,12 @@ namespace NgramAnalyzer.Common
 
         public int CountLines()
         {
-            return File.ReadLines(_path).Count();
+            return _fs.File.ReadLines(_path).Count();
         }
 
         public void Create()
         {
-            var fs = File.Create(_path);
+            var fs = _fs.File.Create(_path);
             fs.Close();
         }
     }
