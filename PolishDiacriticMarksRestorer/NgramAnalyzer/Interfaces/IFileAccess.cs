@@ -1,8 +1,9 @@
-﻿using NgramAnalyzer.Common;
+﻿using System;
+using NgramAnalyzer.Common;
 
 namespace NgramAnalyzer.Interfaces
 {
-    public interface IFileAccess
+    public interface IFileAccess : IDisposable
     {
         bool Open(FileManagerType type);
         void Close();

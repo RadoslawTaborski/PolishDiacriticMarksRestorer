@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
 using NgramFilter.Interfaces;

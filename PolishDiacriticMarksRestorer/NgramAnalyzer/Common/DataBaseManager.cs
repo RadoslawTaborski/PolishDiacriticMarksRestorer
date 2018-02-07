@@ -80,5 +80,10 @@ namespace NgramAnalyzer.Common
                 SslMode = none;
                 charset=utf8";
         }
+
+        public void Dispose()
+        {
+            Disconnect();
+        }
     }
 }

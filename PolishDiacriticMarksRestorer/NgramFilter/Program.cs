@@ -51,7 +51,7 @@ namespace NgramFilter
                 var converted = int.TryParse(numberTxt, out var number);
                 number = converted ? number : 1;
 
-                if (output != null) CreateDb(output,dbName,tableName, number);
+                if (output != null) CreateDb(output, dbName, tableName, number);
                 else
                 {
                     Console.WriteLine("Podaj ścieżkę pliku z danymi: ");
@@ -68,101 +68,102 @@ namespace NgramFilter
         private static void Filter(string input, string output)
         {
             var fileInput = new System.IO.Abstractions.FileSystem();
-            IFileAccess inputManager = new FileManager(fileInput, input);
-
             var fileOutput = new System.IO.Abstractions.FileSystem();
-            IFileAccess outputManager = new FileManager(fileOutput,output);
-            try
-            {
-                outputManager.Create();
-                var numberOfLines = inputManager.CountLines();
-                inputManager.Open(FileManagerType.Read);
-                outputManager.Open(FileManagerType.Write);
-                var counter = 0;
 
-                string str;
-                while ((str = inputManager.ReadLine()) != null)
+            using (IFileAccess inputManager = new FileManager(fileInput, input))
+            using (IFileAccess outputManager = new FileManager(fileOutput, output))
+            {
+                try
                 {
-                    var list = str.Split(' ').ToList().Where(s => s != "").ToList();
-                    var ngram = new NGram
+                    outputManager.Create();
+                    var numberOfLines = inputManager.CountLines();
+                    inputManager.Open(FileManagerType.Read);
+                    outputManager.Open(FileManagerType.Write);
+                    var counter = 0;
+
+                    string str;
+                    while ((str = inputManager.ReadLine()) != null)
                     {
-                        Value = int.Parse(list[0]),
-                        WordsList = list.GetRange(1, list.Count - 1)
-                    };
-                    var filterResult = _filter.Start(ngram);
-                    ++counter;
-                    var percent = (double)counter * 100 / numberOfLines;
-                    Console.Write(percent.ToString("F3", CultureInfo.InvariantCulture) + "%\r");
-                    if (!filterResult) continue;
+                        var list = str.Split(' ').ToList().Where(s => s != "").ToList();
+                        var ngram = new NGram
+                        {
+                            Value = int.Parse(list[0]),
+                            WordsList = list.GetRange(1, list.Count - 1)
+                        };
+                        var filterResult = _filter.Start(ngram);
+                        ++counter;
+                        var percent = (double) counter * 100 / numberOfLines;
+                        Console.Write(percent.ToString("F3", CultureInfo.InvariantCulture) + "%\r");
+                        if (!filterResult) continue;
 
-                    outputManager.WriteLine(ngram.ToString());
+                        outputManager.WriteLine(ngram.ToString());
+                    }
+
+                    Console.WriteLine("Ukończono pomyślnie\n");
                 }
-
-                Console.WriteLine("Ukończono pomyślnie\n");
-            }
-            catch (IOException ex)
-            {
-                Console.WriteLine("Wystąpił błąd: " + ex.Message);
-            }
-            finally
-            {
-                inputManager.Close();
-                outputManager.Close();
+                catch (IOException ex)
+                {
+                    Console.WriteLine("Wystąpił błąd: " + ex.Message);
+                }
             }
         }
 
         private static void CreateDb(string input, string dbName, string tableName, int numberOfWords)
         {
             var fileInput = new System.IO.Abstractions.FileSystem();
-            IFileAccess inputManager = new FileManager(fileInput, input);
-            IDataBaseCreator creator;
-            try
+            using (var inputManager = new FileManager(fileInput, input))
             {
-                var numberOfLines = inputManager.CountLines();
-                var counter = 0;
-                inputManager.Open(FileManagerType.Read);
-                var dbManager = new DataBaseManager(new MySqlConnectionFactory(), "localhost", "NGrams", "root", "");
-                creator = new NgramsDataBaseCreator(dbManager);
-                creator.CreateDataBase(dbName);
-                creator.CreateTable(dbName, tableName, numberOfWords);
-
-                string str;
-                var ngrams = new List<NGram>();
-                while ((str = inputManager.ReadLine()) != null)
+                try
                 {
-                    var list = str.Split(' ').ToList().Where(s => s != "").ToList();
-                    var ngram = new NGram
+                    var numberOfLines = inputManager.CountLines();
+                    var counter = 0;
+                    inputManager.Open(FileManagerType.Read);
+                    using (var dbManager =
+                        new DataBaseManager(new MySqlConnectionFactory(), "localhost", "NGrams", "root", ""))
                     {
-                        Value = int.Parse(list[0]),
-                        WordsList = list.GetRange(1, list.Count - 1)
-                    };
-                    ngram.ChangeSpecialCharacters();
-                    ngrams.Add(ngram);
-                    if (counter%800 == 0)
-                    {
-                        creator.AddNgramsToTable(tableName, ngrams);
-                        ngrams=new List<NGram>();
+                        try
+                        {
+                            IDataBaseCreator creator = new NgramsDataBaseCreator(dbManager);
+                            creator.CreateDataBase(dbName);
+                            creator.CreateTable(dbName, tableName, numberOfWords);
+
+                            string str;
+                            var ngrams = new List<NGram>();
+                            while ((str = inputManager.ReadLine()) != null)
+                            {
+                                var list = str.Split(' ').ToList().Where(s => s != "").ToList();
+                                var ngram = new NGram
+                                {
+                                    Value = int.Parse(list[0]),
+                                    WordsList = list.GetRange(1, list.Count - 1)
+                                };
+                                ngram.ChangeSpecialCharacters();
+                                ngrams.Add(ngram);
+                                if (counter % 800 == 0)
+                                {
+                                    creator.AddNgramsToTable(tableName, ngrams);
+                                    ngrams = new List<NGram>();
+                                }
+
+                                ++counter;
+                                var percent = (double)counter * 100 / numberOfLines;
+                                Console.Write(percent.ToString("F3", CultureInfo.InvariantCulture) + "%\r");
+                            }
+
+                            creator.AddNgramsToTable(tableName, ngrams);
+
+                            Console.WriteLine("Ukończono pomyślnie");
+                        }
+                        catch (MySqlException ex)
+                        {
+                            Console.WriteLine("Wystąpił błąd: " + ex.Message);
+                        }
                     }
-
-                    ++counter;
-                    var percent = (double)counter * 100 / numberOfLines;
-                    Console.Write(percent.ToString("F3", CultureInfo.InvariantCulture) + "%\r");
                 }
-                creator.AddNgramsToTable(tableName, ngrams);
-
-                Console.WriteLine("Ukończono pomyślnie");
-            }
-            catch (IOException ex)
-            {
-                Console.WriteLine("Wystąpił błąd: " + ex.Message);
-            }
-            catch (MySqlException ex)
-            {
-                Console.WriteLine("Wystąpił błąd: " + ex.Message);
-            }
-            finally
-            {
-                inputManager.Close();
+                catch (IOException ex)
+                {
+                    Console.WriteLine("Wystąpił błąd: " + ex.Message);
+                }
             }
         }
     }

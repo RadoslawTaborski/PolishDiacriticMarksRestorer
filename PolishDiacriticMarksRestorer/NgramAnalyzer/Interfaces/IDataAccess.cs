@@ -1,8 +1,9 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 
 namespace NgramAnalyzer.Interfaces
 {
-    public interface IDataAccess
+    public interface IDataAccess : IDisposable
     {
         void ConnectToDb();
         void ConnectToServer();

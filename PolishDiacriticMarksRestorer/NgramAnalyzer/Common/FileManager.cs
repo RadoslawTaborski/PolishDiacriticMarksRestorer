@@ -69,5 +69,10 @@ namespace NgramAnalyzer.Common
             var fs = _fs.File.Create(_path);
             fs.Close();
         }
+
+        public void Dispose()
+        {
+            this.Close();
+        }
     }
 }
