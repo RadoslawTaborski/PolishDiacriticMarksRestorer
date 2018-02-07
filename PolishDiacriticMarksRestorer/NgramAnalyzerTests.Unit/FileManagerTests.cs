@@ -2,7 +2,6 @@
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
 using System.IO.Abstractions.TestingHelpers;
-using System.Linq;
 using Xunit;
 
 namespace NgramAnalyzerTests.Unit
@@ -17,10 +16,11 @@ namespace NgramAnalyzerTests.Unit
                 { @"C:\test1", new MockFileData(@"cat") }
             });
 
-            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
-
-            var opened = file.Open(FileManagerType.Read);
-            file.Close();
+            bool opened;
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                opened = file.Open(FileManagerType.Read);
+            }
 
             Assert.True(opened);
         }
@@ -33,10 +33,11 @@ namespace NgramAnalyzerTests.Unit
                 { @"C:\test1", new MockFileData(@"cat") }
             });
 
-            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
-
-            var opened = file.Open(FileManagerType.Write);
-            file.Close();
+            bool opened;
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                opened = file.Open(FileManagerType.Write);
+            }
 
             Assert.True(opened);
         }
@@ -49,10 +50,11 @@ namespace NgramAnalyzerTests.Unit
                 { @"C:\test1", new MockFileData(@"cat") }
             });
 
-            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
-
-            var opened = file.Open(FileManagerType.Nothing);
-            file.Close();
+            bool opened;
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                opened = file.Open(FileManagerType.Nothing);
+            }
 
             Assert.False(opened);
         }
@@ -62,10 +64,11 @@ namespace NgramAnalyzerTests.Unit
         {
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
 
-            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
-
-            var opened = file.Open(FileManagerType.Nothing);
-            file.Close();
+            bool opened;
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                opened = file.Open(FileManagerType.Nothing);
+            }
 
             Assert.False(opened);
         }
@@ -78,11 +81,12 @@ namespace NgramAnalyzerTests.Unit
                 { @"C:\test1", new MockFileData(@"cat") }
             });
 
-            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
-
-            file.Open(FileManagerType.Read);
-            var result = file.ReadLine();
-            file.Close();
+            string result;
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                file.Open(FileManagerType.Read);
+                result = file.ReadLine();
+            }
 
             Assert.Equal(@"cat",result);
         }
@@ -95,11 +99,12 @@ namespace NgramAnalyzerTests.Unit
                 { @"C:\test1", new MockFileData(@"cat") }
             });
 
-            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
-
-            file.Open(FileManagerType.Read);
-            var result = file.ReadLine();
-            file.Close();
+            string result;
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                file.Open(FileManagerType.Read);
+                result = file.ReadLine();
+            }
 
             Assert.NotEqual(@"cat1", result);
         }
@@ -112,11 +117,12 @@ namespace NgramAnalyzerTests.Unit
                 { @"C:\test1", new MockFileData(@"cat") }
             });
 
-            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
-
-            file.Open(FileManagerType.Write);
-            var result = file.ReadLine();
-            file.Close();
+            string result;
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                file.Open(FileManagerType.Write);
+                result = file.ReadLine();
+            }
 
             Assert.Null(result);
         }
@@ -129,15 +135,18 @@ namespace NgramAnalyzerTests.Unit
                 { @"C:\test1", new MockFileData(@"") }
             });
 
-            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                file.Open(FileManagerType.Write);
+                file.WriteLine(@"cat");
+            }
 
-            file.Open(FileManagerType.Write);
-            file.WriteLine(@"cat");
-            file.Close();
-
-            file.Open(FileManagerType.Read);
-            var result = file.ReadLine();
-            file.Close();
+            string result;
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                file.Open(FileManagerType.Read);
+                result = file.ReadLine();
+            }
 
             Assert.Equal(@"cat", result);
         }
@@ -150,9 +159,11 @@ namespace NgramAnalyzerTests.Unit
                 { @"C:\test1", new MockFileData("small\r\ncat") }
             });
 
-            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
-
-            var result = file.CountLines();
+            int result;
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                result = file.CountLines();
+            }
 
             Assert.Equal(2, result);
         }
@@ -162,10 +173,12 @@ namespace NgramAnalyzerTests.Unit
         {
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
 
-            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
-
-            file.Create();
-            var result = mockFileSystem.File.Exists(@"C:\test1");
+            bool result;
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                file.Create();
+                result = mockFileSystem.File.Exists(@"C:\test1");
+            }
 
             Assert.True(result);
         }
@@ -175,10 +188,12 @@ namespace NgramAnalyzerTests.Unit
         {
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
 
-            IFileAccess file = new FileManager(mockFileSystem, @"C:\test1");
-
-            file.Create();
-            var result = mockFileSystem.File.Exists(@"C:\test2");
+            bool result;
+            using (IFileAccess file = new FileManager(mockFileSystem, @"C:\test1"))
+            {
+                file.Create();
+                result = mockFileSystem.File.Exists(@"C:\test2");
+            }
 
             Assert.False(result);
         }

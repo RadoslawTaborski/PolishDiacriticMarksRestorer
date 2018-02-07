@@ -2,7 +2,7 @@
 
 namespace NgramFilter.Interfaces
 {
-    internal interface IFilter
+    public interface IFilter
     {
         bool Start(NGram ngram);
         void Add(IFilterItem item);

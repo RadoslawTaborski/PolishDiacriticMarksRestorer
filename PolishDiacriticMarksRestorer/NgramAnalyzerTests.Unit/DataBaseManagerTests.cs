@@ -93,10 +93,12 @@ namespace NgramAnalyzerTests.Unit
                 .Setup(m => m.CreateConnectionDb(It.IsAny<string>()))
                 .Returns(connectionMock.Object);
 
-            var sut = new DataBaseManager(connectionFactoryMock.Object, "","","","");
-            sut.ConnectToDb();
-            var result = sut.ExecuteSqlCommand("");
-            sut.Disconnect();
+            DataSet result;
+            using (var sut = new DataBaseManager(connectionFactoryMock.Object, "", "", "", ""))
+            {
+                sut.ConnectToDb();
+                result = sut.ExecuteSqlCommand("");
+            }
 
             Assert.NotEmpty(result.Tables);
         }
@@ -119,10 +121,11 @@ namespace NgramAnalyzerTests.Unit
                 .Setup(m => m.CreateConnectionServer(It.IsAny<string>()))
                 .Returns(connectionMock.Object);
 
-            var sut = new DataBaseManager(connectionFactoryMock.Object, "", "", "", "");
-            sut.ConnectToServer();
-            sut.ExecuteNonQueryServer("");
-            sut.Disconnect();
+            using (var sut = new DataBaseManager(connectionFactoryMock.Object, "", "", "", ""))
+            {
+                sut.ConnectToServer();
+                sut.ExecuteNonQueryServer("");
+            }
 
             commandMock.Verify();
         }
@@ -145,10 +148,11 @@ namespace NgramAnalyzerTests.Unit
                 .Setup(m => m.CreateConnectionDb(It.IsAny<string>()))
                 .Returns(connectionMock.Object);
 
-            var sut = new DataBaseManager(connectionFactoryMock.Object, "", "", "", "");
-            sut.ConnectToDb();
-            sut.ExecuteNonQueryDb("");
-            sut.Disconnect();
+            using (var sut = new DataBaseManager(connectionFactoryMock.Object, "", "", "", ""))
+            {
+                sut.ConnectToDb();
+                sut.ExecuteNonQueryDb("");
+            }
 
             commandMock.Verify();
         }

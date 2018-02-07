@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NgramAnalyzer.Common;
+﻿using NgramAnalyzer.Common;
 
 namespace NgramFilter.Interfaces
 {

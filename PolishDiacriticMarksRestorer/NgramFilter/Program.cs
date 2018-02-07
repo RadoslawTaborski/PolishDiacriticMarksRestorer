@@ -1,31 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using MySql.Data.MySqlClient;
+using System.IO.Abstractions;
 using NgramAnalyzer.Common;
-using NgramAnalyzer.Interfaces;
 using NgramFilter.FilterItems;
-using NgramFilter.Interfaces;
 
 namespace NgramFilter
 {
     internal class Program
     {
-        private static IFilter _filter;
         private static void Main()
         {
+            var filter = new Filter();
+            filter.Add(new OnlyWords());
+            filter.Add(new MultipleInstances());
+            var bootstrapper = new Bootstrapper(filter, new FileSystem(), new MySqlConnectionFactory());
+
             string output = null;
-            Console.WriteLine("Przefiltrować dane? (TAK/NIE)");
+            Console.WriteLine("Przefiltrować dane? (T/N)");
             var decisionFilter = Console.ReadLine();
+            Console.WriteLine("Utworzyć bazę danych? (T/N)");
+            var decisionDb = Console.ReadLine();
 
-            if (decisionFilter != null && decisionFilter.Equals("TAK"))
+            if (decisionFilter != null && decisionFilter.Equals("T"))
             {
-                _filter = new Filter();
-                _filter.Add(new OnlyWords());
-                _filter.Add(new MultipleInstances());
-
                 Console.WriteLine("Podaj ścieżkę do pliku z N-gramami: ");
                 var input = Console.ReadLine();
                 //var input = @"E:\PWr\magisterskie\magisterka\Materiały\1grams";
@@ -33,13 +29,10 @@ namespace NgramFilter
                 output = Console.ReadLine();
                 //output = @"E:\PWr\magisterskie\magisterka\Materiały\1grams_2";
 
-                Filter(input, output);
+                bootstrapper.Filter(input, output);
             }
 
-            Console.WriteLine("Utworzyć bazę danych? (TAK/NIE)");
-            var decisionDb = Console.ReadLine();
-
-            if (decisionDb != null && decisionDb.Equals("TAK"))
+            if (decisionDb != null && decisionDb.Equals("T"))
             {
                 Console.WriteLine("Nazwa bazy danych: ");
                 var dbName = Console.ReadLine();
@@ -51,120 +44,18 @@ namespace NgramFilter
                 var converted = int.TryParse(numberTxt, out var number);
                 number = converted ? number : 1;
 
-                if (output != null) CreateDb(output, dbName, tableName, number);
+                if (output != null) bootstrapper.CreateDb(output, dbName, tableName, number);
                 else
                 {
                     Console.WriteLine("Podaj ścieżkę pliku z danymi: ");
                     output = Console.ReadLine();
                     //output = @"E:\PWr\magisterskie\magisterka\Materiały\1grams_2";
-                    CreateDb(output, dbName, tableName, number);
+                    bootstrapper.CreateDb(output, dbName, tableName, number);
                 }
             }
 
             Console.WriteLine("\nKONIEC\nNaciśnij ENTER by wyjść");
             Console.Read();
-        }
-
-        private static void Filter(string input, string output)
-        {
-            var fileInput = new System.IO.Abstractions.FileSystem();
-            var fileOutput = new System.IO.Abstractions.FileSystem();
-
-            using (IFileAccess inputManager = new FileManager(fileInput, input))
-            using (IFileAccess outputManager = new FileManager(fileOutput, output))
-            {
-                try
-                {
-                    outputManager.Create();
-                    var numberOfLines = inputManager.CountLines();
-                    inputManager.Open(FileManagerType.Read);
-                    outputManager.Open(FileManagerType.Write);
-                    var counter = 0;
-
-                    string str;
-                    while ((str = inputManager.ReadLine()) != null)
-                    {
-                        var list = str.Split(' ').ToList().Where(s => s != "").ToList();
-                        var ngram = new NGram
-                        {
-                            Value = int.Parse(list[0]),
-                            WordsList = list.GetRange(1, list.Count - 1)
-                        };
-                        var filterResult = _filter.Start(ngram);
-                        ++counter;
-                        var percent = (double) counter * 100 / numberOfLines;
-                        Console.Write(percent.ToString("F3", CultureInfo.InvariantCulture) + "%\r");
-                        if (!filterResult) continue;
-
-                        outputManager.WriteLine(ngram.ToString());
-                    }
-
-                    Console.WriteLine("Ukończono pomyślnie\n");
-                }
-                catch (IOException ex)
-                {
-                    Console.WriteLine("Wystąpił błąd: " + ex.Message);
-                }
-            }
-        }
-
-        private static void CreateDb(string input, string dbName, string tableName, int numberOfWords)
-        {
-            var fileInput = new System.IO.Abstractions.FileSystem();
-            using (var inputManager = new FileManager(fileInput, input))
-            {
-                try
-                {
-                    var numberOfLines = inputManager.CountLines();
-                    var counter = 0;
-                    inputManager.Open(FileManagerType.Read);
-                    using (var dbManager =
-                        new DataBaseManager(new MySqlConnectionFactory(), "localhost", "NGrams", "root", ""))
-                    {
-                        try
-                        {
-                            IDataBaseCreator creator = new NgramsDataBaseCreator(dbManager);
-                            creator.CreateDataBase(dbName);
-                            creator.CreateTable(dbName, tableName, numberOfWords);
-
-                            string str;
-                            var ngrams = new List<NGram>();
-                            while ((str = inputManager.ReadLine()) != null)
-                            {
-                                var list = str.Split(' ').ToList().Where(s => s != "").ToList();
-                                var ngram = new NGram
-                                {
-                                    Value = int.Parse(list[0]),
-                                    WordsList = list.GetRange(1, list.Count - 1)
-                                };
-                                ngram.ChangeSpecialCharacters();
-                                ngrams.Add(ngram);
-                                if (counter % 800 == 0)
-                                {
-                                    creator.AddNgramsToTable(tableName, ngrams);
-                                    ngrams = new List<NGram>();
-                                }
-
-                                ++counter;
-                                var percent = (double)counter * 100 / numberOfLines;
-                                Console.Write(percent.ToString("F3", CultureInfo.InvariantCulture) + "%\r");
-                            }
-
-                            creator.AddNgramsToTable(tableName, ngrams);
-
-                            Console.WriteLine("Ukończono pomyślnie");
-                        }
-                        catch (MySqlException ex)
-                        {
-                            Console.WriteLine("Wystąpił błąd: " + ex.Message);
-                        }
-                    }
-                }
-                catch (IOException ex)
-                {
-                    Console.WriteLine("Wystąpił błąd: " + ex.Message);
-                }
-            }
         }
     }
 }
