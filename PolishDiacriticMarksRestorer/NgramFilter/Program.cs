@@ -115,17 +115,16 @@ namespace NgramFilter
         {
             var fileInput = new System.IO.Abstractions.FileSystem();
             IFileAccess inputManager = new FileManager(fileInput, input);
-            IDataBaseCreator creator = null;
+            IDataBaseCreator creator;
             try
             {
                 var numberOfLines = inputManager.CountLines();
                 var counter = 0;
                 inputManager.Open(FileManagerType.Read);
                 var dbManager = new DataBaseManager(new MySqlConnectionFactory(), "localhost", "NGrams", "root", "");
-                creator = new DataBaseCreator(dbManager);
+                creator = new NgramsDataBaseCreator(dbManager);
                 creator.CreateDataBase(dbName);
                 creator.CreateTable(dbName, tableName, numberOfWords);
-                creator.OpenDb();
 
                 string str;
                 var ngrams = new List<NGram>();
@@ -164,7 +163,6 @@ namespace NgramFilter
             finally
             {
                 inputManager.Close();
-                creator?.CloseDb();
             }
         }
     }

@@ -2,7 +2,7 @@
 
 namespace EffectivenessResearch
 {
-    public class Researcher : IResearcher
+    internal class Researcher : IResearcher
     {
     }
 }

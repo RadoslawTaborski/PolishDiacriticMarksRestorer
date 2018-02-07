@@ -4,7 +4,7 @@ using NgramFilter.Interfaces;
 
 namespace NgramFilter
 {
-    public class Filter : IFilter
+    internal class Filter : IFilter
     {
         private readonly List<IFilterItem> _filters;
 
