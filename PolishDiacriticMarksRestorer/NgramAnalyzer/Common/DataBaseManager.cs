@@ -53,12 +53,14 @@ namespace NgramAnalyzer.Common
         public void ExecuteNonQueryServer(string query)
         {
             var command = _connectionServer.CreateCommand();
+            command.CommandText = query;
             command.ExecuteNonQuery();
         }
 
         public void ExecuteNonQueryDb(string query)
         {
             var command = _connectionDb.CreateCommand();
+            command.CommandText = query;
             command.ExecuteNonQuery();
         }
 

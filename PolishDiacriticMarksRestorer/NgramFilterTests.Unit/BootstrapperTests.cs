@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using Moq;
 using NgramAnalyzer.Common;
@@ -49,6 +51,37 @@ namespace NgramFilterTests.Unit
         }
 
         [Fact]
+        public void Filter_ThrowFileNotFoundException()
+        {
+            var filterMock = new Mock<IFilter>();
+            filterMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns(false);
+            var dbMock = new Mock<IDataBaseManagerFactory>();
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
+
+            var bootstrapper = new Bootstrapper(filterMock.Object, mockFileSystem, dbMock.Object);
+
+            var exception = Assert.Throws<FileNotFoundException>(() => bootstrapper.Filter(@"C:\input", @"C:\output"));
+            Assert.IsType<FileNotFoundException>(exception);
+        }
+
+        [Fact]
+        public void Filter_ThrowFormatException()
+        {
+            var filterMock = new Mock<IFilter>();
+            filterMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns(false);
+            var dbMock = new Mock<IDataBaseManagerFactory>();
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                { @"C:\input", new MockFileData(@"aa small cat") }
+            });
+
+            var bootstrapper = new Bootstrapper(filterMock.Object, mockFileSystem, dbMock.Object);
+
+            var exception = Assert.Throws<FormatException>(() => bootstrapper.Filter(@"C:\input", @"C:\output"));
+            Assert.IsType<FormatException>(exception);
+        }
+
+        [Fact]
         public void CreateDb_Verify()
         {
             var filterMock = new Mock<IFilter>();
@@ -77,7 +110,7 @@ namespace NgramFilterTests.Unit
             });
 
             var bootstrapper = new Bootstrapper(filterMock.Object, mockFileSystem, connectionFactoryMock.Object);
-            bootstrapper.CreateDb(@"C:\input", "dbName", "tableName", 2);
+            bootstrapper.CreateDb(@"C:\input", "dbName", "tableName");
 
             commandMock.Verify();
         }

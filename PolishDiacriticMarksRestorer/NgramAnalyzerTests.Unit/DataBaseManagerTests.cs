@@ -103,13 +103,15 @@ namespace NgramAnalyzerTests.Unit
             Assert.NotEmpty(result.Tables);
         }
 
-        [Fact]
-        public void ExecuteNonQueryServer_Verify()
+        [Theory]
+        [InlineData("test")]
+        public void ExecuteNonQueryServer_Verify(string text)
         {
             var commandMock = new Mock<IDbCommand>();
             commandMock
                 .Setup(m => m.ExecuteNonQuery())
                 .Verifiable();
+            commandMock.SetupProperty(m=>m.CommandText);
 
             var connectionMock = new Mock<IDbConnection>();
             connectionMock
@@ -124,19 +126,22 @@ namespace NgramAnalyzerTests.Unit
             using (var sut = new DataBaseManager(connectionFactoryMock.Object, "", "", "", ""))
             {
                 sut.ConnectToServer();
-                sut.ExecuteNonQueryServer("");
+                sut.ExecuteNonQueryServer(text);
             }
 
             commandMock.Verify();
+            Assert.Equal(text, commandMock.Object.CommandText);
         }
 
-        [Fact]
-        public void ExecuteNonQueryDb_Verify()
+        [Theory]
+        [InlineData("test")]
+        public void ExecuteNonQueryDb_Verify(string text)
         {
             var commandMock = new Mock<IDbCommand>();
             commandMock
                 .Setup(m => m.ExecuteNonQuery())
                 .Verifiable();
+            commandMock.SetupProperty(m => m.CommandText);
 
             var connectionMock = new Mock<IDbConnection>();
             connectionMock
@@ -151,10 +156,12 @@ namespace NgramAnalyzerTests.Unit
             using (var sut = new DataBaseManager(connectionFactoryMock.Object, "", "", "", ""))
             {
                 sut.ConnectToDb();
-                sut.ExecuteNonQueryDb("");
+                sut.ExecuteNonQueryDb(text);
             }
 
             commandMock.Verify();
+            Assert.Equal(text, commandMock.Object.CommandText);
         }
+
     }
 }
