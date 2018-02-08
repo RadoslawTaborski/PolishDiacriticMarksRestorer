@@ -13,9 +13,10 @@ namespace NgramFilter
         private static void Main()
         {
             var filter = new Filter();
-            filter.Add(new OnlyWords());
             filter.Add(new MultipleInstances());
+            filter.Add(new OnlyWords());
             filter.Add(new WordsWithoutNonPunctationMarks());
+            filter.Add(new NotLongWords());
             _bootstrapper = new Bootstrapper(filter, new FileSystem(), new MySqlConnectionFactory());
 
             string output = null;

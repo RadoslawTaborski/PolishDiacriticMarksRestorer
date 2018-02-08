@@ -34,6 +34,7 @@ namespace NgramFilter
                 var counter = 0;
 
                 string str;
+                var data="";
                 while ((str = inputManager.ReadLine()) != null)
                 {
                     var list = str.Split(' ').ToList().Where(s => s != "").ToList();
@@ -48,7 +49,14 @@ namespace NgramFilter
                     Console.Write(percent.ToString("F3", CultureInfo.InvariantCulture) + "%\r");
                     if (!filterResult) continue;
 
-                    outputManager.WriteLine(ngram.ToString());
+                    data += ngram + "\r\n";
+
+                    if (counter % 1000 == 0)
+                    {
+                        outputManager.WriteLine(data);
+                        data = "";
+                    }
+
                 }
 
                 Console.WriteLine("Ukończono pomyślnie\n");
