@@ -1,0 +1,1004 @@
+﻿[08.02.2018 16:07:58 Informational] ------ Run test started ------
+[08.02.2018 16:07:59 Informational] [xUnit.net 00:00:00.5864429]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:07:59 Informational] [xUnit.net 00:00:00.6810383]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:07:59 Informational] [xUnit.net 00:00:00.6895058]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:07:59 Informational] [xUnit.net 00:00:00.8749663]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:08:01 Informational] [xUnit.net 00:00:00.6195864]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:08:01 Informational] [xUnit.net 00:00:00.7449711]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:08:01 Informational] [xUnit.net 00:00:00.7526273]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:08:01 Informational] [xUnit.net 00:00:01.2207995]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:08:03 Informational] [xUnit.net 00:00:00.5917919]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:08:03 Informational] [xUnit.net 00:00:00.7449206]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:08:03 Informational] [xUnit.net 00:00:00.7526765]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:08:03 Error] [xUnit.net 00:00:01.0618804]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small$") [FAIL]
+[08.02.2018 16:08:03 Informational] [xUnit.net 00:00:01.0642718]       Assert.False() Failure
+[08.02.2018 16:08:03 Informational] [xUnit.net 00:00:01.0643989]       Expected: False
+[08.02.2018 16:08:03 Informational] [xUnit.net 00:00:01.0644557]       Actual:   True
+[08.02.2018 16:08:03 Informational] [xUnit.net 00:00:01.0661480]       Stack Trace:
+[08.02.2018 16:08:03 Informational] [xUnit.net 00:00:01.0682191]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(28,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:08:03 Informational] [xUnit.net 00:00:01.2435665]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:08:03 Informational] ========== Run test finished: 59 run (0:00:05,6117458) ==========
+[08.02.2018 16:08:40 Informational] ------ Discover test started ------
+[08.02.2018 16:08:42 Informational] [xUnit.net 00:00:00.6140367]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:08:42 Informational] [xUnit.net 00:00:00.8060240]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:08:42 Informational] ========== Discover test finished: 34 found (0:00:01,5354671) ==========
+[08.02.2018 16:08:42 Informational] ------ Run test started ------
+[08.02.2018 16:08:44 Informational] [xUnit.net 00:00:00.5471424]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:08:44 Informational] [xUnit.net 00:00:00.6385660]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:08:44 Informational] [xUnit.net 00:00:00.6461573]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:08:44 Informational] [xUnit.net 00:00:00.8244319]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:08:45 Informational] [xUnit.net 00:00:00.5813957]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:08:45 Informational] [xUnit.net 00:00:00.7056275]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:08:45 Informational] [xUnit.net 00:00:00.7133530]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:08:46 Informational] [xUnit.net 00:00:01.1753768]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:00.6074025]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:00.7395241]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:00.7471611]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:08:47 Error] [xUnit.net 00:00:01.0410666]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:01.0434507]       Assert.False() Failure
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:01.0435944]       Expected: False
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:01.0436599]       Actual:   True
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:01.0455967]       Stack Trace:
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:01.0478564]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(29,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:08:47 Error] [xUnit.net 00:00:01.0514889]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small$") [FAIL]
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:01.0516274]       Assert.False() Failure
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:01.0516912]       Expected: False
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:01.0517309]       Actual:   True
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:01.0517733]       Stack Trace:
+[08.02.2018 16:08:47 Informational] [xUnit.net 00:00:01.0518421]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(29,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:08:48 Informational] [xUnit.net 00:00:01.2169519]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:08:48 Informational] ========== Run test finished: 60 run (0:00:05,9109884) ==========
+[08.02.2018 16:09:11 Informational] ------ Discover test started ------
+[08.02.2018 16:09:12 Informational] [xUnit.net 00:00:00.6208287]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:09:12 Informational] [xUnit.net 00:00:00.8085155]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:09:12 Informational] ========== Discover test finished: 34 found (0:00:01,5368155) ==========
+[08.02.2018 16:09:12 Informational] ------ Run test started ------
+[08.02.2018 16:09:14 Informational] [xUnit.net 00:00:00.5460002]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:09:14 Informational] [xUnit.net 00:00:00.6372612]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:09:14 Informational] [xUnit.net 00:00:00.6447973]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:09:14 Informational] [xUnit.net 00:00:00.8229116]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:09:15 Informational] [xUnit.net 00:00:00.5892996]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:09:15 Informational] [xUnit.net 00:00:00.7144179]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:09:15 Informational] [xUnit.net 00:00:00.7222828]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:09:16 Informational] [xUnit.net 00:00:01.1908211]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:09:17 Informational] [xUnit.net 00:00:00.5901249]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:09:17 Informational] [xUnit.net 00:00:00.7217735]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:09:17 Informational] [xUnit.net 00:00:00.7293908]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:09:18 Error] [xUnit.net 00:00:01.0365450]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 16:09:18 Informational] [xUnit.net 00:00:01.0387376]       Assert.False() Failure
+[08.02.2018 16:09:18 Informational] [xUnit.net 00:00:01.0388547]       Expected: False
+[08.02.2018 16:09:18 Informational] [xUnit.net 00:00:01.0389091]       Actual:   True
+[08.02.2018 16:09:18 Informational] [xUnit.net 00:00:01.0405512]       Stack Trace:
+[08.02.2018 16:09:18 Informational] [xUnit.net 00:00:01.0422050]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(29,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:09:18 Error] [xUnit.net 00:00:01.0458738]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small$") [FAIL]
+[08.02.2018 16:09:18 Informational] [xUnit.net 00:00:01.0460436]       Assert.False() Failure
+[08.02.2018 16:09:18 Informational] [xUnit.net 00:00:01.0461073]       Expected: False
+[08.02.2018 16:09:18 Informational] [xUnit.net 00:00:01.0461599]       Actual:   True
+[08.02.2018 16:09:18 Informational] [xUnit.net 00:00:01.0462176]       Stack Trace:
+[08.02.2018 16:09:18 Informational] [xUnit.net 00:00:01.0463087]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(29,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:09:18 Informational] [xUnit.net 00:00:01.2080067]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:09:18 Informational] ========== Run test finished: 60 run (0:00:05,5232051) ==========
+[08.02.2018 16:10:05 Informational] ------ Discover test started ------
+[08.02.2018 16:10:06 Informational] [xUnit.net 00:00:00.6264018]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:10:07 Informational] [xUnit.net 00:00:00.8230023]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:10:07 Informational] ========== Discover test finished: 34 found (0:00:01,5586545) ==========
+[08.02.2018 16:10:07 Informational] ------ Run test started ------
+[08.02.2018 16:10:08 Informational] [xUnit.net 00:00:00.5507518]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:10:08 Informational] [xUnit.net 00:00:00.6416353]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:10:08 Informational] [xUnit.net 00:00:00.6495772]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:10:08 Informational] [xUnit.net 00:00:00.8260600]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:10:10 Informational] [xUnit.net 00:00:00.5897460]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:10:10 Informational] [xUnit.net 00:00:00.7151299]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:10:10 Informational] [xUnit.net 00:00:00.7228815]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:10:10 Informational] [xUnit.net 00:00:01.1727592]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:10:11 Informational] [xUnit.net 00:00:00.5871215]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:00.7208267]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:00.7283995]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:10:12 Error] [xUnit.net 00:00:01.0335104]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:01.0358988]       Assert.False() Failure
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:01.0360810]       Expected: False
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:01.0361704]       Actual:   True
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:01.0379716]       Stack Trace:
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:01.0401997]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(29,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:10:12 Error] [xUnit.net 00:00:01.0437599]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small$") [FAIL]
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:01.0438801]       Assert.False() Failure
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:01.0439190]       Expected: False
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:01.0439481]       Actual:   True
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:01.0439827]       Stack Trace:
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:01.0440469]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(29,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:10:12 Informational] [xUnit.net 00:00:01.2040005]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:10:12 Informational] ========== Run test finished: 60 run (0:00:05,4836159) ==========
+[08.02.2018 16:28:36 Informational] ------ Discover test started ------
+[08.02.2018 16:28:37 Informational] [xUnit.net 00:00:00.6202856]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:28:37 Informational] [xUnit.net 00:00:00.8597393]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:28:38 Informational] ========== Discover test finished: 35 found (0:00:01,5973583) ==========
+[08.02.2018 16:28:38 Informational] ------ Run test started ------
+[08.02.2018 16:28:39 Informational] [xUnit.net 00:00:00.5804185]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:28:40 Informational] [xUnit.net 00:00:00.6788953]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:28:40 Informational] [xUnit.net 00:00:00.6868219]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:28:40 Informational] [xUnit.net 00:00:00.8808816]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:28:41 Informational] [xUnit.net 00:00:00.5954783]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:28:41 Informational] [xUnit.net 00:00:00.7208776]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:28:41 Informational] [xUnit.net 00:00:00.7286373]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:28:42 Informational] [xUnit.net 00:00:01.1921618]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:28:43 Informational] [xUnit.net 00:00:00.6202821]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:28:43 Informational] [xUnit.net 00:00:00.7533342]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:28:43 Informational] [xUnit.net 00:00:00.7609238]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:28:44 Error] [xUnit.net 00:00:01.0647816]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0676409]       Assert.False() Failure
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0678107]       Expected: False
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0678872]       Actual:   True
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0696226]       Stack Trace:
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0716108]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:28:44 Error] [xUnit.net 00:00:01.0753279]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small$") [FAIL]
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0754443]       Assert.False() Failure
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0754917]       Expected: False
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0755345]       Actual:   True
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0755828]       Stack Trace:
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0756761]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:28:44 Error] [xUnit.net 00:00:01.0758685]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sma$ll..") [FAIL]
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0759250]       Assert.False() Failure
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0759643]       Expected: False
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0760015]       Actual:   True
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0760310]       Stack Trace:
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.0761050]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:28:44 Informational] [xUnit.net 00:00:01.2392574]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:28:44 Informational] ========== Run test finished: 61 run (0:00:06,2932217) ==========
+[08.02.2018 16:28:58 Informational] ------ Discover test started ------
+[08.02.2018 16:28:59 Informational] [xUnit.net 00:00:00.6428926]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:29:00 Informational] [xUnit.net 00:00:00.8491408]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:29:00 Informational] ========== Discover test finished: 35 found (0:00:01,5901575) ==========
+[08.02.2018 16:29:00 Informational] ------ Run test started ------
+[08.02.2018 16:29:01 Informational] [xUnit.net 00:00:00.5410518]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:29:01 Informational] [xUnit.net 00:00:00.6330570]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:29:01 Informational] [xUnit.net 00:00:00.6407034]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:29:02 Informational] [xUnit.net 00:00:00.8273169]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:29:03 Informational] [xUnit.net 00:00:00.6073033]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:29:03 Informational] [xUnit.net 00:00:00.7304424]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:29:03 Informational] [xUnit.net 00:00:00.7382689]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:29:04 Informational] [xUnit.net 00:00:01.2030365]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:00.5985903]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:00.7300623]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:00.7375885]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:29:05 Error] [xUnit.net 00:00:01.0360049]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0382445]       Assert.False() Failure
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0383557]       Expected: False
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0384245]       Actual:   True
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0401736]       Stack Trace:
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0422653]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:29:05 Error] [xUnit.net 00:00:01.0459243]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small$") [FAIL]
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0460432]       Assert.False() Failure
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0461112]       Expected: False
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0461659]       Actual:   True
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0462300]       Stack Trace:
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0463387]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:29:05 Error] [xUnit.net 00:00:01.0465538]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sma$ll.") [FAIL]
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0466162]       Assert.False() Failure
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0466611]       Expected: False
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0467086]       Actual:   True
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0467561]       Stack Trace:
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.0468258]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:29:05 Informational] [xUnit.net 00:00:01.2184282]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:29:06 Informational] ========== Run test finished: 61 run (0:00:05,913006) ==========
+[08.02.2018 16:31:56 Informational] ------ Discover test started ------
+[08.02.2018 16:31:57 Informational] [xUnit.net 00:00:00.6257578]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:31:58 Informational] [xUnit.net 00:00:00.8227752]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:31:58 Informational] ========== Discover test finished: 37 found (0:00:01,553287) ==========
+[08.02.2018 16:31:58 Informational] ------ Run test started ------
+[08.02.2018 16:31:59 Informational] [xUnit.net 00:00:00.5438931]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:31:59 Informational] [xUnit.net 00:00:00.6354206]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:32:00 Informational] [xUnit.net 00:00:00.6430469]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:32:00 Informational] [xUnit.net 00:00:00.8259240]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:32:01 Informational] [xUnit.net 00:00:00.6131125]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:32:01 Informational] [xUnit.net 00:00:00.7444925]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:32:01 Informational] [xUnit.net 00:00:00.7524101]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:32:02 Informational] [xUnit.net 00:00:01.2490391]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:00.6094219]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:00.7482105]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:00.7566092]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:32:03 Error] [xUnit.net 00:00:01.0666757]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:01.0692925]       Assert.False() Failure
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:01.0696915]       Expected: False
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:01.0698142]       Actual:   True
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:01.0716908]       Stack Trace:
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:01.0739646]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:32:03 Error] [xUnit.net 00:00:01.0779110]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sma$ll.") [FAIL]
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:01.0780350]       Assert.False() Failure
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:01.0780927]       Expected: False
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:01.0781316]       Actual:   True
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:01.0781894]       Stack Trace:
+[08.02.2018 16:32:03 Informational] [xUnit.net 00:00:01.0782805]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:32:04 Informational] [xUnit.net 00:00:01.2430943]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:32:04 Informational] ========== Run test finished: 63 run (0:00:06,0667963) ==========
+[08.02.2018 16:43:29 Informational] ------ Discover test started ------
+[08.02.2018 16:43:31 Informational] [xUnit.net 00:00:01.1825738]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:43:31 Informational] [xUnit.net 00:00:01.4853184]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:43:31 Informational] ========== Discover test finished: 37 found (0:00:02,7034889) ==========
+[08.02.2018 16:43:31 Informational] ------ Run test started ------
+[08.02.2018 16:43:33 Informational] [xUnit.net 00:00:00.7950364]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:43:33 Informational] [xUnit.net 00:00:00.9233864]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:43:33 Informational] [xUnit.net 00:00:00.9330843]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:43:34 Informational] [xUnit.net 00:00:01.2066344]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:43:36 Informational] [xUnit.net 00:00:00.8447518]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:43:36 Informational] [xUnit.net 00:00:01.0340137]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:43:36 Informational] [xUnit.net 00:00:01.0434225]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:43:37 Informational] [xUnit.net 00:00:01.7291351]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:00.9071989]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.0972806]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.1053547]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:43:39 Error] [xUnit.net 00:00:01.5654866]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small.") [FAIL]
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5677891]       Assert.True() Failure
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5679110]       Expected: True
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5679486]       Actual:   False
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5695549]       Stack Trace:
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5712475]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:43:39 Error] [xUnit.net 00:00:01.5741769]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "\"small") [FAIL]
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5743873]       Assert.True() Failure
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5744378]       Expected: True
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5744724]       Actual:   False
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5745237]       Stack Trace:
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5746349]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:43:39 Error] [xUnit.net 00:00:01.5749428]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "(small") [FAIL]
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5750113]       Assert.True() Failure
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5750669]       Expected: True
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5751071]       Actual:   False
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5751503]       Stack Trace:
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5752204]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:43:39 Error] [xUnit.net 00:00:01.5753872]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small,") [FAIL]
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5754646]       Assert.True() Failure
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5755215]       Expected: True
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5755732]       Actual:   False
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5756232]       Stack Trace:
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5757225]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:43:39 Error] [xUnit.net 00:00:01.5759149]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small...") [FAIL]
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5759786]       Assert.True() Failure
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5760205]       Expected: True
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5760689]       Actual:   False
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5761193]       Stack Trace:
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.5762108]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:43:39 Informational] [xUnit.net 00:00:01.8489822]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:43:40 Informational] ========== Run test finished: 63 run (0:00:08,2424067) ==========
+[08.02.2018 16:46:15 Informational] ------ Discover test started ------
+[08.02.2018 16:46:16 Informational] [xUnit.net 00:00:00.7406612]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:46:16 Informational] [xUnit.net 00:00:00.9334089]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:46:16 Informational] ========== Discover test finished: 37 found (0:00:01,7125478) ==========
+[08.02.2018 16:46:16 Informational] ------ Run test started ------
+[08.02.2018 16:46:18 Informational] [xUnit.net 00:00:00.5560128]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:46:18 Informational] [xUnit.net 00:00:00.6505638]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:46:18 Informational] [xUnit.net 00:00:00.6582277]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:46:18 Informational] [xUnit.net 00:00:00.8380069]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:46:19 Informational] [xUnit.net 00:00:00.5893381]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:46:20 Informational] [xUnit.net 00:00:00.7149212]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:46:20 Informational] [xUnit.net 00:00:00.7238309]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:46:20 Informational] [xUnit.net 00:00:01.1843922]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:46:21 Informational] [xUnit.net 00:00:00.5875475]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:46:21 Informational] [xUnit.net 00:00:00.7192153]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:46:21 Informational] [xUnit.net 00:00:00.7269092]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:46:22 Error] [xUnit.net 00:00:01.0334099]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sma,ll") [FAIL]
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0361858]       Assert.False() Failure
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0363500]       Expected: False
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0364261]       Actual:   True
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0380674]       Stack Trace:
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0402087]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 16:46:22 Error] [xUnit.net 00:00:01.0452353]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small.") [FAIL]
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0453384]       Assert.True() Failure
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0454030]       Expected: True
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0454603]       Actual:   False
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0455219]       Stack Trace:
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0456189]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:46:22 Error] [xUnit.net 00:00:01.0458345]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "\"small") [FAIL]
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0459059]       Assert.True() Failure
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0459602]       Expected: True
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0460098]       Actual:   False
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0460688]       Stack Trace:
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0461633]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:46:22 Error] [xUnit.net 00:00:01.0463583]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "(small") [FAIL]
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0464259]       Assert.True() Failure
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0464815]       Expected: True
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0465354]       Actual:   False
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0465948]       Stack Trace:
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0467009]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:46:22 Error] [xUnit.net 00:00:01.0468997]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small,") [FAIL]
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0469643]       Assert.True() Failure
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0470156]       Expected: True
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0470614]       Actual:   False
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0471110]       Stack Trace:
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0471961]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:46:22 Error] [xUnit.net 00:00:01.0473860]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small...") [FAIL]
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0474441]       Assert.True() Failure
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0474929]       Expected: True
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0475374]       Actual:   False
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0475827]       Stack Trace:
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.0476635]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:46:22 Informational] [xUnit.net 00:00:01.2156339]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:46:22 Informational] ========== Run test finished: 63 run (0:00:05,652673) ==========
+[08.02.2018 16:48:24 Informational] ------ Discover test started ------
+[08.02.2018 16:48:25 Informational] [xUnit.net 00:00:00.6424632]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:48:25 Informational] [xUnit.net 00:00:00.8434346]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:48:25 Informational] ========== Discover test finished: 37 found (0:00:01,574168) ==========
+[08.02.2018 16:48:25 Informational] ------ Run test started ------
+[08.02.2018 16:48:26 Informational] [xUnit.net 00:00:00.5413636]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:48:27 Informational] [xUnit.net 00:00:00.6447674]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:48:27 Informational] [xUnit.net 00:00:00.6564919]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:48:27 Informational] [xUnit.net 00:00:00.8342662]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:48:28 Informational] [xUnit.net 00:00:00.6025217]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:48:28 Informational] [xUnit.net 00:00:00.7339902]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:48:28 Informational] [xUnit.net 00:00:00.7420673]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:48:29 Informational] [xUnit.net 00:00:01.2348364]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:48:30 Informational] [xUnit.net 00:00:00.6101489]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:48:30 Informational] [xUnit.net 00:00:00.7496945]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:48:30 Informational] [xUnit.net 00:00:00.7579041]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:48:31 Error] [xUnit.net 00:00:01.0974038]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small.") [FAIL]
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1000903]       Assert.True() Failure
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1002340]       Expected: True
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1003054]       Actual:   False
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1021200]       Stack Trace:
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1042599]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:48:31 Error] [xUnit.net 00:00:01.1078830]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "\"small") [FAIL]
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1080156]       Assert.True() Failure
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1080742]       Expected: True
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1081161]       Actual:   False
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1081584]       Stack Trace:
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1082375]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:48:31 Error] [xUnit.net 00:00:01.1084475]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "(small") [FAIL]
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1085211]       Assert.True() Failure
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1086087]       Expected: True
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1087075]       Actual:   False
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1087913]       Stack Trace:
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1089192]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:48:31 Error] [xUnit.net 00:00:01.1091159]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small,") [FAIL]
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1091732]       Assert.True() Failure
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1092134]       Expected: True
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1092502]       Actual:   False
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1092874]       Stack Trace:
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1093627]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:48:31 Error] [xUnit.net 00:00:01.1095739]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small...") [FAIL]
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1096454]       Assert.True() Failure
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1097005]       Expected: True
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1097390]       Actual:   False
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1097784]       Stack Trace:
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.1098703]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:48:31 Informational] [xUnit.net 00:00:01.2611892]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:48:31 Informational] ========== Run test finished: 63 run (0:00:05,7224885) ==========
+[08.02.2018 16:51:34 Informational] ------ Discover test started ------
+[08.02.2018 16:51:35 Informational] [xUnit.net 00:00:00.6731036]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:51:35 Informational] [xUnit.net 00:00:00.8750172]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:51:35 Informational] ========== Discover test finished: 37 found (0:00:01,594735) ==========
+[08.02.2018 16:51:35 Informational] ------ Run test started ------
+[08.02.2018 16:51:36 Informational] [xUnit.net 00:00:00.5376195]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:51:36 Informational] [xUnit.net 00:00:00.6271289]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:51:37 Informational] [xUnit.net 00:00:00.6346748]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:51:37 Informational] [xUnit.net 00:00:00.8380928]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:51:38 Informational] [xUnit.net 00:00:00.5882989]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:51:38 Informational] [xUnit.net 00:00:00.7119948]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:51:38 Informational] [xUnit.net 00:00:00.7196344]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:51:39 Informational] [xUnit.net 00:00:01.1886828]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:00.5833009]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:00.7155494]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:00.7232669]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:51:40 Error] [xUnit.net 00:00:01.0193089]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small.") [FAIL]
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0216704]       Assert.True() Failure
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0218145]       Expected: True
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0218739]       Actual:   False
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0236226]       Stack Trace:
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0255398]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:51:40 Error] [xUnit.net 00:00:01.0280668]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "\"small") [FAIL]
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0281634]       Assert.True() Failure
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0282032]       Expected: True
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0282353]       Actual:   False
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0282703]       Stack Trace:
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0283495]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:51:40 Error] [xUnit.net 00:00:01.0285385]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "(small") [FAIL]
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0286103]       Assert.True() Failure
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0286561]       Expected: True
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0287053]       Actual:   False
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0287493]       Stack Trace:
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0288229]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:51:40 Error] [xUnit.net 00:00:01.0289952]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small,") [FAIL]
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0290564]       Assert.True() Failure
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0291064]       Expected: True
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0291517]       Actual:   False
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0292001]       Stack Trace:
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0292762]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:51:40 Error] [xUnit.net 00:00:01.0294588]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small...") [FAIL]
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0295229]       Assert.True() Failure
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0295717]       Expected: True
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0296179]       Actual:   False
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0296589]       Stack Trace:
+[08.02.2018 16:51:40 Informational] [xUnit.net 00:00:01.0297599]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:51:41 Informational] [xUnit.net 00:00:01.2353273]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:51:41 Informational] ========== Run test finished: 63 run (0:00:05,5326635) ==========
+[08.02.2018 16:55:19 Informational] ------ Discover test started ------
+[08.02.2018 16:55:20 Informational] [xUnit.net 00:00:00.6211165]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:55:20 Informational] [xUnit.net 00:00:00.8221102]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:55:20 Informational] ========== Discover test finished: 37 found (0:00:01,5573484) ==========
+[08.02.2018 16:55:20 Informational] ------ Run test started ------
+[08.02.2018 16:55:22 Informational] [xUnit.net 00:00:00.5420380]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 16:55:22 Informational] [xUnit.net 00:00:00.6316581]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 16:55:22 Informational] [xUnit.net 00:00:00.6391801]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 16:55:22 Informational] [xUnit.net 00:00:00.8166636]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 16:55:23 Informational] [xUnit.net 00:00:00.5854353]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 16:55:24 Informational] [xUnit.net 00:00:00.7206689]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 16:55:24 Informational] [xUnit.net 00:00:00.7282229]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 16:55:24 Informational] [xUnit.net 00:00:01.1776143]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 16:55:25 Informational] [xUnit.net 00:00:00.5901455]   Discovering: NgramFilterTests.Unit
+[08.02.2018 16:55:25 Informational] [xUnit.net 00:00:00.7228114]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 16:55:25 Informational] [xUnit.net 00:00:00.7306537]   Starting:    NgramFilterTests.Unit
+[08.02.2018 16:55:26 Error] [xUnit.net 00:00:01.0388595]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small.") [FAIL]
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0412838]       Assert.True() Failure
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0414412]       Expected: True
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0415058]       Actual:   False
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0432142]       Stack Trace:
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0452375]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:55:26 Error] [xUnit.net 00:00:01.0487250]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "\"small") [FAIL]
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0488267]       Assert.True() Failure
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0488776]       Expected: True
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0489131]       Actual:   False
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0489987]       Stack Trace:
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0490851]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:55:26 Error] [xUnit.net 00:00:01.0492779]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "(small") [FAIL]
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0493318]       Assert.True() Failure
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0493733]       Expected: True
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0494101]       Actual:   False
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0494498]       Stack Trace:
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0495157]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:55:26 Error] [xUnit.net 00:00:01.0496880]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small,") [FAIL]
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0497428]       Assert.True() Failure
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0497778]       Expected: True
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0498151]       Actual:   False
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0498587]       Stack Trace:
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0499335]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:55:26 Error] [xUnit.net 00:00:01.0501016]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small...") [FAIL]
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0501529]       Assert.True() Failure
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0501931]       Expected: True
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0502324]       Actual:   False
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0502739]       Stack Trace:
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.0503496]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 16:55:26 Informational] [xUnit.net 00:00:01.2086375]   Finished:    NgramFilterTests.Unit
+[08.02.2018 16:55:26 Informational] ========== Run test finished: 63 run (0:00:05,6110548) ==========
+[08.02.2018 17:02:05 Informational] ------ Discover test started ------
+[08.02.2018 17:02:09 Informational] [xUnit.net 00:00:02.1032190]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:02:10 Informational] [xUnit.net 00:00:02.7577780]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:02:10 Informational] ========== Discover test finished: 37 found (0:00:05,2890551) ==========
+[08.02.2018 17:02:10 Informational] ------ Run test started ------
+[08.02.2018 17:02:14 Informational] [xUnit.net 00:00:01.6943717]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:02:14 Informational] [xUnit.net 00:00:01.9659139]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:02:14 Informational] [xUnit.net 00:00:01.9885949]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:02:15 Informational] [xUnit.net 00:00:02.6024640]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:02:19 Informational] [xUnit.net 00:00:01.8699760]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:02:20 Informational] [xUnit.net 00:00:02.2643991]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:02:20 Informational] [xUnit.net 00:00:02.3063356]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:02:21 Informational] [xUnit.net 00:00:03.8199647]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:02:25 Informational] [xUnit.net 00:00:01.8149911]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:02:25 Informational] [xUnit.net 00:00:02.2122182]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:02.2349544]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:02:26 Error] [xUnit.net 00:00:03.0888366]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small.") [FAIL]
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.0945697]       Assert.True() Failure
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.0948285]       Expected: True
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.0949414]       Actual:   False
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.0989801]       Stack Trace:
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1035077]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:02:26 Error] [xUnit.net 00:00:03.1127343]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "\"small") [FAIL]
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1129755]       Assert.True() Failure
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1131589]       Expected: True
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1133219]       Actual:   False
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1135045]       Stack Trace:
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1137773]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:02:26 Error] [xUnit.net 00:00:03.1144492]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "(small") [FAIL]
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1146395]       Assert.True() Failure
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1147836]       Expected: True
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1149324]       Actual:   False
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1150907]       Stack Trace:
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1153631]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:02:26 Error] [xUnit.net 00:00:03.1159271]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small,") [FAIL]
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1161085]       Assert.True() Failure
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1162590]       Expected: True
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1164027]       Actual:   False
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1165485]       Stack Trace:
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1168073]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:02:26 Error] [xUnit.net 00:00:03.1177622]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small...") [FAIL]
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1179521]       Assert.True() Failure
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1180782]       Expected: True
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1181800]       Actual:   False
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1183288]       Stack Trace:
+[08.02.2018 17:02:26 Informational] [xUnit.net 00:00:03.1185495]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:02:27 Informational] [xUnit.net 00:00:03.7864003]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:02:27 Informational] ========== Run test finished: 63 run (0:00:16,9323338) ==========
+[08.02.2018 17:11:49 Informational] ------ Discover test started ------
+[08.02.2018 17:11:51 Informational] [xUnit.net 00:00:00.7232835]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:11:51 Informational] [xUnit.net 00:00:00.9559941]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:11:51 Informational] ========== Discover test finished: 37 found (0:00:01,816762) ==========
+[08.02.2018 17:11:51 Informational] ------ Run test started ------
+[08.02.2018 17:11:52 Informational] [xUnit.net 00:00:00.5458441]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:11:52 Informational] [xUnit.net 00:00:00.6354172]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:11:52 Informational] [xUnit.net 00:00:00.6429007]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:11:53 Informational] [xUnit.net 00:00:00.8209500]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:11:54 Informational] [xUnit.net 00:00:00.6154454]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:11:54 Informational] [xUnit.net 00:00:00.7403601]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:11:54 Informational] [xUnit.net 00:00:00.7479894]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:11:55 Informational] [xUnit.net 00:00:01.2069504]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:11:56 Informational] [xUnit.net 00:00:00.6049050]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:11:56 Informational] [xUnit.net 00:00:00.7365899]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:11:56 Informational] [xUnit.net 00:00:00.7443997]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:11:56 Informational] [xUnit.net 00:00:01.2101882]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:11:57 Informational] ========== Run test finished: 63 run (0:00:05,5641575) ==========
+[08.02.2018 17:12:54 Informational] ------ Discover test started ------
+[08.02.2018 17:12:55 Informational] [xUnit.net 00:00:00.6064660]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:12:55 Informational] [xUnit.net 00:00:00.7970733]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:12:56 Informational] ========== Discover test finished: 37 found (0:00:01,5910885) ==========
+[08.02.2018 17:12:56 Informational] ------ Run test started ------
+[08.02.2018 17:12:57 Informational] [xUnit.net 00:00:00.5529465]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:12:57 Informational] [xUnit.net 00:00:00.6436324]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:12:57 Informational] [xUnit.net 00:00:00.6512557]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:12:57 Informational] [xUnit.net 00:00:00.8301278]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:12:58 Informational] [xUnit.net 00:00:00.5874863]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:12:59 Informational] [xUnit.net 00:00:00.7148186]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:12:59 Informational] [xUnit.net 00:00:00.7225052]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:12:59 Informational] [xUnit.net 00:00:01.1766461]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:13:00 Informational] [xUnit.net 00:00:00.5894907]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:13:00 Informational] [xUnit.net 00:00:00.7228131]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:13:00 Informational] [xUnit.net 00:00:00.7306965]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:13:01 Error] [xUnit.net 00:00:01.0407552]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small.") [FAIL]
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0429251]       Assert.True() Failure
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0430385]       Expected: True
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0430778]       Actual:   False
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0445464]       Stack Trace:
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0465803]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:13:01 Error] [xUnit.net 00:00:01.0503894]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "\"small") [FAIL]
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0505374]       Assert.True() Failure
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0506071]       Expected: True
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0506511]       Actual:   False
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0506969]       Stack Trace:
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0507794]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:13:01 Error] [xUnit.net 00:00:01.0510698]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "(small") [FAIL]
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0511545]       Assert.True() Failure
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0512019]       Expected: True
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0512507]       Actual:   False
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0512866]       Stack Trace:
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0513602]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:13:01 Error] [xUnit.net 00:00:01.0515385]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small,") [FAIL]
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0515932]       Assert.True() Failure
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0516356]       Expected: True
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0516779]       Actual:   False
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0517241]       Stack Trace:
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0517959]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:13:01 Error] [xUnit.net 00:00:01.0519589]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small...") [FAIL]
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0520132]       Assert.True() Failure
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0520530]       Expected: True
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0520889]       Actual:   False
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0521265]       Stack Trace:
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.0522001]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:13:01 Informational] [xUnit.net 00:00:01.2054066]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:13:01 Informational] ========== Run test finished: 63 run (0:00:05,5379834) ==========
+[08.02.2018 17:22:31 Informational] ------ Discover test started ------
+[08.02.2018 17:22:32 Informational] [xUnit.net 00:00:00.6431064]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:22:33 Informational] [xUnit.net 00:00:00.8706718]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:22:33 Informational] ========== Discover test finished: 37 found (0:00:01,6761969) ==========
+[08.02.2018 17:22:33 Informational] ------ Run test started ------
+[08.02.2018 17:22:34 Informational] [xUnit.net 00:00:00.5657081]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:22:34 Informational] [xUnit.net 00:00:00.6558218]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:22:34 Informational] [xUnit.net 00:00:00.6634511]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:22:34 Informational] [xUnit.net 00:00:00.8404436]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:22:36 Informational] [xUnit.net 00:00:00.6055529]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:22:36 Informational] [xUnit.net 00:00:00.7290517]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:22:36 Informational] [xUnit.net 00:00:00.7366943]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:22:36 Informational] [xUnit.net 00:00:01.1936192]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:00.6054037]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:00.7367033]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:00.7442813]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:22:38 Error] [xUnit.net 00:00:01.0367870]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small.") [FAIL]
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0391631]       Assert.True() Failure
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0392726]       Expected: True
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0393140]       Actual:   False
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0408036]       Stack Trace:
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0422721]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:22:38 Error] [xUnit.net 00:00:01.0449206]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "\"small") [FAIL]
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0450155]       Assert.True() Failure
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0450690]       Expected: True
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0451207]       Actual:   False
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0451866]       Stack Trace:
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0452995]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:22:38 Error] [xUnit.net 00:00:01.0455462]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "(small") [FAIL]
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0456326]       Assert.True() Failure
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0456805]       Expected: True
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0457246]       Actual:   False
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0457665]       Stack Trace:
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0458537]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:22:38 Error] [xUnit.net 00:00:01.0460329]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small,") [FAIL]
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0460876]       Assert.True() Failure
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0461291]       Expected: True
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0461715]       Actual:   False
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0462181]       Stack Trace:
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0463057]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:22:38 Error] [xUnit.net 00:00:01.0464913]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small...") [FAIL]
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0465538]       Assert.True() Failure
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0466051]       Expected: True
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0466568]       Actual:   False
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0467086]       Stack Trace:
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.0468151]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(52,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:22:38 Informational] [xUnit.net 00:00:01.2193951]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:22:38 Informational] ========== Run test finished: 63 run (0:00:05,5091421) ==========
+[08.02.2018 17:25:20 Informational] ------ Discover test started ------
+[08.02.2018 17:25:21 Informational] [xUnit.net 00:00:00.6726217]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:25:21 Informational] [xUnit.net 00:00:00.8966676]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:25:21 Informational] ========== Discover test finished: 37 found (0:00:01,6529814) ==========
+[08.02.2018 17:25:21 Informational] ------ Run test started ------
+[08.02.2018 17:25:23 Informational] [xUnit.net 00:00:00.5410591]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:25:23 Informational] [xUnit.net 00:00:00.6307143]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:25:23 Informational] [xUnit.net 00:00:00.6381956]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:25:23 Informational] [xUnit.net 00:00:00.8144475]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:25:24 Informational] [xUnit.net 00:00:00.5849978]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:25:25 Informational] [xUnit.net 00:00:00.7091586]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:25:25 Informational] [xUnit.net 00:00:00.7194749]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:25:25 Informational] [xUnit.net 00:00:01.1758558]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:25:26 Informational] [xUnit.net 00:00:00.5809484]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:25:26 Informational] [xUnit.net 00:00:00.7109304]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:25:26 Informational] [xUnit.net 00:00:00.7184677]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:25:27 Error] [xUnit.net 00:00:01.0376518]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 17:25:27 Informational] [xUnit.net 00:00:01.0394573]       Assert.False() Failure
+[08.02.2018 17:25:27 Informational] [xUnit.net 00:00:01.0395420]       Expected: False
+[08.02.2018 17:25:27 Informational] [xUnit.net 00:00:01.0395800]       Actual:   True
+[08.02.2018 17:25:27 Informational] [xUnit.net 00:00:01.0409430]       Stack Trace:
+[08.02.2018 17:25:27 Informational] [xUnit.net 00:00:01.0434567]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:25:27 Error] [xUnit.net 00:00:01.0476490]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sma,ll") [FAIL]
+[08.02.2018 17:25:27 Informational] [xUnit.net 00:00:01.0478273]       Assert.False() Failure
+[08.02.2018 17:25:27 Informational] [xUnit.net 00:00:01.0479069]       Expected: False
+[08.02.2018 17:25:27 Informational] [xUnit.net 00:00:01.0479458]       Actual:   True
+[08.02.2018 17:25:27 Informational] [xUnit.net 00:00:01.0480039]       Stack Trace:
+[08.02.2018 17:25:27 Informational] [xUnit.net 00:00:01.0481109]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:25:27 Informational] [xUnit.net 00:00:01.2106650]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:25:27 Informational] ========== Run test finished: 63 run (0:00:05,6150319) ==========
+[08.02.2018 17:26:22 Informational] ------ Discover test started ------
+[08.02.2018 17:26:24 Informational] [xUnit.net 00:00:00.7496590]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:26:24 Informational] [xUnit.net 00:00:00.9567844]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:26:24 Informational] ========== Discover test finished: 37 found (0:00:01,7134481) ==========
+[08.02.2018 17:26:24 Informational] ------ Run test started ------
+[08.02.2018 17:26:25 Informational] [xUnit.net 00:00:00.5472344]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:26:25 Informational] [xUnit.net 00:00:00.6373750]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:26:25 Informational] [xUnit.net 00:00:00.6451420]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:26:26 Informational] [xUnit.net 00:00:00.8466125]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:26:27 Informational] [xUnit.net 00:00:00.5855846]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:26:27 Informational] [xUnit.net 00:00:00.7101118]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:26:27 Informational] [xUnit.net 00:00:00.7177172]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:26:28 Informational] [xUnit.net 00:00:01.2001349]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:00.5816583]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:00.7121453]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:00.7197588]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:26:29 Error] [xUnit.net 00:00:01.0094524]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:01.0120901]       Assert.False() Failure
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:01.0124087]       Expected: False
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:01.0124814]       Actual:   True
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:01.0143669]       Stack Trace:
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:01.0167028]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:26:29 Error] [xUnit.net 00:00:01.0202510]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sma,ll") [FAIL]
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:01.0204062]       Assert.False() Failure
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:01.0204618]       Expected: False
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:01.0205003]       Actual:   True
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:01.0205525]       Stack Trace:
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:01.0206372]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:26:29 Informational] [xUnit.net 00:00:01.1938253]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:26:30 Informational] ========== Run test finished: 63 run (0:00:05,5458771) ==========
+[08.02.2018 17:34:12 Informational] ------ Discover test started ------
+[08.02.2018 17:34:13 Informational] [xUnit.net 00:00:00.6755066]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:34:13 Informational] [xUnit.net 00:00:00.8821188]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:34:13 Informational] ========== Discover test finished: 37 found (0:00:01,6492488) ==========
+[08.02.2018 17:34:13 Informational] ------ Run test started ------
+[08.02.2018 17:34:15 Informational] [xUnit.net 00:00:00.5380869]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:34:15 Informational] [xUnit.net 00:00:00.6284841]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:34:15 Informational] [xUnit.net 00:00:00.6358782]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:34:15 Informational] [xUnit.net 00:00:00.8148585]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:34:16 Informational] [xUnit.net 00:00:00.5867332]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:34:16 Informational] [xUnit.net 00:00:00.7110865]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:34:16 Informational] [xUnit.net 00:00:00.7187055]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:34:17 Informational] [xUnit.net 00:00:01.1706012]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:34:18 Informational] [xUnit.net 00:00:00.5915610]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:34:18 Informational] [xUnit.net 00:00:00.7235230]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:34:18 Informational] [xUnit.net 00:00:00.7311665]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:34:19 Error] [xUnit.net 00:00:01.0436804]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 17:34:19 Informational] [xUnit.net 00:00:01.0458759]       Assert.False() Failure
+[08.02.2018 17:34:19 Informational] [xUnit.net 00:00:01.0459867]       Expected: False
+[08.02.2018 17:34:19 Informational] [xUnit.net 00:00:01.0460359]       Actual:   True
+[08.02.2018 17:34:19 Informational] [xUnit.net 00:00:01.0476824]       Stack Trace:
+[08.02.2018 17:34:19 Informational] [xUnit.net 00:00:01.0495619]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:34:19 Error] [xUnit.net 00:00:01.0528540]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sma,ll") [FAIL]
+[08.02.2018 17:34:19 Informational] [xUnit.net 00:00:01.0529583]       Assert.False() Failure
+[08.02.2018 17:34:19 Informational] [xUnit.net 00:00:01.0530224]       Expected: False
+[08.02.2018 17:34:19 Informational] [xUnit.net 00:00:01.0530699]       Actual:   True
+[08.02.2018 17:34:19 Informational] [xUnit.net 00:00:01.0531229]       Stack Trace:
+[08.02.2018 17:34:19 Informational] [xUnit.net 00:00:01.0532153]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:34:19 Informational] [xUnit.net 00:00:01.2100518]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:34:19 Informational] ========== Run test finished: 63 run (0:00:05,5155266) ==========
+[08.02.2018 17:36:40 Informational] ------ Discover test started ------
+[08.02.2018 17:36:41 Informational] [xUnit.net 00:00:00.6662022]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:36:42 Informational] [xUnit.net 00:00:00.8831888]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:36:42 Informational] ========== Discover test finished: 37 found (0:00:01,6623128) ==========
+[08.02.2018 17:36:42 Informational] ------ Run test started ------
+[08.02.2018 17:36:43 Informational] [xUnit.net 00:00:00.5453339]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:36:43 Informational] [xUnit.net 00:00:00.6347530]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:36:43 Informational] [xUnit.net 00:00:00.6421955]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:36:43 Informational] [xUnit.net 00:00:00.8191619]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:36:45 Informational] [xUnit.net 00:00:00.6066439]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:36:45 Informational] [xUnit.net 00:00:00.7306126]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:36:45 Informational] [xUnit.net 00:00:00.7381646]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:36:45 Informational] [xUnit.net 00:00:01.1825276]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:00.5804857]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:00.7121201]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:00.7198225]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:36:47 Error] [xUnit.net 00:00:01.0205717]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:01.0231240]       Assert.False() Failure
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:01.0232715]       Expected: False
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:01.0233369]       Actual:   True
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:01.0252379]       Stack Trace:
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:01.0273949]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:36:47 Error] [xUnit.net 00:00:01.0308517]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sma,ll") [FAIL]
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:01.0309885]       Assert.False() Failure
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:01.0310428]       Expected: False
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:01.0310852]       Actual:   True
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:01.0311219]       Stack Trace:
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:01.0312032]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:36:47 Informational] [xUnit.net 00:00:01.1907869]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:36:47 Informational] ========== Run test finished: 63 run (0:00:05,5321635) ==========
+[08.02.2018 17:39:38 Informational] ------ Discover test started ------
+[08.02.2018 17:39:39 Informational] [xUnit.net 00:00:00.6656278]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:39:39 Informational] [xUnit.net 00:00:00.8555351]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:39:39 Informational] ========== Discover test finished: 37 found (0:00:01,6210472) ==========
+[08.02.2018 17:39:39 Informational] ------ Run test started ------
+[08.02.2018 17:39:40 Informational] [xUnit.net 00:00:00.5439406]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:39:41 Informational] [xUnit.net 00:00:00.6370102]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:39:41 Informational] [xUnit.net 00:00:00.6445878]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:39:41 Informational] [xUnit.net 00:00:00.8213400]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:39:42 Informational] [xUnit.net 00:00:00.6013260]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:39:42 Informational] [xUnit.net 00:00:00.7250814]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:39:42 Informational] [xUnit.net 00:00:00.7327009]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:39:43 Informational] [xUnit.net 00:00:01.2066729]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:00.6022579]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:00.7329780]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:00.7412385]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:39:44 Error] [xUnit.net 00:00:01.0370184]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:01.0395582]       Assert.False() Failure
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:01.0396968]       Expected: False
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:01.0397725]       Actual:   True
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:01.0417196]       Stack Trace:
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:01.0437231]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:39:44 Error] [xUnit.net 00:00:01.0467265]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sma,ll") [FAIL]
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:01.0468356]       Assert.False() Failure
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:01.0468741]       Expected: False
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:01.0469177]       Actual:   True
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:01.0470062]       Stack Trace:
+[08.02.2018 17:39:44 Informational] [xUnit.net 00:00:01.0470901]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:39:45 Informational] [xUnit.net 00:00:01.2259835]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:39:45 Informational] ========== Run test finished: 63 run (0:00:05,5753688) ==========
+[08.02.2018 17:41:57 Informational] ------ Discover test started ------
+[08.02.2018 17:41:58 Informational] [xUnit.net 00:00:00.6384527]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:41:58 Informational] [xUnit.net 00:00:00.8364477]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:41:58 Informational] ========== Discover test finished: 37 found (0:00:01,5770081) ==========
+[08.02.2018 17:41:58 Informational] ------ Run test started ------
+[08.02.2018 17:42:00 Informational] [xUnit.net 00:00:00.5665390]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:42:00 Informational] [xUnit.net 00:00:00.6559668]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:42:00 Informational] [xUnit.net 00:00:00.6634631]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:42:00 Informational] [xUnit.net 00:00:00.8382006]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:42:01 Informational] [xUnit.net 00:00:00.5858724]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:42:01 Informational] [xUnit.net 00:00:00.7226254]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:42:01 Informational] [xUnit.net 00:00:00.7305036]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:42:02 Informational] [xUnit.net 00:00:01.2066181]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:42:03 Informational] [xUnit.net 00:00:00.5872686]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:42:03 Informational] [xUnit.net 00:00:00.7178515]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:42:03 Informational] [xUnit.net 00:00:00.7254235]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:42:04 Error] [xUnit.net 00:00:01.0462711]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 17:42:04 Informational] [xUnit.net 00:00:01.0480193]       Assert.False() Failure
+[08.02.2018 17:42:04 Informational] [xUnit.net 00:00:01.0480942]       Expected: False
+[08.02.2018 17:42:04 Informational] [xUnit.net 00:00:01.0481284]       Actual:   True
+[08.02.2018 17:42:04 Informational] [xUnit.net 00:00:01.0494652]       Stack Trace:
+[08.02.2018 17:42:04 Informational] [xUnit.net 00:00:01.0509299]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(30,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:42:04 Informational] [xUnit.net 00:00:01.2115425]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:42:04 Informational] ========== Run test finished: 63 run (0:00:05,5786939) ==========
+[08.02.2018 17:47:27 Informational] ------ Discover test started ------
+[08.02.2018 17:47:28 Informational] [xUnit.net 00:00:00.7268750]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:47:28 Informational] [xUnit.net 00:00:00.9301365]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:47:29 Informational] ========== Discover test finished: 39 found (0:00:01,6832669) ==========
+[08.02.2018 17:47:29 Informational] ------ Run test started ------
+[08.02.2018 17:47:30 Informational] [xUnit.net 00:00:00.5407537]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:47:30 Informational] [xUnit.net 00:00:00.6300224]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:47:30 Informational] [xUnit.net 00:00:00.6375700]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:47:30 Informational] [xUnit.net 00:00:00.8129807]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:47:32 Informational] [xUnit.net 00:00:00.6178454]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:47:32 Informational] [xUnit.net 00:00:00.7434781]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:47:32 Informational] [xUnit.net 00:00:00.7513157]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:47:32 Informational] [xUnit.net 00:00:01.2109648]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:00.6005900]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:00.7314992]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:00.7391447]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:47:34 Error] [xUnit.net 00:00:01.0399872]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "small..") [FAIL]
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0426395]       Assert.False() Failure
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0428080]       Expected: False
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0428725]       Actual:   True
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0446627]       Stack Trace:
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0468044]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(31,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:47:34 Error] [xUnit.net 00:00:01.0500118]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sma,ll") [FAIL]
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0501593]       Assert.False() Failure
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0502179]       Expected: False
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0502577]       Actual:   True
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0502992]       Stack Trace:
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0503813]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(31,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 17:47:34 Error] [xUnit.net 00:00:01.0521740]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "\\small") [FAIL]
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0522518]       Assert.True() Failure
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0522980]       Expected: True
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0523352]       Actual:   False
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0523758]       Stack Trace:
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.0524498]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(54,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:47:34 Informational] [xUnit.net 00:00:01.2180309]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:47:34 Informational] ========== Run test finished: 65 run (0:00:05,9298389) ==========
+[08.02.2018 17:47:43 Informational] ------ Discover test started ------
+[08.02.2018 17:47:45 Informational] [xUnit.net 00:00:00.6889956]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:47:45 Informational] [xUnit.net 00:00:00.8903396]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:47:45 Informational] ========== Discover test finished: 39 found (0:00:01,7184901) ==========
+[08.02.2018 17:47:45 Informational] ------ Run test started ------
+[08.02.2018 17:47:46 Informational] [xUnit.net 00:00:00.5458432]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:47:46 Informational] [xUnit.net 00:00:00.6362105]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:47:46 Informational] [xUnit.net 00:00:00.6437872]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:47:47 Informational] [xUnit.net 00:00:00.8272480]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:47:48 Informational] [xUnit.net 00:00:00.6086119]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:47:48 Informational] [xUnit.net 00:00:00.7316104]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:47:48 Informational] [xUnit.net 00:00:00.7391144]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:47:49 Informational] [xUnit.net 00:00:01.2098516]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:00.6089186]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:00.7405017]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:00.7481511]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:47:50 Error] [xUnit.net 00:00:01.0579349]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small.") [FAIL]
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0603930]       Assert.True() Failure
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0605282]       Expected: True
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0605992]       Actual:   False
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0621237]       Stack Trace:
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0636607]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(54,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:47:50 Error] [xUnit.net 00:00:01.0663626]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "\\small") [FAIL]
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0665115]       Assert.True() Failure
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0665859]       Expected: True
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0666569]       Actual:   False
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0667373]       Stack Trace:
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0668540]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(54,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:47:50 Error] [xUnit.net 00:00:01.0682195]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small,") [FAIL]
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0682905]       Assert.True() Failure
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0683469]       Expected: True
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0684055]       Actual:   False
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0684641]       Stack Trace:
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0685531]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(54,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:47:50 Error] [xUnit.net 00:00:01.0687507]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "small...") [FAIL]
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0688370]       Assert.True() Failure
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0689162]       Expected: True
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0689662]       Actual:   False
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0690128]       Stack Trace:
+[08.02.2018 17:47:50 Informational] [xUnit.net 00:00:01.0690928]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(54,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:47:51 Informational] [xUnit.net 00:00:01.2444675]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:47:51 Informational] ========== Run test finished: 65 run (0:00:05,5454605) ==========
+[08.02.2018 17:48:43 Informational] ------ Discover test started ------
+[08.02.2018 17:48:44 Informational] [xUnit.net 00:00:00.7655668]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:48:44 Informational] [xUnit.net 00:00:00.9697089]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:48:44 Informational] ========== Discover test finished: 39 found (0:00:01,7201578) ==========
+[08.02.2018 17:48:44 Informational] ------ Run test started ------
+[08.02.2018 17:48:46 Informational] [xUnit.net 00:00:00.5570614]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:48:46 Informational] [xUnit.net 00:00:00.6464754]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:48:46 Informational] [xUnit.net 00:00:00.6542784]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:48:46 Informational] [xUnit.net 00:00:00.8296591]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:48:47 Informational] [xUnit.net 00:00:00.5855965]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:48:47 Informational] [xUnit.net 00:00:00.7094058]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:48:47 Informational] [xUnit.net 00:00:00.7170223]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:48:48 Informational] [xUnit.net 00:00:01.1810898]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:48:49 Informational] [xUnit.net 00:00:00.5784137]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:48:49 Informational] [xUnit.net 00:00:00.7098813]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:48:49 Informational] [xUnit.net 00:00:00.7177018]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:48:50 Error] [xUnit.net 00:00:01.0402669]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(str: "\\small") [FAIL]
+[08.02.2018 17:48:50 Informational] [xUnit.net 00:00:01.0424462]       Assert.True() Failure
+[08.02.2018 17:48:50 Informational] [xUnit.net 00:00:01.0425997]       Expected: True
+[08.02.2018 17:48:50 Informational] [xUnit.net 00:00:01.0426827]       Actual:   False
+[08.02.2018 17:48:50 Informational] [xUnit.net 00:00:01.0445365]       Stack Trace:
+[08.02.2018 17:48:50 Informational] [xUnit.net 00:00:01.0465893]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(54,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasPunctionMarks_True(String str)
+[08.02.2018 17:48:50 Informational] [xUnit.net 00:00:01.2081346]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:48:50 Informational] ========== Run test finished: 65 run (0:00:05,4729071) ==========
+[08.02.2018 17:49:29 Informational] ------ Discover test started ------
+[08.02.2018 17:49:30 Informational] [xUnit.net 00:00:00.6788256]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:49:31 Informational] [xUnit.net 00:00:00.8800537]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:49:31 Informational] ========== Discover test finished: 39 found (0:00:01,6858311) ==========
+[08.02.2018 17:49:31 Informational] ------ Run test started ------
+[08.02.2018 17:49:32 Informational] [xUnit.net 00:00:00.5417656]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 17:49:32 Informational] [xUnit.net 00:00:00.6316462]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 17:49:32 Informational] [xUnit.net 00:00:00.6390535]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 17:49:33 Informational] [xUnit.net 00:00:00.8206643]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 17:49:34 Informational] [xUnit.net 00:00:00.6059408]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 17:49:34 Informational] [xUnit.net 00:00:00.7300191]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 17:49:34 Informational] [xUnit.net 00:00:00.7375346]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 17:49:35 Informational] [xUnit.net 00:00:01.1844097]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 17:49:36 Informational] [xUnit.net 00:00:00.6051236]   Discovering: NgramFilterTests.Unit
+[08.02.2018 17:49:36 Informational] [xUnit.net 00:00:00.7361717]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 17:49:36 Informational] [xUnit.net 00:00:00.7438237]   Starting:    NgramFilterTests.Unit
+[08.02.2018 17:49:36 Informational] [xUnit.net 00:00:01.2132104]   Finished:    NgramFilterTests.Unit
+[08.02.2018 17:49:37 Informational] ========== Run test finished: 65 run (0:00:05,8864429) ==========
+[08.02.2018 18:36:47 Informational] ------ Discover test started ------
+[08.02.2018 18:36:52 Informational] [xUnit.net 00:00:03.1281405]   Discovering: NgramFilterTests.Unit
+[08.02.2018 18:36:53 Informational] [xUnit.net 00:00:03.4233323]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 18:36:53 Informational] ========== Discover test finished: 40 found (0:00:05,642512) ==========
+[08.02.2018 18:36:53 Informational] ------ Run test started ------
+[08.02.2018 18:36:56 Informational] [xUnit.net 00:00:00.8674213]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 18:36:56 Informational] [xUnit.net 00:00:01.0810435]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 18:36:56 Informational] [xUnit.net 00:00:01.0907782]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 18:36:56 Informational] [xUnit.net 00:00:01.3623559]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 18:36:58 Informational] [xUnit.net 00:00:00.9243422]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 18:36:59 Informational] [xUnit.net 00:00:01.2019477]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 18:36:59 Informational] [xUnit.net 00:00:01.2115366]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 18:36:59 Informational] [xUnit.net 00:00:01.9142719]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 18:37:01 Informational] [xUnit.net 00:00:00.8483103]   Discovering: NgramFilterTests.Unit
+[08.02.2018 18:37:01 Informational] [xUnit.net 00:00:01.0497522]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 18:37:01 Informational] [xUnit.net 00:00:01.0627952]   Starting:    NgramFilterTests.Unit
+[08.02.2018 18:37:02 Informational] [xUnit.net 00:00:01.7689248]   Finished:    NgramFilterTests.Unit
+[08.02.2018 18:37:02 Informational] ========== Run test finished: 66 run (0:00:09,3624496) ==========
+[08.02.2018 18:37:40 Informational] ------ Discover test started ------
+[08.02.2018 18:37:42 Informational] [xUnit.net 00:00:01.0433755]   Discovering: NgramFilterTests.Unit
+[08.02.2018 18:37:43 Informational] [xUnit.net 00:00:01.3357354]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 18:37:43 Informational] ========== Discover test finished: 40 found (0:00:02,6394099) ==========
+[08.02.2018 18:37:43 Informational] ------ Run test started ------
+[08.02.2018 18:37:45 Informational] [xUnit.net 00:00:00.8218455]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 18:37:45 Informational] [xUnit.net 00:00:00.9544340]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 18:37:45 Informational] [xUnit.net 00:00:00.9669343]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 18:37:46 Informational] [xUnit.net 00:00:01.2364636]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 18:37:48 Informational] [xUnit.net 00:00:00.8702485]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 18:37:48 Informational] [xUnit.net 00:00:01.0745013]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 18:37:48 Informational] [xUnit.net 00:00:01.0865735]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 18:37:48 Informational] [xUnit.net 00:00:01.7735100]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 18:37:50 Informational] [xUnit.net 00:00:00.8697990]   Discovering: NgramFilterTests.Unit
+[08.02.2018 18:37:51 Informational] [xUnit.net 00:00:01.0690684]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 18:37:51 Informational] [xUnit.net 00:00:01.0807561]   Starting:    NgramFilterTests.Unit
+[08.02.2018 18:37:51 Error] [xUnit.net 00:00:01.5346430]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sm,all...") [FAIL]
+[08.02.2018 18:37:51 Informational] [xUnit.net 00:00:01.5369977]       Assert.False() Failure
+[08.02.2018 18:37:51 Informational] [xUnit.net 00:00:01.5371824]       Expected: False
+[08.02.2018 18:37:51 Informational] [xUnit.net 00:00:01.5372440]       Actual:   True
+[08.02.2018 18:37:51 Informational] [xUnit.net 00:00:01.5393587]       Stack Trace:
+[08.02.2018 18:37:51 Informational] [xUnit.net 00:00:01.5420367]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(32,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 18:37:51 Informational] [xUnit.net 00:00:01.7955513]   Finished:    NgramFilterTests.Unit
+[08.02.2018 18:37:51 Informational] ========== Run test finished: 66 run (0:00:08,6929994) ==========
+[08.02.2018 20:14:58 Informational] ------ Discover test started ------
+[08.02.2018 20:15:01 Informational] [xUnit.net 00:00:00.8594006]   Discovering: NgramFilterTests.Unit
+[08.02.2018 20:15:01 Informational] [xUnit.net 00:00:01.1159537]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 20:15:01 Informational] ========== Discover test finished: 41 found (0:00:03,7957331) ==========
+[08.02.2018 20:15:01 Informational] ------ Run test started ------
+[08.02.2018 20:15:04 Informational] [xUnit.net 00:00:00.7743581]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 20:15:04 Informational] [xUnit.net 00:00:00.8972038]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 20:15:04 Informational] [xUnit.net 00:00:00.9036511]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 20:15:04 Informational] [xUnit.net 00:00:01.1323644]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 20:15:06 Informational] [xUnit.net 00:00:00.7936935]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 20:15:06 Informational] [xUnit.net 00:00:00.9475428]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 20:15:06 Informational] [xUnit.net 00:00:00.9573707]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 20:15:07 Informational] [xUnit.net 00:00:01.5734970]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 20:15:08 Informational] [xUnit.net 00:00:00.8203196]   Discovering: NgramFilterTests.Unit
+[08.02.2018 20:15:09 Informational] [xUnit.net 00:00:00.9983770]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 20:15:09 Informational] [xUnit.net 00:00:01.0058883]   Starting:    NgramFilterTests.Unit
+[08.02.2018 20:15:09 Error] [xUnit.net 00:00:01.3985302]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sm,all...") [FAIL]
+[08.02.2018 20:15:09 Informational] [xUnit.net 00:00:01.4007322]       Assert.False() Failure
+[08.02.2018 20:15:09 Informational] [xUnit.net 00:00:01.4008836]       Expected: False
+[08.02.2018 20:15:09 Informational] [xUnit.net 00:00:01.4009323]       Actual:   True
+[08.02.2018 20:15:09 Informational] [xUnit.net 00:00:01.4025471]       Stack Trace:
+[08.02.2018 20:15:09 Informational] [xUnit.net 00:00:01.4043873]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(33,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 20:15:09 Informational] [xUnit.net 00:00:01.6199665]   Finished:    NgramFilterTests.Unit
+[08.02.2018 20:15:09 Informational] ========== Run test finished: 67 run (0:00:07,9723847) ==========
+[08.02.2018 20:15:20 Informational] ------ Discover test started ------
+[08.02.2018 20:15:22 Informational] [xUnit.net 00:00:01.0953690]   Discovering: NgramFilterTests.Unit
+[08.02.2018 20:15:22 Informational] [xUnit.net 00:00:01.3700071]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 20:15:22 Informational] ========== Discover test finished: 41 found (0:00:02,4240615) ==========
+[08.02.2018 20:15:22 Informational] ------ Run test started ------
+[08.02.2018 20:15:24 Informational] [xUnit.net 00:00:00.7538658]   Discovering: EffectivenessResearchTests.Unit
+[08.02.2018 20:15:24 Informational] [xUnit.net 00:00:00.8731163]   Discovered:  EffectivenessResearchTests.Unit
+[08.02.2018 20:15:24 Informational] [xUnit.net 00:00:00.8823044]   Starting:    EffectivenessResearchTests.Unit
+[08.02.2018 20:15:24 Informational] [xUnit.net 00:00:01.1314792]   Finished:    EffectivenessResearchTests.Unit
+[08.02.2018 20:15:26 Informational] [xUnit.net 00:00:00.8361453]   Discovering: NgramAnalyzerTests.Unit
+[08.02.2018 20:15:26 Informational] [xUnit.net 00:00:01.0011401]   Discovered:  NgramAnalyzerTests.Unit
+[08.02.2018 20:15:26 Informational] [xUnit.net 00:00:01.0102238]   Starting:    NgramAnalyzerTests.Unit
+[08.02.2018 20:15:27 Informational] [xUnit.net 00:00:01.6158991]   Finished:    NgramAnalyzerTests.Unit
+[08.02.2018 20:15:29 Informational] [xUnit.net 00:00:00.8382870]   Discovering: NgramFilterTests.Unit
+[08.02.2018 20:15:29 Informational] [xUnit.net 00:00:01.0190232]   Discovered:  NgramFilterTests.Unit
+[08.02.2018 20:15:29 Informational] [xUnit.net 00:00:01.0262899]   Starting:    NgramFilterTests.Unit
+[08.02.2018 20:15:29 Error] [xUnit.net 00:00:01.4526911]     NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(str: "sm,all...") [FAIL]
+[08.02.2018 20:15:29 Informational] [xUnit.net 00:00:01.4545266]       Assert.False() Failure
+[08.02.2018 20:15:29 Informational] [xUnit.net 00:00:01.4546600]       Expected: False
+[08.02.2018 20:15:29 Informational] [xUnit.net 00:00:01.4547148]       Actual:   True
+[08.02.2018 20:15:29 Informational] [xUnit.net 00:00:01.4562470]       Stack Trace:
+[08.02.2018 20:15:29 Informational] [xUnit.net 00:00:01.4577400]         E:\PWr\magisterskie\magisterka\Projekt\PolishDiacriticMarksRestorer\NgramFilterTests.Unit\WordsWithoutNonPunctationMarksTests.cs(33,0): at NgramFilterTests.Unit.WordsWithoutNonPunctationMarksTests.IsCorrect_HasNonPunctionMarks_False(String str)
+[08.02.2018 20:15:29 Informational] [xUnit.net 00:00:01.6566104]   Finished:    NgramFilterTests.Unit
+[08.02.2018 20:15:29 Informational] ========== Run test finished: 67 run (0:00:07,4214465) ==========

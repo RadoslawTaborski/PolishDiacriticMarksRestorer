@@ -15,6 +15,7 @@ namespace NgramFilter
             var filter = new Filter();
             filter.Add(new OnlyWords());
             filter.Add(new MultipleInstances());
+            filter.Add(new WordsWithoutNonPunctationMarks());
             _bootstrapper = new Bootstrapper(filter, new FileSystem(), new MySqlConnectionFactory());
 
             string output = null;
