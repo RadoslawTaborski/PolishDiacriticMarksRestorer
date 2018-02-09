@@ -4,6 +4,7 @@ using System.IO.Abstractions;
 using MySql.Data.MySqlClient;
 using NgramAnalyzer.Common;
 using NgramFilter.FilterItems;
+using NgramFilter.ModifierItems;
 
 namespace NgramFilter
 {
@@ -17,7 +18,8 @@ namespace NgramFilter
             filter.Add(new OnlyWords());
             filter.Add(new WordsWithoutNonPunctationMarks());
             filter.Add(new NotLongWords());
-            _bootstrapper = new Bootstrapper(filter, new FileSystem(), new MySqlConnectionFactory());
+            var modifier = new Modifier();
+            _bootstrapper = new Bootstrapper(filter, modifier, new FileSystem(), new MySqlConnectionFactory());
 
             string output = null;
             string dbName = null;

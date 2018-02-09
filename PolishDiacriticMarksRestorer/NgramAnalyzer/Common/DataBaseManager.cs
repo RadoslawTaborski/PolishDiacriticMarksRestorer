@@ -53,6 +53,7 @@ namespace NgramAnalyzer.Common
         public void ExecuteNonQueryServer(string query)
         {
             var command = _connectionServer.CreateCommand();
+            command.CommandType = CommandType.Text;
             command.CommandText = query;
             command.ExecuteNonQuery();
         }
@@ -60,6 +61,7 @@ namespace NgramAnalyzer.Common
         public void ExecuteNonQueryDb(string query)
         {
             var command = _connectionDb.CreateCommand();
+            command.CommandType = CommandType.Text;
             command.CommandText = query;
             command.ExecuteNonQuery();
         }
@@ -70,7 +72,8 @@ namespace NgramAnalyzer.Common
                 "DATABASE=" + _database + ";" +
                 "UID=" + _uid + ";" +
                 "PASSWORD=" + _password + ";" +
-                "SslMode=none; charset=utf8";
+                "SslMode=none; charset=utf8;" +
+                "Allow User Variables=True";
         }
 
         private string InitializeServerString()
@@ -80,7 +83,8 @@ namespace NgramAnalyzer.Common
                 Password={_password};
                 Pooling=false;
                 SslMode = none;
-                charset=utf8";
+                charset=utf8;
+                Allow User Variables=True";
         }
 
         public void Dispose()

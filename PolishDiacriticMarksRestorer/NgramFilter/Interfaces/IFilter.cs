@@ -6,5 +6,6 @@ namespace NgramFilter.Interfaces
     {
         bool Start(NGram ngram);
         void Add(IFilterItem item);
+        int Size();
     }
 }

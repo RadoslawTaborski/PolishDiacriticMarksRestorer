@@ -12,12 +12,14 @@ namespace NgramFilter
     internal class Bootstrapper
     {
         private readonly IFilter _filter;
+        private readonly IModifier _modifier;
         private readonly IFileSystem _fileSystem;
         private readonly IDataBaseManagerFactory _dataAccess;
 
-        public Bootstrapper(IFilter filter, IFileSystem fileSystem, IDataBaseManagerFactory dataAccess)
+        public Bootstrapper(IFilter filter, IModifier modifier, IFileSystem fileSystem, IDataBaseManagerFactory dataAccess)
         {
             _filter = filter;
+            _modifier = modifier;
             _fileSystem = fileSystem;
             _dataAccess = dataAccess;
         }
@@ -34,7 +36,6 @@ namespace NgramFilter
                 var counter = 0;
 
                 string str;
-                var data="";
                 while ((str = inputManager.ReadLine()) != null)
                 {
                     var list = str.Split(' ').ToList().Where(s => s != "").ToList();
@@ -43,20 +44,14 @@ namespace NgramFilter
                         Value = int.Parse(list[0]),
                         WordsList = list.GetRange(1, list.Count - 1)
                     };
+                    ngram = _modifier.Start(ngram);
                     var filterResult = _filter.Start(ngram);
                     ++counter;
                     var percent = (double)counter * 100 / numberOfLines;
                     Console.Write(percent.ToString("F3", CultureInfo.InvariantCulture) + "%\r");
                     if (!filterResult) continue;
 
-                    data += ngram + "\r\n";
-
-                    if (counter % 1000 == 0)
-                    {
-                        outputManager.WriteLine(data);
-                        data = "";
-                    }
-
+                    outputManager.WriteLine(ngram.ToString());
                 }
 
                 Console.WriteLine("Ukończono pomyślnie\n");
@@ -95,7 +90,10 @@ namespace NgramFilter
                     ngrams.Add(ngram);
                     if (counter % 800 == 0)
                     {
-                        creator.AddNgramsToTable(tableName, ngrams);
+                        if (_modifier.Size() == 0)
+                            creator.AddNgramsToTable(tableName, ngrams);
+                        else
+                            creator.AddOrUpdateNgramsToTable(tableName, ngrams);
                         ngrams = new List<NGram>();
                     }
 
@@ -104,7 +102,10 @@ namespace NgramFilter
                     Console.Write(percent.ToString("F3", CultureInfo.InvariantCulture) + "%\r");
                 }
 
-                creator.AddNgramsToTable(tableName, ngrams);
+                if (_modifier.Size() == 0)
+                    creator.AddNgramsToTable(tableName, ngrams);
+                else
+                    creator.AddOrUpdateNgramsToTable(tableName, ngrams);
 
                 Console.WriteLine("Ukończono pomyślnie");
             }

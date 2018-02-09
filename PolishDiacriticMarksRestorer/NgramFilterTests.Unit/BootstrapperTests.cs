@@ -19,13 +19,15 @@ namespace NgramFilterTests.Unit
         {
             var filterMock = new Mock<IFilter>();
             filterMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns(true);
+            var modifierMock = new Mock<IModifier>();
+            modifierMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns((NGram myval) => myval);
             var dbMock = new Mock<IDataBaseManagerFactory>();
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 { @"C:\input", new MockFileData(@"15 small cat") }
             });
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, mockFileSystem, dbMock.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object);
             bootstrapper.Filter(@"C:\input", @"C:\output");
 
             Assert.True(mockFileSystem.FileExists(@"C:\output"));
@@ -37,13 +39,15 @@ namespace NgramFilterTests.Unit
         {
             var filterMock = new Mock<IFilter>();
             filterMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns(false);
+            var modifierMock = new Mock<IModifier>();
+            modifierMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns((NGram myval) => myval);
             var dbMock = new Mock<IDataBaseManagerFactory>();
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 { @"C:\input", new MockFileData(@"15 small cat") }
             });
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, mockFileSystem, dbMock.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object);
             bootstrapper.Filter(@"C:\input", @"C:\output");
 
             Assert.True(mockFileSystem.FileExists(@"C:\output"));
@@ -55,10 +59,12 @@ namespace NgramFilterTests.Unit
         {
             var filterMock = new Mock<IFilter>();
             filterMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns(false);
+            var modifierMock = new Mock<IModifier>();
+            modifierMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns((NGram myval) => myval);
             var dbMock = new Mock<IDataBaseManagerFactory>();
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, mockFileSystem, dbMock.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object);
 
             var exception = Assert.Throws<FileNotFoundException>(() => bootstrapper.Filter(@"C:\input", @"C:\output"));
             Assert.IsType<FileNotFoundException>(exception);
@@ -69,22 +75,26 @@ namespace NgramFilterTests.Unit
         {
             var filterMock = new Mock<IFilter>();
             filterMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns(false);
+            var modifierMock = new Mock<IModifier>();
+            modifierMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns((NGram myval) => myval);
             var dbMock = new Mock<IDataBaseManagerFactory>();
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
             {
                 { @"C:\input", new MockFileData(@"aa small cat") }
             });
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, mockFileSystem, dbMock.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object);
 
             var exception = Assert.Throws<FormatException>(() => bootstrapper.Filter(@"C:\input", @"C:\output"));
             Assert.IsType<FormatException>(exception);
         }
 
         [Fact]
-        public void CreateDb_Verify()
+        public void CreateDb_WithoutModifierItem_Verify()
         {
             var filterMock = new Mock<IFilter>();
+            var modifierMock = new Mock<IModifier>();
+            modifierMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns((NGram myval) => myval);
 
             var commandMock = new Mock<IDbCommand>();
             commandMock
@@ -109,7 +119,44 @@ namespace NgramFilterTests.Unit
                 { @"C:\input", new MockFileData(@"15 small cat") }
             });
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, mockFileSystem, connectionFactoryMock.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, connectionFactoryMock.Object);
+            bootstrapper.CreateDb(@"C:\input", "dbName", "tableName");
+
+            commandMock.Verify();
+        }
+
+        [Fact]
+        public void CreateDb_WithModifierItem_Verify()
+        {
+            var filterMock = new Mock<IFilter>();
+            var modifierMock = new Mock<IModifier>();
+            modifierMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns((NGram myval) => myval);
+            modifierMock.Setup(m => m.Size()).Returns(1);
+
+            var commandMock = new Mock<IDbCommand>();
+            commandMock
+                .Setup(m => m.ExecuteNonQuery())
+                .Verifiable();
+
+            var connectionMock = new Mock<IDbConnection>();
+            connectionMock
+                .Setup(m => m.CreateCommand())
+                .Returns(commandMock.Object);
+
+            var connectionFactoryMock = new Mock<IDataBaseManagerFactory>();
+            connectionFactoryMock
+                .Setup(m => m.CreateConnectionServer(It.IsAny<string>()))
+                .Returns(connectionMock.Object);
+            connectionFactoryMock
+                .Setup(m => m.CreateConnectionDb(It.IsAny<string>()))
+                .Returns(connectionMock.Object);
+
+            var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            {
+                { @"C:\input", new MockFileData(@"15 small cat") }
+            });
+
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, connectionFactoryMock.Object);
             bootstrapper.CreateDb(@"C:\input", "dbName", "tableName");
 
             commandMock.Verify();

@@ -26,9 +26,11 @@ namespace NgramFilter
             if (numberOfWords < 1) return;
 
             var commandText = CreateNgramsTableString(dataBaseName, tableName, numberOfWords);
+            var commandText1 = CreateAddProcedureString(dataBaseName, tableName, numberOfWords);
 
             _db.ConnectToServer();
             _db.ExecuteNonQueryServer(commandText);
+            _db.ExecuteNonQueryServer(commandText1);
             _db.Disconnect();
         }
 
@@ -40,6 +42,19 @@ namespace NgramFilter
 
             _db.ConnectToDb();
             _db.ExecuteNonQueryDb(commandText);
+            _db.Disconnect();
+        }
+
+        public void AddOrUpdateNgramsToTable(string tableName, List<NGram> ngrams)
+        {
+            if (ngrams == null || ngrams.Count <= 0) return;
+
+            _db.ConnectToDb();
+            foreach (var item in ngrams)
+            {
+                var commandText = InsertOrUpdateNgramsString(item);
+                _db.ExecuteNonQueryDb(commandText);
+            }
             _db.Disconnect();
         }
 
@@ -91,6 +106,61 @@ namespace NgramFilter
             var strBuilder =
                 new System.Text.StringBuilder(commandText) { [commandText.Length - 1] = ';' };
             commandText = strBuilder.ToString();
+
+            return commandText;
+        }
+
+        private string InsertOrUpdateNgramsString(NGram ngram)
+        {
+            var count = ngram.WordsList.Count;
+
+            var commandText =
+                string.Format("CALL Add{0}gram('{1}'",count,ngram.Value);
+
+            foreach (var item in ngram.WordsList)
+            {
+                commandText += string.Format(", '{0}'", item);
+            }
+
+            commandText += ");";
+
+            return commandText;
+        }
+
+        private string CreateAddProcedureString(string dataBaseName, string tableName, int numberOfWords)
+        {
+            var commandText =
+                string.Format("DROP PROCEDURE IF EXISTS {0}.Add{1}gram; CREATE PROCEDURE {0}.Add{1}gram(in _value int",
+                    dataBaseName, numberOfWords);
+
+            for (var i = 0; i < numberOfWords; ++i)
+            {
+                commandText += string.Format(", in _word{0} varchar(30)", i + 1);
+            }
+
+            commandText += ") BEGIN SELECT @id:=ID, @val:=Value FROM " + dataBaseName + "." + tableName +" WHERE ";
+
+            for (var i = 0; i < numberOfWords; ++i)
+            {
+                if (i != 0) commandText += " AND ";
+                commandText += string.Format("Word{0} = _word{0}", i + 1);
+            }
+
+            commandText += "; IF @id IS NULL THEN INSERT INTO " + dataBaseName + "." + tableName + " (Value";
+
+            for (var i = 0; i < numberOfWords; ++i)
+            {
+                commandText += string.Format(", Word{0}", i + 1);
+            }
+
+            commandText += ") VALUES ( _value";
+
+            for (var i = 0; i < numberOfWords; ++i)
+            {
+                commandText += string.Format(", _word{0}", i + 1);
+            }
+
+            commandText += "); ELSE UPDATE " + dataBaseName + "." + tableName + " SET Value = @val + _value WHERE ID = @id; END IF; END";
 
             return commandText;
         }
