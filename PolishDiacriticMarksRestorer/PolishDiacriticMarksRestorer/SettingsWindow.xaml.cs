@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using NgramAnalyzer.Common;
 
 namespace PolishDiacriticMarksRestorer
 {
@@ -17,6 +19,14 @@ namespace PolishDiacriticMarksRestorer
             if (mainWindow == null) return;
             Left = mainWindow.Left + (mainWindow.Width)/ 2 - Width/2;
             Top = mainWindow.Top + (mainWindow.Height) / 2 - Height/2;
+
+            CbType.SelectedIndex = (int)Settings.Type;
+        }
+
+        private void SettingApply_Click(object sender, RoutedEventArgs e)
+        {
+            Settings.Type = (NgramType)Enum.Parse(typeof(NgramType), CbType.SelectedValue.ToString());
+            Close();
         }
 
         #region TITLE_BAR

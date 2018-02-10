@@ -22,7 +22,8 @@ namespace PolishDiacriticMarksRestorer
         {
             InitializeComponent();
             var data = new DataBaseManager(new MySqlConnectionFactory(), "localhost","testowa","root","");
-            _analyzer.SetData(data);
+            _analyzer.SetData(data, NgramType.Unigram);
+            Settings.Type = NgramType.Digram;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

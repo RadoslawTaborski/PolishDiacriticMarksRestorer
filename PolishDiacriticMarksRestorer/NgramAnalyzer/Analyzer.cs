@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
 
 namespace NgramAnalyzer
@@ -6,10 +7,12 @@ namespace NgramAnalyzer
     public class Analyzer : IAnalyzer
     {
         private IDataAccess _db;
+        private NgramType _type;
 
-        public void SetData(IDataAccess db)
+        public void SetData(IDataAccess db, NgramType type)
         {
             _db = db;
+            _type = type;
         }
 
         public string[] AnalyzeStrings(string[] str)
