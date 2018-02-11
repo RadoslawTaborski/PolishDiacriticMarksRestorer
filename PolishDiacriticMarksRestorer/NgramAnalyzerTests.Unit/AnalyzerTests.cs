@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using System.Data;
 using Moq;
 using Xunit;
 using NgramAnalyzer;
+using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
 
 namespace NgramAnalyzerTests.Unit
@@ -22,11 +24,15 @@ namespace NgramAnalyzerTests.Unit
             var dataMock = new Mock<IDataAccess>();
             dataMock.Setup(m => m.ExecuteSqlCommand(It.IsAny<string>())).Returns(ds);
 
-            var analyze = new Analyzer();
-        analyze.SetData(dataMock.Object);
-            var result = analyze.AnalyzeStrings(It.IsAny<string[]>());
+            var queryProviderMock = new Mock<ISqlQueryProvider>();
+            queryProviderMock.Setup(m => m.GetNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<string>>())).Returns("aa");
 
-        Assert.Equal(new[]{"25","cat"},result);
+            var analyze = new Analyzer(queryProviderMock.Object);
+            analyze.SetData(dataMock.Object);
+            analyze.SetNgram(NgramType.Digram);
+            var result = analyze.AnalyzeStrings(new []{"a"});
+
+            Assert.Equal(new[] { "25", "cat" }, result);
         }
     }
 }

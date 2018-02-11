@@ -7,22 +7,34 @@ namespace NgramAnalyzer
     public class Analyzer : IAnalyzer
     {
         private IDataAccess _db;
-        private NgramType _type;
+        private readonly ISqlQueryProvider _queryProvider;
+        private NgramType _ngramType;
 
-        public void SetData(IDataAccess db, NgramType type)
+        public Analyzer(ISqlQueryProvider queryProvider)
+        {
+            _queryProvider = queryProvider;
+        }
+
+        public void SetData(IDataAccess db)
         {
             _db = db;
-            _type = type;
+        }
+
+        public void SetNgram(NgramType type)
+        {
+            _ngramType = type;
         }
 
         public string[] AnalyzeStrings(string[] str)
         {
-            return GetData();
+            return GetData(str);
         }
 
-        private string[] GetData()
+        private string[] GetData(string[] str)
         {
-            var data = _db.ExecuteSqlCommand("SELECT * FROM `dane`");
+            _db.ConnectToDb();
+            var data = _db.ExecuteSqlCommand(_queryProvider.GetNgramsFromTable(_ngramType, str.ToList()));
+            _db.Disconnect();
             var dataRow = data.Tables[0].Rows[0].ItemArray;
 
             return dataRow.Select(item => item.ToString()).ToArray();

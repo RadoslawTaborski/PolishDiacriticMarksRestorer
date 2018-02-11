@@ -11,6 +11,7 @@ namespace PolishDiacriticMarksRestorer
     /// </summary>
     public partial class SettingsWindow
     {
+        public bool ChangeSettings;
         public SettingsWindow()
         {
             InitializeComponent();
@@ -20,13 +21,21 @@ namespace PolishDiacriticMarksRestorer
             Left = mainWindow.Left + (mainWindow.Width)/ 2 - Width/2;
             Top = mainWindow.Top + (mainWindow.Height) / 2 - Height/2;
 
-            CbType.SelectedIndex = (int)Settings.Type;
+            CbType.SelectedIndex = (int)Settings.Type-1;
+            BtnApply.IsEnabled = false;
+            ChangeSettings = false;
         }
 
         private void SettingApply_Click(object sender, RoutedEventArgs e)
         {
             Settings.Type = (NgramType)Enum.Parse(typeof(NgramType), CbType.SelectedValue.ToString());
+            ChangeSettings = true;
             Close();
+        }
+
+        private void NgramChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            BtnApply.IsEnabled = !Settings.Type.Equals((NgramType)Enum.Parse(typeof(NgramType), CbType.SelectedValue.ToString()));
         }
 
         #region TITLE_BAR

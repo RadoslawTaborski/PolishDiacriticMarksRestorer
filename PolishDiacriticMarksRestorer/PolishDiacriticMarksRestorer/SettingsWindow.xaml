@@ -42,13 +42,13 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <ComboBox x:Name="CbType" Height="25" ItemsSource="{Binding Source={local:EnumBindingSource {x:Type common:NgramType}}}" 
-                                       DisplayMemberPath="Value" SelectedValuePath="Value" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" />
+                                       DisplayMemberPath="Value" SelectedValuePath="Value" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" SelectionChanged="NgramChanged" />
                             <Label Content="Rodzaj NGramu" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
                         </Grid>
                     </Border>
                 </TabItem>
             </TabControl>
-            <Button Content="Zastosuj" Style="{StaticResource MyButton}" Margin="300,360,10,10" Click="SettingApply_Click"/>
+            <Button x:Name="BtnApply" Content="Zastosuj" Style="{StaticResource MyButton}" Margin="300,360,10,10" Click="SettingApply_Click"/>
         </Grid>
     </Border>
 </Window>

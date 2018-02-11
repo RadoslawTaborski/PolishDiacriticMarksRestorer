@@ -101,6 +101,10 @@
                 <Setter Property="Background" Value="{StaticResource MyAzure}"/>
                 <Setter Property="Foreground" Value="{StaticResource MyDarkGrey}"/>
             </Trigger>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Background" Value="{StaticResource MyAzure}"/>
+                <Setter Property="Foreground" Value="{StaticResource MyLight}"/>
+            </Trigger>
         </Style.Triggers>
     </Style>
 

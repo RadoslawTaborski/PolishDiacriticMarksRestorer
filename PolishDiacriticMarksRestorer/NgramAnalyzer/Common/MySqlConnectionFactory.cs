@@ -23,6 +23,7 @@ namespace NgramAnalyzer.Common
 
         public IDataAdapter CreateDataAdapter(string query)
         {
+            //var cmd = new MySqlCommand(query, _dbConnection)
             return new MySqlDataAdapter(query, _dbConnection);
         }
     }

@@ -16,21 +16,25 @@ namespace PolishDiacriticMarksRestorer
     /// </summary>
     public partial class MainWindow
     {
-        readonly Analyzer _analyzer = new Analyzer();
+        private readonly Analyzer _analyzer = new Analyzer(new SqlQueryProvider());
 
         public MainWindow()
         {
             InitializeComponent();
-            var data = new DataBaseManager(new MySqlConnectionFactory(), "localhost","testowa","root","");
-            _analyzer.SetData(data, NgramType.Unigram);
+            RtbResult.IsReadOnly = true;
+            var data = new DataBaseManager(new MySqlConnectionFactory(), "localhost", "ngrams", "root", "");
             Settings.Type = NgramType.Digram;
+            _analyzer.SetData(data);
+            _analyzer.SetNgram(Settings.Type);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var text = new TextRange(RtbInput.Document.ContentStart, RtbInput.Document.ContentEnd).Text;
-            var stringsArray = text.Split(' ');
-
+            var stringsArray = text.Split(new[]{
+                " ",
+                "\r\n"
+            }, StringSplitOptions.RemoveEmptyEntries);
             try
             {
                 var resultsArray = _analyzer.AnalyzeStrings(stringsArray);
@@ -45,13 +49,30 @@ namespace PolishDiacriticMarksRestorer
                 switch (ex.Number)
                 {
                     case 0:
-                        MessageBox.Show("Cannot connect to server.  Contact administrator");
+                        MessageBox.Show("Nie można połączyć się z serwerem");
                         break;
                     case 1045:
-                        MessageBox.Show("Invalid username/password, please try again");
+                        MessageBox.Show("Nieprawidłowa nazwa użytkownika lub hasło do bazy danych");
+                        break;
+                    default:
+                        MessageBox.Show(ex.Message);
                         break;
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            var subWindow = new SettingsWindow();
+            subWindow.ShowDialog();
+
+            if (!subWindow.ChangeSettings) return;
+
+            _analyzer.SetNgram(Settings.Type);
         }
 
         #region TITLE_BAR
@@ -113,12 +134,6 @@ namespace PolishDiacriticMarksRestorer
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
-        }
-
-        private void MenuButton_Click(object sender, RoutedEventArgs e)
-        {
-            var subWindow = new SettingsWindow();
-            subWindow.ShowDialog();
         }
         #endregion
     }
