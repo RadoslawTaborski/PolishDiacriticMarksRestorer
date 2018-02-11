@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -17,11 +18,13 @@ namespace PolishDiacriticMarksRestorer
     public partial class MainWindow
     {
         private readonly Analyzer _analyzer = new Analyzer();
+        public static readonly string Path = "settings.dat";
 
         public MainWindow()
         {
             InitializeComponent();
             RtbResult.IsReadOnly = true;
+            Load(Path);
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
             var queryProvider = new SqlQueryProvider(Settings.TableNames);
             _analyzer.SetData(data);
@@ -78,6 +81,12 @@ namespace PolishDiacriticMarksRestorer
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);
+        }
+
+        private void Load(string path)
+        {
+            if (File.Exists(path))
+                SerializeStatic.Load(typeof(Settings), path);
         }
 
         #region TITLE_BAR

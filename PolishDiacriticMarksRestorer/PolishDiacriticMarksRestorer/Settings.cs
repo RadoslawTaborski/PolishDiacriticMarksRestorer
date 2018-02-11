@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NgramAnalyzer.Common;
 
 namespace PolishDiacriticMarksRestorer
 {
+    [Serializable]
     public static class Settings
     {
         public static NgramType Type = NgramType.Digram;

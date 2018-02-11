@@ -13,6 +13,7 @@ namespace PolishDiacriticMarksRestorer
     {
         public bool ChangeSettings;
         private readonly bool[] _changes = new bool[9];
+
         public SettingsWindow()
         {
             InitializeComponent();
@@ -24,6 +25,7 @@ namespace PolishDiacriticMarksRestorer
 
             GetSettings();
             BtnApply.IsEnabled = false;
+            BtnSave.IsEnabled = false;
             ChangeSettings = false;
         }
 
@@ -31,7 +33,8 @@ namespace PolishDiacriticMarksRestorer
         {
             SetSettings();
             ChangeSettings = true;
-            Close();
+            BtnSave.IsEnabled = true;
+            BtnApply.IsEnabled = false;
         }
 
         private void SetSettings()
@@ -102,6 +105,12 @@ namespace PolishDiacriticMarksRestorer
             _changes[7] = !Settings.TableNames[2].Equals(TbTri.Text);
             _changes[8] = !Settings.TableNames[3].Equals(TbFour.Text);
             Update();
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            SerializeStatic.Save(typeof(Settings), MainWindow.Path);
+            BtnSave.IsEnabled = false;
         }
     }
 }

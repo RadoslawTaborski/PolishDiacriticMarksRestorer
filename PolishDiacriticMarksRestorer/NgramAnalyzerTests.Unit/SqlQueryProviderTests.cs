@@ -20,7 +20,7 @@ namespace NgramAnalyzerTests.Unit
         public void SqlQueryProvider_NullListWithNames()
         {
             Exception ex = Assert.Throws<ArgumentException>(() => new SqlQueryProvider(null));
-            Assert.Equal("dbTableNames IList has wrong size", ex.Message);
+            Assert.Equal("IList<string> 'dbTableNames' has wrong size", ex.Message);
         }
 
         [Fact]
@@ -33,7 +33,30 @@ namespace NgramAnalyzerTests.Unit
             "tri",
         };
         Exception ex = Assert.Throws<ArgumentException>(() => new SqlQueryProvider(list));
-            Assert.Equal("dbTableNames IList has wrong size", ex.Message);
+            Assert.Equal("IList<string> 'dbTableNames' has wrong size", ex.Message);
+        }
+
+        [Fact]
+        public void GetNgramsFromTable_NullListWithNames()
+        {
+            var provider = new SqlQueryProvider(_names);
+
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetNgramsFromTable(NgramType.Digram, null));
+            Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
+        }
+
+        [Fact]
+        public void GetNgramsFromTable_WrongListSize()
+        {
+            var list = new List<string>
+            {
+                "a"
+            };
+
+            var provider = new SqlQueryProvider(_names);
+
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetNgramsFromTable(NgramType.Digram, list));
+            Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
         }
 
         [Fact]

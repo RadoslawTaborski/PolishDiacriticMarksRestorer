@@ -12,20 +12,23 @@ namespace NgramAnalyzer
         public SqlQueryProvider(IList<string> dbTableNames)
         {
             if (dbTableNames == null || dbTableNames.Count != 4)
-                throw new ArgumentException("dbTableNames IList has wrong size");
+                throw new ArgumentException("IList<string> 'dbTableNames' has wrong size");
             _dbTableDbTableName = dbTableNames;
         }
 
-        public string GetNgramsFromTable(NgramType ngramType, List<string> list)
+        public string GetNgramsFromTable(NgramType ngramType, List<string> wordList)
         {
             var number = (int)ngramType;
+
+            if (wordList == null || wordList.Count != number)
+                throw new ArgumentException("List<string> 'wordList' has wrong size");
 
             var query = "SELECT * FROM " + _dbTableDbTableName[number-1] +" WHERE ";
 
             for(var i =0 ; i < number; ++i)
             {
                 if (i != 0) query += "AND ";
-                query += "Word" +(i+1)+ "='"+list[i]+"' ";
+                query += "Word" +(i+1)+ "='"+wordList[i]+"' ";
             }
 
             var strBuilder =

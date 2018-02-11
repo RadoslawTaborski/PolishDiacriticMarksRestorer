@@ -101,6 +101,7 @@
                 </TabItem>
             </TabControl>
             <Button x:Name="BtnApply" Content="Zastosuj" Style="{StaticResource MyButton}" Margin="300,360,10,10" Click="SettingApply_Click"/>
+            <Button x:Name="BtnSave" Content="Zapisz" Style="{StaticResource MyButton}" Margin="10,360,300,10" Click="BtnSave_Click"/>
         </Grid>
     </Border>
 </Window>

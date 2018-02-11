@@ -7,6 +7,6 @@ namespace NgramAnalyzer.Interfaces
 {
     public interface IQueryProvider
     {
-        string GetNgramsFromTable(NgramType ngramType, List<string> list);
+        string GetNgramsFromTable(NgramType ngramType, List<string> wordList);
     }
 }
