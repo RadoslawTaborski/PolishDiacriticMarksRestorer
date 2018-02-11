@@ -703,7 +703,7 @@
         contains any special characters. The command executes this stored procedure when
         you call one of the Execute methods.  Starting with Connector/Net 5.0, having both a stored function
         and stored procedure with the same name in the same database is not supported.  It is
-        suggested that you provide unqiue names for your stored routines.
+        suggested that you provide unqiue dbTableNames for your stored routines.
       </para>
     </remarks>
     <example>

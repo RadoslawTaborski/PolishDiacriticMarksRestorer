@@ -169,7 +169,7 @@
   <QuotePrefix>
     <summary>
       Gets or sets the beginning character or characters to use when specifying MySQL
-      database objects (for example, tables or columns) whose names contain
+      database objects (for example, tables or columns) whose dbTableNames contain
       characters such as spaces or reserved tokens.
     </summary>
     <value>
@@ -186,7 +186,7 @@
   <QuoteSuffix>
     <summary>
       Gets or sets the beginning character or characters to use when specifying MySQL
-      database objects (for example, tables or columns) whose names contain
+      database objects (for example, tables or columns) whose dbTableNames contain
       characters such as spaces or reserved tokens.
     </summary>
     <value>

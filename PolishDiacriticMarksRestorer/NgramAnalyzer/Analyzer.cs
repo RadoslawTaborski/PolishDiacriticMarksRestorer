@@ -1,19 +1,15 @@
 ﻿using System.Linq;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
+using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 
 namespace NgramAnalyzer
 {
     public class Analyzer : IAnalyzer
     {
         private IDataAccess _db;
-        private readonly ISqlQueryProvider _queryProvider;
+        private IQueryProvider _queryProvider;
         private NgramType _ngramType;
-
-        public Analyzer(ISqlQueryProvider queryProvider)
-        {
-            _queryProvider = queryProvider;
-        }
 
         public void SetData(IDataAccess db)
         {
@@ -23,6 +19,11 @@ namespace NgramAnalyzer
         public void SetNgram(NgramType type)
         {
             _ngramType = type;
+        }
+
+        public void SetQueryProvider(IQueryProvider queryProvider)
+        {
+            _queryProvider = queryProvider;
         }
 
         public string[] AnalyzeStrings(string[] str)

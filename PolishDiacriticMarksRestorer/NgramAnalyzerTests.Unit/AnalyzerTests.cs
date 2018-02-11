@@ -24,11 +24,12 @@ namespace NgramAnalyzerTests.Unit
             var dataMock = new Mock<IDataAccess>();
             dataMock.Setup(m => m.ExecuteSqlCommand(It.IsAny<string>())).Returns(ds);
 
-            var queryProviderMock = new Mock<ISqlQueryProvider>();
+            var queryProviderMock = new Mock<IQueryProvider>();
             queryProviderMock.Setup(m => m.GetNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<string>>())).Returns("aa");
 
-            var analyze = new Analyzer(queryProviderMock.Object);
+            var analyze = new Analyzer();
             analyze.SetData(dataMock.Object);
+            analyze.SetQueryProvider(queryProviderMock.Object);
             analyze.SetNgram(NgramType.Digram);
             var result = analyze.AnalyzeStrings(new []{"a"});
 

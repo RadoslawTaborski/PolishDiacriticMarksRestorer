@@ -16,15 +16,16 @@ namespace PolishDiacriticMarksRestorer
     /// </summary>
     public partial class MainWindow
     {
-        private readonly Analyzer _analyzer = new Analyzer(new SqlQueryProvider());
+        private readonly Analyzer _analyzer = new Analyzer();
 
         public MainWindow()
         {
             InitializeComponent();
             RtbResult.IsReadOnly = true;
-            var data = new DataBaseManager(new MySqlConnectionFactory(), "localhost", "ngrams", "root", "");
-            Settings.Type = NgramType.Digram;
+            var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
+            var queryProvider = new SqlQueryProvider(Settings.TableNames);
             _analyzer.SetData(data);
+            _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);
         }
 
@@ -72,6 +73,10 @@ namespace PolishDiacriticMarksRestorer
 
             if (!subWindow.ChangeSettings) return;
 
+            var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
+            var queryProvider = new SqlQueryProvider(Settings.TableNames);
+            _analyzer.SetData(data);
+            _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);
         }
 

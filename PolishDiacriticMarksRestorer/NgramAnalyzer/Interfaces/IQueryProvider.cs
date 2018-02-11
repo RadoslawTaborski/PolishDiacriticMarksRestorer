@@ -5,7 +5,7 @@ using NgramAnalyzer.Common;
 
 namespace NgramAnalyzer.Interfaces
 {
-    public interface ISqlQueryProvider
+    public interface IQueryProvider
     {
         string GetNgramsFromTable(NgramType ngramType, List<string> list);
     }
