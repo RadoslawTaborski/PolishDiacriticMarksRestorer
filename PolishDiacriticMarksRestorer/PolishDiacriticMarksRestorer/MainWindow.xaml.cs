@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -41,12 +42,8 @@ namespace PolishDiacriticMarksRestorer
             }, StringSplitOptions.RemoveEmptyEntries);
             try
             {
-                var resultsArray = _analyzer.AnalyzeStrings(stringsArray);
-                RtbResult.Document.Blocks.Clear();
-                foreach (var item in resultsArray)
-                {
-                    RtbResult.AppendText(item + " ");
-                }
+                var t = new Thread(() => Analyze(stringsArray));
+                t.Start();
             }
             catch (MySqlException ex)
             {
@@ -66,6 +63,21 @@ namespace PolishDiacriticMarksRestorer
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void Analyze(string[] stringsArray)
+        {
+            var resultsArray = _analyzer.AnalyzeStrings(stringsArray);
+            Dispatcher.Invoke(() => {
+                RtbResult.Document.Blocks.Clear();
+            });
+            
+            foreach (var item in resultsArray)
+            {
+                Dispatcher.Invoke(() => {
+                    RtbResult.AppendText(item + " ");
+                });              
             }
         }
 
