@@ -14,16 +14,21 @@ namespace NgramAnalyzer.Common
         #region FIELDS
         private StreamReader _sr;
         private StreamWriter _sw;
-        private readonly IFileSystem _fs;
+        private readonly IFileSystem _fileSystem;
         private FileManagerType _type;
         private readonly string _path;
         #endregion
 
         #region CONSTRUCTORS
-        public FileManager(IFileSystem fs, string path)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileManager"/> class.
+        /// </summary>
+        /// <param name="fileSystem">The fileSystem.</param>
+        /// <param name="path">The path to file.</param>
+        public FileManager(IFileSystem fileSystem, string path)
         {
             _type = FileManagerType.Nothing;
-            _fs = fs;
+            _fileSystem = fileSystem;
             _path = path;
         }
         #endregion
@@ -39,17 +44,17 @@ namespace NgramAnalyzer.Common
         /// <inheritdoc />
         public bool Open(FileManagerType type)
         {
-            if (!_fs.File.Exists(_path)) return false;
+            if (!_fileSystem.File.Exists(_path)) return false;
 
             _type = type;
 
             switch (_type)
             {
                 case FileManagerType.Read:
-                    _sr = new StreamReader(_fs.File.Open(_path, FileMode.Open));
+                    _sr = new StreamReader(_fileSystem.File.Open(_path, FileMode.Open));
                     break;
                 case FileManagerType.Write:
-                    _sw = new StreamWriter(_fs.File.Open(_path, FileMode.Open));
+                    _sw = new StreamWriter(_fileSystem.File.Open(_path, FileMode.Open));
                     break;
                 case FileManagerType.Nothing:
                     return false;
@@ -100,7 +105,7 @@ namespace NgramAnalyzer.Common
         /// <inheritdoc />
         public int CountLines()
         {
-            return _fs.File.ReadLines(_path).Count();
+            return _fileSystem.File.ReadLines(_path).Count();
         }
 
         /// <summary>
@@ -109,7 +114,7 @@ namespace NgramAnalyzer.Common
         /// <inheritdoc />
         public void Create()
         {
-            var fs = _fs.File.Create(_path);
+            var fs = _fileSystem.File.Create(_path);
             fs.Close();
         }
 

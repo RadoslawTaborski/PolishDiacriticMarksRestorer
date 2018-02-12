@@ -22,6 +22,13 @@ namespace NgramFilter
         #endregion
 
         #region CONSTRUCTORS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Bootstrapper"/> class.
+        /// </summary>
+        /// <param name="filter">The filter.</param>
+        /// <param name="modifier">The modifier.</param>
+        /// <param name="fileSystem">The file system.</param>
+        /// <param name="dataAccess">The data access.</param>
         public Bootstrapper(IFilter filter, IModifier modifier, IFileSystem fileSystem, IDataBaseManagerFactory dataAccess)
         {
             _filter = filter;

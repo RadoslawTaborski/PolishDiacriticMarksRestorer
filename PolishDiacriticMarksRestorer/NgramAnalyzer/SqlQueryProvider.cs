@@ -16,6 +16,11 @@ namespace NgramAnalyzer
         #endregion
 
         #region CONSTRUCTORS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlQueryProvider"/> class.
+        /// </summary>
+        /// <param name="dbTableNames">The database table names.</param>
+        /// <exception cref="ArgumentException">IList (string) 'dbTableNames' has wrong size</exception>
         public SqlQueryProvider(IList<string> dbTableNames)
         {
             if (dbTableNames == null || dbTableNames.Count != 4)

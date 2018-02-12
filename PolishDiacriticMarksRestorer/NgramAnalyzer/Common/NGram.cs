@@ -13,10 +13,6 @@ namespace NgramAnalyzer.Common
         public List<string> WordsList;
         #endregion
 
-        #region CONSTRUCTORS
-
-        #endregion
-
         #region OVERRIDES
         /// <summary>
         /// Returns a <see cref="System.String" /> that represents this instance.

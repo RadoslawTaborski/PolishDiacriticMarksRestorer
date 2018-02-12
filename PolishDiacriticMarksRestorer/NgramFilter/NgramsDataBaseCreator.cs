@@ -16,6 +16,10 @@ namespace NgramFilter
         #endregion
 
         #region CONSTRUCTORS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NgramsDataBaseCreator"/> class.
+        /// </summary>
+        /// <param name="db">The data access class.</param>
         public NgramsDataBaseCreator(IDataAccess db)
         {
             _db = db;

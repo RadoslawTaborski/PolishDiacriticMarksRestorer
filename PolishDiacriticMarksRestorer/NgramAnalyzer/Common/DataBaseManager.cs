@@ -20,6 +20,14 @@ namespace NgramAnalyzer.Common
         #endregion
 
         #region CONSTRUCTORS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataBaseManager"/> class.
+        /// </summary>
+        /// <param name="dbFactory">The database factory.</param>
+        /// <param name="server">The server address.</param>
+        /// <param name="database">The database name.</param>
+        /// <param name="uid">The user name.</param>
+        /// <param name="password">The password.</param>
         public DataBaseManager(IDataBaseManagerFactory dbFactory, string server, string database, string uid, string password)
         {
             _server = server;

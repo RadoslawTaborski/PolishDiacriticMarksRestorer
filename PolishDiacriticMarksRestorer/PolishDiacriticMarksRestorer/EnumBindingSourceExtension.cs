@@ -41,6 +41,11 @@ namespace PolishDiacriticMarksRestorer
         #endregion
 
         #region CONSTRUCTORS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnumBindingSourceExtension"/> class.
+        /// </summary>
+        /// <param name="enumType">Type of the enum.</param>
+        /// <exception cref="ArgumentNullException">enumType</exception>
         public EnumBindingSourceExtension(Type enumType)
         {
             EnumType = enumType ?? throw new ArgumentNullException(nameof(enumType));

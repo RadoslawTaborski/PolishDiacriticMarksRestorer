@@ -15,6 +15,9 @@ namespace NgramFilter
         #endregion
 
         #region CONSTRUCTORS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Filter"/> class.
+        /// </summary>
         public Filter()
         {
             _filters = new List<IFilterItem>();

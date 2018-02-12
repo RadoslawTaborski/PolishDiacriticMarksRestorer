@@ -15,6 +15,9 @@ namespace NgramFilter
         #endregion
 
         #region CONSTRUCTORS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Modifier"/> class.
+        /// </summary>
         public Modifier()
         {
             _modifiers = new List<IModifierItem>();
