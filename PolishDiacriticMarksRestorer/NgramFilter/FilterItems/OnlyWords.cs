@@ -5,8 +5,9 @@ using NgramFilter.Interfaces;
 namespace NgramFilter.FilterItems
 {
     /// <summary>
-    /// OnlyWords Class rejects ngram with strings which are only non-alphabetic marks
+    /// OnlyWords Class rejects ngram with strings which are only non-alphabetic marks.
     /// </summary>
+    /// <seealso cref="NgramFilter.Interfaces.IFilterItem" />
     internal class OnlyWords : IFilterItem
     {
         #region FIELDS
@@ -18,6 +19,13 @@ namespace NgramFilter.FilterItems
         #endregion
 
         #region  PUBLIC
+        /// <summary>
+        /// This method validates the ngram.
+        /// </summary>
+        /// <param name="ngram">Ngram which is analyzed.</param>
+        /// <returns>
+        /// True if ngram is corrected.
+        /// </returns>
         /// <inheritdoc />
         public bool IsCorrect(NGram ngram)
         {

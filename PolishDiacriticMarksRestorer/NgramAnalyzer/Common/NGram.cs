@@ -4,7 +4,7 @@ using System.Linq;
 namespace NgramAnalyzer.Common
 {
     /// <summary>
-    /// NGram structure which represents NGram model with value
+    /// NGram structure which represents NGram model with value.
     /// </summary>
     public struct NGram
     {
@@ -18,6 +18,12 @@ namespace NgramAnalyzer.Common
         #endregion
 
         #region OVERRIDES
+        /// <summary>
+        /// Returns a <see cref="System.String" /> that represents this instance.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="System.String" /> that represents this instance.
+        /// </returns>
         public override string ToString()
         {
             var result = WordsList.Aggregate("", (current, item) => current + (item + " "));
@@ -32,7 +38,7 @@ namespace NgramAnalyzer.Common
 
         #region  PUBLIC
         /// <summary>
-        /// This method changes special strings for database
+        /// This method changes special strings for database.
         /// </summary>
         public void ChangeSpecialCharacters()
         {

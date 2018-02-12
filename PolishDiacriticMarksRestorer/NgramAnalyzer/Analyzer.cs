@@ -6,8 +6,9 @@ using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 namespace NgramAnalyzer
 {
     /// <summary>
-    /// Analyze class compare data form database and input and provides result of Analyze
+    /// Analyze class compare data form database and input and provides result of Analyze.
     /// </summary>
+    /// <seealso cref="NgramAnalyzer.Interfaces.IAnalyzer" />
     public class Analyzer : IAnalyzer
     {
         #region FIELDS
@@ -21,24 +22,43 @@ namespace NgramAnalyzer
         #endregion
 
         #region  PUBLIC
+        /// <summary>
+        /// This method set a IDataAccess.
+        /// </summary>
+        /// <param name="db">The database.</param>
         /// <inheritdoc />
         public void SetData(IDataAccess db)
         {
             _db = db;
         }
 
+        /// <summary>
+        /// This method set a NgramType.
+        /// </summary>
+        /// <param name="type">The type.</param>
         /// <inheritdoc />
         public void SetNgram(NgramType type)
         {
             _ngramType = type;
         }
 
+        /// <summary>
+        /// This method set a IQueryProvider.
+        /// </summary>
+        /// <param name="queryProvider">The query provider.</param>
         /// <inheritdoc />
         public void SetQueryProvider(IQueryProvider queryProvider)
         {
             _queryProvider = queryProvider;
         }
 
+        /// <summary>
+        /// This method analyze correctness input.
+        /// </summary>
+        /// <param name="strArray">Array of strings to analyze.</param>
+        /// <returns>
+        /// String array with result of analyze.
+        /// </returns>
         /// <inheritdoc />
         public string[] AnalyzeStrings(string[] strArray)
         {

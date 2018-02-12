@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Formatters.Soap;
 namespace PolishDiacriticMarksRestorer
 {
     /// <summary>
-    /// SerializeStatic Class allows serialize static class
+    /// SerializeStatic Class allows serialize static class.
     /// </summary>
     public class SerializeStatic
     {
@@ -20,10 +20,10 @@ namespace PolishDiacriticMarksRestorer
 
         #region  PUBLIC
         /// <summary>
-        /// This method saves static class to file
+        /// This method saves static class to file.
         /// </summary>
-        /// <param name="staticClass">static class</param>
-        /// <param name="filename">path to output file</param>
+        /// <param name="staticClass">Static class.</param>
+        /// <param name="filename">Path to output file.</param>
         /// <returns></returns>
         public static bool Save(Type staticClass, string filename)
         {
@@ -52,10 +52,10 @@ namespace PolishDiacriticMarksRestorer
         }
 
         /// <summary>
-        /// This method open file and try deserialize it to static object
+        /// This method open file and try deserialize it to static object.
         /// </summary>
-        /// <param name="staticClass">static class</param>
-        /// <param name="filename">path to input file</param>
+        /// <param name="staticClass">Static class.</param>
+        /// <param name="filename">Path to input file.</param>
         /// <returns></returns>
         public static bool Load(Type staticClass, string filename)
         {

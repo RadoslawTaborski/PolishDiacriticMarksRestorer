@@ -1,7 +1,7 @@
 ﻿namespace NgramAnalyzer.Common
 {
     /// <summary>
-    /// Type of NGrams
+    /// Type of NGrams.
     /// </summary>
     public enum NgramType
     {

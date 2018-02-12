@@ -4,8 +4,9 @@ using NgramAnalyzer.Interfaces;
 namespace NgramAnalyzer.Common
 {
     /// <summary>
-    /// DataBaseManager Class allows to connect to database
+    /// DataBaseManager Class allows to connect to database.
     /// </summary>
+    /// <seealso cref="NgramAnalyzer.Interfaces.IDataAccess" />
     public class DataBaseManager : IDataAccess
     {
         #region FIELDS
@@ -31,6 +32,9 @@ namespace NgramAnalyzer.Common
         #endregion
 
         #region  PUBLIC
+        /// <summary>
+        /// This method connects with database.
+        /// </summary>
         /// <inheritdoc />
         public void ConnectToDb()
         {
@@ -38,6 +42,9 @@ namespace NgramAnalyzer.Common
             _connectionDb.Open();
         }
 
+        /// <summary>
+        /// This method connects to server with databases.
+        /// </summary>
         /// <inheritdoc />
         public void ConnectToServer()
         {
@@ -45,6 +52,9 @@ namespace NgramAnalyzer.Common
             _connectionServer.Open();
         }
 
+        /// <summary>
+        /// This method disconnects database and server.
+        /// </summary>
         /// <inheritdoc />
         public void Disconnect()
         {
@@ -52,6 +62,13 @@ namespace NgramAnalyzer.Common
             _connectionServer?.Close();
         }
 
+        /// <summary>
+        /// This method performs a query to the database waiting for the result.
+        /// </summary>
+        /// <param name="query">The query.</param>
+        /// <returns>
+        /// DataSet which has data from database.
+        /// </returns>
         /// <inheritdoc />
         public DataSet ExecuteSqlCommand(string query)
         {
@@ -62,6 +79,10 @@ namespace NgramAnalyzer.Common
             return ds;
         }
 
+        /// <summary>
+        /// This method performs a command to the server.
+        /// </summary>
+        /// <param name="query">The query.</param>
         /// <inheritdoc />
         public void ExecuteNonQueryServer(string query)
         {
@@ -71,6 +92,10 @@ namespace NgramAnalyzer.Common
             command.ExecuteNonQuery();
         }
 
+        /// <summary>
+        /// This method performs a command to the database.
+        /// </summary>
+        /// <param name="query">The query.</param>
         /// <inheritdoc />
         public void ExecuteNonQueryDb(string query)
         {
@@ -81,8 +106,9 @@ namespace NgramAnalyzer.Common
         }
 
         /// <summary>
-        /// This method disconnects database and server
+        /// This method disconnects database and server.
         /// </summary>
+        /// <inheritdoc />
         public void Dispose()
         {
             Disconnect();

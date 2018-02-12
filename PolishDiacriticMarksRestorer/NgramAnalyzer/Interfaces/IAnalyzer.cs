@@ -5,25 +5,27 @@ namespace NgramAnalyzer.Interfaces
     internal interface IAnalyzer
     {
         /// <summary>
-        /// This method analyze correctness input
+        /// This method analyze correctness input.
         /// </summary>
-        /// <param name="strArray">array of strings to analyze</param>
-        /// <returns>string array with result of analyze</returns>
+        /// <param name="strArray">array of strings to analyze.</param>
+        /// <returns>
+        /// string array with result of analyze.
+        /// </returns>
         string[] AnalyzeStrings(string[] strArray);
         /// <summary>
-        /// This method set a IQueryProvider
+        /// This method set a IQueryProvider.
         /// </summary>
-        /// <param name="queryProvider"></param>
+        /// <param name="queryProvider">The query provider.</param>
         void SetQueryProvider(IQueryProvider queryProvider);
         /// <summary>
-        /// This method set a NgramType
+        /// This method set a NgramType.
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type">The type.</param>
         void SetNgram(NgramType type);
         /// <summary>
-        /// This method set a IDataAccess
+        /// This method set a IDataAccess.
         /// </summary>
-        /// <param name="db"></param>
+        /// <param name="db">The database.</param>
         void SetData(IDataAccess db);
     }
 }

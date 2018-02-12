@@ -5,8 +5,9 @@ using System.Windows.Markup;
 namespace PolishDiacriticMarksRestorer
 {
     /// <summary>
-    /// EnumBindingSourceExtension Class allows binding enum
+    /// EnumBindingSourceExtension Class allows binding enum.
     /// </summary>
+    /// <seealso cref="System.Windows.Markup.MarkupExtension" />
     public class EnumBindingSourceExtension : MarkupExtension
     {
         #region FIELDS
@@ -14,6 +15,13 @@ namespace PolishDiacriticMarksRestorer
         #endregion
 
         #region PROPERTIES
+        /// <summary>
+        /// Gets the type of the enum.
+        /// </summary>
+        /// <value>
+        /// The type of the enum.
+        /// </value>
+        /// <exception cref="ArgumentException">Type must be an Enum.</exception>
         public Type EnumType
         {
             get => _enumType;
@@ -48,6 +56,11 @@ namespace PolishDiacriticMarksRestorer
         #endregion
 
         #region OVERRIDES
+        /// <summary>
+        /// Provides the value.
+        /// </summary>
+        /// <param name="serviceProvider">The service provider.</param>
+        /// <returns></returns>
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             var enumValues = Enum.GetValues(EnumType);
@@ -62,6 +75,9 @@ namespace PolishDiacriticMarksRestorer
         #endregion
 
         #region  NESTED CLASS
+        /// <summary>
+        /// Enumeration Member Class for static object.
+        /// </summary>
         public class EnumerationMember
         {
             public object Value { get; set; }

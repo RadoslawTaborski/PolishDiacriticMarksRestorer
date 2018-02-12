@@ -4,8 +4,9 @@ using NgramFilter.Interfaces;
 namespace NgramFilter.FilterItems
 {
     /// <summary>
-    /// NotLongWords Class rejects ngram with too long words
+    /// NotLongWords Class rejects ngram with too long words.
     /// </summary>
+    /// <seealso cref="NgramFilter.Interfaces.IFilterItem" />
     internal class NotLongWords : IFilterItem
     {
         #region FIELDS
@@ -17,6 +18,13 @@ namespace NgramFilter.FilterItems
         #endregion
 
         #region  PUBLIC
+        /// <summary>
+        /// This method validates the ngram.
+        /// </summary>
+        /// <param name="ngram">Ngram which is analyzed.</param>
+        /// <returns>
+        /// True if ngram is corrected.
+        /// </returns>
         /// <inheritdoc />
         public bool IsCorrect(NGram ngram)
         {

@@ -12,10 +12,12 @@ using NgramAnalyzer.Common;
 
 namespace PolishDiacriticMarksRestorer
 {
-    /// <inheritdoc cref="MainWindow" />
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for MainWindow.xaml.
     /// </summary>
+    /// <seealso cref="System.Windows.Window" />
+    /// <seealso cref="System.Windows.Markup.IComponentConnector" />
+    /// <inheritdoc cref="MainWindow" />
     public partial class MainWindow
     {
         #region FIELDS
@@ -61,6 +63,11 @@ namespace PolishDiacriticMarksRestorer
         #endregion
 
         #region EVENTS
+        /// <summary>
+        /// Handles the Click event of the Button control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var text = new TextRange(RtbInput.Document.ContentStart, RtbInput.Document.ContentEnd).Text;
@@ -93,9 +100,13 @@ namespace PolishDiacriticMarksRestorer
                 MessageBox.Show(ex.Message);
             }
         }
-        #endregion
 
         #region TITLE_BAR
+        /// <summary>
+        /// Handles the Click event of the MenuButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             var subWindow = new SettingsWindow();
@@ -109,6 +120,12 @@ namespace PolishDiacriticMarksRestorer
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);
         }
+
+        /// <summary>
+        /// Handles the MouseDown event of the TitleBar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Left) return;
@@ -122,6 +139,9 @@ namespace PolishDiacriticMarksRestorer
             }
         }
 
+        /// <summary>
+        /// Adjusts the size of the window.
+        /// </summary>
         private void AdjustWindowSize()
         {
             if (WindowState == WindowState.Maximized)
@@ -154,20 +174,36 @@ namespace PolishDiacriticMarksRestorer
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of the MinButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MinButton_Click(object sender, RoutedEventArgs e)
         {
             WindowState = WindowState.Minimized;
         }
 
+        /// <summary>
+        /// Handles the Click event of the MaxButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void MaxButton_Click(object sender, RoutedEventArgs e)
         {
             AdjustWindowSize();
         }
 
+        /// <summary>
+        /// Handles the Click event of the CloseButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
+        #endregion
         #endregion
     }
 }

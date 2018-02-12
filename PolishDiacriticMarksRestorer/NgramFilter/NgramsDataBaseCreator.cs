@@ -6,8 +6,9 @@ using NgramFilter.Interfaces;
 namespace NgramFilter
 {
     /// <summary>
-    /// NgramsDataBaseCreator Class creates DataBase and Table and fill them
+    /// NgramsDataBaseCreator Class creates DataBase and Table and fill them.
     /// </summary>
+    /// <seealso cref="NgramFilter.Interfaces.IDataBaseCreator" />
     internal class NgramsDataBaseCreator : IDataBaseCreator
     {
         #region FIELDS
@@ -22,6 +23,10 @@ namespace NgramFilter
         #endregion
 
         #region  PUBLIC
+        /// <summary>
+        /// This method create new database on server.
+        /// </summary>
+        /// <param name="name">Name of database.</param>
         /// <inheritdoc />
         public void CreateDataBase(string name)
         {
@@ -30,6 +35,12 @@ namespace NgramFilter
             _db.Disconnect();
         }
 
+        /// <summary>
+        /// This method create new table in database.
+        /// </summary>
+        /// <param name="dataBaseName">Name of database.</param>
+        /// <param name="tableName">Name of table.</param>
+        /// <param name="numberOfWords">Number of column with words.</param>
         /// <inheritdoc />
         public void CreateTable(string dataBaseName, string tableName, int numberOfWords)
         {
@@ -44,6 +55,11 @@ namespace NgramFilter
             _db.Disconnect();
         }
 
+        /// <summary>
+        /// This method add Ngrams data to table.
+        /// </summary>
+        /// <param name="tableName">Table name.</param>
+        /// <param name="ngrams">List of ngrams.</param>
         /// <inheritdoc />
         public void AddNgramsToTable(string tableName, List<NGram> ngrams)
         {
@@ -56,6 +72,11 @@ namespace NgramFilter
             _db.Disconnect();
         }
 
+        /// <summary>
+        /// This method add news ngrams or update if already exists the same ngram in database.
+        /// </summary>
+        /// <param name="tableName">Name of table.</param>
+        /// <param name="ngrams">List of ngrams.</param>
         /// <inheritdoc />
         public void AddOrUpdateNgramsToTable(string tableName, List<NGram> ngrams)
         {

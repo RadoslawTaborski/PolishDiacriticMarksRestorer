@@ -6,8 +6,9 @@ using System.IO.Abstractions;
 namespace NgramAnalyzer.Common
 {
     /// <summary>
-    /// FileManager Class allows to manage file
+    /// FileManager Class allows to manage file.
     /// </summary>
+    /// <seealso cref="NgramAnalyzer.Interfaces.IFileAccess" />
     public class FileManager : IFileAccess
     {
         #region FIELDS
@@ -28,6 +29,13 @@ namespace NgramAnalyzer.Common
         #endregion
 
         #region  PUBLIC
+        /// <summary>
+        /// This method opens a StreamReader or WriteReader.
+        /// </summary>
+        /// <param name="type">Read or Write or Nothing.</param>
+        /// <returns>
+        /// if the connection was made with Read or Write type - true.
+        /// </returns>
         /// <inheritdoc />
         public bool Open(FileManagerType type)
         {
@@ -50,6 +58,9 @@ namespace NgramAnalyzer.Common
             return true;
         }
 
+        /// <summary>
+        /// This method close StreamReader and StreamWriter.
+        /// </summary>
         /// <inheritdoc />
         public void Close()
         {
@@ -57,6 +68,10 @@ namespace NgramAnalyzer.Common
             _sw?.Close();
         }
 
+        /// <summary>
+        /// If type is Write, this method writes line to opened file.
+        /// </summary>
+        /// <param name="str">string which will be added to file.</param>
         /// <inheritdoc />
         public void WriteLine(string str)
         {
@@ -64,18 +79,33 @@ namespace NgramAnalyzer.Common
                 _sw.WriteLine(str, true);
         }
 
+        /// <summary>
+        /// If type is Read, this method read line from opened file.
+        /// </summary>
+        /// <returns>
+        /// Read string.
+        /// </returns>
         /// <inheritdoc />
         public string ReadLine()
         {
             return _type == FileManagerType.Read ? _sr.ReadLine() : null;
         }
 
+        /// <summary>
+        /// This method count lines in opened file.
+        /// </summary>
+        /// <returns>
+        /// Number of lines.
+        /// </returns>
         /// <inheritdoc />
         public int CountLines()
         {
             return _fs.File.ReadLines(_path).Count();
         }
 
+        /// <summary>
+        /// This method create new file.
+        /// </summary>
         /// <inheritdoc />
         public void Create()
         {
@@ -83,10 +113,10 @@ namespace NgramAnalyzer.Common
             fs.Close();
         }
 
-        /// <inheritdoc/>
         /// <summary>
-        /// This method close StreamReader and StreamWriter
+        /// This method close StreamReader and StreamWriter.
         /// </summary>
+        /// <inheritdoc />
         public void Dispose()
         {
             Close();

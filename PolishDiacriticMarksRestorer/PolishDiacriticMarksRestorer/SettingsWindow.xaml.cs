@@ -7,8 +7,10 @@ using NgramAnalyzer.Common;
 namespace PolishDiacriticMarksRestorer
 {
     /// <summary>
-    /// Interaction logic for SettingsWindow.xaml
+    /// Interaction logic for SettingsWindow.xaml.
     /// </summary>
+    /// <seealso cref="System.Windows.Window" />
+    /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class SettingsWindow
     {
         #region FIELDS
@@ -16,6 +18,12 @@ namespace PolishDiacriticMarksRestorer
         #endregion
 
         #region PROPERTIES
+        /// <summary>
+        /// Gets a value indicating whether changes have occurred.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if changes have occurred; otherwise, <c>false</c>.
+        /// </value>
         public bool ChangeSettings { get; private set; }
         #endregion
 
@@ -76,13 +84,23 @@ namespace PolishDiacriticMarksRestorer
         #endregion
 
         #region EVENTS
+        /// <summary>
+        /// Ngrams changed.
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="System.Windows.Controls.SelectionChangedEventArgs"/> instance containing the event data.</param>
         private void NgramChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             _changes[0] = !Settings.Type.Equals((NgramType)Enum.Parse(typeof(NgramType), CbType.SelectedValue.ToString()));
             Update();
         }
 
-        private void TextBox_Changed(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        /// <summary>
+        /// Handles the Changed event of the TextBox controls.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.Windows.Controls.TextChangedEventArgs" /> instance containing the event data.</param>
+        private void TextBoxs_Changed(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
             _changes[1] = !Settings.Server.Equals(TbServer.Text);
             _changes[2] = !Settings.DbName.Equals(TbDbName.Text);
@@ -95,12 +113,22 @@ namespace PolishDiacriticMarksRestorer
             Update();
         }
 
+        /// <summary>
+        /// Handles the Click event of the BtnSave control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             SerializeStatic.Save(typeof(Settings), MainWindow.Path);
             BtnSave.IsEnabled = false;
         }
 
+        /// <summary>
+        /// Handles the Click event of the SettingApply control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void SettingApply_Click(object sender, RoutedEventArgs e)
         {
             SetSettings();
@@ -108,9 +136,13 @@ namespace PolishDiacriticMarksRestorer
             BtnSave.IsEnabled = true;
             BtnApply.IsEnabled = false;
         }
-        #endregion
 
         #region TITLE_BAR
+        /// <summary>
+        /// Handles the MouseDown event of the TitleBar control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="MouseButtonEventArgs"/> instance containing the event data.</param>
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Left) return;
@@ -118,10 +150,16 @@ namespace PolishDiacriticMarksRestorer
             thisCurrentWindow?.DragMove();
         }
 
+        /// <summary>
+        /// Handles the Click event of the CloseButton control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+        #endregion
         #endregion
     }
 }

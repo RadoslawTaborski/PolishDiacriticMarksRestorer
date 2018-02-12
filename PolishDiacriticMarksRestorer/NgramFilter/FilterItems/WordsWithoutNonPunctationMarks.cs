@@ -5,8 +5,9 @@ using NgramFilter.Interfaces;
 namespace NgramFilter.FilterItems
 {
     /// <summary>
-    /// WordsWithoutNonPunctationMarks Class rejects ngram with strings which have wrong marks
+    /// WordsWithoutNonPunctationMarks Class rejects ngram with strings which have wrong marks.
     /// </summary>
+    /// <seealso cref="NgramFilter.Interfaces.IFilterItem" />
     internal class WordsWithoutNonPunctationMarks : IFilterItem
     {
         #region FIELDS
@@ -18,6 +19,13 @@ namespace NgramFilter.FilterItems
         #endregion
 
         #region  PUBLIC
+        /// <summary>
+        /// This method validates the ngram.
+        /// </summary>
+        /// <param name="ngram">Ngram which is analyzed.</param>
+        /// <returns>
+        /// True if ngram is corrected.
+        /// </returns>
         /// <inheritdoc />
         public bool IsCorrect(NGram ngram)
         {

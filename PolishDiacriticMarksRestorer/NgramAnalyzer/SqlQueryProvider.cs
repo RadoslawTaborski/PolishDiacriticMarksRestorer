@@ -6,8 +6,9 @@ using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 namespace NgramAnalyzer
 {
     /// <summary>
-    /// SqlQueryProvider Class provides MySql Query
+    /// SqlQueryProvider Class provides MySql Query.
     /// </summary>
+    /// <seealso cref="NgramAnalyzer.Interfaces.IQueryProvider" />
     public class SqlQueryProvider : IQueryProvider
     {
         #region FIELDS
@@ -24,6 +25,15 @@ namespace NgramAnalyzer
         #endregion
 
         #region  PUBLIC
+        /// <summary>
+        /// Generate query to get data from Ngrams table.
+        /// </summary>
+        /// <param name="ngramType">Type of NGrams.</param>
+        /// <param name="wordList">List of words - must have a size suitable for the type ngrams.</param>
+        /// <returns>
+        /// Query string.
+        /// </returns>
+        /// <exception cref="ArgumentException">List(string) 'wordList' has wrong size</exception>
         /// <inheritdoc />
         public string GetNgramsFromTable(NgramType ngramType, List<string> wordList)
         {

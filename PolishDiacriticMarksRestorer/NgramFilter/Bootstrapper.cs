@@ -10,7 +10,7 @@ using NgramAnalyzer.Interfaces;
 namespace NgramFilter
 {
     /// <summary>
-    /// Bootstrapper class runs filter, modifier, create output file and database creator
+    /// Bootstrapper class runs filter, modifier, create output file and database creator.
     /// </summary>
     internal class Bootstrapper
     {
@@ -33,10 +33,10 @@ namespace NgramFilter
 
         #region  PUBLIC
         /// <summary>
-        /// This method runs Filter and create output file
+        /// This method runs Filter and create output file.
         /// </summary>
-        /// <param name="input">path to input file</param>
-        /// <param name="output">path to output file</param>
+        /// <param name="input">Path to input file.</param>
+        /// <param name="output">Path to output file.</param>
         public void Filter(string input, string output)
         {
             using (IFileAccess inputManager = new FileManager(_fileSystem, input))
@@ -72,11 +72,11 @@ namespace NgramFilter
         }
 
         /// <summary>
-        /// This method create database from data from file
+        /// This method create database from data from file.
         /// </summary>
-        /// <param name="input">path to input file</param>
-        /// <param name="dbName">name of database</param>
-        /// <param name="tableName">name of table</param>
+        /// <param name="input">Path to input file.</param>
+        /// <param name="dbName">Name of database.</param>
+        /// <param name="tableName">Name of table.</param>
         public void CreateDb(string input, string dbName, string tableName)
         {
             var first = true;

@@ -1,7 +1,7 @@
 ﻿namespace NgramAnalyzer.Common
 {
     /// <summary>
-    /// Type of FileManager open type
+    /// Type of FileManager open type.
     /// </summary>
     public enum FileManagerType
     {

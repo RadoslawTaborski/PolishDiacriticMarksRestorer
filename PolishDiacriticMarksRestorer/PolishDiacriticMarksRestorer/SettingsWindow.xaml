@@ -63,13 +63,13 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Label Content="Serwer" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <TextBox x:Name="TbServer" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBox_Changed"/>
+                            <TextBox x:Name="TbServer" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
                             <Label Content="Nazwa bazy danych" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <TextBox x:Name="TbDbName" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBox_Changed"/>
+                            <TextBox x:Name="TbDbName" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
                             <Label Content="Nazwa użytkownika" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <TextBox x:Name="TbUserName" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBox_Changed"/>
+                            <TextBox x:Name="TbUserName" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
                             <Label Content="Hasło" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <TextBox x:Name="TbPassword" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBox_Changed"/>
+                            <TextBox x:Name="TbPassword" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
                         </Grid>
                     </Border>
                 </TabItem>
@@ -89,13 +89,13 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Label Content="Unigramy" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <TextBox x:Name="TbUni" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBox_Changed"/>
+                            <TextBox x:Name="TbUni" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
                             <Label Content="Digramy" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <TextBox x:Name="TbDi" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBox_Changed"/>
+                            <TextBox x:Name="TbDi" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
                             <Label Content="Trigramy" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <TextBox x:Name="TbTri" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBox_Changed"/>
+                            <TextBox x:Name="TbTri" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
                             <Label Content="Fourgramy" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <TextBox x:Name="TbFour" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBox_Changed"/>
+                            <TextBox x:Name="TbFour" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
                         </Grid>
                     </Border>
                 </TabItem>
