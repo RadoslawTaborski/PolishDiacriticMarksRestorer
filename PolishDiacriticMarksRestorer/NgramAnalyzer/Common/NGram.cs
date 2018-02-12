@@ -3,11 +3,21 @@ using System.Linq;
 
 namespace NgramAnalyzer.Common
 {
+    /// <summary>
+    /// NGram structure which represents NGram model with value
+    /// </summary>
     public struct NGram
     {
+        #region FIELDS
         public int Value;
         public List<string> WordsList;
+        #endregion
 
+        #region CONSTRUCTORS
+
+        #endregion
+
+        #region OVERRIDES
         public override string ToString()
         {
             var result = WordsList.Aggregate("", (current, item) => current + (item + " "));
@@ -18,7 +28,12 @@ namespace NgramAnalyzer.Common
 
             return result;
         }
+        #endregion
 
+        #region  PUBLIC
+        /// <summary>
+        /// This method changes special strings for database
+        /// </summary>
         public void ChangeSpecialCharacters()
         {
             for (var index = 0; index < WordsList.Count; ++index)
@@ -27,5 +42,10 @@ namespace NgramAnalyzer.Common
                 WordsList[index] = WordsList[index].Replace(@"'", @"\'");
             }
         }
+        #endregion
+
+        #region PRIVATE
+
+        #endregion
     }
 }

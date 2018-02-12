@@ -9,13 +9,19 @@ using NgramAnalyzer.Interfaces;
 
 namespace NgramFilter
 {
+    /// <summary>
+    /// Bootstrapper class runs filter, modifier, create output file and database creator
+    /// </summary>
     internal class Bootstrapper
     {
+        #region FIELDS
         private readonly IFilter _filter;
         private readonly IModifier _modifier;
         private readonly IFileSystem _fileSystem;
         private readonly IDataBaseManagerFactory _dataAccess;
+        #endregion
 
+        #region CONSTRUCTORS
         public Bootstrapper(IFilter filter, IModifier modifier, IFileSystem fileSystem, IDataBaseManagerFactory dataAccess)
         {
             _filter = filter;
@@ -23,7 +29,14 @@ namespace NgramFilter
             _fileSystem = fileSystem;
             _dataAccess = dataAccess;
         }
+        #endregion
 
+        #region  PUBLIC
+        /// <summary>
+        /// This method runs Filter and create output file
+        /// </summary>
+        /// <param name="input">path to input file</param>
+        /// <param name="output">path to output file</param>
         public void Filter(string input, string output)
         {
             using (IFileAccess inputManager = new FileManager(_fileSystem, input))
@@ -58,6 +71,12 @@ namespace NgramFilter
             }
         }
 
+        /// <summary>
+        /// This method create database from data from file
+        /// </summary>
+        /// <param name="input">path to input file</param>
+        /// <param name="dbName">name of database</param>
+        /// <param name="tableName">name of table</param>
         public void CreateDb(string input, string dbName, string tableName)
         {
             var first = true;
@@ -110,5 +129,10 @@ namespace NgramFilter
                 Console.WriteLine("Ukończono pomyślnie");
             }
         }
+        #endregion
+
+        #region PRIVATE
+
+        #endregion
     }
 }

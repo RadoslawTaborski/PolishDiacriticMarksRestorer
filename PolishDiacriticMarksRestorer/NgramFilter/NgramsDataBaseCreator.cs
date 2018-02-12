@@ -5,15 +5,24 @@ using NgramFilter.Interfaces;
 
 namespace NgramFilter
 {
+    /// <summary>
+    /// NgramsDataBaseCreator Class creates DataBase and Table and fill them
+    /// </summary>
     internal class NgramsDataBaseCreator : IDataBaseCreator
     {
+        #region FIELDS
         private readonly IDataAccess _db;
+        #endregion
 
+        #region CONSTRUCTORS
         public NgramsDataBaseCreator(IDataAccess db)
         {
             _db = db;
         }
+        #endregion
 
+        #region  PUBLIC
+        /// <inheritdoc />
         public void CreateDataBase(string name)
         {
             _db.ConnectToServer();
@@ -21,6 +30,7 @@ namespace NgramFilter
             _db.Disconnect();
         }
 
+        /// <inheritdoc />
         public void CreateTable(string dataBaseName, string tableName, int numberOfWords)
         {
             if (numberOfWords < 1) return;
@@ -34,6 +44,7 @@ namespace NgramFilter
             _db.Disconnect();
         }
 
+        /// <inheritdoc />
         public void AddNgramsToTable(string tableName, List<NGram> ngrams)
         {
             if (ngrams == null || ngrams.Count <= 0) return;
@@ -45,6 +56,7 @@ namespace NgramFilter
             _db.Disconnect();
         }
 
+        /// <inheritdoc />
         public void AddOrUpdateNgramsToTable(string tableName, List<NGram> ngrams)
         {
             if (ngrams == null || ngrams.Count <= 0) return;
@@ -57,7 +69,9 @@ namespace NgramFilter
             }
             _db.Disconnect();
         }
+        #endregion
 
+        #region PRIVATE
         private string CreateDbString(string name)
         {
             return string.Format("CREATE DATABASE IF NOT EXISTS `{0}` CHARACTER SET utf8 COLLATE utf8_polish_ci;",
@@ -67,8 +81,8 @@ namespace NgramFilter
         private string CreateNgramsTableString(string dataBaseName, string tableName, int numberOfWords)
         {
             var commandText = string.Format(
-                "CREATE TABLE IF NOT EXISTS `{0}`.`{1}` "+
-                "( `ID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, "+
+                "CREATE TABLE IF NOT EXISTS `{0}`.`{1}` " +
+                "( `ID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
                 "`Value` INT NOT NULL", dataBaseName, tableName);
 
             for (var i = 0; i < numberOfWords; ++i)
@@ -115,7 +129,7 @@ namespace NgramFilter
             var count = ngram.WordsList.Count;
 
             var commandText =
-                string.Format("CALL Add{0}gram('{1}'",count,ngram.Value);
+                string.Format("CALL Add{0}gram('{1}'", count, ngram.Value);
 
             foreach (var item in ngram.WordsList)
             {
@@ -138,7 +152,7 @@ namespace NgramFilter
                 commandText += string.Format(", in _word{0} varchar(30)", i + 1);
             }
 
-            commandText += ") BEGIN SELECT @id:=ID, @val:=Value FROM " + dataBaseName + "." + tableName +" WHERE ";
+            commandText += ") BEGIN SELECT @id:=ID, @val:=Value FROM " + dataBaseName + "." + tableName + " WHERE ";
 
             for (var i = 0; i < numberOfWords; ++i)
             {
@@ -164,5 +178,6 @@ namespace NgramFilter
 
             return commandText;
         }
+        #endregion
     }
 }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NgramAnalyzer.Common
+﻿namespace NgramAnalyzer.Common
 {
+    /// <summary>
+    /// Type of NGrams
+    /// </summary>
     public enum NgramType
     {
         Unigram = 1,

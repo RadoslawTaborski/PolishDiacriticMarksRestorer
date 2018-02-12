@@ -16,6 +16,14 @@ namespace NgramAnalyzerTests.Unit
             "four"
         };
 
+        private readonly List<string> _wordList = new List<string>
+        {
+            "a",
+            "b",
+            "c",
+            "d"
+        };
+
         [Fact]
         public void SqlQueryProvider_NullListWithNames()
         {
@@ -26,13 +34,13 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void SqlQueryProvider_WrongListSize()
         {
-        var list = new List<string>
+            var list = new List<string>
         {
             "uni",
             "di",
             "tri",
         };
-        Exception ex = Assert.Throws<ArgumentException>(() => new SqlQueryProvider(list));
+            Exception ex = Assert.Throws<ArgumentException>(() => new SqlQueryProvider(list));
             Assert.Equal("IList<string> 'dbTableNames' has wrong size", ex.Message);
         }
 
@@ -49,9 +57,9 @@ namespace NgramAnalyzerTests.Unit
         public void GetNgramsFromTable_WrongListSize()
         {
             var list = new List<string>
-            {
-                "a"
-            };
+        {
+            "a",
+        };
 
             var provider = new SqlQueryProvider(_names);
 
@@ -62,13 +70,8 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetNgramsFromTable_Unigrams()
         {
-            var list = new List<string>
-            {
-                "a"
-            };
-
             var provider = new SqlQueryProvider(_names);
-            var result = provider.GetNgramsFromTable(NgramType.Unigram, list);
+            var result = provider.GetNgramsFromTable(NgramType.Unigram, _wordList);
 
             const string str = "SELECT * FROM uni WHERE Word1='a';";
             Assert.Equal(str, result);
@@ -77,14 +80,8 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetNgramsFromTable_Digrams()
         {
-            var list = new List<string>
-            {
-                "a",
-                "b"
-            };
-
             var provider = new SqlQueryProvider(_names);
-            var result = provider.GetNgramsFromTable(NgramType.Digram, list);
+            var result = provider.GetNgramsFromTable(NgramType.Digram, _wordList);
 
             const string str = "SELECT * FROM di WHERE Word1='a' AND Word2='b';";
             Assert.Equal(str, result);
@@ -93,15 +90,8 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetNgramsFromTable_Trisgrams()
         {
-            var list = new List<string>
-            {
-                "a",
-                "b",
-                "c"
-            };
-
             var provider = new SqlQueryProvider(_names);
-            var result = provider.GetNgramsFromTable(NgramType.Trigram, list);
+            var result = provider.GetNgramsFromTable(NgramType.Trigram, _wordList);
 
             const string str = "SELECT * FROM tri WHERE Word1='a' AND Word2='b' AND Word3='c';";
             Assert.Equal(str, result);
@@ -110,16 +100,8 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetNgramsFromTable_Fourgrams()
         {
-            var list = new List<string>
-            {
-                "a",
-                "b",
-                "c",
-                "d"
-            };
-
             var provider = new SqlQueryProvider(_names);
-            var result = provider.GetNgramsFromTable(NgramType.Fourgram, list);
+            var result = provider.GetNgramsFromTable(NgramType.Fourgram, _wordList);
 
             const string str = "SELECT * FROM four WHERE Word1='a' AND Word2='b' AND Word3='c' AND Word4='d';";
             Assert.Equal(str, result);

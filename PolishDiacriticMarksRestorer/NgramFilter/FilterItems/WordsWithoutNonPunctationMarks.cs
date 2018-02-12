@@ -4,8 +4,21 @@ using NgramFilter.Interfaces;
 
 namespace NgramFilter.FilterItems
 {
+    /// <summary>
+    /// WordsWithoutNonPunctationMarks Class rejects ngram with strings which have wrong marks
+    /// </summary>
     internal class WordsWithoutNonPunctationMarks : IFilterItem
     {
+        #region FIELDS
+
+        #endregion
+
+        #region CONSTRUCTORS
+
+        #endregion
+
+        #region  PUBLIC
+        /// <inheritdoc />
         public bool IsCorrect(NGram ngram)
         {
             foreach (var item in ngram.WordsList)
@@ -15,7 +28,9 @@ namespace NgramFilter.FilterItems
 
             return true;
         }
+        #endregion
 
+        #region PRIVATE
         private bool NonPunctationMarks(string str)
         {
             var regex = new Regex(@"[^\,\;\!\?\(\)""\.\-\:a-ząćęłńóśźżA-ZĄĆĘŁŃÓŚŹŻ]");
@@ -47,5 +62,6 @@ namespace NgramFilter.FilterItems
 
             return regex.IsMatch(copy);
         }
+        #endregion
     }
 }

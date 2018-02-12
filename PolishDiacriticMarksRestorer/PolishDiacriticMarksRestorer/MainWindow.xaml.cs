@@ -18,9 +18,12 @@ namespace PolishDiacriticMarksRestorer
     /// </summary>
     public partial class MainWindow
     {
+        #region FIELDS
         private readonly Analyzer _analyzer = new Analyzer();
         public static readonly string Path = "settings.dat";
+        #endregion
 
+        #region CONSTRUCTORS
         public MainWindow()
         {
             InitializeComponent();
@@ -32,7 +35,32 @@ namespace PolishDiacriticMarksRestorer
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);
         }
+        #endregion
 
+        #region  PRIVATE
+        private void Analyze(string[] stringsArray)
+        {
+            var resultsArray = _analyzer.AnalyzeStrings(stringsArray);
+            Dispatcher.Invoke(() => {
+                RtbResult.Document.Blocks.Clear();
+            });
+
+            foreach (var item in resultsArray)
+            {
+                Dispatcher.Invoke(() => {
+                    RtbResult.AppendText(item + " ");
+                });
+            }
+        }
+
+        private void Load(string path)
+        {
+            if (File.Exists(path))
+                SerializeStatic.Load(typeof(Settings), path);
+        }
+        #endregion
+
+        #region EVENTS
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var text = new TextRange(RtbInput.Document.ContentStart, RtbInput.Document.ContentEnd).Text;
@@ -65,22 +93,9 @@ namespace PolishDiacriticMarksRestorer
                 MessageBox.Show(ex.Message);
             }
         }
+        #endregion
 
-        private void Analyze(string[] stringsArray)
-        {
-            var resultsArray = _analyzer.AnalyzeStrings(stringsArray);
-            Dispatcher.Invoke(() => {
-                RtbResult.Document.Blocks.Clear();
-            });
-            
-            foreach (var item in resultsArray)
-            {
-                Dispatcher.Invoke(() => {
-                    RtbResult.AppendText(item + " ");
-                });              
-            }
-        }
-
+        #region TITLE_BAR
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
             var subWindow = new SettingsWindow();
@@ -94,14 +109,6 @@ namespace PolishDiacriticMarksRestorer
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);
         }
-
-        private void Load(string path)
-        {
-            if (File.Exists(path))
-                SerializeStatic.Load(typeof(Settings), path);
-        }
-
-        #region TITLE_BAR
         private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Left) return;

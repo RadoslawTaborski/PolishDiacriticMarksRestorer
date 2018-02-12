@@ -11,9 +11,15 @@ namespace PolishDiacriticMarksRestorer
     /// </summary>
     public partial class SettingsWindow
     {
-        public bool ChangeSettings;
+        #region FIELDS
         private readonly bool[] _changes = new bool[9];
+        #endregion
 
+        #region PROPERTIES
+        public bool ChangeSettings { get; private set; }
+        #endregion
+
+        #region CONSTRUCTORS
         public SettingsWindow()
         {
             InitializeComponent();
@@ -28,15 +34,9 @@ namespace PolishDiacriticMarksRestorer
             BtnSave.IsEnabled = false;
             ChangeSettings = false;
         }
+        #endregion
 
-        private void SettingApply_Click(object sender, RoutedEventArgs e)
-        {
-            SetSettings();
-            ChangeSettings = true;
-            BtnSave.IsEnabled = true;
-            BtnApply.IsEnabled = false;
-        }
-
+        #region  PRIVATE
         private void SetSettings()
         {
             Settings.Type = (NgramType)Enum.Parse(typeof(NgramType), CbType.SelectedValue.ToString());
@@ -63,20 +63,6 @@ namespace PolishDiacriticMarksRestorer
             TbFour.Text = Settings.TableNames[3];
         }
 
-        #region TITLE_BAR
-        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ChangedButton != MouseButton.Left) return;
-            var thisCurrentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive);
-            thisCurrentWindow?.DragMove();
-        }
-
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-        #endregion
-
         private void Update()
         {
             if (_changes.Any(item => item))
@@ -87,7 +73,9 @@ namespace PolishDiacriticMarksRestorer
 
             BtnApply.IsEnabled = false;
         }
+        #endregion
 
+        #region EVENTS
         private void NgramChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             _changes[0] = !Settings.Type.Equals((NgramType)Enum.Parse(typeof(NgramType), CbType.SelectedValue.ToString()));
@@ -112,5 +100,28 @@ namespace PolishDiacriticMarksRestorer
             SerializeStatic.Save(typeof(Settings), MainWindow.Path);
             BtnSave.IsEnabled = false;
         }
+
+        private void SettingApply_Click(object sender, RoutedEventArgs e)
+        {
+            SetSettings();
+            ChangeSettings = true;
+            BtnSave.IsEnabled = true;
+            BtnApply.IsEnabled = false;
+        }
+        #endregion
+
+        #region TITLE_BAR
+        private void TitleBar_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton != MouseButton.Left) return;
+            var thisCurrentWindow = Application.Current.Windows.OfType<Window>().SingleOrDefault(w => w.IsActive);
+            thisCurrentWindow?.DragMove();
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        #endregion
     }
 }

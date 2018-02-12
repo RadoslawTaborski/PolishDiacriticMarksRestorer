@@ -5,32 +5,48 @@ using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 
 namespace NgramAnalyzer
 {
+    /// <summary>
+    /// Analyze class compare data form database and input and provides result of Analyze
+    /// </summary>
     public class Analyzer : IAnalyzer
     {
+        #region FIELDS
         private IDataAccess _db;
         private IQueryProvider _queryProvider;
         private NgramType _ngramType;
+        #endregion
 
+        #region CONSTRUCTORS
+
+        #endregion
+
+        #region  PUBLIC
+        /// <inheritdoc />
         public void SetData(IDataAccess db)
         {
             _db = db;
         }
 
+        /// <inheritdoc />
         public void SetNgram(NgramType type)
         {
             _ngramType = type;
         }
 
+        /// <inheritdoc />
         public void SetQueryProvider(IQueryProvider queryProvider)
         {
             _queryProvider = queryProvider;
         }
 
-        public string[] AnalyzeStrings(string[] str)
+        /// <inheritdoc />
+        public string[] AnalyzeStrings(string[] strArray)
         {
-            return GetData(str);
+            return GetData(strArray);
         }
+        #endregion
 
+        #region PRIVATE
         private string[] GetData(string[] str)
         {
             _db.ConnectToDb();
@@ -40,5 +56,6 @@ namespace NgramAnalyzer
 
             return dataRow.Select(item => item.ToString()).ToArray();
         }
+        #endregion
     }
 }

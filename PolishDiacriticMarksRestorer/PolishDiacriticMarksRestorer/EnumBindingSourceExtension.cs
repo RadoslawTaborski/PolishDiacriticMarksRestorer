@@ -4,22 +4,19 @@ using System.Windows.Markup;
 
 namespace PolishDiacriticMarksRestorer
 {
+    /// <summary>
+    /// EnumBindingSourceExtension Class allows binding enum
+    /// </summary>
     public class EnumBindingSourceExtension : MarkupExtension
     {
+        #region FIELDS
         private Type _enumType;
+        #endregion
 
-
-        public EnumBindingSourceExtension(Type enumType)
-        {
-            if (enumType == null)
-                throw new ArgumentNullException("enumType");
-
-            EnumType = enumType;
-        }
-
+        #region PROPERTIES
         public Type EnumType
         {
-            get { return _enumType; }
+            get => _enumType;
             private set
             {
                 if (_enumType == value)
@@ -33,7 +30,24 @@ namespace PolishDiacriticMarksRestorer
                 _enumType = value;
             }
         }
+        #endregion
 
+        #region CONSTRUCTORS
+        public EnumBindingSourceExtension(Type enumType)
+        {
+            EnumType = enumType ?? throw new ArgumentNullException(nameof(enumType));
+        }
+        #endregion
+
+        #region PUBLIC
+
+        #endregion
+
+        #region PRIVATE
+
+        #endregion
+
+        #region OVERRIDES
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             var enumValues = Enum.GetValues(EnumType);
@@ -45,10 +59,13 @@ namespace PolishDiacriticMarksRestorer
                     Value = enumValue,
                 }).ToArray();
         }
+        #endregion
 
+        #region  NESTED CLASS
         public class EnumerationMember
         {
             public object Value { get; set; }
         }
+        #endregion
     }
 }

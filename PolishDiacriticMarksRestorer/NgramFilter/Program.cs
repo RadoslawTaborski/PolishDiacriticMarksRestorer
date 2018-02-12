@@ -10,11 +10,14 @@ namespace NgramFilter
 {
     internal class Program
     {
+        #region FIELDS
         private static Bootstrapper _bootstrapper;
+        #endregion
+
         private static void Main()
         {
             var filter = new Filter();
-            filter.Add(new MultipleInstances());
+            //filter.Add(new MultipleInstances());
             filter.Add(new OnlyWords());
             filter.Add(new WordsWithoutNonPunctationMarks());
             filter.Add(new NotLongWords());
@@ -70,6 +73,7 @@ namespace NgramFilter
             Console.Read();
         }
 
+        #region PRIVATE
         private static void RunFilter(string decisionFilter, ref string output)
         {
             if (decisionFilter == null || !decisionFilter.Equals("T")) return;
@@ -94,5 +98,6 @@ namespace NgramFilter
                 _bootstrapper.CreateDb(output, dbName, tableName);
             }
         }
+        #endregion
     }
 }
