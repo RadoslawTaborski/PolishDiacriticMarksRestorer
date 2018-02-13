@@ -44,6 +44,21 @@ namespace NgramAnalyzer.Common
                 WordsList[index] = WordsList[index].Replace(@"'", @"\'");
             }
         }
+
+        /// <summary>
+        /// To the string array.
+        /// </summary>
+        /// <returns>String array.</returns>
+        public string[] ToStrings()
+        {
+            var result = new List<string> {Value.ToString()};
+            foreach (var item in WordsList)
+            {
+                result.Add(item);
+            }
+
+            return result.ToArray();
+        }
         #endregion
 
         #region PRIVATE

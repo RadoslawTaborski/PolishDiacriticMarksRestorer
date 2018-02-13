@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
 using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
@@ -62,19 +64,50 @@ namespace NgramAnalyzer
         /// <inheritdoc />
         public string[] AnalyzeStrings(string[] strArray)
         {
-            return GetData(strArray);
+            var result = new List<string>();
+            var ngrams = GetData(strArray);
+
+            foreach (var item in ngrams)
+            {
+                result.AddRange(item.ToStrings());
+                result.Add("\r\n");
+            }
+
+            return result.ToArray();
         }
         #endregion
 
         #region PRIVATE
-        private string[] GetData(string[] str)
+        private IEnumerable<NGram> GetData(string[] str)
         {
             _db.ConnectToDb();
-            var data = _db.ExecuteSqlCommand(_queryProvider.GetNgramsFromTable(_ngramType, str.ToList()));
+            var data = _db.ExecuteSqlCommand(_queryProvider.GetSimilarNgramsFromTable(_ngramType, str.ToList()));
             _db.Disconnect();
-            var dataRow = data.Tables[0].Rows[0].ItemArray;
 
-            return dataRow.Select(item => item.ToString()).ToArray();
+            var ngramsList = new List<NGram>();
+            for (var i =0; i<data.Tables[0].Rows.Count; ++i)
+            {
+                var dataRow = data.Tables[0].Rows[i].ItemArray;
+                ngramsList.Add(StringArrayToNgram(dataRow.Select(item => item.ToString()).ToArray()));
+            }
+
+            return ngramsList;
+        }
+
+        private NGram StringArrayToNgram(string[] strArray)
+        {
+            var ngram = new NGram();
+            var good = int.TryParse(strArray[1], out ngram.Value);
+            ngram.WordsList = new List<string>();
+
+            if (!good) return ngram;
+
+            foreach (var item in strArray.Skip(2))
+            {
+                ngram.WordsList.Add(item);
+            }
+
+            return ngram;
         }
         #endregion
     }

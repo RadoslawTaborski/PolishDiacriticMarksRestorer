@@ -14,10 +14,11 @@ namespace NgramAnalyzerTests.Unit
         public void AnalyzeStrings_ReturnsStringArray()
         {
             var tab = new DataTable();
+            tab.Columns.Add("ID", typeof(int));
             tab.Columns.Add("Value", typeof(int));
             tab.Columns.Add("Word1", typeof(string));
-            tab.Rows.Add(25, "cat");
-            tab.Rows.Add(15, "dog");
+            tab.Rows.Add(1,25, "cat");
+            tab.Rows.Add(2,15, "dog");
             var ds = new DataSet();
             ds.Tables.Add(tab);
 
@@ -25,7 +26,7 @@ namespace NgramAnalyzerTests.Unit
             dataMock.Setup(m => m.ExecuteSqlCommand(It.IsAny<string>())).Returns(ds);
 
             var queryProviderMock = new Mock<IQueryProvider>();
-            queryProviderMock.Setup(m => m.GetNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<string>>())).Returns("aa");
+            queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<string>>())).Returns("aa");
 
             var analyze = new Analyzer();
             analyze.SetData(dataMock.Object);
@@ -33,7 +34,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Digram);
             var result = analyze.AnalyzeStrings(new []{"a"});
 
-            Assert.Equal(new[] { "25", "cat" }, result);
+            Assert.Equal(new[] { "25", "cat", "\r\n", "15", "dog", "\r\n" }, result);
         }
     }
 }

@@ -40,7 +40,7 @@ namespace NgramAnalyzer
         /// </returns>
         /// <exception cref="ArgumentException">List(string) 'wordList' has wrong size</exception>
         /// <inheritdoc />
-        public string GetNgramsFromTable(NgramType ngramType, List<string> wordList)
+        public string GetTheSameNgramsFromTable(NgramType ngramType, List<string> wordList)
         {
             var number = (int)ngramType;
 
@@ -61,10 +61,53 @@ namespace NgramAnalyzer
 
             return query;
         }
+
+        /// <inheritdoc />
+        /// <summary>
+        /// Generate query to get the similar ngrams from Ngrams table.
+        /// </summary>
+        /// <param name="ngramType">Type of the ngram.</param>
+        /// <param name="wordList">List of words - must have a one size smaller than the type ngrams.</param>
+        /// <returns></returns>
+        /// <exception cref="T:System.ArgumentException">
+        /// List(string) 'wordList' has wrong size
+        /// or
+        /// NgramType 'ngramType' cannot be an Unigram
+        /// </exception>
+        public string GetSimilarNgramsFromTable(NgramType ngramType, List<string> wordList)
+        {
+            var number = (int)ngramType;
+            var numberComparedWords = number - 1;
+
+            if (wordList == null || wordList.Count < numberComparedWords)
+                throw new ArgumentException("List<string> 'wordList' has wrong size");
+            if (ngramType == NgramType.Unigram)
+                throw new ArgumentException("NgramType 'ngramType' cannot be an Unigram");
+
+            var query = QueryCreator(number, numberComparedWords, wordList);
+
+            return query;
+        }
         #endregion
 
         #region PRIVATE
 
+        private string QueryCreator(int ngramSize, int numberComparedWords, IReadOnlyList<string> wordList)
+        {
+            var query = "SELECT * FROM " + _dbTableDbTableName[ngramSize - 1] + " WHERE ";
+
+            for (var i = 0; i < numberComparedWords; ++i)
+            {
+                if (i != 0) query += "AND ";
+                query += "Word" + (i + 1) + "='" + wordList[i] + "' ";
+            }
+
+            var strBuilder =
+                new System.Text.StringBuilder(query) { [query.Length - 1] = ';' };
+            query = strBuilder.ToString();
+
+            return query;
+        }
         #endregion
     }
 }

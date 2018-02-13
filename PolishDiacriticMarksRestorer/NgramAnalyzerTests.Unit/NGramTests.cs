@@ -61,5 +61,19 @@ namespace NgramAnalyzerTests.Unit
 
             Assert.Equal("15 small cat", result);
         }
+
+        [Fact]
+        public void ToStringsTest()
+        {
+            var ngram = new NGram
+            {
+                Value = 15,
+                WordsList = new List<string> { "small", "cat" }
+            };
+
+            var result = ngram.ToStrings();
+
+            Assert.Equal(new []{"15","small","cat"}, result);
+        }
     }
 }
