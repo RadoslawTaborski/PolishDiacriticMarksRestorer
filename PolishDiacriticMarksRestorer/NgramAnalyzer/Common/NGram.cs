@@ -51,7 +51,7 @@ namespace NgramAnalyzer.Common
         /// <returns>String array.</returns>
         public string[] ToStrings()
         {
-            var result = new List<string> {Value.ToString()};
+            var result = new List<string>();
             foreach (var item in WordsList)
             {
                 result.Add(item);

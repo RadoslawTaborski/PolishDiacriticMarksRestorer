@@ -14,13 +14,30 @@ namespace NgramAnalyzer.Interfaces
         /// Query string.
         /// </returns>
         string GetTheSameNgramsFromTable(NgramType ngramType, List<string> wordList);
-
+        /// <summary>
+        /// Generate query which gets the ngrams changing the last word from table.
+        /// </summary>
+        /// <param name="ngramType">Type of the ngram.</param>
+        /// <param name="wordList">The word list.</param>
+        /// <param name="combinations">Possible last words.</param>
+        /// <returns></returns>
+        string GetMultiNgramsFromTable(NgramType ngramType, List<string> wordList, List<string> combinations);
         /// <summary>
         /// Generate query to get the similar ngrams from Ngrams table.
         /// </summary>
         /// <param name="ngramType">Type of the ngram.</param>
         /// <param name="wordList">List of words - must have a one size smaller than the type ngrams.</param>
-        /// <returns></returns>
+        /// <returns>
+        /// Query string.
+        /// </returns>
         string GetSimilarNgramsFromTable(NgramType ngramType, List<string> wordList);
+        /// <summary>
+        /// Generate query which checks the words in unigram table.
+        /// </summary>
+        /// <param name="wordList">The word list.</param>
+        /// <returns>
+        /// Query string.
+        /// </returns>
+        string CheckWordsInUnigramFromTable(List<string> wordList);
     }
 }

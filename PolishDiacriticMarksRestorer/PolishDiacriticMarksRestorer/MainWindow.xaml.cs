@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -60,6 +60,12 @@ namespace PolishDiacriticMarksRestorer
             if (File.Exists(path))
                 SerializeStatic.Load(typeof(Settings), path);
         }
+
+        private static void ExceptionHandler(Task task1)
+        {
+            var exception = task1.Exception;
+            if (exception != null) MessageBox.Show(exception.Message);
+        }
         #endregion
 
         #region EVENTS
@@ -70,6 +76,7 @@ namespace PolishDiacriticMarksRestorer
         /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            RtbResult.Document.Blocks.Clear();
             var text = new TextRange(RtbInput.Document.ContentStart, RtbInput.Document.ContentEnd).Text;
             var stringsArray = text.Split(new[]{
                 " ",
@@ -77,7 +84,8 @@ namespace PolishDiacriticMarksRestorer
             }, StringSplitOptions.RemoveEmptyEntries);
             try
             {
-                var t = new Thread(() => Analyze(stringsArray));
+                var t = new Task(() => Analyze(stringsArray));
+                t.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
                 t.Start();
             }
             catch (MySqlException ex)

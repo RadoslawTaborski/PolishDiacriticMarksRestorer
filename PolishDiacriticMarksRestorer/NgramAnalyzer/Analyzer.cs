@@ -64,28 +64,59 @@ namespace NgramAnalyzer
         /// <inheritdoc />
         public string[] AnalyzeStrings(string[] strArray)
         {
-            var result = new List<string>();
-            var ngrams = GetData(strArray);
+            var adder = new DiacriticMarksAdder();
+            var combinations = adder.Start(strArray[2], 100);
+            var words = (from kvp in combinations select kvp.Key).Distinct().ToList();
+            var unigrams = CheckWords(words);
+            words = (from ngram in unigrams select ngram.WordsList[0]).Distinct().ToList();
 
-            foreach (var item in ngrams)
+            switch (words.Count)
             {
-                result.AddRange(item.ToStrings());
-                result.Add("\r\n");
+                case 1:
+                    var list = strArray.ToList();
+                    list[list.Count - 1] = words[0];
+                    return list.ToArray();
+                case 0:
+                    return strArray;
             }
 
-            return result.ToArray();
+            var ngrams = GetData(strArray.Take(strArray.Length - 1).ToList(), words);
+
+            var nGrams = ngrams as NGram[] ?? ngrams.ToArray();
+
+            if (nGrams.Any()) return nGrams[0].ToStrings();
+
+            var list2 = strArray.ToList();
+            list2[list2.Count - 1] = words[0];
+            return list2.ToArray();
         }
         #endregion
 
         #region PRIVATE
-        private IEnumerable<NGram> GetData(string[] str)
+        private IEnumerable<NGram> GetData(List<string> str, List<string> combinations)
         {
             _db.ConnectToDb();
-            var data = _db.ExecuteSqlCommand(_queryProvider.GetSimilarNgramsFromTable(_ngramType, str.ToList()));
+            var data = _db.ExecuteSqlCommand(_queryProvider.GetMultiNgramsFromTable(_ngramType, str, combinations));
             _db.Disconnect();
 
             var ngramsList = new List<NGram>();
             for (var i =0; i<data.Tables[0].Rows.Count; ++i)
+            {
+                var dataRow = data.Tables[0].Rows[i].ItemArray;
+                ngramsList.Add(StringArrayToNgram(dataRow.Select(item => item.ToString()).ToArray()));
+            }
+
+            return ngramsList;
+        }
+
+        private IEnumerable<NGram> CheckWords(List<string> str)
+        {
+            _db.ConnectToDb();
+            var data = _db.ExecuteSqlCommand(_queryProvider.CheckWordsInUnigramFromTable(str.ToList()));
+            _db.Disconnect();
+
+            var ngramsList = new List<NGram>();
+            for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
             {
                 var dataRow = data.Tables[0].Rows[i].ItemArray;
                 ngramsList.Add(StringArrayToNgram(dataRow.Select(item => item.ToString()).ToArray()));
