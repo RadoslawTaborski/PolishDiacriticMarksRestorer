@@ -45,6 +45,7 @@ namespace PolishDiacriticMarksRestorer
             var resultsArray = _analyzer.AnalyzeStrings(stringsArray);
             Dispatcher.Invoke(() => {
                 RtbResult.Document.Blocks.Clear();
+                
             });
 
             foreach (var item in resultsArray)
@@ -53,6 +54,10 @@ namespace PolishDiacriticMarksRestorer
                     RtbResult.AppendText(item + " ");
                 });
             }
+            Dispatcher.Invoke(() => {
+                LoadingBar.Visibility = Visibility.Hidden;
+                BtnStart.IsEnabled = true;
+            });
         }
 
         private void Load(string path)
@@ -76,6 +81,8 @@ namespace PolishDiacriticMarksRestorer
         /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            LoadingBar.Visibility = Visibility.Visible;
+            BtnStart.IsEnabled = false;
             RtbResult.Document.Blocks.Clear();
             var text = new TextRange(RtbInput.Document.ContentStart, RtbInput.Document.ContentEnd).Text;
             var stringsArray = text.Split(new[]{

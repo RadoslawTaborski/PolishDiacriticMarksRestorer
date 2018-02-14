@@ -92,6 +92,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="EnumBindingSourceExtension.cs" />
+    <Compile Include="RounderProgressBarControl.xaml.cs">
+      <DependentUpon>RounderProgressBarControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SerializeStatic.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="SettingsWindow.xaml.cs">
@@ -110,6 +113,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Resources.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="RounderProgressBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
