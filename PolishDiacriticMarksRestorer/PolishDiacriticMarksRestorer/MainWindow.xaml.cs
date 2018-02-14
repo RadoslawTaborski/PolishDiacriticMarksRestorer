@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -24,6 +25,8 @@ namespace PolishDiacriticMarksRestorer
     {
         #region FIELDS
         private readonly Analyzer _analyzer = new Analyzer(new DiacriticMarksAdder());
+        private float _time;
+        private readonly Timer _timer = new Timer();
         public static readonly string Path = "settings.dat";
         #endregion
 
@@ -38,25 +41,31 @@ namespace PolishDiacriticMarksRestorer
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);
+            _timer.Elapsed += OnTimerElapsed;
         }
         #endregion
 
         #region  PRIVATE
         private void Analyze(List<string> stringsList)
         {
+            _time = 0;
+            _timer.Start();
             var resultsArray = _analyzer.AnalyzeStrings(stringsList);
-            Dispatcher.Invoke(() => {
+            Dispatcher.Invoke(() =>
+            {
                 RtbResult.Document.Blocks.Clear();
-                
             });
+            _timer.Stop();
 
             foreach (var item in resultsArray)
             {
-                Dispatcher.Invoke(() => {
+                Dispatcher.Invoke(() =>
+                {
                     RtbResult.AppendText(item + " ");
                 });
             }
-            Dispatcher.Invoke(() => {
+            Dispatcher.Invoke(() =>
+            {
                 LoadingBar.Visibility = Visibility.Hidden;
                 BtnStart.IsEnabled = true;
             });
@@ -72,6 +81,12 @@ namespace PolishDiacriticMarksRestorer
         {
             var exception = task1.Exception;
             if (exception != null) MessageBox.Show(exception.Message);
+        }
+
+        private void OnTimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            _time += 0.1f;
+            Dispatcher.Invoke(() => { Info.Content = "Czas wykonywania: " + $"{_time:F1}" + "s"; });
         }
         #endregion
 

@@ -12,22 +12,23 @@
         ResizeMode="CanResizeWithGrip"
         Icon="./img/logo.ico">
     <Window.Resources />
-    <Border  Style="{StaticResource MyBorder2}" BorderThickness="2">
+    <Border  Style="{StaticResource MyBorder2}" BorderThickness="1">
         <Grid Margin="0,0,0,0" Style="{StaticResource MyGrid}">
             <Grid.RowDefinitions>
                 <RowDefinition/>
-                <RowDefinition Height="80"/>
+                <RowDefinition Height="68"/>
+                <RowDefinition Height="24"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
 
-            <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,6,12,12" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
+            <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,6,12,0" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
                 <Button x:Name="BtnStart" Content="Przywróć" Style="{StaticResource MyButton}" HorizontalAlignment="Center" Margin="0,10,0,10" Click="Button_Click" Width="474" />
             </Border>
 
-            <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,40,6,6" Grid.Row="0" Grid.Column="0">
+            <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,40,3,0" Grid.Row="0" Grid.Column="0">
                 <RichTextBox x:Name="RtbInput" Style="{StaticResource MyRichTextBox}" Margin="6,6,6,6">
                     <FlowDocument>
                         <Paragraph>
@@ -37,7 +38,7 @@
                 </RichTextBox>
             </Border>
 
-            <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="6,40,12,6" Grid.Row="0" Grid.Column="1">
+            <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="3,40,12,0" Grid.Row="0" Grid.Column="1">
                 <RichTextBox x:Name="RtbResult" Style="{StaticResource MyRichTextBox}" Margin="6,6,6,6">
                     <FlowDocument>
                         <Paragraph>
@@ -45,6 +46,10 @@
                         </Paragraph>
                     </FlowDocument>
                 </RichTextBox>
+            </Border>
+
+            <Border Background="{StaticResource MyPurple}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,5,0,0">
+                <Label x:Name="Info" FontSize="10" Style="{StaticResource MyLabel}" Margin="10,-3" />
             </Border>
 
             <DockPanel x:Name="Dock" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Style="{StaticResource MyDockPanel}" LastChildFill="False" Height="30" VerticalAlignment="Top">
@@ -74,7 +79,7 @@
                     <TextBlock Style="{StaticResource MyTextBlock}" Margin="15,7,70,0" DockPanel.Dock="Left" Height="23">Polish Diacritic Marks Restorer</TextBlock>
                 </DockPanel>
             </DockPanel>
-            <polishDiacriticMarksRestorer:RounderProgressBarControl x:Name="LoadingBar" Visibility="Hidden" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0"></polishDiacriticMarksRestorer:RounderProgressBarControl>
+            <polishDiacriticMarksRestorer:RounderProgressBarControl x:Name="LoadingBar" Visibility="Hidden" Grid.Row="0" Grid.Column="1"></polishDiacriticMarksRestorer:RounderProgressBarControl>
         </Grid>
     </Border>
 </Window>
