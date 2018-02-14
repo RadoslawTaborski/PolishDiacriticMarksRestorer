@@ -132,7 +132,7 @@ namespace NgramAnalyzer
 
         public string CheckWordsInUnigramFromTable(List<string> wordList)
         {
-            if (wordList == null)
+            if (wordList == null || wordList.Count == 0)
                 throw new ArgumentException("List<string> 'wordList' can't be null");
 
             var query = "SELECT * FROM " + _dbTableDbTableName[0] + " WHERE ";

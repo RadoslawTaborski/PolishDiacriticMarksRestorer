@@ -16,7 +16,13 @@ namespace NgramAnalyzer
         #region FIELDS
         private IDataAccess _db;
         private IQueryProvider _queryProvider;
+        private readonly IDiacriticMarksAdder _diacriticAdder;
         private NgramType _ngramType;
+
+        public Analyzer(IDiacriticMarksAdder diacriticAdder)
+        {
+            _diacriticAdder = diacriticAdder;
+        }
         #endregion
 
         #region CONSTRUCTORS
@@ -69,9 +75,8 @@ namespace NgramAnalyzer
             Console.WriteLine("count: " + strArray.Count);
             for (var i = length - 1; i < strArray.Count; ++i)
             {
-                Console.WriteLine("i: " + i);
-                var adder = new DiacriticMarksAdder();
-                var combinations = adder.Start(strArray[i], 100);
+               Console.WriteLine("i: " + i);
+                var combinations = _diacriticAdder.Start(strArray[i], 100);
                 var words = (from kvp in combinations select kvp.Key).Distinct().ToList();
                 var unigrams = CheckWords(words);
                 words = (from ngram in unigrams select ngram.WordsList[0]).Distinct().ToList();
@@ -79,6 +84,11 @@ namespace NgramAnalyzer
                 if (words.Count == 1)
                 {
                     strArray[i] = words[0];
+                    continue;
+                }
+
+                if (words.Count == 0)
+                {
                     continue;
                 }
 
@@ -108,7 +118,9 @@ namespace NgramAnalyzer
             for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
             {
                 var dataRow = data.Tables[0].Rows[i].ItemArray;
-                ngramsList.Add(StringArrayToNgram(dataRow.Select(item => item.ToString()).ToArray()));
+                var ngram = StringArrayToNgram(dataRow.Select(item => item.ToString()).ToArray());
+                if (ngram != null)
+                    ngramsList.Add((NGram)ngram);
             }
 
             return ngramsList;
@@ -117,26 +129,28 @@ namespace NgramAnalyzer
         private IEnumerable<NGram> CheckWords(List<string> str)
         {
             _db.ConnectToDb();
-            var data = _db.ExecuteSqlCommand(_queryProvider.CheckWordsInUnigramFromTable(str.ToList()));
+            var data = _db.ExecuteSqlCommand(_queryProvider.CheckWordsInUnigramFromTable(str));
             _db.Disconnect();
 
             var ngramsList = new List<NGram>();
             for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
             {
                 var dataRow = data.Tables[0].Rows[i].ItemArray;
-                ngramsList.Add(StringArrayToNgram(dataRow.Select(item => item.ToString()).ToArray()));
+                var ngram = StringArrayToNgram(dataRow.Select(item => item.ToString()).ToArray());
+                if (ngram != null)
+                    ngramsList.Add((NGram)ngram);
             }
 
             return ngramsList;
         }
 
-        private NGram StringArrayToNgram(string[] strArray)
+        private NGram? StringArrayToNgram(string[] strArray)
         {
             var ngram = new NGram();
             var good = int.TryParse(strArray[1], out ngram.Value);
             ngram.WordsList = new List<string>();
 
-            if (!good) return ngram;
+            if (!good) return null;
 
             foreach (var item in strArray.Skip(2))
             {

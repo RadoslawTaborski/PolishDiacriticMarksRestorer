@@ -23,7 +23,7 @@ namespace PolishDiacriticMarksRestorer
     public partial class MainWindow
     {
         #region FIELDS
-        private readonly Analyzer _analyzer = new Analyzer();
+        private readonly Analyzer _analyzer = new Analyzer(new DiacriticMarksAdder());
         public static readonly string Path = "settings.dat";
         #endregion
 

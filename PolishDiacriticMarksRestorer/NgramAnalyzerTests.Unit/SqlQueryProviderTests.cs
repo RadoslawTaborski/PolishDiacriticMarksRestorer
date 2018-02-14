@@ -285,5 +285,41 @@ namespace NgramAnalyzerTests.Unit
             const string str = "SELECT * FROM four WHERE Word1='a' AND Word2='b' AND Word3='c' AND ( Word4='or1' OR Word4='or2' );";
             Assert.Equal(str, result);
         }
+
+        [Fact]
+        public void CheckWordsInUnigramFromTable_NormalExample()
+        {
+            var wordList = new List<string>
+            {
+                "a",
+                "b",
+                "c"
+            };
+
+            var provider = new SqlQueryProvider(_names);
+            var result = provider.CheckWordsInUnigramFromTable(wordList);
+
+            const string str = "SELECT * FROM uni WHERE Word1='a' OR Word1='b' OR Word1='c';";
+            Assert.Equal(str, result);
+        }
+
+        [Fact]
+        public void CheckWordsInUnigramFromTable_NullList()
+        {
+            var provider = new SqlQueryProvider(_names);
+
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.CheckWordsInUnigramFromTable(null));
+            Assert.Equal("List<string> 'wordList' can't be null", ex.Message);
+        }
+
+        [Fact]
+        public void CheckWordsInUnigramFromTable_EmptyList()
+        {
+            var list = new List<string>();
+            var provider = new SqlQueryProvider(_names);
+
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.CheckWordsInUnigramFromTable(list));
+            Assert.Equal("List<string> 'wordList' can't be null", ex.Message);
+        }
     }
 }

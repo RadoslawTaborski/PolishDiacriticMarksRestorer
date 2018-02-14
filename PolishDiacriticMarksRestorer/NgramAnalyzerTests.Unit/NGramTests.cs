@@ -73,7 +73,7 @@ namespace NgramAnalyzerTests.Unit
 
             var result = ngram.ToStrings();
 
-            Assert.Equal(new []{"15","small","cat"}, result);
+            Assert.Equal(new List<string>{"small","cat"}, result);
         }
     }
 }
