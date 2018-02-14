@@ -1,4 +1,5 @@
-﻿using NgramAnalyzer.Common;
+﻿using System.Collections.Generic;
+using NgramAnalyzer.Common;
 
 namespace NgramAnalyzer.Interfaces
 {
@@ -11,7 +12,7 @@ namespace NgramAnalyzer.Interfaces
         /// <returns>
         /// string array with result of analyze.
         /// </returns>
-        string[] AnalyzeStrings(string[] strArray);
+        List<string> AnalyzeStrings(List<string> strArray);
         /// <summary>
         /// This method set a IQueryProvider.
         /// </summary>

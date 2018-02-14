@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
@@ -61,45 +62,50 @@ namespace NgramAnalyzer
         /// String array with result of analyze.
         /// </returns>
         /// <inheritdoc />
-        public string[] AnalyzeStrings(string[] strArray)
+        public List<string> AnalyzeStrings(List<string> strArray)
         {
-            var adder = new DiacriticMarksAdder();
-            var combinations = adder.Start(strArray[2], 100);
-            var words = (from kvp in combinations select kvp.Key).Distinct().ToList();
-            var unigrams = CheckWords(words);
-            words = (from ngram in unigrams select ngram.WordsList[0]).Distinct().ToList();
-
-            switch (words.Count)
+            var length = (int)_ngramType;
+            Console.WriteLine("length: " +length);
+            Console.WriteLine("count: " + strArray.Count);
+            for (var i = length - 1; i < strArray.Count; ++i)
             {
-                case 1:
-                    var list = strArray.ToList();
-                    list[list.Count - 1] = words[0];
-                    return list.ToArray();
-                case 0:
-                    return strArray;
+                Console.WriteLine("i: " + i);
+                var adder = new DiacriticMarksAdder();
+                var combinations = adder.Start(strArray[i], 100);
+                var words = (from kvp in combinations select kvp.Key).Distinct().ToList();
+                var unigrams = CheckWords(words);
+                words = (from ngram in unigrams select ngram.WordsList[0]).Distinct().ToList();
+
+                if (words.Count == 1)
+                {
+                    strArray[i] = words[0];
+                    continue;
+                }
+
+                var ngrams = GetData(strArray.Skip(i - length + 1).Take(length - 1).ToList(), words);
+
+                if (ngrams.Count() == 1)
+                {
+                    strArray[i] = ngrams[0].WordsList[ngrams[0].WordsList.Count-1];
+                    continue;
+                }
+
+                strArray[i] = words[0];
             }
 
-            var ngrams = GetData(strArray.Take(strArray.Length - 1).ToList(), words);
-
-            var nGrams = ngrams as NGram[] ?? ngrams.ToArray();
-
-            if (nGrams.Any()) return nGrams[0].ToStrings();
-
-            var list2 = strArray.ToList();
-            list2[list2.Count - 1] = words[0];
-            return list2.ToArray();
+            return strArray;
         }
         #endregion
 
         #region PRIVATE
-        private IEnumerable<NGram> GetData(List<string> str, List<string> combinations)
+        private List<NGram> GetData(List<string> str, List<string> combinations)
         {
             _db.ConnectToDb();
             var data = _db.ExecuteSqlCommand(_queryProvider.GetMultiNgramsFromTable(_ngramType, str, combinations));
             _db.Disconnect();
 
             var ngramsList = new List<NGram>();
-            for (var i =0; i<data.Tables[0].Rows.Count; ++i)
+            for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
             {
                 var dataRow = data.Tables[0].Rows[i].ItemArray;
                 ngramsList.Add(StringArrayToNgram(dataRow.Select(item => item.ToString()).ToArray()));

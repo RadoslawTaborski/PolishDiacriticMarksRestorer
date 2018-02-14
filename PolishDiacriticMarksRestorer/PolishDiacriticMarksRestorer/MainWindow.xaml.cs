@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
@@ -40,9 +42,9 @@ namespace PolishDiacriticMarksRestorer
         #endregion
 
         #region  PRIVATE
-        private void Analyze(string[] stringsArray)
+        private void Analyze(List<string> stringsList)
         {
-            var resultsArray = _analyzer.AnalyzeStrings(stringsArray);
+            var resultsArray = _analyzer.AnalyzeStrings(stringsList);
             Dispatcher.Invoke(() => {
                 RtbResult.Document.Blocks.Clear();
                 
@@ -91,7 +93,7 @@ namespace PolishDiacriticMarksRestorer
             }, StringSplitOptions.RemoveEmptyEntries);
             try
             {
-                var t = new Task(() => Analyze(stringsArray));
+                var t = new Task(() => Analyze(stringsArray.ToList()));
                 t.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
                 t.Start();
             }

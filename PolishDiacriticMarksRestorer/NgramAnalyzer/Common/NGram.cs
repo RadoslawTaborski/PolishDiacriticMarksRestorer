@@ -49,7 +49,7 @@ namespace NgramAnalyzer.Common
         /// To the string array.
         /// </summary>
         /// <returns>String array.</returns>
-        public string[] ToStrings()
+        public List<string> ToStrings()
         {
             var result = new List<string>();
             foreach (var item in WordsList)
@@ -57,7 +57,7 @@ namespace NgramAnalyzer.Common
                 result.Add(item);
             }
 
-            return result.ToArray();
+            return result;
         }
         #endregion
 
