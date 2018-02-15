@@ -39,5 +39,15 @@ namespace NgramAnalyzer.Interfaces
         /// Query string.
         /// </returns>
         string CheckWordsInUnigramFromTable(List<string> wordList);
+        /// <summary>
+        /// Gets all necessary ngrams from table. Each list in outside list is responsible for one type of ngrams.
+        /// Inside list contains available word combinations.
+        /// </summary>
+        /// <param name="ngramType">Type of the ngram.</param>
+        /// <param name="wordLists">The word lists.</param>
+        /// <returns>
+        /// Query string.
+        /// </returns>
+        string GetAllNecessaryNgramsFromTable(NgramType ngramType, List<List<List<string>>> wordLists);
     }
 }

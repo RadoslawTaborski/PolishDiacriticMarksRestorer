@@ -149,6 +149,60 @@ namespace NgramAnalyzer
 
             return query;
         }
+
+        public string GetAllNecessaryNgramsFromTable(NgramType ngramType, List<List<List<string>>> wordLists)
+        {
+            var number = (int)ngramType;
+
+            if (ngramType == NgramType.Unigram)
+                throw new ArgumentException("NgramType 'ngramType' cannot be an Unigram");
+            if (wordLists == null || wordLists.Count < 1)
+                throw new ArgumentException("List<string> 'wordLists' has wrong size");
+            foreach (var item in wordLists)
+            {
+                if (item.Count != number)
+                    throw new ArgumentException("List<string> middle list has wrong size");
+                foreach (var item2 in item)
+                {
+                    if (item2.Count < 1)
+                        throw new ArgumentException("List<string> inside list has wrong size");
+                }
+            }
+
+
+            var query = "SELECT * FROM " + _dbTableDbTableName[number - 1] + " WHERE ";
+
+            var z = 1;
+            foreach (var item1 in wordLists)
+            {
+                var j = 1;
+
+                if (z != 1) query += " OR ";
+
+                query += "( ";
+                foreach (var item2 in item1)
+                {
+                    if (j != 1) query += " AND ";
+                    query += "( ";
+
+                    for (var i=0; i<item2.Count; ++i)
+                    {
+                        if (i != 0) query += "OR ";
+                        query += "Word" + j + "='" + item2[i] + "' ";
+                    }
+
+                    query += ")";
+                    ++j;
+                }
+                query += " )";
+                ++z;
+            }
+
+            query += ";";
+
+            return query;
+        }
+
         #endregion
 
         #region PRIVATE

@@ -321,5 +321,108 @@ namespace NgramAnalyzerTests.Unit
             Exception ex = Assert.Throws<ArgumentException>(() => provider.CheckWordsInUnigramFromTable(list));
             Assert.Equal("List<string> 'wordList' can't be null", ex.Message);
         }
+
+        [Fact]
+        public void GetAllNecessaryNgramsFromTable_NormalExample()
+        {
+            var wordLists = new List<List<List<string>>>
+            {
+                new List<List<string>>
+                {
+                    new List<string>{"a","b"},
+                    new List<string>{"c","d"},
+                    new List<string>{"e","f","g"}
+                },
+                new List<List<string>>
+                {
+                    new List<string>{"z","x"},
+                    new List<string>{"y"},
+                    new List<string>{"w","v","u"}
+                }
+            };
+
+            var provider = new SqlQueryProvider(_names);
+            var result = provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists);
+
+            const string str = "SELECT * FROM tri WHERE ( "+
+                               "( Word1='a' OR Word1='b' ) AND ( Word2='c' OR Word2='d' ) AND ( Word3='e' OR Word3='f' OR Word3='g' ) ) "+
+                               "OR ( ( Word1='z' OR Word1='x' ) AND ( Word2='y' ) AND ( Word3='w' OR Word3='v' OR Word3='u' ) );";
+            Assert.Equal(str, result);
+        }
+
+        [Fact]
+        public void GetAllNecessaryNgramsFromTable_Unigram()
+        {
+            var wordLists = new List<List<List<string>>>();
+            var provider = new SqlQueryProvider(_names);
+
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Unigram, wordLists));
+            Assert.Equal("NgramType 'ngramType' cannot be an Unigram", ex.Message);
+        }
+
+        [Fact]
+        public void GetAllNecessaryNgramsFromTable_outsideList_Null()
+        {
+            var provider = new SqlQueryProvider(_names);
+
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, null));
+            Assert.Equal("List<string> 'wordLists' has wrong size", ex.Message);
+        }
+
+        [Fact]
+        public void GetAllNecessaryNgramsFromTable_outsideList_Empty()
+        {
+            var wordLists = new List<List<List<string>>>();
+
+            var provider = new SqlQueryProvider(_names);
+
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists));
+            Assert.Equal("List<string> 'wordLists' has wrong size", ex.Message);
+        }
+
+        [Fact]
+        public void GetAllNecessaryNgramsFromTable_MiddleList_Empty()
+        {
+            var wordLists = new List<List<List<string>>>
+            {
+                new List<List<string>>(),
+                new List<List<string>>
+                {
+                    new List<string>{"z","x"},
+                    new List<string>{"y"},
+                    new List<string>{"w","v","u"}
+                }
+            };
+
+            var provider = new SqlQueryProvider(_names);
+
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists));
+            Assert.Equal("List<string> middle list has wrong size", ex.Message);
+        }
+
+        [Fact]
+        public void GetAllNecessaryNgramsFromTable_InsideList_Empty()
+        {
+            var wordLists = new List<List<List<string>>>
+            {
+                new List<List<string>>
+                {
+                    new List<string>{"a","b"},
+                    new List<string>(),
+                    new List<string>{"e","f","g"}
+                },
+                new List<List<string>>
+                {
+                    new List<string>{"z","x"},
+                    new List<string>{"y"},
+                    new List<string>{"w","v","u"}
+                }
+            };
+
+            var provider = new SqlQueryProvider(_names);
+
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists));
+            Assert.Equal("List<string> inside list has wrong size", ex.Message);
+        }
     }
 }

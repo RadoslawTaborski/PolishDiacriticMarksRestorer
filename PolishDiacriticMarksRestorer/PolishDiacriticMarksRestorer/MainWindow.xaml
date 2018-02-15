@@ -49,7 +49,7 @@
             </Border>
 
             <Border Background="{StaticResource MyPurple}" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,5,0,0">
-                <Label x:Name="Info" FontSize="10" Style="{StaticResource MyLabel}" Margin="10,-3" />
+                <Label x:Name="Info" FontSize="10" Foreground="{StaticResource MyWhite}" Margin="13,-3" />
             </Border>
 
             <DockPanel x:Name="Dock" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Style="{StaticResource MyDockPanel}" LastChildFill="False" Height="30" VerticalAlignment="Top">

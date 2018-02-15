@@ -25,8 +25,9 @@ namespace PolishDiacriticMarksRestorer
     {
         #region FIELDS
         private readonly Analyzer _analyzer = new Analyzer(new DiacriticMarksAdder());
-        private float _time;
         private readonly Timer _timer = new Timer();
+        private DateTime _start;
+        private DateTime _stop;
         public static readonly string Path = "settings.dat";
         #endregion
 
@@ -48,8 +49,8 @@ namespace PolishDiacriticMarksRestorer
         #region  PRIVATE
         private void Analyze(List<string> stringsList)
         {
-            _time = 0;
             _timer.Start();
+            _start = DateTime.Now;
             var resultsArray = _analyzer.AnalyzeStrings(stringsList);
             Dispatcher.Invoke(() =>
             {
@@ -85,8 +86,9 @@ namespace PolishDiacriticMarksRestorer
 
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            _time += 0.1f;
-            Dispatcher.Invoke(() => { Info.Content = "Czas wykonywania: " + $"{_time:F1}" + "s"; });
+            _stop = DateTime.Now;
+            var time = _stop - _start;
+            Dispatcher.Invoke(() => { Info.Content = "Czas wykonywania: " + new DateTime(time.Ticks).ToString("HH:mm:ss.f");});
         }
         #endregion
 
