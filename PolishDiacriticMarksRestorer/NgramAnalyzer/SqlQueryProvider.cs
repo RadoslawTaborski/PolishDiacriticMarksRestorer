@@ -76,8 +76,6 @@ namespace NgramAnalyzer
         {
             var number = (int)ngramType;
 
-            if (ngramType == NgramType.Unigram)
-                throw new ArgumentException("NgramType 'ngramType' cannot be an Unigram");
             if (wordList == null || wordList.Count != number-1)
                 throw new ArgumentException("List<string> 'wordList' has wrong size");
             if (combinations == null || combinations.Count < 1)
@@ -120,8 +118,6 @@ namespace NgramAnalyzer
 
             if (wordList == null || wordList.Count < numberComparedWords)
                 throw new ArgumentException("List<string> 'wordList' has wrong size");
-            if (ngramType == NgramType.Unigram)
-                throw new ArgumentException("NgramType 'ngramType' cannot be an Unigram");
 
             var query = QueryCreator(number, numberComparedWords, wordList);
 
@@ -150,8 +146,6 @@ namespace NgramAnalyzer
         {
             var number = (int)ngramType;
 
-            if (ngramType == NgramType.Unigram)
-                throw new ArgumentException("NgramType 'ngramType' cannot be an Unigram");
             if (wordLists == null || wordLists.Count < 1)
                 throw new ArgumentException("List<string> 'wordLists' has wrong size");
             foreach (var item in wordLists)

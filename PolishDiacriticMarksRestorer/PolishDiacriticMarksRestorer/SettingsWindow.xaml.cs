@@ -60,7 +60,7 @@ namespace PolishDiacriticMarksRestorer
 
         private void GetSettings()
         {
-            CbType.SelectedIndex = (int)Settings.Type - 1;
+            CbType.SelectedIndex = (int)Settings.Type - 2;
             TbServer.Text = Settings.Server;
             TbDbName.Text = Settings.DbName;
             TbUserName.Text = Settings.DbUser;

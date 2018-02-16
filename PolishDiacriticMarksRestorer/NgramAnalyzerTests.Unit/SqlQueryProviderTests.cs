@@ -69,16 +69,6 @@ namespace NgramAnalyzerTests.Unit
         }
 
         [Fact]
-        public void GetTheSameNgramsFromTable_Unigrams()
-        {
-            var provider = new SqlQueryProvider(_names);
-            var result = provider.GetTheSameNgramsFromTable(NgramType.Unigram, _wordList);
-
-            const string str = @"SELECT * FROM uni WHERE Word1='\\a';";
-            Assert.Equal(str, result);
-        }
-
-        [Fact]
         public void GetTheSameNgramsFromTable_Digrams()
         {
             var provider = new SqlQueryProvider(_names);
@@ -148,15 +138,6 @@ namespace NgramAnalyzerTests.Unit
             var ex = Record.Exception(() => provider.GetSimilarNgramsFromTable(NgramType.Fourgram, list));
 
             Assert.IsNotType<ArgumentException>(ex);
-        }
-
-        [Fact]
-        public void GetSimilarNgramsFromTable_Unigrams_WrongNgramType()
-        {
-            var provider = new SqlQueryProvider(_names);
-
-            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetSimilarNgramsFromTable(NgramType.Unigram, _wordList));
-            Assert.Equal("NgramType 'ngramType' cannot be an Unigram", ex.Message);
         }
 
         [Fact]
@@ -254,21 +235,6 @@ namespace NgramAnalyzerTests.Unit
         }
 
         [Fact]
-        public void GetMultiNgramsFromTable_Unigrams_WrongNgramType()
-        {
-            var provider = new SqlQueryProvider(_names);
-            var wordList = new List<string>
-            {
-                "a",
-                "b",
-                "c"
-            };
-
-            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetMultiNgramsFromTable(NgramType.Unigram, wordList, _wordList));
-            Assert.Equal("NgramType 'ngramType' cannot be an Unigram", ex.Message);
-        }
-
-        [Fact]
         public void GetMultiNgramsFromTable_Fourgrams()
         {
             var list = new List<string>
@@ -357,16 +323,6 @@ namespace NgramAnalyzerTests.Unit
                                @"( Word1='\\a' OR Word1='b' ) AND ( Word2='c' OR Word2='d' ) AND ( Word3='e' OR Word3='\'f' OR Word3='g' ) ) " +
                                "OR ( ( Word1='z' OR Word1='x' ) AND ( Word2='y' ) AND ( Word3='w' OR Word3='v' OR Word3='u' ) );";
             Assert.Equal(str, result);
-        }
-
-        [Fact]
-        public void GetAllNecessaryNgramsFromTable_Unigram()
-        {
-            var wordLists = new List<List<List<string>>>();
-            var provider = new SqlQueryProvider(_names);
-
-            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Unigram, wordLists));
-            Assert.Equal("NgramType 'ngramType' cannot be an Unigram", ex.Message);
         }
 
         [Fact]

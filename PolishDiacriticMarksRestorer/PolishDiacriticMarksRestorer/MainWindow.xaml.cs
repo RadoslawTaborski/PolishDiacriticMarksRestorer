@@ -78,7 +78,7 @@ namespace PolishDiacriticMarksRestorer
                 SerializeStatic.Load(typeof(Settings), path);
         }
 
-        private static void ExceptionHandler(Task task1)
+        private void ExceptionHandler(Task task1)
         {
             var exception = task1.Exception;
             if (exception != null) MessageBox.Show(exception.Message);
