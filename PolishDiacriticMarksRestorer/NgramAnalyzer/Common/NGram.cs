@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace NgramAnalyzer.Common
 {
+    /// <inheritdoc cref="IEquatable&lt;NGram&gt;" />
     /// <summary>
     /// NGram structure which represents NGram model with value.
     /// </summary>
-    public struct NGram
+    public struct NGram : IEquatable<NGram>
     {
         #region FIELDS
         public int Value;
@@ -40,8 +42,7 @@ namespace NgramAnalyzer.Common
         {
             for (var index = 0; index < WordsList.Count; ++index)
             {
-                WordsList[index] = WordsList[index].Replace(@"\", @"\\");
-                WordsList[index] = WordsList[index].Replace(@"'", @"\'");
+                WordsList[index] = WordsList[index].ChangeSpecialCharacters();
             }
         }
 
@@ -58,6 +59,15 @@ namespace NgramAnalyzer.Common
             }
 
             return result;
+        }
+
+        public bool Equals(NGram other)
+        {
+            if (Value != other.Value) return false;
+            if (WordsList == null && other.WordsList == null) return true;
+            if (WordsList == null || other.WordsList == null) return false;
+            if (WordsList.Count != other.WordsList.Count) return false;
+            return !WordsList.Where((t, i) => !t.Equals(other.WordsList[i])).Any();
         }
         #endregion
 

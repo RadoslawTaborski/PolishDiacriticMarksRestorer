@@ -47,17 +47,15 @@ namespace NgramAnalyzer
             if (wordList == null || wordList.Count < number)
                 throw new ArgumentException("List<string> 'wordList' has wrong size");
 
-            var query = "SELECT * FROM " + _dbTableDbTableName[number - 1] + " WHERE ";
+            var query = "SELECT * FROM " + _dbTableDbTableName[number - 1] + " WHERE";
 
             for (var i = 0; i < number; ++i)
             {
-                if (i != 0) query += "AND ";
-                query += "Word" + (i + 1) + "='" + wordList[i] + "' ";
+                if (i != 0) query += " AND";
+                query += " Word" + (i + 1) + "='" + wordList[i].ChangeSpecialCharacters() + "'";
             }
 
-            var strBuilder =
-                new System.Text.StringBuilder(query) { [query.Length - 1] = ';' };
-            query = strBuilder.ToString();
+            query += ";";
 
             return query;
         }
@@ -90,13 +88,13 @@ namespace NgramAnalyzer
             for (var i = 0; i < number-1; ++i)
             {
                 if (i != 0) query += "AND ";
-                query += "Word" + (i + 1) + "='" + wordList[i] + "' ";
+                query += "Word" + (i + 1) + "='" + wordList[i].ChangeSpecialCharacters() + "' ";
             }
             query += "AND ( ";
             for (var i = 0; i < combinations.Count; ++i)
             {
                 if (i != 0) query += "OR ";
-                query += "Word" + number + "='" + combinations[i] + "' ";
+                query += "Word" + number + "='" + combinations[i].ChangeSpecialCharacters() + "' ";
             }
             query += ");";
 
@@ -135,17 +133,15 @@ namespace NgramAnalyzer
             if (wordList == null || wordList.Count == 0)
                 throw new ArgumentException("List<string> 'wordList' can't be null");
 
-            var query = "SELECT * FROM " + _dbTableDbTableName[0] + " WHERE ";
+            var query = "SELECT * FROM " + _dbTableDbTableName[0] + " WHERE";
 
             for (var i = 0; i < wordList.Count; ++i)
-            {
-                if (i != 0) query += "OR ";
-                query += "Word1='" + wordList[i] + "' ";
+            { 
+                if (i != 0) query += " OR";
+                query += " Word1='" + wordList[i].ChangeSpecialCharacters() + "'";
             }
 
-            var strBuilder =
-                new System.Text.StringBuilder(query) { [query.Length - 1] = ';' };
-            query = strBuilder.ToString();
+            query += ";";
 
             return query;
         }
@@ -188,7 +184,7 @@ namespace NgramAnalyzer
                     for (var i=0; i<item2.Count; ++i)
                     {
                         if (i != 0) query += "OR ";
-                        query += "Word" + j + "='" + item2[i] + "' ";
+                        query += "Word" + j + "='" + item2[i].ChangeSpecialCharacters() + "' ";
                     }
 
                     query += ")";
@@ -208,17 +204,15 @@ namespace NgramAnalyzer
         #region PRIVATE
         private string QueryCreator(int ngramSize, int numberComparedWords, IReadOnlyList<string> wordList)
         {
-            var query = "SELECT * FROM " + _dbTableDbTableName[ngramSize - 1] + " WHERE ";
+            var query = "SELECT * FROM " + _dbTableDbTableName[ngramSize - 1] + " WHERE";
 
             for (var i = 0; i < numberComparedWords; ++i)
             {
-                if (i != 0) query += "AND ";
-                query += "Word" + (i + 1) + "='" + wordList[i] + "' ";
+                if (i != 0) query += " AND";
+                query += " Word" + (i + 1) + "='" + wordList[i].ChangeSpecialCharacters() + "'";
             }
 
-            var strBuilder =
-                new System.Text.StringBuilder(query) { [query.Length - 1] = ';' };
-            query = strBuilder.ToString();
+            query += ";";
 
             return query;
         }

@@ -18,9 +18,9 @@ namespace NgramAnalyzerTests.Unit
 
         private readonly List<string> _wordList = new List<string>
         {
-            "a",
+            @"\a",
             "b",
-            "c",
+            @"'c",
             "d"
         };
 
@@ -35,15 +35,16 @@ namespace NgramAnalyzerTests.Unit
         public void SqlQueryProvider_WrongListSize()
         {
             var list = new List<string>
-        {
-            "uni",
-            "di",
-            "tri",
-        };
+            {
+                "uni",
+                "di",
+                "tri",
+            };
             Exception ex = Assert.Throws<ArgumentException>(() => new SqlQueryProvider(list));
             Assert.Equal("IList<string> 'dbTableNames' has wrong size", ex.Message);
         }
 
+        #region GetTheSameNgramsFromTable
         [Fact]
         public void GetTheSameNgramsFromTable_NullListWithNames()
         {
@@ -73,7 +74,7 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider(_names);
             var result = provider.GetTheSameNgramsFromTable(NgramType.Unigram, _wordList);
 
-            const string str = "SELECT * FROM uni WHERE Word1='a';";
+            const string str = @"SELECT * FROM uni WHERE Word1='\\a';";
             Assert.Equal(str, result);
         }
 
@@ -83,7 +84,7 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider(_names);
             var result = provider.GetTheSameNgramsFromTable(NgramType.Digram, _wordList);
 
-            const string str = "SELECT * FROM di WHERE Word1='a' AND Word2='b';";
+            const string str = @"SELECT * FROM di WHERE Word1='\\a' AND Word2='b';";
             Assert.Equal(str, result);
         }
 
@@ -93,7 +94,7 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider(_names);
             var result = provider.GetTheSameNgramsFromTable(NgramType.Trigram, _wordList);
 
-            const string str = "SELECT * FROM tri WHERE Word1='a' AND Word2='b' AND Word3='c';";
+            const string str = @"SELECT * FROM tri WHERE Word1='\\a' AND Word2='b' AND Word3='\'c';";
             Assert.Equal(str, result);
         }
 
@@ -103,10 +104,12 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider(_names);
             var result = provider.GetTheSameNgramsFromTable(NgramType.Fourgram, _wordList);
 
-            const string str = "SELECT * FROM four WHERE Word1='a' AND Word2='b' AND Word3='c' AND Word4='d';";
+            const string str = @"SELECT * FROM four WHERE Word1='\\a' AND Word2='b' AND Word3='\'c' AND Word4='d';";
             Assert.Equal(str, result);
         }
+        #endregion
 
+        #region GetSimilarNgramsFromTable
         [Fact]
         public void GetSimilarNgramsFromTable_NullListWithNames()
         {
@@ -162,7 +165,7 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider(_names);
             var result = provider.GetSimilarNgramsFromTable(NgramType.Digram, _wordList);
 
-            const string str = "SELECT * FROM di WHERE Word1='a';";
+            const string str = @"SELECT * FROM di WHERE Word1='\\a';";
             Assert.Equal(str, result);
         }
 
@@ -172,7 +175,7 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider(_names);
             var result = provider.GetSimilarNgramsFromTable(NgramType.Trigram, _wordList);
 
-            const string str = "SELECT * FROM tri WHERE Word1='a' AND Word2='b';";
+            const string str = @"SELECT * FROM tri WHERE Word1='\\a' AND Word2='b';";
             Assert.Equal(str, result);
         }
 
@@ -182,10 +185,12 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider(_names);
             var result = provider.GetSimilarNgramsFromTable(NgramType.Fourgram, _wordList);
 
-            const string str = "SELECT * FROM four WHERE Word1='a' AND Word2='b' AND Word3='c';";
+            const string str = @"SELECT * FROM four WHERE Word1='\\a' AND Word2='b' AND Word3='\'c';";
             Assert.Equal(str, result);
         }
+        #endregion
 
+        #region GetMultiNgramsFromTable
         [Fact]
         public void GetMultiNgramsFromTable_NullListWithWords()
         {
@@ -266,40 +271,42 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetMultiNgramsFromTable_Fourgrams()
         {
-            var list =new List<string>
+            var list = new List<string>
             {
-                "or1",
+                @"\or1",
                 "or2"
             };
 
             var wordList = new List<string>
             {
-                "a",
+                @"\a",
                 "b",
-                "c"
+                @"'c"
             };
 
             var provider = new SqlQueryProvider(_names);
             var result = provider.GetMultiNgramsFromTable(NgramType.Fourgram, wordList, list);
 
-            const string str = "SELECT * FROM four WHERE Word1='a' AND Word2='b' AND Word3='c' AND ( Word4='or1' OR Word4='or2' );";
+            const string str = @"SELECT * FROM four WHERE Word1='\\a' AND Word2='b' AND Word3='\'c' AND ( Word4='\\or1' OR Word4='or2' );";
             Assert.Equal(str, result);
         }
+        #endregion
 
+        #region CheckWordsInUnigramFromTable
         [Fact]
         public void CheckWordsInUnigramFromTable_NormalExample()
         {
             var wordList = new List<string>
             {
-                "a",
+                @"\a",
                 "b",
-                "c"
+                @"'c"
             };
 
             var provider = new SqlQueryProvider(_names);
             var result = provider.CheckWordsInUnigramFromTable(wordList);
 
-            const string str = "SELECT * FROM uni WHERE Word1='a' OR Word1='b' OR Word1='c';";
+            const string str = @"SELECT * FROM uni WHERE Word1='\\a' OR Word1='b' OR Word1='\'c';";
             Assert.Equal(str, result);
         }
 
@@ -321,7 +328,9 @@ namespace NgramAnalyzerTests.Unit
             Exception ex = Assert.Throws<ArgumentException>(() => provider.CheckWordsInUnigramFromTable(list));
             Assert.Equal("List<string> 'wordList' can't be null", ex.Message);
         }
+        #endregion
 
+        #region GetAllNecessaryNgramsFromTable
         [Fact]
         public void GetAllNecessaryNgramsFromTable_NormalExample()
         {
@@ -329,9 +338,9 @@ namespace NgramAnalyzerTests.Unit
             {
                 new List<List<string>>
                 {
-                    new List<string>{"a","b"},
+                    new List<string>{@"\a","b"},
                     new List<string>{"c","d"},
-                    new List<string>{"e","f","g"}
+                    new List<string>{"e",@"'f","g"}
                 },
                 new List<List<string>>
                 {
@@ -344,8 +353,8 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider(_names);
             var result = provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists);
 
-            const string str = "SELECT * FROM tri WHERE ( "+
-                               "( Word1='a' OR Word1='b' ) AND ( Word2='c' OR Word2='d' ) AND ( Word3='e' OR Word3='f' OR Word3='g' ) ) "+
+            const string str = "SELECT * FROM tri WHERE ( " +
+                               @"( Word1='\\a' OR Word1='b' ) AND ( Word2='c' OR Word2='d' ) AND ( Word3='e' OR Word3='\'f' OR Word3='g' ) ) " +
                                "OR ( ( Word1='z' OR Word1='x' ) AND ( Word2='y' ) AND ( Word3='w' OR Word3='v' OR Word3='u' ) );";
             Assert.Equal(str, result);
         }
@@ -424,5 +433,6 @@ namespace NgramAnalyzerTests.Unit
             Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists));
             Assert.Equal("List<string> inside list has wrong size", ex.Message);
         }
+        #endregion
     }
 }

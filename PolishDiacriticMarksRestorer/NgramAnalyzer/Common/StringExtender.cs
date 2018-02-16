@@ -23,6 +23,18 @@ namespace NgramAnalyzer.Common
                 return m.Groups[2].Captures[n - 1].Index;
             return -1;
         }
+
+        /// <summary>
+        /// Changes the special characters for database.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        /// <returns>changed string</returns>
+        public static string ChangeSpecialCharacters(this string target)
+        {
+            target = target.Replace(@"\", @"\\");
+            target = target.Replace(@"'", @"\'");
+            return target;
+        }
         #endregion
     }
 }

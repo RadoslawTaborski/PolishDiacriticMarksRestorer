@@ -11,7 +11,7 @@ namespace NgramAnalyzerTests.Unit
     public class AnalyzerTests
     {
         [Fact]
-        public void AnalyzeStrings_Find1ElementUnigram()
+        public void AnalyzeStrings_Digram_Analyze2Words()
         {
             var tab = new DataTable();
             tab.Columns.Add("ID", typeof(int));
@@ -19,7 +19,7 @@ namespace NgramAnalyzerTests.Unit
             tab.Columns.Add("Word1", typeof(string));
             tab.Columns.Add("Word2", typeof(string));
             tab.Rows.Add(1,25, "za", "przyjêciem");
-            tab.Rows.Add(2,15, "za", "przyjêciem,");
+            tab.Rows.Add(2,15, "za", "przyjeciem,");
             var ds = new DataSet();
             ds.Tables.Add(tab);
 
@@ -28,6 +28,7 @@ namespace NgramAnalyzerTests.Unit
             tab2.Columns.Add("Value", typeof(int));
             tab2.Columns.Add("Word1", typeof(string));
             tab2.Rows.Add(1, 25, "przyjêciem");
+            tab2.Rows.Add(2, 56, "za");
             var ds2 = new DataSet();
             ds2.Tables.Add(tab2);
 
@@ -36,13 +37,14 @@ namespace NgramAnalyzerTests.Unit
             dataMock.Setup(m => m.ExecuteSqlCommand("di")).Returns(ds);
 
             var queryProviderMock = new Mock<IQueryProvider>();
-            queryProviderMock.Setup(m => m.GetMultiNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<string>>(), It.IsAny<List<string>>())).Returns("di");
             queryProviderMock.Setup(m => m.CheckWordsInUnigramFromTable(It.IsAny<List<string>>())).Returns("uni");
+            queryProviderMock.Setup(m => m.GetAllNecessaryNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<List<List<string>>>>())).Returns("di");
 
             var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
-            diacriticAdderMock.Setup(m => m.Start("przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            diacriticAdderMock.Setup(m => m.Start("za przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("przyjêciem", 1)
+                new KeyValuePair<string, int>("za przyjeciem", 0),
+                new KeyValuePair<string, int>("za przyjêciem", 1)
             });
 
             var analyze = new Analyzer(diacriticAdderMock.Object);
@@ -55,7 +57,7 @@ namespace NgramAnalyzerTests.Unit
         }
 
         [Fact]
-        public void AnalyzeStrings_Find2ElementsUnigramAndDigram()
+        public void AnalyzeStrings_DigramAnalyze3Words()
         {
             var tab = new DataTable();
             tab.Columns.Add("ID", typeof(int));
@@ -63,7 +65,9 @@ namespace NgramAnalyzerTests.Unit
             tab.Columns.Add("Word1", typeof(string));
             tab.Columns.Add("Word2", typeof(string));
             tab.Rows.Add(1, 25, "za", "przyjêciem");
-            tab.Rows.Add(2, 15, "za", "przyjêciem,");
+            tab.Rows.Add(2, 15, "za", "przyjeciem,");
+            tab.Rows.Add(2, 56, "przyjêciem", "uchwa³y,");
+            tab.Rows.Add(2, 56, "przyjêciem", "uchwaly,");
             var ds = new DataSet();
             ds.Tables.Add(tab);
 
@@ -72,7 +76,8 @@ namespace NgramAnalyzerTests.Unit
             tab2.Columns.Add("Value", typeof(int));
             tab2.Columns.Add("Word1", typeof(string));
             tab2.Rows.Add(1, 25, "przyjêciem");
-            tab2.Rows.Add(1, 25, "przyjêciem,");
+            tab2.Rows.Add(2, 56, "za");
+            tab2.Rows.Add(3, 28, "uchwa³y");
             var ds2 = new DataSet();
             ds2.Tables.Add(tab2);
 
@@ -81,27 +86,34 @@ namespace NgramAnalyzerTests.Unit
             dataMock.Setup(m => m.ExecuteSqlCommand("di")).Returns(ds);
 
             var queryProviderMock = new Mock<IQueryProvider>();
-            queryProviderMock.Setup(m => m.GetMultiNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<string>>(), It.IsAny<List<string>>())).Returns("di");
             queryProviderMock.Setup(m => m.CheckWordsInUnigramFromTable(It.IsAny<List<string>>())).Returns("uni");
+            queryProviderMock.Setup(m => m.GetAllNecessaryNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<List<List<string>>>>())).Returns("di");
 
             var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
-            diacriticAdderMock.Setup(m => m.Start("przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            diacriticAdderMock.Setup(m => m.Start("za przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("przyjêciem", 1),
-                new KeyValuePair<string, int>("przyjêciem,", 2)
+                new KeyValuePair<string, int>("za przyjeciem", 0),
+                new KeyValuePair<string, int>("za przyjêciem", 1)
+            });
+
+            diacriticAdderMock.Setup(m => m.Start("przyjeciem uchwaly", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("przyjeciem uchwaly", 0),
+                new KeyValuePair<string, int>("przyjêciem uchwa³y", 2),
+                new KeyValuePair<string, int>("przyjêciem uchwaly", 2),
             });
 
             var analyze = new Analyzer(diacriticAdderMock.Object);
             analyze.SetData(dataMock.Object);
             analyze.SetQueryProvider(queryProviderMock.Object);
             analyze.SetNgram(NgramType.Digram);
-            var result = analyze.AnalyzeStrings(new List<string> { "za", "przyjeciem" });
+            var result = analyze.AnalyzeStrings(new List<string> { "za", "przyjeciem", "uchwaly" });
 
-            Assert.Equal(new List<string> { "za", "przyjêciem" }, result);
+            Assert.Equal(new List<string> { "za", "przyjêciem", "uchwa³y" }, result);
         }
 
         [Fact]
-        public void AnalyzeStrings_Find1ElementDigram()
+        public void AnalyzeStrings_NgramVariantsCount0()
         {
             var tab = new DataTable();
             tab.Columns.Add("ID", typeof(int));
@@ -109,6 +121,59 @@ namespace NgramAnalyzerTests.Unit
             tab.Columns.Add("Word1", typeof(string));
             tab.Columns.Add("Word2", typeof(string));
             tab.Rows.Add(1, 25, "za", "przyjêciem");
+            tab.Rows.Add(2, 15, "za", "przyjeciem,");
+            tab.Rows.Add(2, 56, "przyjêciem", "uchwa³y,");
+            tab.Rows.Add(2, 56, "przyjêciem", "uchwaly,");
+            var ds = new DataSet();
+            ds.Tables.Add(tab);
+
+            var tab2 = new DataTable();
+            tab2.Columns.Add("ID", typeof(int));
+            tab2.Columns.Add("Value", typeof(int));
+            tab2.Columns.Add("Word1", typeof(string));
+            var ds2 = new DataSet();
+            ds2.Tables.Add(tab2);
+
+            var dataMock = new Mock<IDataAccess>();
+            dataMock.Setup(m => m.ExecuteSqlCommand("uni")).Returns(ds2);
+            dataMock.Setup(m => m.ExecuteSqlCommand("di")).Returns(ds);
+
+            var queryProviderMock = new Mock<IQueryProvider>();
+            queryProviderMock.Setup(m => m.CheckWordsInUnigramFromTable(It.IsAny<List<string>>())).Returns("uni");
+            queryProviderMock.Setup(m => m.GetAllNecessaryNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<List<List<string>>>>())).Returns("di");
+
+            var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
+            diacriticAdderMock.Setup(m => m.Start("za przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("za przyjeciem", 0),
+                new KeyValuePair<string, int>("za przyjêciem", 1)
+            });
+
+            diacriticAdderMock.Setup(m => m.Start("przyjeciem uchwaly", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("przyjeciem uchwaly", 0),
+                new KeyValuePair<string, int>("przyjêciem uchwa³y", 2),
+                new KeyValuePair<string, int>("przyjêciem uchwaly", 2),
+            });
+
+            var analyze = new Analyzer(diacriticAdderMock.Object);
+            analyze.SetData(dataMock.Object);
+            analyze.SetQueryProvider(queryProviderMock.Object);
+            analyze.SetNgram(NgramType.Digram);
+            var result = analyze.AnalyzeStrings(new List<string> { "za", "przyjeciem", "uchwaly" });
+
+            Assert.Equal(new List<string> { "za", "przyjeciem", "uchwaly" }, result);
+        }
+
+        [Fact]
+        public void AnalyzeStrings_TryParse_False()
+        {
+            var tab = new DataTable();
+            tab.Columns.Add("ID", typeof(int));
+            tab.Columns.Add("Value", typeof(string));
+            tab.Columns.Add("Word1", typeof(string));
+            tab.Columns.Add("Word2", typeof(string));
+            tab.Rows.Add(1, "aa", "za", "przyjêciem");
             var ds = new DataSet();
             ds.Tables.Add(tab);
 
@@ -117,7 +182,7 @@ namespace NgramAnalyzerTests.Unit
             tab2.Columns.Add("Value", typeof(int));
             tab2.Columns.Add("Word1", typeof(string));
             tab2.Rows.Add(1, 25, "przyjêciem");
-            tab2.Rows.Add(1, 25, "przyjêciem,");
+            tab2.Rows.Add(2, 56, "za");
             var ds2 = new DataSet();
             ds2.Tables.Add(tab2);
 
@@ -126,67 +191,23 @@ namespace NgramAnalyzerTests.Unit
             dataMock.Setup(m => m.ExecuteSqlCommand("di")).Returns(ds);
 
             var queryProviderMock = new Mock<IQueryProvider>();
-            queryProviderMock.Setup(m => m.GetMultiNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<string>>(), It.IsAny<List<string>>())).Returns("di");
             queryProviderMock.Setup(m => m.CheckWordsInUnigramFromTable(It.IsAny<List<string>>())).Returns("uni");
+            queryProviderMock.Setup(m => m.GetAllNecessaryNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<List<List<string>>>>())).Returns("di");
 
             var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
-            diacriticAdderMock.Setup(m => m.Start("przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            diacriticAdderMock.Setup(m => m.Start("za przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("przyjêciem", 1),
-                new KeyValuePair<string, int>("przyjêciem,", 2)
+                new KeyValuePair<string, int>("za przyjeciem", 0),
+                new KeyValuePair<string, int>("za przyjêciem", 1)
             });
 
             var analyze = new Analyzer(diacriticAdderMock.Object);
             analyze.SetData(dataMock.Object);
             analyze.SetQueryProvider(queryProviderMock.Object);
             analyze.SetNgram(NgramType.Digram);
-            var result = analyze.AnalyzeStrings(new List<string> { "za", "przyjeciem" });
+            var result = analyze.AnalyzeStrings(new List<string> { "za", "przyjeciem"});
 
-            Assert.Equal(new List<string> { "za", "przyjêciem" }, result);
-        }
-
-        [Fact]
-        public void AnalyzeStrings_IntTryParse_False()
-        {
-            var tab = new DataTable();
-            tab.Columns.Add("ID", typeof(int));
-            tab.Columns.Add("Value", typeof(int));
-            tab.Columns.Add("Word1", typeof(string));
-            tab.Columns.Add("Word2", typeof(string));
-            tab.Rows.Add(1, 25, "za", "przyjêciem");
-            var ds = new DataSet();
-            ds.Tables.Add(tab);
-
-            var tab2 = new DataTable();
-            tab2.Columns.Add("ID", typeof(int));
-            tab2.Columns.Add("Value", typeof(string));
-            tab2.Columns.Add("Word1", typeof(string));
-            tab2.Rows.Add(1, "aa", "przyjêciem");
-            var ds2 = new DataSet();
-            ds2.Tables.Add(tab2);
-
-            var dataMock = new Mock<IDataAccess>();
-            dataMock.Setup(m => m.ExecuteSqlCommand("uni")).Returns(ds2);
-            dataMock.Setup(m => m.ExecuteSqlCommand("di")).Returns(ds);
-
-            var queryProviderMock = new Mock<IQueryProvider>();
-            queryProviderMock.Setup(m => m.GetMultiNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<string>>(), It.IsAny<List<string>>())).Returns("di");
-            queryProviderMock.Setup(m => m.CheckWordsInUnigramFromTable(It.IsAny<List<string>>())).Returns("uni");
-
-            var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
-            diacriticAdderMock.Setup(m => m.Start("przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
-            {
-                new KeyValuePair<string, int>("przyjêciem", 1),
-                new KeyValuePair<string, int>("przyjêciem,", 2)
-            });
-
-            var analyze = new Analyzer(diacriticAdderMock.Object);
-            analyze.SetData(dataMock.Object);
-            analyze.SetQueryProvider(queryProviderMock.Object);
-            analyze.SetNgram(NgramType.Digram);
-            var result = analyze.AnalyzeStrings(new List<string> { "za", "przyjeciem" });
-
-            Assert.Equal(new List<string> { "za", "przyjeciem" }, result);
+            Assert.Equal(new List<string> { "za", "przyjêciem"}, result);
         }
     }
 }

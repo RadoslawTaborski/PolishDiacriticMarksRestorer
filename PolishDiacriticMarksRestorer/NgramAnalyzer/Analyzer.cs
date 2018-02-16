@@ -70,9 +70,8 @@ namespace NgramAnalyzer
         /// <inheritdoc />
         public List<string> AnalyzeStrings(List<string> strList)
         {
+            var ngramVariants = new List<NGramVariants>();
             var result = new List<string>();
-            var wordLists = new List<List<List<string>>>();
-            var ngrams = new List<NGram>();
 
             var length = (int)_ngramType;
             var count = strList.Count / length;
@@ -82,31 +81,52 @@ namespace NgramAnalyzer
             {
                 for (var j = 0; j < count; j++)
                 {
-                    var tmp2 = strList.GetRange(j * length, length).ConvertAll(d => d.ToLower());
-                    ngrams.Add(new NGram { Value = 0, WordsList = tmp2 });
-                    var tmp = GetCombinationsList(tmp2);
-                    wordLists.Add(tmp);
+                    var tmp = strList.GetRange(j * length, length).ConvertAll(d => d.ToLower());
+                    ngramVariants.Add(new NGramVariants(new NGram { Value = 0, WordsList = tmp }, _diacriticAdder));
                 }
 
                 if (flag > 0)
                 {
-                    var tmp2 = strList.GetRange(strList.Count - length, length).ConvertAll(d => d.ToLower());
-                    ngrams.Add(new NGram { Value = 0, WordsList = tmp2 });
-                    var tmp = GetCombinationsList(tmp2);
-                    wordLists.Add(tmp);
+                    var tmp = strList.GetRange(strList.Count - length, length).ConvertAll(d => d.ToLower());
+                    ngramVariants.Add(new NGramVariants(new NGram { Value = 0, WordsList = tmp }, _diacriticAdder));
                 }
             }
 
-            ngrams.AddRange(GetAllData(wordLists));
-
-            foreach (var item in wordLists)
+            var list = new List<string>();
+            foreach (var variant in ngramVariants)
             {
-                var concreteNgrams = FindInNgramsList(_ngramType, item, ngrams);
-                var ngram = concreteNgrams.MaxBy(x => x.Value);
-                result.AddRange(ngram.WordsList);
+                variant.CreateVariants();
+                list.AddRange(variant.VariantsToWordList());
             }
 
-            for (var i = 0; i < length - flag; i++)
+            var goodWords = CheckWords(list);
+
+            foreach (var variant in ngramVariants)
+            {
+                variant.LeaveGoodVariants(goodWords);
+            }
+
+            var ngrams = GetAllData(ngramVariants).ToList();
+
+            foreach (var variant in ngramVariants)
+            {
+                variant.UpdateNGramsVariants(ngrams);
+            }
+
+            foreach (var item in ngramVariants)
+            {
+                if (item.NgramVariants.Count == 0)
+                {
+                    result.AddRange(item.OrginalNGram.WordsList);
+                }
+                else
+                {
+                    var ngram = item.NgramVariants.MaxBy(x => x.Value);
+                    result.AddRange(ngram.WordsList);
+                }
+            }
+
+            for (var i = 0; i < flag; i++)
             {
                 result.RemoveAt(result.Count - 2);
             }
@@ -116,47 +136,6 @@ namespace NgramAnalyzer
         #endregion
 
         #region PRIVATE
-        private List<NGram> FindInNgramsList(NgramType type, List<List<string>> words, List<NGram> ngrams)
-        {
-            var length = (int)type;
-
-            var result = new List<NGram>();
-            foreach (var item in ngrams)
-            {
-                var flag = false;
-                for (var i = 0; i < length; i++)
-                {
-                    flag = false;
-                    var i1 = i;
-                    var matchingvalues = words[i].Where(stringToCheck => stringToCheck.Contains(item.WordsList[i1]));
-                    if (!matchingvalues.Any()) break;
-                    flag = true;
-                }
-                if (flag)
-                    result.Add(item);
-            }
-
-            return result;
-        }
-
-        private List<List<string>> GetCombinationsList(List<string> words2)
-        {
-            var result = new List<List<string>>();
-
-            foreach (var item in words2)
-            {
-                var combinations = _diacriticAdder.Start(item, 100);
-                var words = (from kvp in combinations select kvp.Key).Distinct().ToList();
-                var unigrams = CheckWords(words);
-                words = (from ngram in unigrams select ngram.WordsList[0]).Distinct().ToList();
-                if (words.Count == 0)
-                    words.Add(item);
-                result.Add(words);
-            }
-
-            return result;
-        }
-
         //private List<NGram> GetData(List<string> str, List<string> combinations)
         //{
         //    _db.ConnectToDb();
@@ -175,10 +154,18 @@ namespace NgramAnalyzer
         //    return ngramsList;
         //}
 
-        private List<NGram> GetAllData(List<List<List<string>>> wordLists)
+        private IEnumerable<NGram> GetAllData(List<NGramVariants> wordLists)
         {
+            var lists = new List<List<List<string>>>();
+            foreach (var item in wordLists)
+            {
+                var tmp = item.VariantsToStringsLists();
+                if (tmp!=null)
+                    lists.Add(tmp);
+            }
+
             _db.ConnectToDb();
-            var data = _db.ExecuteSqlCommand(_queryProvider.GetAllNecessaryNgramsFromTable(_ngramType, wordLists));
+            var data = _db.ExecuteSqlCommand(_queryProvider.GetAllNecessaryNgramsFromTable(_ngramType, lists));
             _db.Disconnect();
 
             var ngramsList = new List<NGram>();
@@ -193,22 +180,20 @@ namespace NgramAnalyzer
             return ngramsList;
         }
 
-        private IEnumerable<NGram> CheckWords(List<string> str)
+        private List<string> CheckWords(List<string> str)
         {
             _db.ConnectToDb();
             var data = _db.ExecuteSqlCommand(_queryProvider.CheckWordsInUnigramFromTable(str));
             _db.Disconnect();
 
-            var ngramsList = new List<NGram>();
+            var wordsList = new List<string>();
             for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
             {
                 var dataRow = data.Tables[0].Rows[i].ItemArray;
-                var ngram = StringArrayToNgram(dataRow.Select(item => item.ToString()).ToArray());
-                if (ngram != null)
-                    ngramsList.Add((NGram)ngram);
+                wordsList.Add(dataRow.Select(item => item.ToString()).ToArray()[2]);
             }
 
-            return ngramsList;
+            return wordsList;
         }
 
         private NGram? StringArrayToNgram(string[] strArray)
