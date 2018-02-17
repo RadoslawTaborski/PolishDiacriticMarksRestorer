@@ -7,7 +7,7 @@ using Xunit;
 
 namespace NgramFilterTests.Unit
 {
-    public class NgramsDataBaseCreator2Tests
+    public class NgramsDataBaseCreatorTests
     {
         [Theory]
         [InlineData("name")]

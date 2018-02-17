@@ -7,7 +7,7 @@ namespace NgramAnalyzer.Common
     /// </summary>
     public static class StringExtender
     {
-        #region Public
+        #region PUBLIC
         /// <summary>
         /// Nth index of string in string.
         /// </summary>
@@ -33,6 +33,20 @@ namespace NgramAnalyzer.Common
         {
             target = target.Replace(@"\", @"\\");
             target = target.Replace(@"'", @"\'");
+            return target;
+        }
+
+        public static string WithoutPunctationMarks(this string target)
+        {
+            target = target.Replace(@",", @"");
+            target = target.Replace(@";", @"");
+            target = target.Replace(@"!", @"");
+            target = target.Replace(@"?", @"");
+            target = target.Replace(@"(", @"");
+            target = target.Replace(@")", @"");
+            target = target.Replace(@"""", @"");
+            target = target.Replace(@".", @"");
+            target = target.Replace(@":", @"");
             return target;
         }
         #endregion

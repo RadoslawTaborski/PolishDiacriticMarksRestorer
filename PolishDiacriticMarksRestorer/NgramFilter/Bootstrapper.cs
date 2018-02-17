@@ -94,7 +94,7 @@ namespace NgramFilter
                 var numberOfLines = inputManager.CountLines();
                 var counter = 0;
                 inputManager.Open(FileManagerType.Read);
-                IDataBaseCreator creator = new NgramsDataBaseCreator(dbManager);
+                IDataBaseCreator creator = new NgramsDataBaseCreator2(dbManager);
 
                 string str;
                 var ngrams = new List<NGram>();
@@ -109,7 +109,7 @@ namespace NgramFilter
                     if (first)
                     {
                         creator.CreateDataBase(dbName);
-                        creator.CreateTable(dbName, tableName, ngram.WordsList.Count);
+                        creator.CreateTables(dbName, tableName, ngram.WordsList.Count);
                         first = false;
                     }
                     ngram.ChangeSpecialCharacters();

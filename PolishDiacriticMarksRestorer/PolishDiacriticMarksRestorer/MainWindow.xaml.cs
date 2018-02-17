@@ -38,7 +38,7 @@ namespace PolishDiacriticMarksRestorer
             RtbResult.IsReadOnly = true;
             Load(Path);
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
-            var queryProvider = new SqlQueryProvider(Settings.TableNames);
+            var queryProvider = new SqlQueryProvider2(Settings.TableNames);
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);
@@ -149,7 +149,7 @@ namespace PolishDiacriticMarksRestorer
             if (!subWindow.ChangeSettings) return;
 
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
-            var queryProvider = new SqlQueryProvider(Settings.TableNames);
+            var queryProvider = new SqlQueryProvider2(Settings.TableNames);
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);

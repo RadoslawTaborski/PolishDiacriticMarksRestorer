@@ -46,7 +46,7 @@ namespace NgramFilter
         /// <param name="tableName">Name of table.</param>
         /// <param name="numberOfWords">Number of column with words.</param>
         /// <inheritdoc />
-        public void CreateTable(string dataBaseName, string tableName, int numberOfWords)
+        public void CreateTables(string dataBaseName, string tableName, int numberOfWords)
         {
             if (numberOfWords < 1) return;
 

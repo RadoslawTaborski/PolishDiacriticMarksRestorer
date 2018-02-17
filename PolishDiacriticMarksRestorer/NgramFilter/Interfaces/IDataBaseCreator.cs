@@ -16,7 +16,7 @@ namespace NgramFilter.Interfaces
         /// <param name="dataBaseName">Name of database.</param>
         /// <param name="tableName">Name of table.</param>
         /// <param name="numberOfWords">Number of column with words.</param>
-        void CreateTable(string dataBaseName, string tableName, int numberOfWords);
+        void CreateTables(string dataBaseName, string tableName, int numberOfWords);
         /// <summary>
         /// This method add Ngrams data to table.
         /// </summary>

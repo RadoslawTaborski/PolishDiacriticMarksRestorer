@@ -75,7 +75,7 @@ namespace NgramAnalyzer
                 foreach (var str in ngram.WordsList)
                 {
                     if (!result.Contains(str))
-                        result.Add(str);
+                        result.Add(str.WithoutPunctationMarks());
                 }
             }
 
@@ -92,7 +92,7 @@ namespace NgramAnalyzer
             {
                 foreach (var item in NgramVariants[i].WordsList)
                 {
-                    if (goodWords.Contains(item)) continue;
+                    if (goodWords.Contains(item.WithoutPunctationMarks())) continue;
 
                     NgramVariants.RemoveAt(i);
                     --i;
