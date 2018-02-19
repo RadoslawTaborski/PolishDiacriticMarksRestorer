@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using NgramAnalyzer;
 using NgramAnalyzer.Common;
 using Xunit;
 
@@ -388,6 +387,80 @@ namespace NgramAnalyzerTests.Unit
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists));
             Assert.Equal("List<string> inside list has wrong size", ex.Message);
+        }
+        #endregion
+
+        #region CreateDbString
+        [Fact]
+        public void CreateDbString()
+        {
+            var provider = new SqlQueryProvider();
+            var result = provider.CreateDbString("name");
+
+            const string str = "CREATE DATABASE IF NOT EXISTS `name` CHARACTER SET utf8 COLLATE utf8_polish_ci;";
+            Assert.Equal(str, result);
+        }
+        #endregion
+
+        #region CreateNgramsTableString
+        [Fact]
+        public void CreateNgramsTableString_Digram()
+        {
+            var provider = new SqlQueryProvider();
+            var result = provider.CreateNgramsTableString("DbName","TableName",2);
+
+            const string str = "CREATE TABLE IF NOT EXISTS `DbName`.`TableName` " +
+                               "( `ID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
+                               "`Value` INT NOT NULL, `Word1` VARCHAR(30) NOT NULL, "+
+                               "`Word2` VARCHAR(30) NOT NULL ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_polish_ci;";
+            Assert.Equal(str, result);
+        }
+        #endregion
+
+        #region InsertNgramsString
+        [Fact]
+        public void InsertNgramsString()
+        {
+            var ngrams = new List<NGram>
+            {
+                new NGram{Value = 10, WordsList = new List<string>{"a","b"}},
+                new NGram{Value = 20, WordsList = new List<string>{"c","d"}}
+            };
+            var provider = new SqlQueryProvider();
+            var result = provider.InsertNgramsString("TableName", ngrams);
+
+            const string str = "INSERT INTO `TableName` (`Value`, `Word1`, `Word2`) "+
+                "VALUES('10', 'a', 'b'),('20', 'c', 'd');";
+            Assert.Equal(str, result);
+        }
+        #endregion
+
+        #region InsertOrUpdateNgramString
+        [Fact]
+        public void InsertOrUpdateNgramString()
+        {
+            var ngram=new NGram {Value = 10, WordsList = new List<string>{"a", "b"}};
+
+            var provider = new SqlQueryProvider();
+            var result = provider.InsertOrUpdateNgramString(ngram);
+
+            const string str = "CALL Add2gram('10', 'a', 'b');";
+            Assert.Equal(str, result);
+        }
+        #endregion
+
+        #region CreateAddProcedureString
+        [Fact]
+        public void CreateAddProcedureString_Digram()
+        {
+            var provider = new SqlQueryProvider();
+            var result = provider.CreateAddProcedureString("BaseName","TableName",2);
+
+            const string str = "DROP PROCEDURE IF EXISTS BaseName.Add2gram; CREATE PROCEDURE BaseName.Add2gram(in _value int, in _word1 varchar(30), in _word2 varchar(30)) " +
+                               "BEGIN SELECT @id:=ID, @val:=Value FROM BaseName.TableName WHERE Word1 = _word1 AND Word2 = _word2; " +
+                               "IF @id IS NULL THEN INSERT INTO BaseName.TableName (Value, Word1, Word2) VALUES ( _value, _word1, _word2); " +
+                               "ELSE UPDATE BaseName.TableName SET Value = @val + _value WHERE ID = @id; END IF; END";
+            Assert.Equal(str, result);
         }
         #endregion
     }

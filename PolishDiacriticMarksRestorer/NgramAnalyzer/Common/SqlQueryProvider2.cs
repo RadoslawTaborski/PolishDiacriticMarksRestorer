@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using NgramAnalyzer.Common;
 using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 
-namespace NgramAnalyzer
+namespace NgramAnalyzer.Common
 {
     /// <summary>
     /// SqlQueryProvider2 Class provides MySql Query.
@@ -29,6 +28,11 @@ namespace NgramAnalyzer
                 throw new ArgumentException("IList<string> 'dbTableNames' has wrong size");
             _dbTableDbTableName = dbTableNames;
         }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlQueryProvider2"/> class.
+        /// </summary>
+        public SqlQueryProvider2() { }
         #endregion
 
         #region  PUBLIC
@@ -49,7 +53,9 @@ namespace NgramAnalyzer
             if (wordList == null || wordList.Count < number)
                 throw new ArgumentException("List<string> 'wordList' has wrong size");
 
-            var query = "SELECT * FROM " + _dbTableDbTableName[number - 1] + " WHERE";
+            var index = GetIndexOfNames(wordList[0]);
+
+            var query = $"SELECT * FROM {_dbTableDbTableName[number - 1]}[{Names[index]}] WHERE";
 
             for (var i = 0; i < number; ++i)
             {
@@ -83,7 +89,9 @@ namespace NgramAnalyzer
             if (combinations == null || combinations.Count < 1)
                 throw new ArgumentException("List<string> 'combinations' has wrong size");
 
-            var query = "SELECT * FROM " + _dbTableDbTableName[number - 1] + " WHERE ";
+            var index = GetIndexOfNames(wordList[0]);
+
+            var query = $"SELECT * FROM {_dbTableDbTableName[number - 1]}[{Names[index]}] WHERE ";
 
             for (var i = 0; i < number - 1; ++i)
             {
@@ -140,7 +148,6 @@ namespace NgramAnalyzer
             foreach (var item in wordList)
             {
                 var index = GetIndexOfNames(item);
-                if (index == -1) continue;
                 if (comandsText[index] == "")
                 {
                     comandsText[index] = "SELECT * FROM `" + _dbTableDbTableName[0] + "[" + Names[index] + "]` WHERE";
@@ -176,46 +183,184 @@ namespace NgramAnalyzer
                 }
             }
 
+            var commandsText = new string[Names.Length];
+            for (var index = 0; index < commandsText.Length; index++)
+            {
+                commandsText[index] = "";
+            }
 
-            var query = "SELECT * FROM " + _dbTableDbTableName[number - 1] + " WHERE ";
-
-            var z = 1;
             foreach (var item1 in wordLists)
             {
+                var index = GetIndexOfNames(item1[0][0]);
+                if (commandsText[index] == "")
+                {
+                    commandsText[index] = $"SELECT * FROM {_dbTableDbTableName[number - 1]}[{Names[index]}] WHERE ";
+                }
+                else
+                {
+                    commandsText[index] += " OR ";
+                }
+                
                 var j = 1;
 
-                if (z != 1) query += " OR ";
-
-                query += "( ";
+                commandsText[index] += "( ";
                 foreach (var item2 in item1)
                 {
-                    if (j != 1) query += " AND ";
-                    query += "( ";
+                    if (j != 1) commandsText[index] += " AND ";
+                    commandsText[index] += "( ";
 
                     for (var i = 0; i < item2.Count; ++i)
                     {
-                        if (i != 0) query += "OR ";
-                        query += "Word" + j + "='" + item2[i].ChangeSpecialCharacters() + "' ";
+                        if (i != 0) commandsText[index] += "OR ";
+                        commandsText[index] += "Word" + j + "='" + item2[i].ChangeSpecialCharacters() + "' ";
                     }
 
-                    query += ")";
+                    commandsText[index] += ")";
                     ++j;
                 }
-                query += " )";
-                ++z;
+                commandsText[index] += " )";
             }
 
-            query += ";";
+            var result = "";
+            for (var index = 0; index < commandsText.Length; index++)
+            {
+                if(commandsText[index]!="") commandsText[index] += ";";
+                result += commandsText[index];
+            }
 
-            return query;
+            return result;
         }
 
+        public string CreateDbString(string name)
+        {
+            return $"CREATE DATABASE IF NOT EXISTS `{name}` CHARACTER SET utf8 COLLATE utf8_polish_ci;";
+        }
+
+        public string CreateNgramsTableString(string dataBaseName, string tableName, int numberOfWords)
+        {
+            var commandText = "";
+
+            foreach (var item in Names)
+            {
+                commandText += $"CREATE TABLE IF NOT EXISTS `{dataBaseName}`.`{tableName}[{item}]` " +
+                               "( `ID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " + "`Value` INT NOT NULL";
+
+                for (var i = 0; i < numberOfWords; ++i)
+                {
+                    commandText += $", `Word{i + 1}` VARCHAR(30) NOT NULL";
+                }
+
+                commandText += " ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_polish_ci;";
+            }
+
+            return commandText;
+        }
+
+        public string InsertNgramsString(string tableName, List<NGram> ngrams)
+        {
+            var comandsText = new string[Names.Length];
+            for (var index = 0; index < comandsText.Length; index++)
+            {
+                comandsText[index] = "";
+            }
+
+            foreach (var item in ngrams)
+            {
+                var index = GetIndexOfNames(item.WordsList[0]);
+                if (comandsText[index] == "")
+                {
+                    comandsText[index] = $"INSERT INTO `{tableName}[{Names[index]}]` (`Value`";
+
+                    for (var i = 0; i < ngrams[0].WordsList.Count; ++i)
+                    {
+                        comandsText[index] += $", `Word{i + 1}`";
+                    }
+
+                    comandsText[index] += ") VALUES";
+                }
+                comandsText[index] += $"('{item.Value}'";
+                foreach (var elem in item.WordsList)
+                {
+                    comandsText[index] += $", '{elem}'";
+                }
+                comandsText[index] += "),";
+            }
+
+            return comandsText.Where(item => item != "")
+                .Select(text => new System.Text.StringBuilder(text) { [text.Length - 1] = ';' })
+                .Aggregate("", (current, strBuilder) => current + strBuilder.ToString());
+        }
+
+        public string InsertOrUpdateNgramString(NGram ngram)
+        {
+            var index = GetIndexOfNames(ngram.WordsList[0]);
+            var count = ngram.WordsList.Count;
+
+            var commandText =
+                string.Format("CALL `Add{0}gram[{2}]`('{1}'", count, ngram.Value, Names[index]);
+
+            foreach (var item in ngram.WordsList)
+            {
+                commandText += $", '{item}'";
+            }
+
+            commandText += ");";
+
+            return commandText;
+
+        }
+
+        public string CreateAddProcedureString(string dataBaseName, string tableName, int numberOfWords)
+        {
+            var commandsText = "";
+
+            foreach (var item in Names)
+            {
+                var commandText =
+                    string.Format("DROP PROCEDURE IF EXISTS {0}.`Add{1}gram[{2}]`; CREATE PROCEDURE {0}.`Add{1}gram[{2}]`(in _value int",
+                        dataBaseName, numberOfWords, item);
+
+                for (var i = 0; i < numberOfWords; ++i)
+                {
+                    commandText += $", in _word{i + 1} varchar(30)";
+                }
+
+                commandText += ") BEGIN SELECT @id:=ID, @val:=Value FROM " + dataBaseName + ".`" + tableName + "[" + item + "]` WHERE ";
+
+                for (var i = 0; i < numberOfWords; ++i)
+                {
+                    if (i != 0) commandText += " AND ";
+                    commandText += string.Format("Word{0} = _word{0}", i + 1);
+                }
+
+                commandText += "; IF @id IS NULL THEN INSERT INTO " + dataBaseName + ".`" + tableName + "[" + item + "]` (Value";
+
+                for (var i = 0; i < numberOfWords; ++i)
+                {
+                    commandText += $", Word{i + 1}";
+                }
+
+                commandText += ") VALUES ( _value";
+
+                for (var i = 0; i < numberOfWords; ++i)
+                {
+                    commandText += $", _word{i + 1}";
+                }
+
+                commandText += "); ELSE UPDATE " + dataBaseName + ".`" + tableName + "[" + item + "]` SET Value = @val + _value WHERE ID = @id; END IF; END; ";
+                commandsText += commandText;
+            }
+
+            return commandsText;
+        }
         #endregion
 
         #region PRIVATE
         private string QueryCreator(int ngramSize, int numberComparedWords, IReadOnlyList<string> wordList)
         {
-            var query = "SELECT * FROM " + _dbTableDbTableName[ngramSize - 1] + " WHERE";
+            var index = GetIndexOfNames(wordList[0]);
+
+            var query = $"SELECT * FROM {_dbTableDbTableName[ngramSize - 1]}[{Names[index]}] WHERE";
 
             for (var i = 0; i < numberComparedWords; ++i)
             {

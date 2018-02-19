@@ -7,19 +7,21 @@ using Xunit;
 
 namespace NgramFilterTests.Unit
 {
-    public class NgramsDataBaseCreator2Tests
+    public class NgramsDataBaseCreatorTests
     {
         [Theory]
         [InlineData("name")]
         public void CreateDataBase_Verify(string name)
         {
-            var commandText = "CREATE DATABASE IF NOT EXISTS `" +
-                              name + "` CHARACTER SET utf8 COLLATE utf8_polish_ci;";
+            const string commandText = "a";
 
             var dataAccessMock = new Mock<IDataAccess>();
             dataAccessMock.Setup(m => m.ExecuteNonQueryServer(commandText)).Verifiable();
 
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object);
+            var queryProviderMock = new Mock<IQueryProvider>();
+            queryProviderMock.Setup(m => m.CreateDbString(name)).Returns(commandText);
+
+            var creator = new NgramsDataBaseCreator(dataAccessMock.Object,queryProviderMock.Object);
             creator.CreateDataBase(name);
 
             dataAccessMock.Verify();
@@ -27,20 +29,23 @@ namespace NgramFilterTests.Unit
 
         [Theory]
         [InlineData("dbName", "tableName")]
-        public void CreateTable1Words_Verify(string dbName, string tableName)
+        public void CreateTable_Verify(string dbName, string tableName)
         {
-            var commandText = "CREATE TABLE IF NOT EXISTS `" + dbName + "`.`" +
-                              tableName + "` ( `ID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                              "`Value` INT NOT NULL, `Word1` VARCHAR(30) NOT NULL ) " +
-                              "ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_polish_ci;";
+            const string commandText = "b";
+            const string commandText2 = "c";
 
             var dataAccessMock = new Mock<IDataAccess>();
             dataAccessMock.Setup(m => m.ExecuteNonQueryServer(commandText)).Verifiable();
+            dataAccessMock.Setup(m => m.ExecuteNonQueryServer(commandText2)).Verifiable();
 
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object);
+            var queryProviderMock = new Mock<IQueryProvider>();
+            queryProviderMock.Setup(m => m.CreateNgramsTableString(dbName,tableName,1)).Returns(commandText);
+            queryProviderMock.Setup(m => m.CreateAddProcedureString(dbName, tableName, 1)).Returns(commandText2);
+
+            var creator = new NgramsDataBaseCreator(dataAccessMock.Object, queryProviderMock.Object);
             creator.CreateTables(dbName, tableName, 1);
 
-            dataAccessMock.Verify();
+            dataAccessMock.Verify(m => m.ExecuteNonQueryServer(It.IsAny<string>()), Times.Exactly(2));
         }
 
         [Theory]
@@ -49,29 +54,12 @@ namespace NgramFilterTests.Unit
         {
             var dataAccessMock = new Mock<IDataAccess>();
 
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object);
+            var queryProviderMock = new Mock<IQueryProvider>();
+
+            var creator = new NgramsDataBaseCreator(dataAccessMock.Object, queryProviderMock.Object);
             creator.CreateTables(dbName, tableName, -1);
 
             dataAccessMock.Verify(m => m.ExecuteNonQueryServer(It.IsAny<string>()), Times.Never);
-        }
-
-        [Theory]
-        [InlineData("dbName", "tableName")]
-        public void CreateTable2Words_Verify(string dbName, string tableName)
-        {
-            var commandText = "CREATE TABLE IF NOT EXISTS `" + dbName + "`.`" +
-                              tableName + "` ( `ID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                              "`Value` INT NOT NULL, `Word1` VARCHAR(30) NOT NULL, " +
-                              "`Word2` VARCHAR(30) NOT NULL ) " +
-                              "ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_polish_ci;";
-
-            var dataAccessMock = new Mock<IDataAccess>();
-            dataAccessMock.Setup(m => m.ExecuteNonQueryServer(commandText)).Verifiable();
-
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object);
-            creator.CreateTables(dbName, tableName, 2);
-
-            dataAccessMock.Verify();
         }
 
         [Theory]
@@ -84,19 +72,47 @@ namespace NgramFilterTests.Unit
                 new NGram {Value = 10, WordsList = new List<string> {"big", "cat"}}
             };
 
-            var commandText = "INSERT INTO `" + tableName +
-                              "` (`Value`, `Word1`, `Word2`) VALUES('" + ngrams[0].Value +
-                              "', '" + ngrams[0].WordsList[0] + "', '" + ngrams[0].WordsList[1] +
-                              "'),('" + ngrams[1].Value + "', '" + ngrams[1].WordsList[0] +
-                              "', '" + ngrams[1].WordsList[1] + "');";
+            const string commandText = "ss";
 
             var dataAccessMock = new Mock<IDataAccess>();
             dataAccessMock.Setup(m => m.ExecuteNonQueryDb(commandText)).Verifiable();
 
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object);
+            var queryProviderMock = new Mock<IQueryProvider>();
+            queryProviderMock.Setup(m => m.InsertNgramsString(tableName,ngrams)).Returns(commandText);
+
+            var creator = new NgramsDataBaseCreator(dataAccessMock.Object, queryProviderMock.Object);
             creator.AddNgramsToTable(tableName, ngrams);
 
             dataAccessMock.Verify();
+        }
+
+        [Theory]
+        [InlineData("tableName")]
+        public void AddNgramsToTable_EmptyNgrams_Verify(string tableName)
+        {
+            var ngrams = new List<NGram>();
+            var dataAccessMock = new Mock<IDataAccess>();
+
+            var queryProviderMock = new Mock<IQueryProvider>();
+
+            var creator = new NgramsDataBaseCreator(dataAccessMock.Object, queryProviderMock.Object);
+            creator.AddNgramsToTable(tableName, ngrams);
+
+            dataAccessMock.Verify(m => m.ExecuteNonQueryDb(It.IsAny<string>()), Times.Never);
+        }
+
+        [Theory]
+        [InlineData("tableName")]
+        public void AddNgramsToTable_NullNgrams_Verify(string tableName)
+        {
+            var dataAccessMock = new Mock<IDataAccess>();
+
+            var queryProviderMock = new Mock<IQueryProvider>();
+
+            var creator = new NgramsDataBaseCreator(dataAccessMock.Object, queryProviderMock.Object);
+            creator.AddNgramsToTable(tableName, null);
+
+            dataAccessMock.Verify(m => m.ExecuteNonQueryDb(It.IsAny<string>()), Times.Never);
         }
 
         [Theory]
@@ -109,17 +125,16 @@ namespace NgramFilterTests.Unit
                 new NGram {Value = 10, WordsList = new List<string> {"big", "cat"}}
             };
 
-            var commandText = "CALL Add2gram('" + ngrams[0].Value +
-                              "', '" + ngrams[0].WordsList[0] + "', '" + ngrams[0].WordsList[1] +
-                              "');";
-
-            var commandText1 = "CALL Add2gram('" + ngrams[1].Value +
-                              "', '" + ngrams[1].WordsList[0] + "', '" + ngrams[1].WordsList[1] +
-                              "');";
+            var commandText = "aa";
+            var commandText1 = "bb";
 
             var dataAccessMock = new Mock<IDataAccess>();
 
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object);
+            var queryProviderMock = new Mock<IQueryProvider>();
+            queryProviderMock.Setup(m => m.InsertOrUpdateNgramString(ngrams[0])).Returns(commandText);
+            queryProviderMock.Setup(m => m.InsertOrUpdateNgramString(ngrams[1])).Returns(commandText1);
+
+            var creator = new NgramsDataBaseCreator(dataAccessMock.Object, queryProviderMock.Object);
             creator.AddOrUpdateNgramsToTable(tableName, ngrams);
 
             dataAccessMock.Verify(m => m.ExecuteNonQueryDb(commandText), Times.Once);
@@ -133,7 +148,9 @@ namespace NgramFilterTests.Unit
             var ngrams = new List<NGram>();
             var dataAccessMock = new Mock<IDataAccess>();
 
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object);
+            var queryProviderMock = new Mock<IQueryProvider>();
+
+            var creator = new NgramsDataBaseCreator(dataAccessMock.Object, queryProviderMock.Object);
             creator.AddOrUpdateNgramsToTable(tableName, ngrams);
 
             dataAccessMock.Verify(m => m.ExecuteNonQueryDb(It.IsAny<string>()), Times.Never);
@@ -145,58 +162,10 @@ namespace NgramFilterTests.Unit
         {
             var dataAccessMock = new Mock<IDataAccess>();
 
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object);
+            var queryProviderMock = new Mock<IQueryProvider>();
+
+            var creator = new NgramsDataBaseCreator(dataAccessMock.Object, queryProviderMock.Object);
             creator.AddOrUpdateNgramsToTable(tableName, null);
-
-            dataAccessMock.Verify(m => m.ExecuteNonQueryDb(It.IsAny<string>()), Times.Never);
-        }
-
-        [Theory]
-        [InlineData("tableName")]
-        public void AddNgramsToTable_Unigrams_Verify(string tableName)
-        {
-            var ngrams = new List<NGram>
-            {
-                new NGram {Value = 10, WordsList = new List<string> {"small"}},
-                new NGram {Value = 10, WordsList = new List<string> {"big"}}
-            };
-
-            var commandText = "INSERT INTO `" + tableName +
-                              "` (`Value`, `Word1`) VALUES('" + ngrams[0].Value +
-                              "', '" + ngrams[0].WordsList[0] +
-                              "'),('" + ngrams[1].Value + "', '" + ngrams[1].WordsList[0] +
-                              "');";
-
-            var dataAccessMock = new Mock<IDataAccess>();
-            dataAccessMock.Setup(m => m.ExecuteNonQueryDb(commandText)).Verifiable();
-
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object);
-            creator.AddNgramsToTable(tableName, ngrams);
-
-            dataAccessMock.Verify();
-        }
-
-        [Theory]
-        [InlineData("tableName")]
-        public void AddNgramsToTable_EmptyNgrams_Verify(string tableName)
-        {
-            var ngrams = new List<NGram>();
-            var dataAccessMock = new Mock<IDataAccess>();
-
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object);
-            creator.AddNgramsToTable(tableName, ngrams);
-
-            dataAccessMock.Verify(m => m.ExecuteNonQueryDb(It.IsAny<string>()), Times.Never);
-        }
-
-        [Theory]
-        [InlineData("tableName")]
-        public void AddNgramsToTable_NullNgrams_Verify(string tableName)
-        {
-            var dataAccessMock = new Mock<IDataAccess>();
-
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object);
-            creator.AddNgramsToTable(tableName, null);
 
             dataAccessMock.Verify(m => m.ExecuteNonQueryDb(It.IsAny<string>()), Times.Never);
         }

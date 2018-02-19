@@ -49,5 +49,10 @@ namespace NgramAnalyzer.Interfaces
         /// Query string.
         /// </returns>
         string GetAllNecessaryNgramsFromTable(NgramType ngramType, List<List<List<string>>> wordLists);
+        string CreateDbString(string name);
+        string CreateNgramsTableString(string dataBaseName, string tableName, int numberOfWords);
+        string InsertNgramsString(string tableName, List<NGram> ngrams);
+        string InsertOrUpdateNgramString(NGram ngram);
+        string CreateAddProcedureString(string dataBaseName, string tableName, int numberOfWords);
     }
 }
