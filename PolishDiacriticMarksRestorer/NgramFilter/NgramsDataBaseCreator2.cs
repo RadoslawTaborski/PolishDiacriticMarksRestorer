@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
 using NgramFilter.Interfaces;
@@ -40,11 +38,11 @@ namespace NgramFilter
             if (numberOfWords < 1) return;
 
             var commandText = CreateNgramsTableString(dataBaseName, tableName, numberOfWords);
-            //var commandText1 = CreateAddProcedureString(dataBaseName, tableName, numberOfWords);
+            var commandText1 = CreateAddProcedureString(dataBaseName, tableName, numberOfWords);
 
             _db.ConnectToServer();
             _db.ExecuteNonQueryServer(commandText);
-            //_db.ExecuteNonQueryServer(commandText1);
+            _db.ExecuteNonQueryServer(commandText1);
             _db.Disconnect();
         }
 
@@ -61,7 +59,15 @@ namespace NgramFilter
 
         public void AddOrUpdateNgramsToTable(string tableName, List<NGram> ngrams)
         {
-            throw new NotImplementedException();
+            if (ngrams == null || ngrams.Count <= 0) return;
+
+            _db.ConnectToDb();
+            foreach (var item in ngrams)
+            {
+                var commandText = InsertOrUpdateNgramsString(item);
+                _db.ExecuteNonQueryDb(commandText);
+            }
+            _db.Disconnect();
         }
         #endregion
 
@@ -129,6 +135,73 @@ namespace NgramFilter
             return comandsText.Where(item => item != "")
                 .Select(text => new System.Text.StringBuilder(text) {[text.Length - 1] = ';'})
                 .Aggregate("", (current, strBuilder) => current + strBuilder.ToString());
+        }
+
+        private string InsertOrUpdateNgramsString(NGram ngram)
+        {
+            var index = GetIndexOfNames(ngram.WordsList[0]);
+            if (index != -1)
+            {
+                var count = ngram.WordsList.Count;
+
+                var commandText =
+                    string.Format("CALL `Add{0}gram[{2}]`('{1}'", count, ngram.Value, Names[index]);
+
+                foreach (var item in ngram.WordsList)
+                {
+                    commandText += string.Format(", '{0}'", item);
+                }
+
+                commandText += ");";
+
+                return commandText;
+            }
+
+            return "";
+        }
+
+        private string CreateAddProcedureString(string dataBaseName, string tableName, int numberOfWords)
+        {
+            var commandsText = "";
+
+            foreach (var item in Names)
+            {
+                var commandText =
+                    string.Format("DROP PROCEDURE IF EXISTS {0}.`Add{1}gram[{2}]`; CREATE PROCEDURE {0}.`Add{1}gram[{2}]`(in _value int",
+                        dataBaseName, numberOfWords,item);
+
+                for (var i = 0; i < numberOfWords; ++i)
+                {
+                    commandText += string.Format(", in _word{0} varchar(30)", i + 1);
+                }
+
+                commandText += ") BEGIN SELECT @id:=ID, @val:=Value FROM " + dataBaseName + ".`" + tableName + "["+ item +"]` WHERE ";
+
+                for (var i = 0; i < numberOfWords; ++i)
+                {
+                    if (i != 0) commandText += " AND ";
+                    commandText += string.Format("Word{0} = _word{0}", i + 1);
+                }
+
+                commandText += "; IF @id IS NULL THEN INSERT INTO " + dataBaseName + ".`" + tableName +"["+ item +"]` (Value";
+
+                for (var i = 0; i < numberOfWords; ++i)
+                {
+                    commandText += string.Format(", Word{0}", i + 1);
+                }
+
+                commandText += ") VALUES ( _value";
+
+                for (var i = 0; i < numberOfWords; ++i)
+                {
+                    commandText += string.Format(", _word{0}", i + 1);
+                }
+
+                commandText += "); ELSE UPDATE " + dataBaseName + ".`" + tableName +"["+ item +"]` SET Value = @val + _value WHERE ID = @id; END IF; END; ";
+                commandsText += commandText;
+            }
+
+            return commandsText;
         }
 
         private int GetIndexOfNames(string str)

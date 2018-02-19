@@ -146,9 +146,11 @@ namespace NgramAnalyzer
                     comandsText[index] = "SELECT * FROM `" + _dbTableDbTableName[0] + "[" + Names[index] + "]` WHERE";
                     comandsText[index] += " Word1='" + item.ChangeSpecialCharacters() + "'";
                 }
-
-                comandsText[index] += " OR";
-                comandsText[index] += " Word1='" + item.ChangeSpecialCharacters() + "'";
+                else
+                {
+                    comandsText[index] += " OR";
+                    comandsText[index] += " Word1='" + item.ChangeSpecialCharacters() + "'";
+                }
             }
 
             var query = comandsText.Where(item => item != "").Aggregate("", (current, item) => current + (item + " UNION ALL "));

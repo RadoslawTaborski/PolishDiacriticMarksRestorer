@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using MoreLinq;
 using NgramAnalyzer.Common;
@@ -74,20 +75,12 @@ namespace NgramAnalyzer
             var result = new List<string>();
 
             var length = (int)_ngramType;
-            var count = strList.Count / length;
-            var flag = strList.Count - count * length;
 
             if (strList.Count >= length)
             {
-                for (var j = 0; j < count; j++)
+                for (var j = 0; j < strList.Count - length+1; j++)
                 {
-                    var tmp = strList.GetRange(j * length, length).ConvertAll(d => d.ToLower());
-                    ngramVariants.Add(new NGramVariants(new NGram { Value = 0, WordsList = tmp }, _diacriticAdder));
-                }
-
-                if (flag > 0)
-                {
-                    var tmp = strList.GetRange(strList.Count - length, length).ConvertAll(d => d.ToLower());
+                    var tmp = strList.GetRange(j, length).ConvertAll(d => d.ToLower());
                     ngramVariants.Add(new NGramVariants(new NGram { Value = 0, WordsList = tmp }, _diacriticAdder));
                 }
             }
@@ -99,6 +92,7 @@ namespace NgramAnalyzer
                 list.AddRange(variant.VariantsToWordList());
             }
 
+            list = list.Distinct().ToList();
             var goodWords = CheckWords(list);
 
             foreach (var variant in ngramVariants)
@@ -113,22 +107,51 @@ namespace NgramAnalyzer
                 variant.UpdateNGramsVariants(ngrams);
             }
 
+            var finalVariants = new List<NGram>();
             foreach (var item in ngramVariants)
             {
                 if (item.NgramVariants.Count == 0)
                 {
-                    result.AddRange(item.OrginalNGram.WordsList);
+                    finalVariants.Add(item.OrginalNGram);
                 }
                 else
                 {
                     var ngram = item.NgramVariants.MaxBy(x => x.Value);
-                    result.AddRange(ngram.WordsList);
+                    finalVariants.Add(ngram);
                 }
             }
 
-            for (var i = 0; i < flag; i++)
+            for (var i = 0; i < length-1; ++i)
             {
-                result.RemoveAt(result.Count - 2);
+                var tmp = new List<NGram>();
+                for (var j = i; j >= 0; --j)
+                {
+                    tmp.Add(finalVariants[j]);
+                }
+
+                result.Add(FindWordFromNgramList(tmp,true));
+            }
+
+            for (var i = 0; i < finalVariants.Count-length+1; ++i)
+            {
+                var tmp = new List<NGram>();
+                for (var j = i+length-1; j >= i; --j)
+                {
+                    tmp.Add(finalVariants[j]);
+                }
+
+                result.Add(FindWordFromNgramList(tmp,true));
+            }
+
+            for (var i = finalVariants.Count - length+1; i < finalVariants.Count; ++i)
+            {
+                var tmp = new List<NGram>();
+                for (var j = i; j < finalVariants.Count; ++j)
+                {
+                    tmp.Add(finalVariants[j]);
+                }
+
+                result.Add(FindWordFromNgramList(tmp,false));
             }
 
             return result;
@@ -153,6 +176,13 @@ namespace NgramAnalyzer
 
         //    return ngramsList;
         //}
+        private string FindWordFromNgramList(List<NGram> ngrams, bool fromBeginning)
+        {
+            var ngram = ngrams.MaxBy(x => x.Value);
+            var index=ngrams.IndexOf(ngram);
+            
+            return fromBeginning ? ngram.WordsList[index] : ngram.WordsList[ngram.WordsList.Count-index-1];
+        }
 
         private IEnumerable<NGram> GetAllData(List<NGramVariants> wordLists)
         {
