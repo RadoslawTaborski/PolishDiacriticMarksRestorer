@@ -26,8 +26,9 @@ namespace NgramFilterTests.Unit
             {
                 { @"C:\input", new MockFileData(@"15 small cat") }
             });
+            var queryProvider = new Mock<IQueryProvider>();
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object,queryProvider.Object);
             bootstrapper.Filter(@"C:\input", @"C:\output");
 
             Assert.True(mockFileSystem.FileExists(@"C:\output"));
@@ -46,8 +47,9 @@ namespace NgramFilterTests.Unit
             {
                 { @"C:\input", new MockFileData(@"15 small cat") }
             });
+            var queryProvider = new Mock<IQueryProvider>();
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object, queryProvider.Object);
             bootstrapper.Filter(@"C:\input", @"C:\output");
 
             Assert.True(mockFileSystem.FileExists(@"C:\output"));
@@ -63,8 +65,9 @@ namespace NgramFilterTests.Unit
             modifierMock.Setup(m => m.Start(It.IsAny<NGram>())).Returns((NGram myval) => myval);
             var dbMock = new Mock<IDataBaseManagerFactory>();
             var mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>());
+            var queryProvider = new Mock<IQueryProvider>();
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object, queryProvider.Object);
 
             var exception = Assert.Throws<FileNotFoundException>(() => bootstrapper.Filter(@"C:\input", @"C:\output"));
             Assert.IsType<FileNotFoundException>(exception);
@@ -82,8 +85,9 @@ namespace NgramFilterTests.Unit
             {
                 { @"C:\input", new MockFileData(@"aa small cat") }
             });
+            var queryProvider = new Mock<IQueryProvider>();
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object, queryProvider.Object);
 
             var exception = Assert.Throws<FormatException>(() => bootstrapper.Filter(@"C:\input", @"C:\output"));
             Assert.IsType<FormatException>(exception);
@@ -118,8 +122,9 @@ namespace NgramFilterTests.Unit
             {
                 { @"C:\input", new MockFileData(@"15 small cat") }
             });
+            var queryProvider = new Mock<IQueryProvider>();
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, connectionFactoryMock.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, connectionFactoryMock.Object, queryProvider.Object);
             bootstrapper.CreateDb(@"C:\input", "dbName", "tableName");
 
             commandMock.Verify();
@@ -155,8 +160,9 @@ namespace NgramFilterTests.Unit
             {
                 { @"C:\input", new MockFileData(@"15 small cat") }
             });
+            var queryProvider = new Mock<IQueryProvider>();
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, connectionFactoryMock.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, connectionFactoryMock.Object, queryProvider.Object);
             bootstrapper.CreateDb(@"C:\input", "dbName", "tableName");
 
             commandMock.Verify();

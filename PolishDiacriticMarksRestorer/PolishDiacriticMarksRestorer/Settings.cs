@@ -31,6 +31,10 @@ namespace PolishDiacriticMarksRestorer
         /// <summary>
         /// The table names list.
         /// </summary>
-        public static IList<string> TableNames = new []{"1grams", "2grams", "3grams", "4grams"};
+        public static IList<string> TableNames = new []{"dictionary", "2grams", "3grams", "4grams"};
+        /// <summary>
+        /// The alphabetical tables in database
+        /// </summary>
+        public static bool AlphabeticalTables = false;
     }
 }

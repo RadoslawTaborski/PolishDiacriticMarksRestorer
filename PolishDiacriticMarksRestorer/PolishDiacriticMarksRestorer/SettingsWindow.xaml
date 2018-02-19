@@ -96,6 +96,8 @@
                             <TextBox x:Name="TbTri" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
                             <Label Content="Fourgramy" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
                             <TextBox x:Name="TbFour" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
+                            <Label Content="Tabele alfabetyczne" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <CheckBox x:Name="AlphaTables" Height="15" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" Checked="AlphaTables_Checked" Unchecked="AlphaTables_Checked"/>
                         </Grid>
                     </Border>
                 </TabItem>

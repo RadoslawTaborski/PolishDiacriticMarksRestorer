@@ -14,7 +14,7 @@ namespace PolishDiacriticMarksRestorer
     public partial class SettingsWindow
     {
         #region FIELDS
-        private readonly bool[] _changes = new bool[9];
+        private readonly bool[] _changes = new bool[10];
         #endregion
 
         #region PROPERTIES
@@ -56,6 +56,7 @@ namespace PolishDiacriticMarksRestorer
             Settings.TableNames[1] = TbDi.Text;
             Settings.TableNames[2] = TbTri.Text;
             Settings.TableNames[3] = TbFour.Text;
+            if (AlphaTables.IsChecked != null) Settings.AlphabeticalTables = (bool) AlphaTables.IsChecked;
         }
 
         private void GetSettings()
@@ -69,6 +70,7 @@ namespace PolishDiacriticMarksRestorer
             TbDi.Text = Settings.TableNames[1];
             TbTri.Text = Settings.TableNames[2];
             TbFour.Text = Settings.TableNames[3];
+            AlphaTables.IsChecked = Settings.AlphabeticalTables;
         }
 
         private void Update()
@@ -92,6 +94,12 @@ namespace PolishDiacriticMarksRestorer
         private void NgramChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             _changes[0] = !Settings.Type.Equals((NgramType)Enum.Parse(typeof(NgramType), CbType.SelectedValue.ToString()));
+            Update();
+        }
+
+        private void AlphaTables_Checked(object sender, RoutedEventArgs e)
+        {
+            _changes[9] = !Settings.AlphabeticalTables.Equals(AlphaTables.IsChecked);
             Update();
         }
 
@@ -160,6 +168,7 @@ namespace PolishDiacriticMarksRestorer
             Close();
         }
         #endregion
+
         #endregion
     }
 }

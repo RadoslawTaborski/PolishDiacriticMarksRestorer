@@ -22,7 +22,7 @@ namespace NgramFilter
             filter.Add(new WordsWithoutNonPunctationMarks());
             filter.Add(new NotLongWords());
             var modifier = new Modifier();
-            _bootstrapper = new Bootstrapper(filter, modifier, new FileSystem(), new MySqlConnectionFactory());
+            _bootstrapper = null;
 
             string output = null;
             string dbName = null;
@@ -31,6 +31,18 @@ namespace NgramFilter
             var decisionFilter = Console.ReadLine();
             Console.WriteLine("Utworzyć bazę danych? (T/N)");
             var decisionDb = Console.ReadLine();
+            Console.WriteLine("Czy stworzyć alfabetyczne tabele? (T/N)");
+            var decisionTables = Console.ReadLine();
+
+            if (decisionTables != null && decisionTables == "T")
+            {
+                _bootstrapper = new Bootstrapper(filter, modifier, new FileSystem(), new MySqlConnectionFactory(), new SqlQueryProvider2());
+            }
+            else
+            {
+                _bootstrapper = new Bootstrapper(filter, modifier, new FileSystem(), new MySqlConnectionFactory(), new SqlQueryProvider());
+            }
+
             if (decisionDb != null && decisionDb == "T")
             {
                 Console.WriteLine("Nazwa bazy danych: ");

@@ -19,6 +19,7 @@ namespace NgramFilter
         private readonly IModifier _modifier;
         private readonly IFileSystem _fileSystem;
         private readonly IDataBaseManagerFactory _dataAccess;
+        private readonly NgramAnalyzer.Interfaces.IQueryProvider _provider;
         #endregion
 
         #region CONSTRUCTORS
@@ -29,12 +30,14 @@ namespace NgramFilter
         /// <param name="modifier">The modifier.</param>
         /// <param name="fileSystem">The file system.</param>
         /// <param name="dataAccess">The data access.</param>
-        public Bootstrapper(IFilter filter, IModifier modifier, IFileSystem fileSystem, IDataBaseManagerFactory dataAccess)
+        /// <param name="provider">Sql query provider</param>
+        public Bootstrapper(IFilter filter, IModifier modifier, IFileSystem fileSystem, IDataBaseManagerFactory dataAccess, NgramAnalyzer.Interfaces.IQueryProvider provider)
         {
             _filter = filter;
             _modifier = modifier;
             _fileSystem = fileSystem;
             _dataAccess = dataAccess;
+            _provider = provider;
         }
         #endregion
 
@@ -94,8 +97,7 @@ namespace NgramFilter
                 var numberOfLines = inputManager.CountLines();
                 var counter = 0;
                 inputManager.Open(FileManagerType.Read);
-                var provider = new SqlQueryProvider2();
-                IDataBaseCreator creator = new NgramsDataBaseCreator(dbManager,provider);
+                IDataBaseCreator creator = new NgramsDataBaseCreator(dbManager,_provider);
 
                 string str;
                 var ngrams = new List<NGram>();

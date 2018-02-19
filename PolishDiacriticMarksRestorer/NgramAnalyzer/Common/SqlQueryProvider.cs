@@ -199,20 +199,17 @@ namespace NgramAnalyzer.Common
 
         public string CreateDbString(string name)
         {
-            return string.Format("CREATE DATABASE IF NOT EXISTS `{0}` CHARACTER SET utf8 COLLATE utf8_polish_ci;",
-                name);
+            return $"CREATE DATABASE IF NOT EXISTS `{name}` CHARACTER SET utf8 COLLATE utf8_polish_ci;";
         }
 
         public string CreateNgramsTableString(string dataBaseName, string tableName, int numberOfWords)
         {
-            var commandText = string.Format(
-                "CREATE TABLE IF NOT EXISTS `{0}`.`{1}` " +
-                "( `ID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                "`Value` INT NOT NULL", dataBaseName, tableName);
+            var commandText = $"CREATE TABLE IF NOT EXISTS `{dataBaseName}`.`{tableName}` " +
+                              "( `ID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " + "`Value` INT NOT NULL";
 
             for (var i = 0; i < numberOfWords; ++i)
             {
-                commandText += string.Format(", `Word{0}` VARCHAR(30) NOT NULL", i + 1);
+                commandText += $", `Word{i + 1}` VARCHAR(30) NOT NULL";
             }
 
             commandText += " ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_polish_ci;";
@@ -222,22 +219,21 @@ namespace NgramAnalyzer.Common
 
         public string InsertNgramsString(string tableName, List<NGram> ngrams)
         {
-            var commandText = string.Format(
-                "INSERT INTO `{0}` (`Value`", tableName);
+            var commandText = $"INSERT INTO `{tableName}` (`Value`";
 
             for (var i = 0; i < ngrams[0].WordsList.Count; ++i)
             {
-                commandText += string.Format(", `Word{0}`", i + 1);
+                commandText += $", `Word{i + 1}`";
             }
 
             commandText += ") VALUES";
 
             foreach (var item in ngrams)
             {
-                commandText += string.Format("('{0}'", item.Value);
+                commandText += $"('{item.Value}'";
                 foreach (var elem in item.WordsList)
                 {
-                    commandText += string.Format(", '{0}'", elem);
+                    commandText += $", '{elem}'";
                 }
                 commandText += "),";
             }
@@ -254,11 +250,11 @@ namespace NgramAnalyzer.Common
             var count = ngram.WordsList.Count;
 
             var commandText =
-                string.Format("CALL Add{0}gram('{1}'", count, ngram.Value);
+                $"CALL Add{count}gram('{ngram.Value}'";
 
             foreach (var item in ngram.WordsList)
             {
-                commandText += string.Format(", '{0}'", item);
+                commandText += $", '{item}'";
             }
 
             commandText += ");";
@@ -274,7 +270,7 @@ namespace NgramAnalyzer.Common
 
             for (var i = 0; i < numberOfWords; ++i)
             {
-                commandText += string.Format(", in _word{0} varchar(30)", i + 1);
+                commandText += $", in _word{i + 1} varchar(30)";
             }
 
             commandText += ") BEGIN SELECT @id:=ID, @val:=Value FROM " + dataBaseName + "." + tableName + " WHERE ";
@@ -289,14 +285,14 @@ namespace NgramAnalyzer.Common
 
             for (var i = 0; i < numberOfWords; ++i)
             {
-                commandText += string.Format(", Word{0}", i + 1);
+                commandText += $", Word{i + 1}";
             }
 
             commandText += ") VALUES ( _value";
 
             for (var i = 0; i < numberOfWords; ++i)
             {
-                commandText += string.Format(", _word{0}", i + 1);
+                commandText += $", _word{i + 1}";
             }
 
             commandText += "); ELSE UPDATE " + dataBaseName + "." + tableName + " SET Value = @val + _value WHERE ID = @id; END IF; END";
