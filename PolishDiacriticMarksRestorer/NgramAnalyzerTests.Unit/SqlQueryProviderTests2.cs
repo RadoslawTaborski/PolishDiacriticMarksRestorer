@@ -319,7 +319,7 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider2(_names);
             var result = provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists);
 
-            const string str = "SELECT * FROM tri[a] WHERE ( " +
+            const string str = "SELECT * FROM `tri[a]` WHERE ( " +
                                @"( Word1='a\\' OR Word1='b' ) AND ( Word2='c' OR Word2='d' ) AND ( Word3='e' OR Word3='\'f' OR Word3='g' ) ) " +
                                "OR ( ( Word1='a' OR Word1='x' ) AND ( Word2='y' ) AND ( Word3='w' OR Word3='v' OR Word3='u' ) );";
             Assert.Equal(str, result);
@@ -347,9 +347,9 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider2(_names);
             var result = provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists);
 
-            const string str = "SELECT * FROM tri[a] WHERE ( " +
-                               @"( Word1='a\\' OR Word1='b' ) AND ( Word2='c' OR Word2='d' ) AND ( Word3='e' OR Word3='\'f' OR Word3='g' ) );" +
-                               "SELECT * FROM tri[z] WHERE ( " +
+            const string str = "SELECT * FROM `tri[a]` WHERE ( " +
+                               @"( Word1='a\\' OR Word1='b' ) AND ( Word2='c' OR Word2='d' ) AND ( Word3='e' OR Word3='\'f' OR Word3='g' ) ) UNION ALL " +
+                               "SELECT * FROM `tri[z]` WHERE ( " +
                                @"( Word1='z' OR Word1='x' ) AND ( Word2='y' ) AND ( Word3='w' OR Word3='v' OR Word3='u' ) );";
             Assert.Equal(str, result);
         }

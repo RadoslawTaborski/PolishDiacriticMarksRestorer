@@ -194,7 +194,7 @@ namespace NgramAnalyzer.Common
                 var index = GetIndexOfNames(item1[0][0]);
                 if (commandsText[index] == "")
                 {
-                    commandsText[index] = $"SELECT * FROM {_dbTableDbTableName[number - 1]}[{Names[index]}] WHERE ";
+                    commandsText[index] = $"SELECT * FROM `{_dbTableDbTableName[number - 1]}[{Names[index]}]` WHERE ";
                 }
                 else
                 {
@@ -224,11 +224,11 @@ namespace NgramAnalyzer.Common
             var result = "";
             for (var index = 0; index < commandsText.Length; index++)
             {
-                if(commandsText[index]!="") commandsText[index] += ";";
+                if(commandsText[index]!="") commandsText[index] += " UNION ALL ";
                 result += commandsText[index];
             }
 
-            return result;
+            return result.Substring(0,result.Length-11)+";";
         }
 
         public string CreateDbString(string name)
