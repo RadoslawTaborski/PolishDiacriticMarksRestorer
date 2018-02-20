@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using MySql.Data.MySqlClient;
 using NgramAnalyzer;
 using NgramAnalyzer.Common;
+using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 
 namespace PolishDiacriticMarksRestorer
 {
@@ -24,7 +25,8 @@ namespace PolishDiacriticMarksRestorer
     public partial class MainWindow
     {
         #region FIELDS
-        private readonly Analyzer _analyzer = new Analyzer(new DiacriticMarksAdder());
+
+        private Analyzer _analyzer;
         private readonly Timer _timer = new Timer();
         private DateTime _start;
         private DateTime _stop;
@@ -38,11 +40,13 @@ namespace PolishDiacriticMarksRestorer
             RtbResult.IsReadOnly = true;
             Load(Path);
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
-            NgramAnalyzer.Interfaces.IQueryProvider queryProvider;
-            if (Settings.AlphabeticalTables)
-                queryProvider = new SqlQueryProvider2(Settings.TableNames);
-            else
-                queryProvider = new SqlQueryProvider(Settings.TableNames);
+            var queryProvider = Settings.AlphabeticalTables
+                ? (IQueryProvider) new SqlQueryProvider2(Settings.TableNames)
+                : new SqlQueryProvider(Settings.TableNames);
+
+            _analyzer = Settings.FileDictionary
+                ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary()) 
+                : new Analyzer(new DiacriticMarksAdder());
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);
@@ -80,6 +84,15 @@ namespace PolishDiacriticMarksRestorer
         {
             if (File.Exists(path))
                 SerializeStatic.Load(typeof(Settings), path);
+        }
+
+        private Dictionary LoadDictionary()
+        {
+            if (!File.Exists(Settings.DictionaryPath))
+                return new Dictionary(new List<string>());
+            var logFile = File.ReadAllLines(Settings.DictionaryPath);
+            var logList = new List<string>(logFile);
+            return new Dictionary(logList);
         }
 
         private void ExceptionHandler(Task task1)
@@ -153,11 +166,13 @@ namespace PolishDiacriticMarksRestorer
             if (!subWindow.ChangeSettings) return;
 
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
-            NgramAnalyzer.Interfaces.IQueryProvider queryProvider;
-            if (Settings.AlphabeticalTables)
-                queryProvider = new SqlQueryProvider2(Settings.TableNames);
-            else
-                queryProvider = new SqlQueryProvider(Settings.TableNames);
+            var queryProvider = Settings.AlphabeticalTables
+                ? (IQueryProvider) new SqlQueryProvider2(Settings.TableNames)
+                : new SqlQueryProvider(Settings.TableNames);
+
+            _analyzer = Settings.FileDictionary
+                ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary())
+                : new Analyzer(new DiacriticMarksAdder());
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);

@@ -36,6 +36,11 @@ namespace NgramAnalyzer.Common
             return target;
         }
 
+        /// <summary>
+        /// Remove punctation marks from string.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        /// <returns>String without punctation marks.</returns>
         public static string WithoutPunctationMarks(this string target)
         {
             target = target.Replace(@",", @"");

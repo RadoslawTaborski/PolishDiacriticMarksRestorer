@@ -14,7 +14,7 @@ namespace PolishDiacriticMarksRestorer
     public partial class SettingsWindow
     {
         #region FIELDS
-        private readonly bool[] _changes = new bool[10];
+        private readonly bool[] _changes = new bool[11];
         #endregion
 
         #region PROPERTIES
@@ -41,6 +41,9 @@ namespace PolishDiacriticMarksRestorer
             BtnApply.IsEnabled = false;
             BtnSave.IsEnabled = false;
             ChangeSettings = false;
+            if (FileDict.IsChecked == null) return;
+            if ((bool) FileDict.IsChecked)
+                TbUni.IsEnabled = false;
         }
         #endregion
 
@@ -52,6 +55,7 @@ namespace PolishDiacriticMarksRestorer
             Settings.DbName = TbDbName.Text;
             Settings.DbUser = TbUserName.Text;
             Settings.DbPassword = TbPassword.Text;
+            if (FileDict.IsChecked != null) Settings.FileDictionary = (bool)FileDict.IsChecked;
             Settings.TableNames[0] = TbUni.Text;
             Settings.TableNames[1] = TbDi.Text;
             Settings.TableNames[2] = TbTri.Text;
@@ -71,6 +75,7 @@ namespace PolishDiacriticMarksRestorer
             TbTri.Text = Settings.TableNames[2];
             TbFour.Text = Settings.TableNames[3];
             AlphaTables.IsChecked = Settings.AlphabeticalTables;
+            FileDict.IsChecked = Settings.FileDictionary;
         }
 
         private void Update()
@@ -97,6 +102,11 @@ namespace PolishDiacriticMarksRestorer
             Update();
         }
 
+        /// <summary>
+        /// Handles the Checked event of the AlphaTables control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
         private void AlphaTables_Checked(object sender, RoutedEventArgs e)
         {
             _changes[9] = !Settings.AlphabeticalTables.Equals(AlphaTables.IsChecked);
@@ -143,6 +153,22 @@ namespace PolishDiacriticMarksRestorer
             ChangeSettings = true;
             BtnSave.IsEnabled = true;
             BtnApply.IsEnabled = false;
+        }
+
+        /// <summary>
+        /// Handles the Checked event of the FileDict control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs"/> instance containing the event data.</param>
+        private void FileDict_Checked(object sender, RoutedEventArgs e)
+        {
+            _changes[10] = !Settings.FileDictionary.Equals(FileDict.IsChecked);
+            Update();
+            if (FileDict.IsChecked == null) return;
+            if ((bool) FileDict.IsChecked)
+                TbUni.IsEnabled = false;
+            else
+                TbUni.IsEnabled = true;
         }
 
         #region TITLE_BAR

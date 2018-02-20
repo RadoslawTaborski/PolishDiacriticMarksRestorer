@@ -16,17 +16,31 @@ namespace NgramAnalyzer
         #region FIELDS
         private IDataAccess _db;
         private IQueryProvider _queryProvider;
+        private readonly IDictionary _dictionary;
         private readonly IDiacriticMarksAdder _diacriticAdder;
         private NgramType _ngramType;
+        #endregion
 
+        #region CONSTRUCTORS
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Analyzer"/> class.
+        /// </summary>
+        /// <param name="diacriticAdder">The diacritic adder.</param>
+        /// <param name="dictionary">The dictionary.</param>
+        public Analyzer(IDiacriticMarksAdder diacriticAdder, IDictionary dictionary)
+        {
+            _diacriticAdder = diacriticAdder;
+            _dictionary = dictionary;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Analyzer"/> class.
+        /// </summary>
+        /// <param name="diacriticAdder">The diacritic adder.</param>
         public Analyzer(IDiacriticMarksAdder diacriticAdder)
         {
             _diacriticAdder = diacriticAdder;
         }
-        #endregion
-
-        #region CONSTRUCTORS
-
         #endregion
 
         #region  PUBLIC
@@ -82,7 +96,7 @@ namespace NgramAnalyzer
             }
 
             words = words.Distinct().ToList();
-            words = CheckWords(words);
+            words = _dictionary != null ? _dictionary.CheckWords(words) : CheckWords(words);
 
             if (strList.Count >= length)
             {
@@ -90,7 +104,7 @@ namespace NgramAnalyzer
                 {
                     var tmp = strList.GetRange(j, length).ConvertAll(d => d.ToLower());
                     ngramVariants.Add(new NGramVariants(new NGram { Value = 0, WordsList = tmp }, _diacriticAdder));
-                    ngramVariants[ngramVariants.Count-1].CreateVariants(words);
+                    ngramVariants[ngramVariants.Count - 1].CreateVariants(words);
                 }
             }
 
@@ -104,15 +118,8 @@ namespace NgramAnalyzer
             var finalVariants = new List<NGram>();
             foreach (var item in ngramVariants)
             {
-                if (item.NgramVariants.Count == 0)
-                {
-                    finalVariants.Add(item.OrginalNGram);
-                }
-                else
-                {
-                    var ngram = item.NgramVariants.MaxBy(x => x.Value);
-                    finalVariants.Add(ngram);
-                }
+                var ngram = item.NgramVariants.MaxBy(x => x.Value);
+                finalVariants.Add(ngram);
             }
 
             for (var i = 0; i < length - 1; ++i)
@@ -156,9 +163,9 @@ namespace NgramAnalyzer
         private string FindWordFromNgramList(List<NGram> ngrams, bool fromBeginning)
         {
             var ngram = ngrams.MaxBy(x => x.Value);
-            var index=ngrams.IndexOf(ngram);
-            
-            return fromBeginning ? ngram.WordsList[index] : ngram.WordsList[ngram.WordsList.Count-index-1];
+            var index = ngrams.IndexOf(ngram);
+
+            return fromBeginning ? ngram.WordsList[index] : ngram.WordsList[ngram.WordsList.Count - index - 1];
         }
 
         private IEnumerable<NGram> GetAllData(List<NGramVariants> wordLists)
@@ -167,7 +174,7 @@ namespace NgramAnalyzer
             foreach (var item in wordLists)
             {
                 var tmp = item.VariantsToStringsLists();
-                if (tmp!=null)
+                if (tmp != null)
                     lists.Add(tmp);
             }
 

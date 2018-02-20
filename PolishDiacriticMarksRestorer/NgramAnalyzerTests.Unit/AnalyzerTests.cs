@@ -62,7 +62,7 @@ namespace NgramAnalyzerTests.Unit
         }
 
         [Fact]
-        public void AnalyzeStrings_DigramAnalyze3Words()
+        public void AnalyzeStrings_DigramAnalyze3Words_FileDictionary()
         {
             var tab = new DataTable();
             tab.Columns.Add("ID", typeof(int));
@@ -76,22 +76,21 @@ namespace NgramAnalyzerTests.Unit
             var ds = new DataSet();
             ds.Tables.Add(tab);
 
-            var tab2 = new DataTable();
-            tab2.Columns.Add("ID", typeof(int));
-            tab2.Columns.Add("Value", typeof(int));
-            tab2.Columns.Add("Word1", typeof(string));
-            tab2.Rows.Add(1, 25, "przyjêciem");
-            tab2.Rows.Add(2, 56, "za");
-            tab2.Rows.Add(3, 28, "uchwa³y");
-            var ds2 = new DataSet();
-            ds2.Tables.Add(tab2);
-
             var dataMock = new Mock<IDataAccess>();
-            dataMock.Setup(m => m.ExecuteSqlCommand("uni")).Returns(ds2);
             dataMock.Setup(m => m.ExecuteSqlCommand("di")).Returns(ds);
 
+            var dictionaryMock = new Mock<IDictionary>();
+            dictionaryMock.Setup(m => m.CheckWords(new List<string>{
+                "za",
+                "z¹",
+                "przyjeciem",
+                "przyjêciem",
+                "uchwaly",
+                "uchwa³y",
+                "uchw¹ly"
+            })).Returns(new List<string> {"za", "przyjêciem", "uchwa³y"});
+
             var queryProviderMock = new Mock<IQueryProvider>();
-            queryProviderMock.Setup(m => m.CheckWordsInUnigramFromTable(It.IsAny<List<string>>())).Returns("uni");
             queryProviderMock.Setup(m => m.GetAllNecessaryNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<List<List<string>>>>())).Returns("di");
 
             var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
@@ -112,7 +111,7 @@ namespace NgramAnalyzerTests.Unit
                 new KeyValuePair<string, int>("uchw¹ly", 1),
             });
 
-            var analyze = new Analyzer(diacriticAdderMock.Object);
+            var analyze = new Analyzer(diacriticAdderMock.Object, dictionaryMock.Object);
             analyze.SetData(dataMock.Object);
             analyze.SetQueryProvider(queryProviderMock.Object);
             analyze.SetNgram(NgramType.Digram);

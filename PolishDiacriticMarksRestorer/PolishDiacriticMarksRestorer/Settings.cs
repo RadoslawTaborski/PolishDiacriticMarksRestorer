@@ -25,6 +25,10 @@ namespace PolishDiacriticMarksRestorer
         /// </summary>
         public static string DbUser = "root";
         /// <summary>
+        /// Use dictionary from file instead database.
+        /// </summary>
+        public static bool FileDictionary = true;
+        /// <summary>
         /// The database password.
         /// </summary>
         public static string DbPassword = "";
@@ -36,5 +40,9 @@ namespace PolishDiacriticMarksRestorer
         /// The alphabetical tables in database
         /// </summary>
         public static bool AlphabeticalTables = false;
+        /// <summary>
+        /// Path to dictionary file
+        /// </summary>
+        public static string DictionaryPath = @"Resources/dictionary";
     }
 }

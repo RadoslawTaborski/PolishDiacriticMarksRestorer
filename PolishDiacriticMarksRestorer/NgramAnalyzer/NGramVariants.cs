@@ -80,19 +80,6 @@ namespace NgramAnalyzer
             }
         }
 
-        private List<string> Permutation(List<string> a, List<string> b)
-        {
-            var result = new List<string>();
-            foreach (var word1 in a)
-            {
-                foreach (var word2 in b)
-                {
-                    result.Add(word1 + " " + word2);
-                }
-            }
-            return result;
-        }
-
         /// <summary>
         /// Updates the NgramVariants based on the Ngrams list.
         /// </summary>
@@ -134,6 +121,21 @@ namespace NgramAnalyzer
                 }
             }
 
+            return result;
+        }
+        #endregion
+
+        #region PRIVATE
+        private List<string> Permutation(List<string> a, List<string> b)
+        {
+            var result = new List<string>();
+            foreach (var word1 in a)
+            {
+                foreach (var word2 in b)
+                {
+                    result.Add(word1 + " " + word2);
+                }
+            }
             return result;
         }
         #endregion

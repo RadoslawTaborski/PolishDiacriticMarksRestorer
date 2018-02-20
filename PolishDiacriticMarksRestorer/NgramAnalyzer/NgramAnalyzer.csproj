@@ -11,6 +11,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="Resources\dictionary">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.CodeCoverage" Version="1.0.3" />
     <PackageReference Include="morelinq" Version="2.10.0" />
     <PackageReference Include="MySql.Data" Version="8.0.10-rc" />
