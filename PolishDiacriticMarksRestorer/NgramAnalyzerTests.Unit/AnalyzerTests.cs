@@ -41,10 +41,15 @@ namespace NgramAnalyzerTests.Unit
             queryProviderMock.Setup(m => m.GetAllNecessaryNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<List<List<string>>>>())).Returns("di");
 
             var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
-            diacriticAdderMock.Setup(m => m.Start("za przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            diacriticAdderMock.Setup(m => m.Start("za", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("za przyjeciem", 0),
-                new KeyValuePair<string, int>("za przyjêciem", 1)
+                new KeyValuePair<string, int>("za", 0),
+                new KeyValuePair<string, int>("z¹", 1)
+            });
+            diacriticAdderMock.Setup(m => m.Start("przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("przyjeciem", 0),
+                new KeyValuePair<string, int>("przyjêciem", 1)
             });
 
             var analyze = new Analyzer(diacriticAdderMock.Object);
@@ -90,17 +95,21 @@ namespace NgramAnalyzerTests.Unit
             queryProviderMock.Setup(m => m.GetAllNecessaryNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<List<List<string>>>>())).Returns("di");
 
             var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
-            diacriticAdderMock.Setup(m => m.Start("za przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            diacriticAdderMock.Setup(m => m.Start("za", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("za przyjeciem", 0),
-                new KeyValuePair<string, int>("za przyjêciem", 1)
+                new KeyValuePair<string, int>("za", 0),
+                new KeyValuePair<string, int>("z¹", 1)
             });
-
-            diacriticAdderMock.Setup(m => m.Start("przyjeciem uchwaly", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            diacriticAdderMock.Setup(m => m.Start("przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("przyjeciem uchwaly", 0),
-                new KeyValuePair<string, int>("przyjêciem uchwa³y", 2),
-                new KeyValuePair<string, int>("przyjêciem uchwaly", 2),
+                new KeyValuePair<string, int>("przyjeciem", 0),
+                new KeyValuePair<string, int>("przyjêciem", 1)
+            });
+            diacriticAdderMock.Setup(m => m.Start("uchwaly", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("uchwaly", 0),
+                new KeyValuePair<string, int>("uchwa³y", 1),
+                new KeyValuePair<string, int>("uchw¹ly", 1),
             });
 
             var analyze = new Analyzer(diacriticAdderMock.Object);
@@ -143,17 +152,21 @@ namespace NgramAnalyzerTests.Unit
             queryProviderMock.Setup(m => m.GetAllNecessaryNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<List<List<string>>>>())).Returns("di");
 
             var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
-            diacriticAdderMock.Setup(m => m.Start("za przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            diacriticAdderMock.Setup(m => m.Start("za", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("za przyjeciem", 0),
-                new KeyValuePair<string, int>("za przyjêciem", 1)
+                new KeyValuePair<string, int>("za", 0),
+                new KeyValuePair<string, int>("z¹", 1)
             });
-
-            diacriticAdderMock.Setup(m => m.Start("przyjeciem uchwaly", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            diacriticAdderMock.Setup(m => m.Start("przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("przyjeciem uchwaly", 0),
-                new KeyValuePair<string, int>("przyjêciem uchwa³y", 2),
-                new KeyValuePair<string, int>("przyjêciem uchwaly", 2),
+                new KeyValuePair<string, int>("przyjeciem", 0),
+                new KeyValuePair<string, int>("przyjêciem", 1)
+            });
+            diacriticAdderMock.Setup(m => m.Start("uchwaly", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("uchwaly", 0),
+                new KeyValuePair<string, int>("uchwa³y", 1),
+                new KeyValuePair<string, int>("uchw¹ly", 1),
             });
 
             var analyze = new Analyzer(diacriticAdderMock.Object);
@@ -195,10 +208,15 @@ namespace NgramAnalyzerTests.Unit
             queryProviderMock.Setup(m => m.GetAllNecessaryNgramsFromTable(It.IsAny<NgramType>(), It.IsAny<List<List<List<string>>>>())).Returns("di");
 
             var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
-            diacriticAdderMock.Setup(m => m.Start("za przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            diacriticAdderMock.Setup(m => m.Start("za", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
-                new KeyValuePair<string, int>("za przyjeciem", 0),
-                new KeyValuePair<string, int>("za przyjêciem", 1)
+                new KeyValuePair<string, int>("za", 0),
+                new KeyValuePair<string, int>("z¹", 1)
+            });
+            diacriticAdderMock.Setup(m => m.Start("przyjeciem", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("przyjeciem", 0),
+                new KeyValuePair<string, int>("przyjêciem", 1)
             });
 
             var analyze = new Analyzer(diacriticAdderMock.Object);

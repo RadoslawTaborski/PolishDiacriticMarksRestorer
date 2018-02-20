@@ -44,61 +44,53 @@ namespace NgramAnalyzer
         /// <summary>
         /// Create the variants.
         /// </summary>
-        internal void CreateVariants()
+        internal void CreateVariants(List<string> dictionary)
         {
             NgramVariants = new List<NGram>();
-            var str = "";
+            var lists = new List<List<string>>();
             foreach (var item in OrginalNGram.WordsList)
             {
-                str += item + " ";
+                lists.Add(new List<string>());
+                var index = lists.Count - 1;
+                var combinations = _marksAdder.Start(item, 100);
+                foreach (var combination in combinations)
+                {
+                    foreach (var word in dictionary)
+                    {
+                        if(combination.Key==word)
+                            lists[index].Add(combination.Key);
+                    }
+                }
+
+                if (lists[index].Count == 0)
+                {
+                    lists[index].Add(item);
+                }
             }
 
-            str = str.Substring(0, str.Length - 1);
-            var tmp = _marksAdder.Start(str, 100);
-
-            var list = (from kvp in tmp select kvp.Key).Distinct().ToList();
-            foreach (var item in list)
+            var res = lists[lists.Count - 1];
+            for (var i = lists.Count-1; i > 0; --i)
             {
-                NgramVariants.Add(new NGram { Value = 0, WordsList = item.Split(' ').ToList() });
+                res = Permutation(lists[i - 1], res);
+            }
+
+            foreach (var sequence in res)
+            {
+                NgramVariants.Add(new NGram{Value = 0, WordsList = sequence.Split(' ').ToList()});
             }
         }
 
-        /// <summary>
-        /// Changes NgramVariantes to word list.
-        /// </summary>
-        /// <returns>Word list</returns>
-        internal List<string> VariantsToWordList()
+        private List<string> Permutation(List<string> a, List<string> b)
         {
             var result = new List<string>();
-            foreach (var ngram in NgramVariants)
+            foreach (var word1 in a)
             {
-                foreach (var str in ngram.WordsList)
+                foreach (var word2 in b)
                 {
-                    if (!result.Contains(str))
-                        result.Add(str.WithoutPunctationMarks());
+                    result.Add(word1 + " " + word2);
                 }
             }
-
             return result;
-        }
-
-        /// <summary>
-        /// Leaves the good variants, but removes incorrect.
-        /// </summary>
-        /// <param name="goodWords">The good words.</param>
-        internal void LeaveGoodVariants(List<string> goodWords)
-        {
-            for (var i = 0; i < NgramVariants.Count; i++)
-            {
-                foreach (var item in NgramVariants[i].WordsList)
-                {
-                    if (goodWords.Contains(item.WithoutPunctationMarks())) continue;
-
-                    NgramVariants.RemoveAt(i);
-                    --i;
-                    break;
-                }
-            }
         }
 
         /// <summary>
