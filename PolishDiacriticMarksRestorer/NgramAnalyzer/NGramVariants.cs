@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
 
@@ -52,12 +53,12 @@ namespace NgramAnalyzer
             {
                 lists.Add(new List<string>());
                 var index = lists.Count - 1;
-                var combinations = _marksAdder.Start(item, 100);
+                var combinations = _marksAdder.Start(item.ToLower(), 100);
                 foreach (var combination in combinations)
                 {
                     foreach (var word in dictionary)
                     {
-                        if(combination.Key==word)
+                        if (combination.Key == word)
                             lists[index].Add(combination.Key);
                     }
                 }
@@ -69,14 +70,14 @@ namespace NgramAnalyzer
             }
 
             var res = lists[lists.Count - 1];
-            for (var i = lists.Count-1; i > 0; --i)
+            for (var i = lists.Count - 1; i > 0; --i)
             {
                 res = Permutation(lists[i - 1], res);
             }
 
             foreach (var sequence in res)
             {
-                NgramVariants.Add(new NGram{Value = 0, WordsList = sequence.Split(' ').ToList()});
+                NgramVariants.Add(new NGram { Value = 0, WordsList = sequence.Split(' ').ToList() });
             }
         }
 
@@ -123,6 +124,31 @@ namespace NgramAnalyzer
 
             return result;
         }
+
+        /// <summary>
+        /// Restores the upper letters in NgramVariants list.
+        /// </summary>
+        internal void RestoreUpperLettersInVariants()
+        {
+            var r = new Regex(@"[A-ZĄĆĘŁŃŚÓŹŻ]");
+            for (var i = 0; i < OrginalNGram.WordsList.Count; ++i)
+            {
+                for (var j = 0; j < OrginalNGram.WordsList[i].Length; ++j)
+                {
+                    if (!r.IsMatch(OrginalNGram.WordsList[i][j].ToString())) continue;
+                    foreach (var ngramVariant in NgramVariants)
+                    {
+                        var strBuilder =
+                            new System.Text.StringBuilder(ngramVariant.WordsList[i])
+                            {
+                                [j] = char.ToUpper(ngramVariant.WordsList[i][j])
+                            };
+                        ngramVariant.WordsList[i] = strBuilder.ToString();
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region PRIVATE

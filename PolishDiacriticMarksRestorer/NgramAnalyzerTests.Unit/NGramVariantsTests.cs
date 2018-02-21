@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Moq;
 using NgramAnalyzer;
 using NgramAnalyzer.Common;
@@ -109,11 +107,6 @@ namespace NgramAnalyzerTests.Unit
                 new KeyValuePair<string, int>("którą",2),
             });
 
-            var list = new List<NGram>
-            {
-                new NGram{Value = 15, WordsList = new List<string>{"jest","ok"}}
-            };
-
             var variantsResult = new List<List<string>>
             {
                 new List<string>{"jest"},
@@ -136,6 +129,42 @@ namespace NgramAnalyzerTests.Unit
             var result = variants.VariantsToStringsLists();
 
             Assert.Null(result);
+        }
+
+        [Fact]
+        public void RestoreUpperLettersInVariants_Normal()
+        {
+            var marksAdderMock = new Mock<IDiacriticMarksAdder>();
+            marksAdderMock.Setup(m => m.Start("jest", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("jest",0),
+                new KeyValuePair<string, int>("jęst",1),
+                new KeyValuePair<string, int>("jeśt",1),
+                new KeyValuePair<string, int>("jęśt",2),
+            });
+
+            marksAdderMock.Setup(m => m.Start("która", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("która",0),
+                new KeyValuePair<string, int>("którą",1),
+            });
+
+            var variantsResult = new List<NGram>
+            {
+                new NGram{ WordsList = new List<string>{"JeSt", "KtÓRa"}},
+                new NGram{ WordsList = new List<string>{"JeSt", "KtÓRą"}},
+            };
+
+            var variants = new NGramVariants(new NGram { Value = 5, WordsList = new List<string> { "JeSt", "KtÓRa" } }, marksAdderMock.Object);
+            variants.CreateVariants(new List<string> { "jest", "która", "którą" });
+            variants.RestoreUpperLettersInVariants();
+
+            foreach (var item in variantsResult)
+            {
+                var content = variants.NgramVariants.Contains(item);
+                Assert.True(content);
+            }
+            Assert.Equal(2, variants.NgramVariants.Count);
         }
     }
 }

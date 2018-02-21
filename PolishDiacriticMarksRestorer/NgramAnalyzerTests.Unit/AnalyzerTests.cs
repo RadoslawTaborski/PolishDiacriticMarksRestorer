@@ -62,6 +62,22 @@ namespace NgramAnalyzerTests.Unit
         }
 
         [Fact]
+        public void AnalyzeStrings_ToShortText()
+        {
+            var dataMock = new Mock<IDataAccess>();
+            var queryProviderMock = new Mock<IQueryProvider>();
+            var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
+
+            var analyze = new Analyzer(diacriticAdderMock.Object);
+            analyze.SetData(dataMock.Object);
+            analyze.SetQueryProvider(queryProviderMock.Object);
+            analyze.SetNgram(NgramType.Digram);
+            var result = analyze.AnalyzeStrings(new List<string> { "za"});
+
+            Assert.Equal(new List<string> { "za" }, result);
+        }
+
+        [Fact]
         public void AnalyzeStrings_DigramAnalyze3Words_FileDictionary()
         {
             var tab = new DataTable();

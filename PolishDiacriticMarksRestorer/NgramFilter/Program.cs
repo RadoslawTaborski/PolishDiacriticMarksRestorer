@@ -4,7 +4,6 @@ using System.IO.Abstractions;
 using MySql.Data.MySqlClient;
 using NgramAnalyzer.Common;
 using NgramFilter.FilterItems;
-using NgramFilter.ModifierItems;
 
 namespace NgramFilter
 {
