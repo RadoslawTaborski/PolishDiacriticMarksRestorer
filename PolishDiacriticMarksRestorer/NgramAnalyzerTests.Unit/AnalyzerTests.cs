@@ -96,6 +96,11 @@ namespace NgramAnalyzerTests.Unit
                 new KeyValuePair<string, int>("nowej", 0),
                 new KeyValuePair<string, int>("nówej", 1)
             });
+            _diacriticAdderMock.Setup(m => m.Start("z", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
+            {
+                new KeyValuePair<string, int>("z", 0),
+                new KeyValuePair<string, int>("Ÿ", 1)
+            });
         }
 
         [Fact]
