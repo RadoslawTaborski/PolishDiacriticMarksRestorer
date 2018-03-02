@@ -105,7 +105,9 @@ namespace PolishDiacriticMarksRestorer
         {
             _stop = DateTime.Now;
             var time = _stop - _start;
-            Dispatcher.Invoke(() => { Info.Content = "Czas wykonywania: " + new DateTime(time.Ticks).ToString("HH:mm:ss.f");});
+            Dispatcher.Invoke(() =>
+            {
+                Info.Content = $"Czas wykonywania: {new DateTime(time.Ticks):HH:mm:ss.f}";});
         }
         #endregion
 
@@ -125,6 +127,7 @@ namespace PolishDiacriticMarksRestorer
                 " ",
                 "\r\n"
             }, StringSplitOptions.RemoveEmptyEntries);
+            Info2.Content = $"Liczba słów: {stringsArray.Length}";
             try
             {
                 var t = new Task(() => Analyze(stringsArray.ToList()));
