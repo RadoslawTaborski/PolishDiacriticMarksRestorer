@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:polishDiacriticMarksRestorer="clr-namespace:PolishDiacriticMarksRestorer"
         mc:Ignorable="d"
         Title="Polish Diacritic Marks Restorer" Height="600" Width="1200"
         MinHeight="290" MinWidth="516"
@@ -11,66 +12,84 @@
         ResizeMode="CanResizeWithGrip"
         Icon="./img/logo.ico">
     <Window.Resources />
-    <Grid Margin="0,0,0,0" Style="{StaticResource MyGrid}">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="80"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    <Border  Style="{StaticResource MyBorder2}" BorderThickness="1">
+        <Grid Margin="0,0,0,0" Style="{StaticResource MyGrid}">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="68"/>
+                <RowDefinition Height="24"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-        <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,6,12,12" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
-            <Button Content="Przywróć" Style="{StaticResource MyButton}" HorizontalAlignment="Center" Margin="0,10,0,10" Click="Button_Click" Width="474" />
-        </Border>
+            <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,6,12,0" Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0">
+                <Button x:Name="BtnStart" Content="Przywróć" Style="{StaticResource MyButton}" HorizontalAlignment="Center" Margin="0,10,0,10" Click="Button_Click" Width="474" />
+            </Border>
 
-        <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,40,6,6" Grid.Row="0" Grid.Column="0">
-            <RichTextBox x:Name="RtbInput" Style="{StaticResource MyRichTextBox}" Margin="6,6,6,6">
-                <FlowDocument>
-                    <Paragraph>
-                        <Run Text=""/>
-                    </Paragraph>
-                </FlowDocument>
-            </RichTextBox>
-        </Border>
+            <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="12,40,3,0" Grid.Row="0" Grid.Column="0">
+                <RichTextBox x:Name="RtbInput" Style="{StaticResource MyRichTextBox}" Margin="6,6,6,6">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run Text=""/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </Border>
 
-        <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="6,40,12,6" Grid.Row="0" Grid.Column="1">
-            <RichTextBox x:Name="RtbResult" Style="{StaticResource MyRichTextBox}" Margin="6,6,6,6">
-                <FlowDocument>
-                    <Paragraph>
-                        <Run Text=""/>
-                    </Paragraph>
-                </FlowDocument>
-            </RichTextBox>
-        </Border>
+            <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="3,40,12,0" Grid.Row="0" Grid.Column="1">
+                <RichTextBox x:Name="RtbResult" Style="{StaticResource MyRichTextBox}" Margin="6,6,6,6">
+                    <FlowDocument>
+                        <Paragraph>
+                            <Run Text=""/>
+                        </Paragraph>
+                    </FlowDocument>
+                </RichTextBox>
+            </Border>
 
-        <DockPanel x:Name="Dock" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Style="{StaticResource MyDockPanel}" LastChildFill="False" Height="30" VerticalAlignment="Top">
-            <DockPanel x:Name="TitleBar" Style="{StaticResource MyDockPanel}" Width="{Binding ActualWidth, ElementName=Dock}" MouseDown="TitleBar_MouseDown">
-                <Image Source="Img/logo.png" DockPanel.Dock="Left" Width="26" Height="26" Margin="13,0,0,0"/>
-                <Button x:Name="CloseButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,10,3" Click="CloseButton_Click" >
-                    <Button.Background>
-                        <ImageBrush ImageSource="./img/close.png" />
-                    </Button.Background>
-                </Button>
-                <Button x:Name="MaxButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,5,3" Click="MaxButton_Click" >
-                    <Button.Background>
-                        <ImageBrush ImageSource="./img/max.png"/>
-                    </Button.Background>
-                </Button>
-                <Button x:Name="MinButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,5,3" Click="MinButton_Click" >
-                    <Button.Background>
-                        <ImageBrush ImageSource="./img/minimize.png"/>
-                    </Button.Background>
-                </Button>
-                <Button x:Name="MenuButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,20,3" Click="MenuButton_Click" >
-                    <Button.Background>
-                        <ImageBrush ImageSource="./img/menu.png" />
-                    </Button.Background>
-                </Button>
+            <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="{StaticResource MyPurple}" Margin="0,5,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Label x:Name="Info" FontSize="10" Grid.Column="0" Foreground="{StaticResource MyWhite}" Margin="13,-3" />
+                <Label x:Name="Info2" FontSize="10" Grid.Column="1" Foreground="{StaticResource MyWhite}" Margin="13,-3" />
+            </Grid>
 
-                <TextBlock Style="{StaticResource MyTextBlock}" Margin="15,7,70,0" DockPanel.Dock="Left" Height="23">Polish Diacritic Marks Restorer</TextBlock>
+
+            <DockPanel x:Name="Dock" Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="0" Style="{StaticResource MyDockPanel}" LastChildFill="False" Height="30" VerticalAlignment="Top">
+                <DockPanel x:Name="TitleBar" Style="{StaticResource MyDockPanel}" Width="{Binding ActualWidth, ElementName=Dock}" MouseDown="TitleBar_MouseDown">
+                    <Image Source="Img/logo.png" DockPanel.Dock="Left" Width="26" Height="26" Margin="13,0,0,0"/>
+                    <Button x:Name="CloseButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,10,3" Click="CloseButton_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="./img/close.png" />
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="MaxButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,5,3" Click="MaxButton_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="./img/max.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="MinButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,5,3" Click="MinButton_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="./img/minimize.png"/>
+                        </Button.Background>
+                    </Button>
+                    <Button x:Name="MenuButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,20,3" Click="MenuButton_Click" >
+                        <Button.Background>
+                            <ImageBrush ImageSource="./img/menu.png" />
+                        </Button.Background>
+                    </Button>
+
+                    <TextBlock Style="{StaticResource MyTextBlock}" Margin="15,7,70,0" DockPanel.Dock="Left" Height="23">Polish Diacritic Marks Restorer</TextBlock>
+                </DockPanel>
             </DockPanel>
-        </DockPanel>
-    </Grid>
+            <polishDiacriticMarksRestorer:RounderProgressBarControl x:Name="LoadingBar" Visibility="Hidden" Grid.Row="0" Grid.Column="1"></polishDiacriticMarksRestorer:RounderProgressBarControl>
+        </Grid>
+    </Border>
 </Window>

@@ -2,6 +2,31 @@
 
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.0;net462</TargetFrameworks>
+    <DebugType>full</DebugType>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netcoreapp2.0|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\dictionary">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeCoverage" Version="1.0.3" />
+    <PackageReference Include="morelinq" Version="2.10.0" />
+    <PackageReference Include="MySql.Data" Version="8.0.10-rc" />
+    <PackageReference Include="System.IO.Abstractions" Version="2.1.0.178" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System">
+      <HintPath>System</HintPath>
+    </Reference>
+  </ItemGroup>
 
 </Project>

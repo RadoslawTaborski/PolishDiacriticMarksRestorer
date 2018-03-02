@@ -4,31 +4,115 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PolishDiacriticMarksRestorer"
+        xmlns:common="clr-namespace:NgramAnalyzer.Common;assembly=NgramAnalyzer"
         mc:Ignorable="d"
         Title="Ustawienia" Height="400" Width="400"
         AllowsTransparency="True"
         Icon="./img/logo.ico">
-
-    <Window.Resources />
-    <Grid Margin="0,0,0,0" Style="{StaticResource MyGrid}">
-
-        <DockPanel x:Name="Dock" Style="{StaticResource MyDockPanel}" LastChildFill="False" Height="30" VerticalAlignment="Top">
-            <DockPanel x:Name="TitleBar" Style="{StaticResource MyDockPanel}" Width="{Binding ActualWidth, ElementName=Dock}" MouseDown="TitleBar_MouseDown" >
-                <Image Source="Img/logo.png" DockPanel.Dock="Left" Width="26" Height="26" Margin="13,0,0,0"/>
-                <Button x:Name="CloseButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,10,3" Click="CloseButton_Click">
-                    <Button.Background>
-                        <ImageBrush ImageSource="./img/close.png" />
-                    </Button.Background>
-                </Button>
-
-                <TextBlock Style="{StaticResource MyTextBlock}" Margin="15,7,10,0" DockPanel.Dock="Left" Height="23">Ustawienia</TextBlock>
+    <Window.Resources>
+    </Window.Resources>
+    <Border  Style="{StaticResource MyBorder2}" BorderThickness="2">
+        <Grid Margin="0,0,0,0" Style="{StaticResource MyGrid}">
+            <DockPanel x:Name="Dock" Style="{StaticResource MyDockPanel}" LastChildFill="False" Height="30" VerticalAlignment="Top">
+                <DockPanel x:Name="TitleBar" Style="{StaticResource MyDockPanel}" Width="{Binding ActualWidth, ElementName=Dock}" MouseDown="TitleBar_MouseDown" >
+                    <Image Source="Img/logo.png" DockPanel.Dock="Left" Width="26" Height="26" Margin="13,0,0,0"/>
+                    <Button x:Name="CloseButton" Style="{StaticResource MyControlButton}" DockPanel.Dock="Right" HorizontalAlignment="Left" Margin="0,3,10,3" Click="CloseButton_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="./img/close.png" />
+                        </Button.Background>
+                    </Button>
+                    <TextBlock Style="{StaticResource MyTextBlock}" Margin="15,7,10,0" DockPanel.Dock="Left" Height="23">Ustawienia</TextBlock>
+                </DockPanel>
             </DockPanel>
-        </DockPanel>
-        <TabControl Style="{StaticResource MyTabControl}" HorizontalAlignment="Stretch" Margin="10,40,10,50" VerticalAlignment="Stretch">
-            <TabItem Header="Główne" Style="{StaticResource MyTabItem}">
-                <Grid Style="{StaticResource MyGrid}"/>
-            </TabItem>
-        </TabControl>
-        <Button Content="Zastosuj" Style="{StaticResource MyButton}" Margin="300,360,10,10"/>
-    </Grid>
+            <TabControl Style="{StaticResource MyTabControl}" HorizontalAlignment="Stretch" Margin="10,40,10,50" VerticalAlignment="Stretch">
+                <TabItem Header="Główne" Style="{StaticResource MyTabItem}">
+                    <Border Style="{StaticResource MyBorder}" BorderThickness="1" Margin="5,5,5,5">
+                        <Grid Style="{StaticResource MyGrid}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <ComboBox x:Name="CbType" Height="25" ItemsSource="{Binding Source={local:EnumBindingSource {x:Type common:NgramType}}}" 
+                                       DisplayMemberPath="Value" SelectedValuePath="Value" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" SelectionChanged="NgramChanged" />
+                            <Label Content="Rodzaj NGramu" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <Label Content="Słownik z pliku" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <CheckBox x:Name="FileDict" Height="15" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" Checked="FileDict_Checked" Unchecked="FileDict_Checked"/>
+                        </Grid>
+                    </Border>
+                </TabItem>
+                <TabItem Header="Baza danych" Style="{StaticResource MyTabItem}">
+                    <Border Style="{StaticResource MyBorder}" BorderThickness="1" Margin="5,5,5,5">
+                        <Grid Style="{StaticResource MyGrid}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Serwer" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <TextBox x:Name="TbServer" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
+                            <Label Content="Nazwa bazy danych" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <TextBox x:Name="TbDbName" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
+                            <Label Content="Nazwa użytkownika" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <TextBox x:Name="TbUserName" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
+                            <Label Content="Hasło" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <TextBox x:Name="TbPassword" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
+                        </Grid>
+                    </Border>
+                </TabItem>
+                <TabItem Header="Tabele" Style="{StaticResource MyTabItem}">
+                    <Border Style="{StaticResource MyBorder}" BorderThickness="1" Margin="5,5,5,5">
+                        <Grid Style="{StaticResource MyGrid}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Label Content="Słownik" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <TextBox x:Name="TbUni" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
+                            <Label Content="Digramy" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <TextBox x:Name="TbDi" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
+                            <Label Content="Trigramy" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <TextBox x:Name="TbTri" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
+                            <Label Content="Fourgramy" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <TextBox x:Name="TbFour" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
+                            <Label Content="Tabele alfabetyczne" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <CheckBox x:Name="AlphaTables" Height="15" Grid.Column="1" Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" Checked="AlphaTables_Checked" Unchecked="AlphaTables_Checked"/>
+                        </Grid>
+                    </Border>
+                </TabItem>
+            </TabControl>
+            <Button x:Name="BtnApply" Content="Zastosuj" Style="{StaticResource MyButton}" Margin="300,360,10,10" Click="SettingApply_Click"/>
+            <Button x:Name="BtnSave" Content="Zapisz" Style="{StaticResource MyButton}" Margin="10,360,300,10" Click="BtnSave_Click"/>
+        </Grid>
+    </Border>
 </Window>
+
+
+
+
+
+
+
