@@ -217,7 +217,9 @@ namespace NgramAnalyzer
 
             for (var i = 0; i < length - 1; ++i)
             {
+                if (i >= ngrams.Count) continue;
                 var tmp = new List<NGram>();
+
                 for (var j = i; j >= 0; --j)
                 {
                     tmp.Add(ngrams[j]);
@@ -239,6 +241,7 @@ namespace NgramAnalyzer
 
             for (var i = ngrams.Count - length + 1; i < ngrams.Count; ++i)
             {
+                if (i < 0) continue;
                 var tmp = new List<NGram>();
                 for (var j = i; j < ngrams.Count; ++j)
                 {
