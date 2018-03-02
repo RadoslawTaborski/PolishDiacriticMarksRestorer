@@ -45,8 +45,8 @@ namespace NgramAnalyzerTests.Unit
             tab.Columns.Add("Word1", typeof(string));
             tab.Columns.Add("Word2", typeof(string));
             tab.Columns.Add("Word3", typeof(string));
-            tab.Rows.Add(1, 25, "za", "przyj璚iem", "uchwa造");
-            tab.Rows.Add(2, 15, "za", "przyjeciem,", "uchwa造");
+            tab.Rows.Add(1, 25, "za", "przyj璚iem", "nowej");
+            tab.Rows.Add(2, 15, "za", "przyjeciem,", "nowej");
             tab.Rows.Add(3, 45, "przyj璚iem", "nowej", "uchwa造");
             tab.Rows.Add(4, 17, "przyjeciem", "nowej,", "uchwa造");
             tab.Rows.Add(5, 50, "nowej", "uchwa造", "z");
@@ -122,9 +122,9 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Trigram);
-            var result = analyze.AnalyzeStrings(new List<string> { "za", "przyjeciem", "uchwaly" });
+            var result = analyze.AnalyzeStrings(new List<string> { "za", "przyjeciem", "nowej" });
 
-            Assert.Equal(new List<string> { "za", "przyj璚iem", "uchwa造" }, result);
+            Assert.Equal(new List<string> { "za", "przyj璚iem", "nowej" }, result);
         }
 
         [Fact]

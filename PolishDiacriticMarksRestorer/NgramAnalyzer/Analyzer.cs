@@ -101,17 +101,17 @@ namespace NgramAnalyzer
 
             var finalVariants = FindTheBestNgramFromNgramsVariants(ngramVariants);
 
-            return AnalyzeNgramsList(finalVariants, length);
+            return AnalyzeNgramsList(finalVariants, length, strList.Count);
         }
         #endregion
 
         #region PRIVATE
-        private string FindWordFromNgramList(List<NGram> ngrams, bool fromBeginning)
+        private string FindWordFromNgramList(List<NGram> ngrams)
         {
             var ngram = ngrams.MaxBy(x => x.Value);
             var index = ngrams.IndexOf(ngram);
 
-            return fromBeginning ? ngram.WordsList[index] : ngram.WordsList[ngram.WordsList.Count - index - 1];
+            return ngram.WordsList[ngram.WordsList.Count - index - 1];
         }
 
         private IEnumerable<NGram> GetAllData(List<NGramVariants> wordLists)
@@ -211,44 +211,29 @@ namespace NgramAnalyzer
             return finalVariants;
         }
 
-        private List<string> AnalyzeNgramsList(List<NGram> ngrams, int length)
+        private List<string> AnalyzeNgramsList(List<NGram> ngrams, int length, int countWords)
         {
             var result = new List<string>();
 
-            for (var i = 0; i < length - 1; ++i)
+            for (var i = 0; i < countWords; ++i)
             {
-                if (i >= ngrams.Count) continue;
-                var tmp = new List<NGram>();
-
-                for (var j = i; j >= 0; --j)
-                {
-                    tmp.Add(ngrams[j]);
-                }
-
-                result.Add(FindWordFromNgramList(tmp, true));
+                var tmp = CreateFrame(ngrams, length, i);
+                result.Add(FindWordFromNgramList(tmp));
             }
 
-            for (var i = 0; i < ngrams.Count - length + 1; ++i)
+            return result;
+        }
+
+        private List<NGram> CreateFrame(List<NGram> ngrams, int length, int indexOfWord)
+        {
+            var result = new List<NGram>();
+
+            for (var i = indexOfWord-length+1; i <= indexOfWord; ++i)
             {
-                var tmp = new List<NGram>();
-                for (var j = i + length - 1; j >= i; --j)
-                {
-                    tmp.Add(ngrams[j]);
-                }
-
-                result.Add(FindWordFromNgramList(tmp, true));
-            }
-
-            for (var i = ngrams.Count - length + 1; i < ngrams.Count; ++i)
-            {
-                if (i < 0) continue;
-                var tmp = new List<NGram>();
-                for (var j = i; j < ngrams.Count; ++j)
-                {
-                    tmp.Add(ngrams[j]);
-                }
-
-                result.Add(FindWordFromNgramList(tmp, false));
+                if(i<0 || i>=ngrams.Count)
+                    result.Add(new NGram{Value = -1});
+                else
+                    result.Add(ngrams[i]);
             }
 
             return result;
