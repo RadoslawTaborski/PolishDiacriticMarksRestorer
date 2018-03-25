@@ -50,15 +50,15 @@
 
             <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Background="{StaticResource MyPurple}" Margin="0,5,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
+                    <ColumnDefinition Width="168"/>
+                    <ColumnDefinition Width="110"/>
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Label x:Name="Info" FontSize="10" Grid.Column="0" Foreground="{StaticResource MyWhite}" Margin="13,-3" />
-                <Label x:Name="Info2" FontSize="10" Grid.Column="1" Foreground="{StaticResource MyWhite}" Margin="13,-3" />
+                <Label x:Name="Info" Content="" FontSize="10" Grid.Column="0" Foreground="{StaticResource MyWhite}" Margin="13,-3" />
+                <Label x:Name="Info2" Content="" FontSize="10" Grid.Column="1" Foreground="{StaticResource MyWhite}" Margin="13,-3" />
             </Grid>
 
 

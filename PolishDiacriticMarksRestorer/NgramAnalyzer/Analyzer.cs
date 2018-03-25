@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using MoreLinq;
 using NgramAnalyzer.Common;
@@ -19,6 +20,8 @@ namespace NgramAnalyzer
         private readonly IDictionary _dictionary;
         private readonly IDiacriticMarksAdder _diacriticAdder;
         private NgramType _ngramType;
+        private static readonly string[] delimiters = new string[] { " ", "\r\n" };
+        private List<string> words;
         #endregion
 
         #region CONSTRUCTORS
@@ -74,6 +77,12 @@ namespace NgramAnalyzer
             _queryProvider = queryProvider;
         }
 
+                public int SetWords(string text)
+        {
+            words = text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).ToList();
+            return words.Count();
+        }
+
         /// <summary>
         /// This method analyze correctness input.
         /// </summary>
@@ -82,26 +91,72 @@ namespace NgramAnalyzer
         /// String array with result of analyze.
         /// </returns>
         /// <inheritdoc />
-        public List<string> AnalyzeStrings(List<string> strList)
+        public List<string> AnalyzeString(string str)
         {
+            var wordsWithWhiteMarks = str.SplitAndKeep(delimiters).ToList();
+            if (words == null)
+                SetWords(str);
+
+            Console.WriteLine("Start");
             var length = (int)_ngramType;
 
-            if (strList.Count < length) return strList;
+            if (words.Count < length) return words;
+            var start = DateTime.Now;
+            var CombinationWords = CreateCombinationsWordList(words);
+            var stop = DateTime.Now;
+            var time = stop - start;
+            Console.WriteLine($"Czas generowania kombinacji słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
 
-            var words = CreateCombinationsWordList(strList);
-            words = _dictionary != null ? _dictionary.CheckWords(words) : CheckWords(words);
-            var ngramVariants = CreateNgramVariantsList(strList, words, length);
-            var ngrams = GetAllData(ngramVariants).ToList();
+            start = DateTime.Now;
+            CombinationWords = _dictionary != null ? _dictionary.CheckWords(CombinationWords) : CheckWords(CombinationWords);
+            stop = DateTime.Now;
+            time = stop - start;
+            Console.WriteLine($"Czas sprawdzania słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
 
+            start = DateTime.Now;
+            var ngramVariants = CreateNgramVariantsList(words, CombinationWords, length);
+            stop = DateTime.Now;
+            time = stop - start;
+            Console.WriteLine($"Czas generowania kombinacji ngramów: {new DateTime(time.Ticks):HH:mm:ss.f}");
+            var ngrams = new List<NGram>();
+            for (var i = 0; i < 1; ++i)
+            {
+                start = DateTime.Now;
+                ngrams = GetAllData2(ngramVariants).ToList();
+                stop = DateTime.Now;
+                time += stop - start;
+            }
+            Console.WriteLine($"Czas pobierania danych UNION ALL: {new DateTime(time.Ticks / 20):HH:mm:ss.f}");
+            time = stop - stop;
+            //for (var i = 0; i < 0; ++i)
+            //{
+            //    start = DateTime.Now;
+            //    ngrams = GetAllData3(ngramVariants).ToList();
+            //    stop = DateTime.Now;
+            //    time += stop - start;
+            //}
+            //Console.WriteLine($"Czas pobierania danych SINGLE QUERY: {new DateTime(time.Ticks / 20):HH:mm:ss.f}");
+
+            start = DateTime.Now;
             foreach (var variant in ngramVariants)
             {
                 variant.UpdateNGramsVariants(ngrams);
                 variant.RestoreUpperLettersInVariants();
             }
+            stop = DateTime.Now;
+            time = stop - start;
+            Console.WriteLine($"Czas aktualizowania ngramów: {new DateTime(time.Ticks):HH:mm:ss.f}");
 
+            start = DateTime.Now;
             var finalVariants = FindTheBestNgramFromNgramsVariants(ngramVariants);
+            stop = DateTime.Now;
+            time = stop - start;
+            Console.WriteLine($"Czas analizowania: {new DateTime(time.Ticks):HH:mm:ss.f}");
+            Console.WriteLine("Koniec");
 
-            return AnalyzeNgramsList(finalVariants, length, strList.Count);
+            var tmp= AnalyzeNgramsList(finalVariants, length, words.Count);
+
+            return ReturnForm(wordsWithWhiteMarks, tmp);
         }
         #endregion
 
@@ -136,6 +191,100 @@ namespace NgramAnalyzer
                 if (ngram != null)
                     ngramsList.Add((NGram)ngram);
             }
+
+            Console.WriteLine($"OUTPUT: {ngramsList.Count}");
+
+            return ngramsList;
+        }
+
+        private IEnumerable<NGram> GetAllData2(List<NGramVariants> wordLists)
+        {
+
+            var data = new System.Data.DataSet();
+            var ngramsList = new List<NGram>();
+            var ngramVariants = new List<NGram>();
+            var query = "";
+
+            foreach (var item in wordLists)
+            {
+                foreach (var elem in item.NgramVariants)
+                {
+                    ngramVariants.Add(elem);
+                }
+            }
+            Console.WriteLine($"INPUT: {ngramVariants.Count}");
+
+            ngramVariants = ngramVariants.Distinct().ToList();
+
+            foreach (var elem in ngramVariants)
+            {
+                if (query == "")
+                {
+                    query += _queryProvider.GetTheSameNgramsFromTable(_ngramType, elem.WordsList);
+                }
+                else
+                {
+                    query += $" UNION ALL {_queryProvider.GetTheSameNgramsFromTable(_ngramType, elem.WordsList)}";
+                }
+            }
+
+            _db.ConnectToDb();
+            data = _db.ExecuteSqlCommand(query);
+            _db.Disconnect();
+
+            for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
+            {
+                var dataRow = data.Tables[0].Rows[i].ItemArray;
+                var ngram = StringArrayToNgram(dataRow.Select(a => a.ToString()).ToArray());
+                if (ngram != null)
+                    ngramsList.Add((NGram)ngram);
+            }
+
+            Console.WriteLine($"OUTPUT: {ngramsList.Count}");
+
+            //var sortedList = ngramsList.OrderBy(x => x.Value).ThenBy(x => x.WordsList[0]);
+            //foreach (var item in sortedList)
+            //    Console.WriteLine(item);
+
+            return ngramsList;
+        }
+
+        private IEnumerable<NGram> GetAllData3(List<NGramVariants> wordLists)
+        {
+            var data = new System.Data.DataSet();
+            var ngramsList = new List<NGram>();
+            var ngramVariants = new List<NGram>();
+
+            foreach (var item in wordLists)
+            {
+                foreach (var elem in item.NgramVariants)
+                {
+                    ngramVariants.Add(elem);
+                }
+            }
+            Console.WriteLine($"INPUT: {ngramVariants.Count}");
+
+            ngramVariants = ngramVariants.Distinct().ToList();
+
+            _db.ConnectToDb();
+            foreach (var elem in ngramVariants)
+            {
+                data = _db.ExecuteSqlCommand(_queryProvider.GetTheSameNgramsFromTable(_ngramType, elem.WordsList));
+                for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
+                {
+                    var dataRow = data.Tables[0].Rows[i].ItemArray;
+                    var ngram = StringArrayToNgram(dataRow.Select(a => a.ToString()).ToArray());
+                    if (ngram != null)
+                        ngramsList.Add((NGram)ngram);
+                }
+            }
+            _db.Disconnect();
+
+            Console.WriteLine($"OUTPUT: {ngramsList.Count}");
+
+            //var sortedList = ngramsList.OrderBy(x => x.Value).ThenBy(x => x.WordsList[0]);
+            //foreach (var item in sortedList)
+            //    Console.WriteLine(item);
 
             return ngramsList;
         }
@@ -185,7 +334,7 @@ namespace NgramAnalyzer
             return words;
         }
 
-        private List<NGramVariants> CreateNgramVariantsList(List<string> strList, List<string>dictionary, int length)
+        private List<NGramVariants> CreateNgramVariantsList(List<string> strList, List<string> dictionary, int length)
         {
             var ngramVariants = new List<NGramVariants>();
 
@@ -228,12 +377,50 @@ namespace NgramAnalyzer
         {
             var result = new List<NGram>();
 
-            for (var i = indexOfWord-length+1; i <= indexOfWord; ++i)
+            for (var i = indexOfWord - length + 1; i <= indexOfWord; ++i)
             {
-                if(i<0 || i>=ngrams.Count)
-                    result.Add(new NGram{Value = -1});
+                if (i < 0 || i >= ngrams.Count)
+                    result.Add(new NGram { Value = -1 });
                 else
                     result.Add(ngrams[i]);
+            }
+
+            return result;
+        }
+
+        private List<string> ReturnForm(List<string> older, List<string> newer)
+        {
+            var result = new List<string>();
+
+            for (var i = 0; i < older.Count(); ++i)
+            {
+                var flag = false;
+                foreach (var elem in delimiters)
+                {
+                    if (older[i] == elem)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag)
+                {
+                    older[i] = "X";
+                }
+            }
+
+            var index = 0;
+            for (var i = 0; i < older.Count(); ++i)
+            {
+                if (older[i] == "X")
+                {
+                    result.Add(newer[index]);
+                    ++index;
+                }
+                else
+                {
+                    result.Add(older[i]);
+                }
             }
 
             return result;

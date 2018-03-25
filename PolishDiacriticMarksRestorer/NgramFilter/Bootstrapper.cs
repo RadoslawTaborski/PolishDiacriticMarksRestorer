@@ -101,6 +101,7 @@ namespace NgramFilter
 
                 string str;
                 var ngrams = new List<NGram>();
+                var wordListLength = 0;
                 while ((str = inputManager.ReadLine()) != null)
                 {
                     var list = str.Split(' ').ToList().Where(s => s != "").ToList();
@@ -111,8 +112,9 @@ namespace NgramFilter
                     };
                     if (first)
                     {
+                        wordListLength = ngram.WordsList.Count;
                         creator.CreateDataBase(dbName);
-                        creator.CreateTables(dbName, tableName, ngram.WordsList.Count);
+                        creator.CreateTables(dbName, tableName, wordListLength);
                         first = false;
                     }
                     ngram.ChangeSpecialCharacters();
@@ -135,6 +137,8 @@ namespace NgramFilter
                     creator.AddNgramsToTable(tableName, ngrams);
                 else
                     creator.AddOrUpdateNgramsToTable(tableName, ngrams);
+
+                creator.IndexingWords(dbName, tableName, wordListLength);
 
                 Console.WriteLine("Ukończono pomyślnie");
             }

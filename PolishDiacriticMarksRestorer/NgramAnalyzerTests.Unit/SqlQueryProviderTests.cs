@@ -49,7 +49,7 @@ namespace NgramAnalyzerTests.Unit
         {
             var provider = new SqlQueryProvider(_names);
 
-            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetTheSameNgramsFromTable(NgramType.Digram, null));
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetTheSameNgramsFromTable(NgramType.Bigram, null));
             Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
         }
 
@@ -63,7 +63,7 @@ namespace NgramAnalyzerTests.Unit
 
             var provider = new SqlQueryProvider(_names);
 
-            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetTheSameNgramsFromTable(NgramType.Digram, list));
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetTheSameNgramsFromTable(NgramType.Bigram, list));
             Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
         }
 
@@ -71,9 +71,9 @@ namespace NgramAnalyzerTests.Unit
         public void GetTheSameNgramsFromTable_Digrams()
         {
             var provider = new SqlQueryProvider(_names);
-            var result = provider.GetTheSameNgramsFromTable(NgramType.Digram, _wordList);
+            var result = provider.GetTheSameNgramsFromTable(NgramType.Bigram, _wordList);
 
-            const string str = @"SELECT * FROM di WHERE Word1='\\a' AND Word2='b';";
+            const string str = @"SELECT * FROM di WHERE Word1='\\a' AND Word2='b'";
             Assert.Equal(str, result);
         }
 
@@ -83,7 +83,7 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider(_names);
             var result = provider.GetTheSameNgramsFromTable(NgramType.Trigram, _wordList);
 
-            const string str = @"SELECT * FROM tri WHERE Word1='\\a' AND Word2='b' AND Word3='\'c';";
+            const string str = @"SELECT * FROM tri WHERE Word1='\\a' AND Word2='b' AND Word3='\'c'";
             Assert.Equal(str, result);
         }
 
@@ -91,9 +91,9 @@ namespace NgramAnalyzerTests.Unit
         public void GetTheSameNgramsFromTable_Fourgrams()
         {
             var provider = new SqlQueryProvider(_names);
-            var result = provider.GetTheSameNgramsFromTable(NgramType.Fourgram, _wordList);
+            var result = provider.GetTheSameNgramsFromTable(NgramType.Quadrigram, _wordList);
 
-            const string str = @"SELECT * FROM four WHERE Word1='\\a' AND Word2='b' AND Word3='\'c' AND Word4='d';";
+            const string str = @"SELECT * FROM four WHERE Word1='\\a' AND Word2='b' AND Word3='\'c' AND Word4='d'";
             Assert.Equal(str, result);
         }
         #endregion
@@ -104,7 +104,7 @@ namespace NgramAnalyzerTests.Unit
         {
             var provider = new SqlQueryProvider(_names);
 
-            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetSimilarNgramsFromTable(NgramType.Digram, null));
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetSimilarNgramsFromTable(NgramType.Bigram, null));
             Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
         }
 
@@ -119,7 +119,7 @@ namespace NgramAnalyzerTests.Unit
 
             var provider = new SqlQueryProvider(_names);
 
-            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetSimilarNgramsFromTable(NgramType.Fourgram, list));
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetSimilarNgramsFromTable(NgramType.Quadrigram, list));
             Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
         }
 
@@ -134,7 +134,7 @@ namespace NgramAnalyzerTests.Unit
             };
 
             var provider = new SqlQueryProvider(_names);
-            var ex = Record.Exception(() => provider.GetSimilarNgramsFromTable(NgramType.Fourgram, list));
+            var ex = Record.Exception(() => provider.GetSimilarNgramsFromTable(NgramType.Quadrigram, list));
 
             Assert.IsNotType<ArgumentException>(ex);
         }
@@ -143,7 +143,7 @@ namespace NgramAnalyzerTests.Unit
         public void GetSimilarNgramsFromTable_Digrams()
         {
             var provider = new SqlQueryProvider(_names);
-            var result = provider.GetSimilarNgramsFromTable(NgramType.Digram, _wordList);
+            var result = provider.GetSimilarNgramsFromTable(NgramType.Bigram, _wordList);
 
             const string str = @"SELECT * FROM di WHERE Word1='\\a';";
             Assert.Equal(str, result);
@@ -163,7 +163,7 @@ namespace NgramAnalyzerTests.Unit
         public void GetSimilarNgramsFromTable_Fourgrams()
         {
             var provider = new SqlQueryProvider(_names);
-            var result = provider.GetSimilarNgramsFromTable(NgramType.Fourgram, _wordList);
+            var result = provider.GetSimilarNgramsFromTable(NgramType.Quadrigram, _wordList);
 
             const string str = @"SELECT * FROM four WHERE Word1='\\a' AND Word2='b' AND Word3='\'c';";
             Assert.Equal(str, result);
@@ -182,9 +182,9 @@ namespace NgramAnalyzerTests.Unit
                 "c"
             };
 
-            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetMultiNgramsFromTable(NgramType.Fourgram, wordList, null));
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetMultiNgramsFromTable(NgramType.Quadrigram, wordList, null));
             Assert.Equal("List<string> 'combinations' has wrong size", ex.Message);
-            ex = Assert.Throws<ArgumentException>(() => provider.GetMultiNgramsFromTable(NgramType.Fourgram, null, wordList));
+            ex = Assert.Throws<ArgumentException>(() => provider.GetMultiNgramsFromTable(NgramType.Quadrigram, null, wordList));
             Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
         }
 
@@ -204,9 +204,9 @@ namespace NgramAnalyzerTests.Unit
             };
             var provider = new SqlQueryProvider(_names);
 
-            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetMultiNgramsFromTable(NgramType.Fourgram, wordList, new List<string>()));
+            Exception ex = Assert.Throws<ArgumentException>(() => provider.GetMultiNgramsFromTable(NgramType.Quadrigram, wordList, new List<string>()));
             Assert.Equal("List<string> 'combinations' has wrong size", ex.Message);
-            ex = Assert.Throws<ArgumentException>(() => provider.GetMultiNgramsFromTable(NgramType.Fourgram, list, _wordList));
+            ex = Assert.Throws<ArgumentException>(() => provider.GetMultiNgramsFromTable(NgramType.Quadrigram, list, _wordList));
             Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
         }
 
@@ -228,7 +228,7 @@ namespace NgramAnalyzerTests.Unit
             };
 
             var provider = new SqlQueryProvider(_names);
-            var ex = Record.Exception(() => provider.GetMultiNgramsFromTable(NgramType.Fourgram, wordList, list));
+            var ex = Record.Exception(() => provider.GetMultiNgramsFromTable(NgramType.Quadrigram, wordList, list));
 
             Assert.IsNotType<ArgumentException>(ex);
         }
@@ -250,7 +250,7 @@ namespace NgramAnalyzerTests.Unit
             };
 
             var provider = new SqlQueryProvider(_names);
-            var result = provider.GetMultiNgramsFromTable(NgramType.Fourgram, wordList, list);
+            var result = provider.GetMultiNgramsFromTable(NgramType.Quadrigram, wordList, list);
 
             const string str = @"SELECT * FROM four WHERE Word1='\\a' AND Word2='b' AND Word3='\'c' AND ( Word4='\\or1' OR Word4='or2' );";
             Assert.Equal(str, result);

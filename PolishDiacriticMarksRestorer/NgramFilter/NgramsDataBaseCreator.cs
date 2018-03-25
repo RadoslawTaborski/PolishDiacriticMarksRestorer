@@ -63,6 +63,17 @@ namespace NgramFilter
             _db.Disconnect();
         }
 
+        public void IndexingWords(string dataBaseName, string tableName, int numberOfWords)
+        {
+            if (numberOfWords < 1) return;
+
+            var commandText = _provider.IndexingWords(dataBaseName, tableName, numberOfWords);
+
+            _db.ConnectToServer();
+            _db.ExecuteNonQueryServer(commandText);
+            _db.Disconnect();
+        }
+
         /// <summary>
         /// This method add Ngrams data to table.
         /// </summary>

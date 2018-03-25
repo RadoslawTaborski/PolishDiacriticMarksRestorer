@@ -65,7 +65,7 @@ namespace NgramAnalyzer
 
                 if (lists[index].Count == 0)
                 {
-                    lists[index].Add(item);
+                    lists[index].Add(item.ToLower());
                 }
             }
 

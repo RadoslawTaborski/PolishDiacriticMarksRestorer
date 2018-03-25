@@ -55,7 +55,7 @@ namespace NgramAnalyzer.Common
 
             var index = GetIndexOfNames(wordList[0]);
 
-            var query = $"SELECT * FROM {_dbTableDbTableName[number - 1]}[{Names[index]}] WHERE";
+            var query = $"SELECT * FROM `{_dbTableDbTableName[number - 1]}[{Names[index]}]` WHERE";
 
             for (var i = 0; i < number; ++i)
             {
@@ -63,7 +63,7 @@ namespace NgramAnalyzer.Common
                 query += " Word" + (i + 1) + "='" + wordList[i].ChangeSpecialCharacters() + "'";
             }
 
-            query += ";";
+            //query += ";";
 
             return query;
         }
@@ -91,7 +91,7 @@ namespace NgramAnalyzer.Common
 
             var index = GetIndexOfNames(wordList[0]);
 
-            var query = $"SELECT * FROM {_dbTableDbTableName[number - 1]}[{Names[index]}] WHERE ";
+            var query = $"SELECT * FROM `{_dbTableDbTableName[number - 1]}[{Names[index]}]` WHERE ";
 
             for (var i = 0; i < number - 1; ++i)
             {
@@ -289,6 +289,21 @@ namespace NgramAnalyzer.Common
             return comandsText.Where(item => item != "")
                 .Select(text => new System.Text.StringBuilder(text) { [text.Length - 1] = ';' })
                 .Aggregate("", (current, strBuilder) => current + strBuilder.ToString());
+        }
+
+        public string IndexingWords(string dataBaseName, string tableName, int numberOfWords)
+        {
+            var commandText = "";
+
+            foreach (var item in Names)
+            {
+                for (var i = 0; i < numberOfWords; ++i)
+                {
+                    commandText += $"ALTER TABLE `{dataBaseName}`.`{tableName}[{item}]` ADD INDEX (`Word{i + 1}`);";
+                }
+            }
+
+            return commandText;
         }
 
         public string InsertOrUpdateNgramString(NGram ngram)

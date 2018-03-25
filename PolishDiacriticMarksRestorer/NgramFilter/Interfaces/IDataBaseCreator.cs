@@ -29,5 +29,7 @@ namespace NgramFilter.Interfaces
         /// <param name="tableName">Name of table.</param>
         /// <param name="ngrams">List of ngrams.</param>
         void AddOrUpdateNgramsToTable(string tableName, List<NGram> ngrams);
+
+        void IndexingWords(string dataBaseName, string tableName, int numberOfWords);
     }
 }

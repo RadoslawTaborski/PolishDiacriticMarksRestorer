@@ -55,11 +55,12 @@ namespace PolishDiacriticMarksRestorer
         #endregion
 
         #region  PRIVATE
-        private void Analyze(List<string> stringsList)
+        private void Analyze(string text)
         {
             _timer.Start();
             _start = DateTime.Now;
-            var resultsArray = _analyzer.AnalyzeStrings(stringsList);
+            var resultsArray = _analyzer.AnalyzeString(text);
+
             Dispatcher.Invoke(() =>
             {
                 RtbResult.Document.Blocks.Clear();
@@ -70,7 +71,7 @@ namespace PolishDiacriticMarksRestorer
             {
                 Dispatcher.Invoke(() =>
                 {
-                    RtbResult.AppendText(item + " ");
+                    RtbResult.AppendText(item);
                 });
             }
             Dispatcher.Invoke(() =>
@@ -107,7 +108,14 @@ namespace PolishDiacriticMarksRestorer
             var time = _stop - _start;
             Dispatcher.Invoke(() =>
             {
-                Info.Content = $"Czas wykonywania: {new DateTime(time.Ticks):HH:mm:ss.f}";});
+                Info.Content = $"Czas wykonywania: {new DateTime(time.Ticks):HH:mm:ss.f}";
+            });
+        }
+
+        private string ReturnForm(string older, List<string> newer)
+        {
+            string result = "";
+            return result;
         }
         #endregion
 
@@ -123,14 +131,11 @@ namespace PolishDiacriticMarksRestorer
             BtnStart.IsEnabled = false;
             RtbResult.Document.Blocks.Clear();
             var text = new TextRange(RtbInput.Document.ContentStart, RtbInput.Document.ContentEnd).Text;
-            var stringsArray = text.Split(new[]{
-                " ",
-                "\r\n"
-            }, StringSplitOptions.RemoveEmptyEntries);
-            Info2.Content = $"Liczba słów: {stringsArray.Length}";
+            var count = _analyzer.SetWords(text);
+            Info2.Content = $"Liczba słów: {count}";
             try
             {
-                var t = new Task(() => Analyze(stringsArray.ToList()));
+                var t = new Task(() => Analyze(text));
                 t.ContinueWith(ExceptionHandler, TaskContinuationOptions.OnlyOnFaulted);
                 t.Start();
             }

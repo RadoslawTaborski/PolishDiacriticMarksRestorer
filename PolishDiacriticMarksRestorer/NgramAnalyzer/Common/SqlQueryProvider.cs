@@ -59,7 +59,7 @@ namespace NgramAnalyzer.Common
                 query += " Word" + (i + 1) + "='" + wordList[i].ChangeSpecialCharacters() + "'";
             }
 
-            query += ";";
+            //query += ";";
 
             return query;
         }
@@ -80,14 +80,14 @@ namespace NgramAnalyzer.Common
         {
             var number = (int)ngramType;
 
-            if (wordList == null || wordList.Count != number-1)
+            if (wordList == null || wordList.Count != number - 1)
                 throw new ArgumentException("List<string> 'wordList' has wrong size");
             if (combinations == null || combinations.Count < 1)
                 throw new ArgumentException("List<string> 'combinations' has wrong size");
 
             var query = "SELECT * FROM " + _dbTableDbTableName[number - 1] + " WHERE ";
 
-            for (var i = 0; i < number-1; ++i)
+            for (var i = 0; i < number - 1; ++i)
             {
                 if (i != 0) query += "AND ";
                 query += "Word" + (i + 1) + "='" + wordList[i].ChangeSpecialCharacters() + "' ";
@@ -136,7 +136,7 @@ namespace NgramAnalyzer.Common
             var query = "SELECT * FROM " + _dbTableDbTableName[0] + " WHERE";
 
             for (var i = 0; i < wordList.Count; ++i)
-            { 
+            {
                 if (i != 0) query += " OR";
                 query += " Word1='" + wordList[i].ChangeSpecialCharacters() + "'";
             }
@@ -179,7 +179,7 @@ namespace NgramAnalyzer.Common
                     if (j != 1) query += " AND ";
                     query += "( ";
 
-                    for (var i=0; i<item2.Count; ++i)
+                    for (var i = 0; i < item2.Count; ++i)
                     {
                         if (i != 0) query += "OR ";
                         query += "Word" + j + "='" + item2[i].ChangeSpecialCharacters() + "' ";
@@ -241,6 +241,18 @@ namespace NgramAnalyzer.Common
             var strBuilder =
                 new System.Text.StringBuilder(commandText) { [commandText.Length - 1] = ';' };
             commandText = strBuilder.ToString();
+
+            return commandText;
+        }
+
+        public string IndexingWords(string dataBaseName, string tableName, int numberOfWords)
+        {
+            var commandText = "";
+
+            for (var i = 0; i < numberOfWords; ++i)
+            {
+                commandText += $"ALTER TABLE `{dataBaseName}`.`{tableName}` ADD INDEX (`Word{i + 1}`);";
+            }
 
             return commandText;
         }

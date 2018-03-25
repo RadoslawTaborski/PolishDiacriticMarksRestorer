@@ -5,9 +5,9 @@
     /// </summary>
     public enum NgramType
     {
-        Digram = 2,
+        Bigram = 2,
         Trigram = 3,
-        Fourgram = 4
+        Quadrigram = 4
     }
 
 }

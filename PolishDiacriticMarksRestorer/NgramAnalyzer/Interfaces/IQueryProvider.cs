@@ -52,6 +52,7 @@ namespace NgramAnalyzer.Interfaces
         string CreateDbString(string name);
         string CreateNgramsTableString(string dataBaseName, string tableName, int numberOfWords);
         string InsertNgramsString(string tableName, List<NGram> ngrams);
+        string IndexingWords(string dataBaseName, string tableName, int numberOfWords);
         string InsertOrUpdateNgramString(NGram ngram);
         string CreateAddProcedureString(string dataBaseName, string tableName, int numberOfWords);
     }

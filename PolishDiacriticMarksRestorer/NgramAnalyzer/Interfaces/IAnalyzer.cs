@@ -12,7 +12,7 @@ namespace NgramAnalyzer.Interfaces
         /// <returns>
         /// string array with result of analyze.
         /// </returns>
-        List<string> AnalyzeStrings(List<string> strArray);
+        List<string> AnalyzeString(string text);
         /// <summary>
         /// This method set a IQueryProvider.
         /// </summary>
@@ -28,5 +28,6 @@ namespace NgramAnalyzer.Interfaces
         /// </summary>
         /// <param name="db">The database.</param>
         void SetData(IDataAccess db);
+        int SetWords(string text);
     }
 }

@@ -11,7 +11,7 @@ namespace PolishDiacriticMarksRestorer
         /// <summary>
         /// The type o Ngram.
         /// </summary>
-        public static NgramType Type = NgramType.Digram;
+        public static NgramType Type = NgramType.Bigram;
         /// <summary>
         /// The server adress.
         /// </summary>
@@ -35,7 +35,7 @@ namespace PolishDiacriticMarksRestorer
         /// <summary>
         /// The table names list.
         /// </summary>
-        public static IList<string> TableNames = new []{"dictionary", "2grams", "3grams", "4grams"};
+        public static IList<string> TableNames = new []{"dictionary", "digrams", "trigrams", "fourgrams"};
         /// <summary>
         /// The alphabetical tables in database
         /// </summary>
