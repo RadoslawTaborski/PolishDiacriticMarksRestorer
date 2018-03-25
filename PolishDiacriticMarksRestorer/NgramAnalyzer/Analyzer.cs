@@ -21,7 +21,8 @@ namespace NgramAnalyzer
         private readonly IDiacriticMarksAdder _diacriticAdder;
         private NgramType _ngramType;
         private static readonly string[] delimiters = new string[] { " ", "\r\n" };
-        private List<string> words;
+        public List<string> Input { get; private set; }
+        public List<string> InputWithWhiteMarks { get; private set; }
         #endregion
 
         #region CONSTRUCTORS
@@ -77,10 +78,11 @@ namespace NgramAnalyzer
             _queryProvider = queryProvider;
         }
 
-                public int SetWords(string text)
+        public int SetWords(string text)
         {
-            words = text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).ToList();
-            return words.Count();
+            Input = text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).ToList();
+            InputWithWhiteMarks = text.SplitAndKeep(delimiters).ToList();
+            return Input.Count();
         }
 
         /// <summary>
@@ -93,16 +95,15 @@ namespace NgramAnalyzer
         /// <inheritdoc />
         public List<string> AnalyzeString(string str)
         {
-            var wordsWithWhiteMarks = str.SplitAndKeep(delimiters).ToList();
-            if (words == null)
+            if (Input == null)
                 SetWords(str);
 
             Console.WriteLine("Start");
             var length = (int)_ngramType;
 
-            if (words.Count < length) return words;
+            if (Input.Count < length) return Input;
             var start = DateTime.Now;
-            var CombinationWords = CreateCombinationsWordList(words);
+            var CombinationWords = CreateCombinationsWordList(Input);
             var stop = DateTime.Now;
             var time = stop - start;
             Console.WriteLine($"Czas generowania kombinacji słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
@@ -114,7 +115,7 @@ namespace NgramAnalyzer
             Console.WriteLine($"Czas sprawdzania słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
 
             start = DateTime.Now;
-            var ngramVariants = CreateNgramVariantsList(words, CombinationWords, length);
+            var ngramVariants = CreateNgramVariantsList(Input, CombinationWords, length);
             stop = DateTime.Now;
             time = stop - start;
             Console.WriteLine($"Czas generowania kombinacji ngramów: {new DateTime(time.Ticks):HH:mm:ss.f}");
@@ -154,9 +155,9 @@ namespace NgramAnalyzer
             Console.WriteLine($"Czas analizowania: {new DateTime(time.Ticks):HH:mm:ss.f}");
             Console.WriteLine("Koniec");
 
-            var tmp= AnalyzeNgramsList(finalVariants, length, words.Count);
+            var tmp= AnalyzeNgramsList(finalVariants, length, Input.Count);
 
-            return ReturnForm(wordsWithWhiteMarks, tmp);
+            return ReturnForm(InputWithWhiteMarks, tmp);
         }
         #endregion
 
@@ -390,14 +391,15 @@ namespace NgramAnalyzer
 
         private List<string> ReturnForm(List<string> older, List<string> newer)
         {
+            var copy = new List<string>(older);
             var result = new List<string>();
 
-            for (var i = 0; i < older.Count(); ++i)
+            for (var i = 0; i < copy.Count(); ++i)
             {
                 var flag = false;
                 foreach (var elem in delimiters)
                 {
-                    if (older[i] == elem)
+                    if (copy[i] == elem)
                     {
                         flag = true;
                         break;
@@ -405,21 +407,21 @@ namespace NgramAnalyzer
                 }
                 if (!flag)
                 {
-                    older[i] = "X";
+                    copy[i] = "X";
                 }
             }
 
             var index = 0;
-            for (var i = 0; i < older.Count(); ++i)
+            for (var i = 0; i < copy.Count(); ++i)
             {
-                if (older[i] == "X")
+                if (copy[i] == "X")
                 {
                     result.Add(newer[index]);
                     ++index;
                 }
                 else
                 {
-                    result.Add(older[i]);
+                    result.Add(copy[i]);
                 }
             }
 

@@ -41,11 +41,11 @@ namespace PolishDiacriticMarksRestorer
             Load(Path);
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
             var queryProvider = Settings.AlphabeticalTables
-                ? (IQueryProvider) new SqlQueryProvider2(Settings.TableNames)
+                ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
             _analyzer = Settings.FileDictionary
-                ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary()) 
+                ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary())
                 : new Analyzer(new DiacriticMarksAdder());
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
@@ -67,12 +67,23 @@ namespace PolishDiacriticMarksRestorer
             });
             _timer.Stop();
 
-            foreach (var item in resultsArray)
+
+            for (var i = 0; i < _analyzer.InputWithWhiteMarks.Count(); ++i)
             {
-                Dispatcher.Invoke(() =>
+                if (_analyzer.InputWithWhiteMarks[i] != resultsArray[i])
                 {
-                    RtbResult.AppendText(item);
-                });
+                    Dispatcher.Invoke(() =>
+                    {
+                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.Gold), new SolidColorBrush(Colors.Black));
+                    });
+                } else
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.Transparent), (SolidColorBrush)(FindResource("MyAzure")));
+                    });
+                }
+
             }
             Dispatcher.Invoke(() =>
             {
@@ -175,7 +186,7 @@ namespace PolishDiacriticMarksRestorer
 
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
             var queryProvider = Settings.AlphabeticalTables
-                ? (IQueryProvider) new SqlQueryProvider2(Settings.TableNames)
+                ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
             _analyzer = Settings.FileDictionary

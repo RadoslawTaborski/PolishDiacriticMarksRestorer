@@ -92,6 +92,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="EnumBindingSourceExtension.cs" />
+    <Compile Include="RichTextBoxExtension.cs" />
     <Compile Include="RounderProgressBarControl.xaml.cs">
       <DependentUpon>RounderProgressBarControl.xaml</DependentUpon>
     </Compile>
