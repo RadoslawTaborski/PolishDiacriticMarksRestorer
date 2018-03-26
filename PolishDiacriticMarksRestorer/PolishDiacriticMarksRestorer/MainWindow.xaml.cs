@@ -60,6 +60,7 @@ namespace PolishDiacriticMarksRestorer
             _timer.Start();
             _start = DateTime.Now;
             var resultsArray = _analyzer.AnalyzeString(text);
+            var lists = _analyzer.CreateWordsCombinations();
 
             Dispatcher.Invoke(() =>
             {
@@ -70,20 +71,19 @@ namespace PolishDiacriticMarksRestorer
 
             for (var i = 0; i < _analyzer.InputWithWhiteMarks.Count(); ++i)
             {
-                if (_analyzer.InputWithWhiteMarks[i] != resultsArray[i])
+                Dispatcher.Invoke(() =>
                 {
-                    Dispatcher.Invoke(() =>
-                    {
-                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.Gold), new SolidColorBrush(Colors.Black));
-                    });
-                } else
-                {
-                    Dispatcher.Invoke(() =>
-                    {
+                    if (lists[i].Count() == 0)
+                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.Firebrick), new SolidColorBrush(Colors.White));
+                    if (lists[i].Count() == 1 && _analyzer.InputWithWhiteMarks[i] != resultsArray[i])
+                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.LimeGreen), new SolidColorBrush(Colors.Black));
+                    if (lists[i].Count() == 1 && _analyzer.InputWithWhiteMarks[i] == resultsArray[i])
                         RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.Transparent), (SolidColorBrush)(FindResource("MyAzure")));
-                    });
-                }
-
+                    if (lists[i].Count() > 1 && _analyzer.InputWithWhiteMarks[i] != resultsArray[i])
+                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.GreenYellow), new SolidColorBrush(Colors.Black));
+                    if (lists[i].Count() > 1 && _analyzer.InputWithWhiteMarks[i] == resultsArray[i])
+                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.Gold), new SolidColorBrush(Colors.Black));
+                });
             }
             Dispatcher.Invoke(() =>
             {

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using MoreLinq;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
@@ -20,9 +21,10 @@ namespace NgramAnalyzer
         private readonly IDictionary _dictionary;
         private readonly IDiacriticMarksAdder _diacriticAdder;
         private NgramType _ngramType;
-        private static readonly string[] delimiters = new string[] { " ", "\r\n" };
+        private static readonly string[] delimiters = new string[] { " ", "\r\n", "\t" };
         public List<string> Input { get; private set; }
         public List<string> InputWithWhiteMarks { get; private set; }
+        public List<string> WordsCombinations { get; private set; }
         #endregion
 
         #region CONSTRUCTORS
@@ -85,6 +87,34 @@ namespace NgramAnalyzer
             return Input.Count();
         }
 
+        public List<List<string>> CreateWordsCombinations()
+        {
+            var result = new List<List<string>>();
+
+            foreach (var item in InputWithWhiteMarks)
+            {
+                var flag = false;
+                foreach (var elem in delimiters)
+                {
+                    if (item == elem)
+                    {
+                        result.Add(new List<string>() { item });
+                        flag = true;
+                        break;
+                    }
+                }
+                if (!flag)
+                {
+                    var list = CreateCombinationsWord(item);
+                    list =_dictionary != null ? _dictionary.CheckWords(list) : CheckWords(list);
+                    RestoreUpperLetter(item, ref list);
+                    result.Add(list);
+                }
+            }
+
+            return result;
+        }
+
         /// <summary>
         /// This method analyze correctness input.
         /// </summary>
@@ -120,23 +150,15 @@ namespace NgramAnalyzer
             time = stop - start;
             Console.WriteLine($"Czas generowania kombinacji ngramów: {new DateTime(time.Ticks):HH:mm:ss.f}");
             var ngrams = new List<NGram>();
+            time = stop - stop;
             for (var i = 0; i < 1; ++i)
             {
                 start = DateTime.Now;
-                ngrams = GetAllData2(ngramVariants).ToList();
+                ngrams = GetAllData(ngramVariants).ToList();
                 stop = DateTime.Now;
                 time += stop - start;
             }
-            Console.WriteLine($"Czas pobierania danych UNION ALL: {new DateTime(time.Ticks / 20):HH:mm:ss.f}");
-            time = stop - stop;
-            //for (var i = 0; i < 0; ++i)
-            //{
-            //    start = DateTime.Now;
-            //    ngrams = GetAllData3(ngramVariants).ToList();
-            //    stop = DateTime.Now;
-            //    time += stop - start;
-            //}
-            //Console.WriteLine($"Czas pobierania danych SINGLE QUERY: {new DateTime(time.Ticks / 20):HH:mm:ss.f}");
+            Console.WriteLine($"Czas pobierania danych SINGLE QUERY: {new DateTime(time.Ticks / 20):HH:mm:ss.f}");
 
             start = DateTime.Now;
             foreach (var variant in ngramVariants)
@@ -155,7 +177,7 @@ namespace NgramAnalyzer
             Console.WriteLine($"Czas analizowania: {new DateTime(time.Ticks):HH:mm:ss.f}");
             Console.WriteLine("Koniec");
 
-            var tmp= AnalyzeNgramsList(finalVariants, length, Input.Count);
+            var tmp = AnalyzeNgramsList(finalVariants, length, Input.Count);
 
             return ReturnForm(InputWithWhiteMarks, tmp);
         }
@@ -171,86 +193,6 @@ namespace NgramAnalyzer
         }
 
         private IEnumerable<NGram> GetAllData(List<NGramVariants> wordLists)
-        {
-            var lists = new List<List<List<string>>>();
-            foreach (var item in wordLists)
-            {
-                var tmp = item.VariantsToStringsLists();
-                if (tmp != null)
-                    lists.Add(tmp);
-            }
-
-            _db.ConnectToDb();
-            var data = _db.ExecuteSqlCommand(_queryProvider.GetAllNecessaryNgramsFromTable(_ngramType, lists));
-            _db.Disconnect();
-
-            var ngramsList = new List<NGram>();
-            for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
-            {
-                var dataRow = data.Tables[0].Rows[i].ItemArray;
-                var ngram = StringArrayToNgram(dataRow.Select(item => item.ToString()).ToArray());
-                if (ngram != null)
-                    ngramsList.Add((NGram)ngram);
-            }
-
-            Console.WriteLine($"OUTPUT: {ngramsList.Count}");
-
-            return ngramsList;
-        }
-
-        private IEnumerable<NGram> GetAllData2(List<NGramVariants> wordLists)
-        {
-
-            var data = new System.Data.DataSet();
-            var ngramsList = new List<NGram>();
-            var ngramVariants = new List<NGram>();
-            var query = "";
-
-            foreach (var item in wordLists)
-            {
-                foreach (var elem in item.NgramVariants)
-                {
-                    ngramVariants.Add(elem);
-                }
-            }
-            Console.WriteLine($"INPUT: {ngramVariants.Count}");
-
-            ngramVariants = ngramVariants.Distinct().ToList();
-
-            foreach (var elem in ngramVariants)
-            {
-                if (query == "")
-                {
-                    query += _queryProvider.GetTheSameNgramsFromTable(_ngramType, elem.WordsList);
-                }
-                else
-                {
-                    query += $" UNION ALL {_queryProvider.GetTheSameNgramsFromTable(_ngramType, elem.WordsList)}";
-                }
-            }
-
-            _db.ConnectToDb();
-            data = _db.ExecuteSqlCommand(query);
-            _db.Disconnect();
-
-            for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
-            {
-                var dataRow = data.Tables[0].Rows[i].ItemArray;
-                var ngram = StringArrayToNgram(dataRow.Select(a => a.ToString()).ToArray());
-                if (ngram != null)
-                    ngramsList.Add((NGram)ngram);
-            }
-
-            Console.WriteLine($"OUTPUT: {ngramsList.Count}");
-
-            //var sortedList = ngramsList.OrderBy(x => x.Value).ThenBy(x => x.WordsList[0]);
-            //foreach (var item in sortedList)
-            //    Console.WriteLine(item);
-
-            return ngramsList;
-        }
-
-        private IEnumerable<NGram> GetAllData3(List<NGramVariants> wordLists)
         {
             var data = new System.Data.DataSet();
             var ngramsList = new List<NGram>();
@@ -327,12 +269,39 @@ namespace NgramAnalyzer
             var words = new List<string>();
             foreach (var str in strList)
             {
-                var combinations = _diacriticAdder.Start(str.ToLower(), 100);
-                words.AddRange((from kvp in combinations select kvp.Key).Distinct().ToList());
+                var combinations = CreateCombinationsWord(str);
+                words.AddRange(combinations);
             }
 
             words = words.Distinct().ToList();
             return words;
+        }
+
+        private List<string> CreateCombinationsWord(string word)
+        {
+            var combinations = _diacriticAdder.Start(word.ToLower(), 100);
+            var result = (from kvp in combinations select kvp.Key).Distinct().ToList();
+
+            return result;
+        }
+
+        private void RestoreUpperLetter(string original, ref List<string> combinations)
+        {
+            var r = new Regex(@"[A-ZĄĆĘŁŃŚÓŹŻ]");
+
+            for (var j = 0; j < original.Length; ++j)
+            {
+                if (!r.IsMatch(original[j].ToString())) continue;
+                for (var i = 0; i < combinations.Count; ++i)
+                {
+                    var strBuilder =
+                        new System.Text.StringBuilder(combinations[i])
+                        {
+                            [j] = char.ToUpper(combinations[i][j])
+                        };
+                    combinations[i] = strBuilder.ToString();
+                }
+            }
         }
 
         private List<NGramVariants> CreateNgramVariantsList(List<string> strList, List<string> dictionary, int length)

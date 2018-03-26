@@ -11,70 +11,100 @@ namespace NgramAnalyzerTests.Unit
     public class AnalyzerTests
     {
         private readonly DataSet _unigrams=new DataSet();
-        private readonly DataSet _digrams = new DataSet();
-        private readonly DataSet _trigrams = new DataSet();
-        private readonly DataSet _fourgrams = new DataSet();
         private readonly Mock<IDataAccess> _dataMock= new Mock<IDataAccess>();
         private readonly Mock<IQueryProvider> _queryProviderMock = new Mock<IQueryProvider>();
         private readonly Mock<IDiacriticMarksAdder> _diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
 
         public AnalyzerTests()
         {
-            var tab = new DataTable();
-            tab.Columns.Add("ID", typeof(int));
-            tab.Columns.Add("Value", typeof(int));
-            tab.Columns.Add("Word1", typeof(string));
-            tab.Rows.Add(1, 25, "przyj璚iem");
-            tab.Rows.Add(2, 21, "uchwa造");
-            tab.Rows.Add(3, 56, "za");
-            tab.Rows.Add(10, 56, "nowej");
-            _unigrams.Tables.Add(tab);
+            var uni1 = new DataTable();
+            uni1.Columns.Add("ID", typeof(int));
+            uni1.Columns.Add("Value", typeof(int));
+            uni1.Columns.Add("Word1", typeof(string));
+            uni1.Rows.Add(1, 25, "przyj璚iem");
+            uni1.Rows.Add(2, 21, "uchwa造");
+            uni1.Rows.Add(3, 56, "za");
+            uni1.Rows.Add(10, 56, "nowej");
+            _unigrams.Tables.Add(uni1);
 
-            tab = new DataTable();
-            tab.Columns.Add("ID", typeof(int));
-            tab.Columns.Add("Value", typeof(int));
-            tab.Columns.Add("Word1", typeof(string));
-            tab.Columns.Add("Word2", typeof(string));
-            tab.Rows.Add(1, 25, "za", "przyj璚iem");
-            tab.Rows.Add(2, 15, "za", "przyjeciem,");
-            _digrams.Tables.Add(tab);
+            var di1 = new DataTable();
+            di1.Columns.Add("ID", typeof(int));
+            di1.Columns.Add("Value", typeof(int));
+            di1.Columns.Add("Word1", typeof(string));
+            di1.Columns.Add("Word2", typeof(string));
+            var di2 = di1.Clone();
+            var di3 = di1.Clone();
+            var di4 = di1.Clone();
+            di1.Rows.Add(1, 25, "za", "przyj璚iem");
+            di2.Rows.Add(2, 15, "za", "przyjeciem");
+            di3.Rows.Add(3, 2, "przyjeciem", "uchwaly,");
+            di4.Rows.Add(4, 5, "przyj璚iem", "uchwa造,");
+            //_digrams.Tables.Add(tab1);
 
-            tab = new DataTable();
-            tab.Columns.Add("ID", typeof(int));
-            tab.Columns.Add("Value", typeof(int));
-            tab.Columns.Add("Word1", typeof(string));
-            tab.Columns.Add("Word2", typeof(string));
-            tab.Columns.Add("Word3", typeof(string));
-            tab.Rows.Add(1, 25, "za", "przyj璚iem", "nowej");
-            tab.Rows.Add(2, 15, "za", "przyjeciem,", "nowej");
-            tab.Rows.Add(3, 45, "przyj璚iem", "nowej", "uchwa造");
-            tab.Rows.Add(4, 17, "przyjeciem", "nowej,", "uchwa造");
-            tab.Rows.Add(5, 50, "nowej", "uchwa造", "z");
-            tab.Rows.Add(6, 17, "nowej", "uchwaly", "z");
-            _trigrams.Tables.Add(tab);
+            var tri1 = new DataTable();
+            tri1.Columns.Add("ID", typeof(int));
+            tri1.Columns.Add("Value", typeof(int));
+            tri1.Columns.Add("Word1", typeof(string));
+            tri1.Columns.Add("Word2", typeof(string));
+            tri1.Columns.Add("Word3", typeof(string));
+            var tri2 = tri1.Clone();
+            var tri3 = tri1.Clone();
+            var tri4 = tri1.Clone();
+            var tri5 = tri1.Clone();
+            var tri6 = tri1.Clone();
+            tri1.Rows.Add(1, 25, "za", "przyj璚iem", "nowej");
+            tri2.Rows.Add(2, 15, "za", "przyjeciem", "nowej");
+            tri3.Rows.Add(3, 45, "przyj璚iem", "nowej", "uchwa造");
+            tri4.Rows.Add(4, 17, "przyjeciem", "nowej,", "uchwa造");
+            tri5.Rows.Add(5, 50, "nowej", "uchwa造", "z");
+            tri6.Rows.Add(6, 17, "nowej", "uchwaly", "z");
 
-            tab = new DataTable();
-            tab.Columns.Add("ID", typeof(int));
-            tab.Columns.Add("Value", typeof(int));
-            tab.Columns.Add("Word1", typeof(string));
-            tab.Columns.Add("Word2", typeof(string));
-            tab.Columns.Add("Word3", typeof(string));
-            tab.Columns.Add("Word4", typeof(string));
-            tab.Rows.Add(1, 25, "za", "przyj璚iem", "nowej","uchwa造");
-            tab.Rows.Add(2, 15, "za", "przyjeciem", "nowej", "uchwa造");
-            tab.Rows.Add(1, 27, "przyj璚iem", "nowej", "uchwa造", "z");
-            tab.Rows.Add(2, 12, "przyjeciem", "nowej", "uchwa造", "z");
-            _fourgrams.Tables.Add(tab);
+            var four1 = new DataTable();
+            four1.Columns.Add("ID", typeof(int));
+            four1.Columns.Add("Value", typeof(int));
+            four1.Columns.Add("Word1", typeof(string));
+            four1.Columns.Add("Word2", typeof(string));
+            four1.Columns.Add("Word3", typeof(string));
+            four1.Columns.Add("Word4", typeof(string));
+            var four2 = four1.Clone();
+            var four3 = four1.Clone();
+            var four4 = four1.Clone();
+            four1.Rows.Add(1, 25, "za", "przyj璚iem", "nowej","uchwa造");
+            four2.Rows.Add(2, 15, "za", "przyjeciem", "nowej", "uchwa造");
+            four3.Rows.Add(1, 27, "przyj璚iem", "nowej", "uchwa造", "z");
+            four4.Rows.Add(2, 12, "przyjeciem", "nowej", "uchwa造", "z");
 
-            _dataMock.Setup(m => m.ExecuteSqlCommand("uni")).Returns(_unigrams);
-            _dataMock.Setup(m => m.ExecuteSqlCommand("di")).Returns(_digrams);
-            _dataMock.Setup(m => m.ExecuteSqlCommand("tri")).Returns(_trigrams);
-            _dataMock.Setup(m => m.ExecuteSqlCommand("four")).Returns(_fourgrams);
+            _dataMock.Setup(m => m.ExecuteSqlCommand("uni1")).Returns(_unigrams);
+            _dataMock.Setup(m => m.ExecuteSqlCommand("di1")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(di1); return tmp;});
+            _dataMock.Setup(m => m.ExecuteSqlCommand("di2")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(di2); return tmp;});
+            _dataMock.Setup(m => m.ExecuteSqlCommand("di3")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(di3); return tmp; });
+            _dataMock.Setup(m => m.ExecuteSqlCommand("di4")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(di4); return tmp; });
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri1")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri1); return tmp;});
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri2")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri2); return tmp;});
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri3")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri3); return tmp;});
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri4")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri4); return tmp;});
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri5")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri5); return tmp;});
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri6")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri6); return tmp;});
+            _dataMock.Setup(m => m.ExecuteSqlCommand("four1")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(four1); return tmp; });
+            _dataMock.Setup(m => m.ExecuteSqlCommand("four2")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(four2); return tmp; });
+            _dataMock.Setup(m => m.ExecuteSqlCommand("four3")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(four3); return tmp; });
+            _dataMock.Setup(m => m.ExecuteSqlCommand("four4")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(four4); return tmp; });
 
-            _queryProviderMock.Setup(m => m.CheckWordsInUnigramFromTable(It.IsAny<List<string>>())).Returns("uni");
-            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Bigram, It.IsAny<List<string>>())).Returns("di");
-            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Trigram, It.IsAny<List<string>>())).Returns("tri");
-            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Quadrigram, It.IsAny<List<string>>())).Returns("four");
+            _queryProviderMock.Setup(m => m.CheckWordsInUnigramFromTable(It.IsAny<List<string>>())).Returns("uni1");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Bigram, new List<string>() {"za", "przyj璚iem"})).Returns("di1");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Bigram, new List<string>() { "za", "przyjeciem" })).Returns("di2");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Bigram, new List<string>() { "przyjeciem", "uchwaly" })).Returns("di3");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Bigram, new List<string>() { "przyj璚iem", "uchwa造" })).Returns("di4");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Trigram, new List<string>() { "za", "przyj璚iem", "nowej" })).Returns("tri1");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Trigram, new List<string>() { "za", "przyjeciem", "nowej" })).Returns("tri2");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Trigram, new List<string>() { "przyj璚iem", "nowej", "uchwa造" })).Returns("tri3");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Trigram, new List<string>() { "przyjeciem", "nowej", "uchwa造" })).Returns("tri4");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Trigram, new List<string>() { "nowej", "uchwa造", "z" })).Returns("tri5");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Trigram, new List<string>() { "nowej", "uchwaly", "z" })).Returns("tri6");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Quadrigram, new List<string>() { "za", "przyj璚iem", "nowej", "uchwa造" })).Returns("four1");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Quadrigram, new List<string>() { "za", "przyjeciem", "nowej", "uchwa造" })).Returns("four2");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Quadrigram, new List<string>() { "przyj璚iem", "nowej", "uchwa造", "z" })).Returns("four3");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Quadrigram, new List<string>() { "przyjeciem", "nowej", "uchwa造", "z" })).Returns("four4");
 
             _diacriticAdderMock.Setup(m => m.Start("za", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
@@ -112,7 +142,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Bigram);
             var result = analyze.AnalyzeString("za przyjeciem");
 
-            Assert.Equal(new List<string>{"za", "przyj璚iem"}, result);
+            Assert.Equal(new List<string>{"za"," ","przyj璚iem"}, result);
         }
 
         [Fact]
@@ -124,7 +154,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Trigram);
             var result = analyze.AnalyzeString("za przyjeciem nowej");
 
-            Assert.Equal(new List<string> { "za", "przyj璚iem", "nowej" }, result);
+            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "nowej" }, result);
         }
 
         [Fact]
@@ -136,7 +166,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Trigram);
             var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly");
 
-            Assert.Equal(new List<string> { "za", "przyj璚iem", "nowej", "uchwa造" }, result);
+            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "nowej"," ", "uchwa造" }, result);
         }
 
         [Fact]
@@ -148,7 +178,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Trigram);
             var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly z");
 
-            Assert.Equal(new List<string> { "za", "przyj璚iem", "nowej", "uchwa造", "z" }, result);
+            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "nowej"," ", "uchwa造"," ", "z" }, result);
         }
 
         [Fact]
@@ -160,7 +190,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Quadrigram);
             var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly");
 
-            Assert.Equal(new List<string> { "za", "przyj璚iem", "nowej", "uchwa造"}, result);
+            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "nowej"," ", "uchwa造"}, result);
         }
 
         [Fact]
@@ -172,7 +202,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Quadrigram);
             var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly z");
 
-            Assert.Equal(new List<string> { "za", "przyj璚iem", "nowej", "uchwa造", "z" }, result);
+            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "nowej"," ", "uchwa造"," ", "z" }, result);
         }
 
         [Fact]
@@ -209,7 +239,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Bigram);
             var result = analyze.AnalyzeString("za przyjeciem uchwaly");
 
-            Assert.Equal(new List<string> { "za", "przyj璚iem", "uchwa造" }, result);
+            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "uchwa造" }, result);
         }
 
         [Fact]
@@ -222,9 +252,20 @@ namespace NgramAnalyzerTests.Unit
             var ds2 = new DataSet();
             ds2.Tables.Add(tab2);
 
+            var tab1 = new DataTable();
+            tab1.Columns.Add("ID", typeof(int));
+            tab1.Columns.Add("Value", typeof(int));
+            tab1.Columns.Add("Word1", typeof(string));
+            tab1.Columns.Add("Word2", typeof(string));
+            var ds1 = new DataSet();
+            ds1.Tables.Add(tab1);
+
             var dataMock = new Mock<IDataAccess>();
-            dataMock.Setup(m => m.ExecuteSqlCommand("uni")).Returns(ds2);
-            dataMock.Setup(m => m.ExecuteSqlCommand("di")).Returns(_digrams);
+            dataMock.Setup(m => m.ExecuteSqlCommand("uni1")).Returns(ds2);
+            dataMock.Setup(m => m.ExecuteSqlCommand("di1")).Returns(ds1);
+            dataMock.Setup(m => m.ExecuteSqlCommand("di2")).Returns(ds1);
+            dataMock.Setup(m => m.ExecuteSqlCommand("di3")).Returns(ds1);
+            dataMock.Setup(m => m.ExecuteSqlCommand("di4")).Returns(ds1);
 
             var analyze = new Analyzer(_diacriticAdderMock.Object);
             analyze.SetData(dataMock.Object);
@@ -232,7 +273,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Bigram);
             var result = analyze.AnalyzeString("za przyjeciem uchwaly");
 
-            Assert.Equal(new List<string> { "za", "przyjeciem", "uchwaly" }, result);
+            Assert.Equal(new List<string> { "za"," ", "przyjeciem"," ", "uchwaly" }, result);
         }
 
         [Fact]
@@ -244,7 +285,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Bigram);
             var result = analyze.AnalyzeString("za przyjeciem");
 
-            Assert.Equal(new List<string> { "za", "przyj璚iem"}, result);
+            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"}, result);
         }
     }
 }

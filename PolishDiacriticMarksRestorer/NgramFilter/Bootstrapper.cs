@@ -6,6 +6,7 @@ using System.IO.Abstractions;
 using System.Linq;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
+using System.Threading;
 
 namespace NgramFilter
 {
@@ -20,6 +21,7 @@ namespace NgramFilter
         private readonly IFileSystem _fileSystem;
         private readonly IDataBaseManagerFactory _dataAccess;
         private readonly NgramAnalyzer.Interfaces.IQueryProvider _provider;
+        private bool end = false;
         #endregion
 
         #region CONSTRUCTORS
@@ -137,16 +139,33 @@ namespace NgramFilter
                     creator.AddNgramsToTable(tableName, ngrams);
                 else
                     creator.AddOrUpdateNgramsToTable(tableName, ngrams);
+                Console.WriteLine("");
+
+                var thread = new Thread(Indexing);
+                thread.Start();
 
                 creator.IndexingWords(dbName, tableName, wordListLength);
-
+                end = true;
+                Thread.Sleep(200);
                 Console.WriteLine("Ukończono pomyślnie");
             }
         }
         #endregion
 
         #region PRIVATE
-
+        private void Indexing()
+        {
+            while (!end)
+            {
+                Console.Write("Indexing.");
+                Thread.Sleep(1000);
+                Console.Write(".");
+                Thread.Sleep(1000);
+                Console.Write(".");
+                Thread.Sleep(1000);
+                Console.Write("\r              \r");
+            }
+        }
         #endregion
     }
 }

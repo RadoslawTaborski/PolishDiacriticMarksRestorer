@@ -97,6 +97,7 @@ namespace NgramAnalyzer.Common
             var command = _connectionServer.CreateCommand();
             command.CommandType = CommandType.Text;
             command.CommandText = query;
+            command.CommandTimeout = 2147483;
             command.ExecuteNonQuery();
         }
 
