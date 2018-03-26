@@ -21,7 +21,7 @@ namespace NgramFilter
         private readonly IFileSystem _fileSystem;
         private readonly IDataBaseManagerFactory _dataAccess;
         private readonly NgramAnalyzer.Interfaces.IQueryProvider _provider;
-        private bool end = false;
+        private bool _end;
         #endregion
 
         #region CONSTRUCTORS
@@ -145,7 +145,7 @@ namespace NgramFilter
                 thread.Start();
 
                 creator.IndexingWords(dbName, tableName, wordListLength);
-                end = true;
+                _end = true;
                 Thread.Sleep(200);
                 Console.WriteLine("Ukończono pomyślnie");
             }
@@ -155,7 +155,7 @@ namespace NgramFilter
         #region PRIVATE
         private void Indexing()
         {
-            while (!end)
+            while (!_end)
             {
                 Console.Write("Indexing.");
                 Thread.Sleep(1000);

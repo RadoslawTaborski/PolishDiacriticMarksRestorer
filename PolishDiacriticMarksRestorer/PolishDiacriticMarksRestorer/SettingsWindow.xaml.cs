@@ -9,7 +9,7 @@ namespace PolishDiacriticMarksRestorer
     /// <summary>
     /// Interaction logic for SettingsWindow.xaml.
     /// </summary>
-    /// <seealso cref="System.Windows.Window" />
+    /// <seealso cref="Window" />
     /// <seealso cref="System.Windows.Markup.IComponentConnector" />
     public partial class SettingsWindow
     {

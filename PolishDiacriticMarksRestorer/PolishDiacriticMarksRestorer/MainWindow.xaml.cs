@@ -71,18 +71,27 @@ namespace PolishDiacriticMarksRestorer
 
             for (var i = 0; i < _analyzer.InputWithWhiteMarks.Count(); ++i)
             {
+                var i1 = i;
                 Dispatcher.Invoke(() =>
                 {
-                    if (lists[i].Count() == 0)
-                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.Firebrick), new SolidColorBrush(Colors.White));
-                    if (lists[i].Count() == 1 && _analyzer.InputWithWhiteMarks[i] != resultsArray[i])
-                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.LimeGreen), new SolidColorBrush(Colors.Black));
-                    if (lists[i].Count() == 1 && _analyzer.InputWithWhiteMarks[i] == resultsArray[i])
-                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.Transparent), (SolidColorBrush)(FindResource("MyAzure")));
-                    if (lists[i].Count() > 1 && _analyzer.InputWithWhiteMarks[i] != resultsArray[i])
-                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.GreenYellow), new SolidColorBrush(Colors.Black));
-                    if (lists[i].Count() > 1 && _analyzer.InputWithWhiteMarks[i] == resultsArray[i])
-                        RtbResult.AppendTextColors(resultsArray[i], new SolidColorBrush(Colors.Gold), new SolidColorBrush(Colors.Black));
+                    switch (lists[i1].Count())
+                    {
+                        case 0:
+                            RtbResult.AppendTextColors(resultsArray[i1], new SolidColorBrush(Colors.Firebrick), new SolidColorBrush(Colors.White));
+                            break;
+                        case 1 when _analyzer.InputWithWhiteMarks[i1] != resultsArray[i1]:
+                            RtbResult.AppendTextColors(resultsArray[i1], new SolidColorBrush(Colors.LimeGreen), new SolidColorBrush(Colors.Black));
+                            break;
+                        case 1 when _analyzer.InputWithWhiteMarks[i1] == resultsArray[i1]:
+                            RtbResult.AppendTextColors(resultsArray[i1], new SolidColorBrush(Colors.Transparent), (SolidColorBrush)(FindResource("MyAzure")));
+                            break;
+                        case int n when n > 1 && _analyzer.InputWithWhiteMarks[i1] != resultsArray[i1]:
+                            RtbResult.AppendTextColors(resultsArray[i1], new SolidColorBrush(Colors.GreenYellow), new SolidColorBrush(Colors.Black));
+                            break;
+                        case int n when n > 1 && _analyzer.InputWithWhiteMarks[i1] == resultsArray[i1]:
+                            RtbResult.AppendTextColors(resultsArray[i1], new SolidColorBrush(Colors.Gold), new SolidColorBrush(Colors.Black));
+                            break;
+                    }
                 });
             }
             Dispatcher.Invoke(() =>
@@ -121,12 +130,6 @@ namespace PolishDiacriticMarksRestorer
             {
                 Info.Content = $"Czas wykonywania: {new DateTime(time.Ticks):HH:mm:ss.f}";
             });
-        }
-
-        private string ReturnForm(string older, List<string> newer)
-        {
-            string result = "";
-            return result;
         }
         #endregion
 

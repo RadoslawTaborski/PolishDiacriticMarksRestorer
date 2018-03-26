@@ -21,10 +21,10 @@ namespace NgramAnalyzer
         private readonly IDictionary _dictionary;
         private readonly IDiacriticMarksAdder _diacriticAdder;
         private NgramType _ngramType;
-        private static readonly string[] delimiters = new string[] { " ", "\r\n", "\t" };
+        private readonly string[] _delimiters = { " ", "\r\n", "\t" };
         public List<string> Input { get; private set; }
         public List<string> InputWithWhiteMarks { get; private set; }
-        public List<string> WordsCombinations { get; private set; }
+       // public List<string> WordsCombinations { get; private set; }
         #endregion
 
         #region CONSTRUCTORS
@@ -82,8 +82,8 @@ namespace NgramAnalyzer
 
         public int SetWords(string text)
         {
-            Input = text.Split(delimiters, StringSplitOptions.RemoveEmptyEntries).ToList();
-            InputWithWhiteMarks = text.SplitAndKeep(delimiters).ToList();
+            Input = text.Split(_delimiters, StringSplitOptions.RemoveEmptyEntries).ToList();
+            InputWithWhiteMarks = text.SplitAndKeep(_delimiters).ToList();
             return Input.Count();
         }
 
@@ -94,7 +94,7 @@ namespace NgramAnalyzer
             foreach (var item in InputWithWhiteMarks)
             {
                 var flag = false;
-                foreach (var elem in delimiters)
+                foreach (var elem in _delimiters)
                 {
                     if (item == elem)
                     {
@@ -118,9 +118,9 @@ namespace NgramAnalyzer
         /// <summary>
         /// This method analyze correctness input.
         /// </summary>
-        /// <param name="strList">Array of strings to analyze.</param>
+        /// <param name="str">text to analyze.</param>
         /// <returns>
-        /// String array with result of analyze.
+        /// String array with result of analyze toghether with white marks.
         /// </returns>
         /// <inheritdoc />
         public List<string> AnalyzeString(string str)
@@ -133,19 +133,19 @@ namespace NgramAnalyzer
 
             if (Input.Count < length) return Input;
             var start = DateTime.Now;
-            var CombinationWords = CreateCombinationsWordList(Input);
+            var combinationWords = CreateCombinationsWordList(Input);
             var stop = DateTime.Now;
             var time = stop - start;
             Console.WriteLine($"Czas generowania kombinacji słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
 
             start = DateTime.Now;
-            CombinationWords = _dictionary != null ? _dictionary.CheckWords(CombinationWords) : CheckWords(CombinationWords);
+            combinationWords = _dictionary != null ? _dictionary.CheckWords(combinationWords) : CheckWords(combinationWords);
             stop = DateTime.Now;
             time = stop - start;
             Console.WriteLine($"Czas sprawdzania słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
 
             start = DateTime.Now;
-            var ngramVariants = CreateNgramVariantsList(Input, CombinationWords, length);
+            var ngramVariants = CreateNgramVariantsList(Input, combinationWords, length);
             stop = DateTime.Now;
             time = stop - start;
             Console.WriteLine($"Czas generowania kombinacji ngramów: {new DateTime(time.Ticks):HH:mm:ss.f}");
@@ -194,7 +194,6 @@ namespace NgramAnalyzer
 
         private IEnumerable<NGram> GetAllData(List<NGramVariants> wordLists)
         {
-            var data = new System.Data.DataSet();
             var ngramsList = new List<NGram>();
             var ngramVariants = new List<NGram>();
 
@@ -212,7 +211,7 @@ namespace NgramAnalyzer
             _db.ConnectToDb();
             foreach (var elem in ngramVariants)
             {
-                data = _db.ExecuteSqlCommand(_queryProvider.GetTheSameNgramsFromTable(_ngramType, elem.WordsList));
+                var data = _db.ExecuteSqlCommand(_queryProvider.GetTheSameNgramsFromTable(_ngramType, elem.WordsList));
                 for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
                 {
                     var dataRow = data.Tables[0].Rows[i].ItemArray;
@@ -366,7 +365,7 @@ namespace NgramAnalyzer
             for (var i = 0; i < copy.Count(); ++i)
             {
                 var flag = false;
-                foreach (var elem in delimiters)
+                foreach (var elem in _delimiters)
                 {
                     if (copy[i] == elem)
                     {

@@ -1,5 +1,4 @@
 using Xunit;
-using EffectivenessResearch;
 
 namespace EffectivenessResearchTests.Unit
 {

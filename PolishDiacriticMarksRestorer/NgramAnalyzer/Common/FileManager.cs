@@ -1,7 +1,7 @@
-﻿using System.IO;
-using System.Linq;
-using NgramAnalyzer.Interfaces;
+﻿using NgramAnalyzer.Interfaces;
+using System.IO;
 using System.IO.Abstractions;
+using System.Linq;
 
 namespace NgramAnalyzer.Common
 {

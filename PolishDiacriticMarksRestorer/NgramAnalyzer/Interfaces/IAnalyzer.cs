@@ -8,9 +8,9 @@ namespace NgramAnalyzer.Interfaces
         /// <summary>
         /// This method analyze correctness input.
         /// </summary>
-        /// <param name="strArray">array of strings to analyze.</param>
+        /// <param name="text">text to analyze.</param>
         /// <returns>
-        /// string array with result of analyze.
+        /// strings list with result of analyze together with white marks.
         /// </returns>
         List<string> AnalyzeString(string text);
         /// <summary>

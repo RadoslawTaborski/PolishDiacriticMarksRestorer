@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace NgramAnalyzer.Common
@@ -58,26 +59,22 @@ namespace NgramAnalyzer.Common
 
         public static int IndexOfAny(this string test, string[] anyOf, int startIndex, out string delimiter)
         {
-            int first = -1;
+            var first = -1;
             delimiter = "";
-            foreach (string item in anyOf)
+            foreach (var item in anyOf)
             {
-                int i = test.IndexOf(item, startIndex);
-                if (i >= 0)
+                var i = test.IndexOf(item, startIndex, StringComparison.Ordinal);
+                if (i < 0) continue;
+                if (first > 0)
                 {
-                    if (first > 0)
-                    {
-                        if (i < first)
-                        {
-                            first = i;
-                            delimiter = item;
-                        }
-                    }
-                    else
-                    {
-                        first = i;
-                        delimiter = item;
-                    }
+                    if (i >= first) continue;
+                    first = i;
+                    delimiter = item;
+                }
+                else
+                {
+                    first = i;
+                    delimiter = item;
                 }
             }
             return first;
@@ -86,7 +83,7 @@ namespace NgramAnalyzer.Common
         public static IEnumerable<string> SplitAndKeep(this string s, string[] delimiters)
         {
             int start = 0, index;
-            while ((index = s.IndexOfAny(delimiters, start, out string delimiter)) != -1)
+            while ((index = s.IndexOfAny(delimiters, start, out var delimiter)) != -1)
             {
                 if (index - start > 0)
                     yield return s.Substring(start, index - start);
