@@ -31,6 +31,7 @@ namespace PolishDiacriticMarksRestorer
         private DateTime _start;
         private DateTime _stop;
         public static readonly string Path = "settings.dat";
+        private List<List<string>> _lists;
         #endregion
 
         #region CONSTRUCTORS
@@ -60,7 +61,7 @@ namespace PolishDiacriticMarksRestorer
             _timer.Start();
             _start = DateTime.Now;
             var resultsArray = _analyzer.AnalyzeString(text);
-            var lists = _analyzer.CreateWordsCombinations();
+            _lists = _analyzer.CreateWordsCombinations();
 
             Dispatcher.Invoke(() =>
             {
@@ -74,7 +75,7 @@ namespace PolishDiacriticMarksRestorer
                 var i1 = i;
                 Dispatcher.Invoke(() =>
                 {
-                    switch (lists[i1].Count())
+                    switch (_lists[i1].Count())
                     {
                         case 0:
                             RtbResult.AppendTextColors(resultsArray[i1], new SolidColorBrush(Colors.Firebrick), new SolidColorBrush(Colors.White));
@@ -172,6 +173,31 @@ namespace PolishDiacriticMarksRestorer
             {
                 MessageBox.Show(ex.Message);
             }
+        }
+
+        private void Rtb_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            RtbResult.SetCarretPosiotion(Mouse.GetPosition((RtbResult)));
+            CheckSpeling();
+        }
+
+        public delegate void UpdateInterface();
+
+        private void CheckSpeling()
+        {
+            var word = RtbResult.GetSelectedWord();
+            var results = new List<string>();
+
+            foreach (var item in _lists)
+            {
+                foreach (var elem in item)
+                {
+                    if (word.Text == elem)
+                        results = item;
+                }
+            }
+
+            RtbResult.SetContextMenu(results);
         }
 
         #region TITLE_BAR

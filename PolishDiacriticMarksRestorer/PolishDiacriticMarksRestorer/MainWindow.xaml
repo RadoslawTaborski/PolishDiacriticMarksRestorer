@@ -39,7 +39,7 @@
             </Border>
 
             <Border  Style="{StaticResource MyBorder}" BorderThickness="1" Margin="3,40,12,0" Grid.Row="0" Grid.Column="1">
-                <RichTextBox x:Name="RtbResult" Style="{StaticResource MyRichTextBox}" Margin="6,6,6,6">
+                <RichTextBox x:Name="RtbResult" Style="{StaticResource MyRichTextBox}" Margin="6,6,6,6" MouseRightButtonUp="Rtb_MouseRightButtonUp">
                     <FlowDocument>
                         <Paragraph>
                             <Run Text=""/>
