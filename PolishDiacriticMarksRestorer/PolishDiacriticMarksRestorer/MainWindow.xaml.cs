@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -190,14 +191,11 @@ namespace PolishDiacriticMarksRestorer
 
             foreach (var item in _lists)
             {
-                foreach (var elem in item)
-                {
-                    if (word.Text == elem)
-                        results = item;
-                }
+                if(item.Contains(word.Text))
+                    results = item;
             }
 
-            RtbResult.SetContextMenu(results);
+            RtbResult.SetContextMenu(results, new Regex("[ĄĆĘŁŃÓŚŻŹąćęłńóśżź]"), new SolidColorBrush(Colors.Black), new SolidColorBrush(Colors.LimeGreen), (SolidColorBrush)(FindResource("MyAzure")), new SolidColorBrush(Colors.Transparent));
         }
 
         #region TITLE_BAR

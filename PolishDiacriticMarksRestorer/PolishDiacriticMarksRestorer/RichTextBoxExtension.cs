@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -53,15 +54,15 @@ namespace PolishDiacriticMarksRestorer
 
             // ******************************************************************************************
 
-            var l = 0;
+            var l = -1;
             for (var i = s1.Length - 1; i >= 0; --i)
                 if (IsWhiteChar(s1[i]))
                 {
                     l = i;
                     break;
                 }
-            // if (l != -1)
-            s1 = s1.Remove(0, l);
+            if (l != -1)
+                s1 = s1.Remove(0, l+1);
 
             var r = -1;
             for (var i = 0; i < s2.Length; ++i)
@@ -78,13 +79,21 @@ namespace PolishDiacriticMarksRestorer
             return tr;
         }
 
-        public static void SetContextMenu(this RichTextBox rtb, List<string> words)
+        public static void SetContextMenu(this RichTextBox rtb, List<string> words,Regex rgx, SolidColorBrush f1, SolidColorBrush b1, SolidColorBrush f2, SolidColorBrush b2)
         {
+
             rtb.RemoveContextMenu();
+            if (!words.Any())
+            {
+                rtb.ContextMenu = null;
+                return;
+            }
             rtb.ContextMenu = new ContextMenu();
             foreach (var word in words)
             {
-                rtb.ContextMenu?.Items.Add(CreateMenuItem(word, rtb));
+                rtb.ContextMenu?.Items.Add(rgx.IsMatch(word)
+                    ? CreateMenuItem(word, rtb, f1, b1)
+                    : CreateMenuItem(word, rtb, f2, b2));
             }
         }
 
@@ -96,25 +105,25 @@ namespace PolishDiacriticMarksRestorer
                 items.RemoveAt(i);
         }
 
-        private static MenuItem CreateMenuItem(string word, RichTextBox rtb)
+        private static MenuItem CreateMenuItem(string word, RichTextBox rtb, SolidColorBrush foreground, SolidColorBrush background)
         {
             var m = new MenuItem
             {
                 Header = word,
                 Tag = rtb
             };
-            m.Click += ChangeWord;
+            m.Click += (sender,e) => ChangeWord(e,foreground,background);
             return m;
         }
 
-        private static void ChangeWord(object sender, RoutedEventArgs e)
+        private static void ChangeWord(RoutedEventArgs e, SolidColorBrush foreground, SolidColorBrush background)
         {
             var m = (MenuItem)e.OriginalSource;
             var rtb = (RichTextBox)m.Tag;
             var word = rtb.GetSelectedWord();
             word.Text = m.Header.ToString();
-            word.ApplyPropertyValue(TextElement.BackgroundProperty, new SolidColorBrush(Colors.LimeGreen));
-            word.ApplyPropertyValue(TextElement.ForegroundProperty, new SolidColorBrush(Colors.Black));
+            word.ApplyPropertyValue(TextElement.BackgroundProperty, background);
+            word.ApplyPropertyValue(TextElement.ForegroundProperty, foreground);
         }
 
         public static void ColorFont(this TextRange tr, SolidColorBrush color)
