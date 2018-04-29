@@ -79,7 +79,7 @@ namespace PolishDiacriticMarksRestorer
             return tr;
         }
 
-        public static void SetContextMenu(this RichTextBox rtb, List<string> words,Regex rgx, SolidColorBrush f1, SolidColorBrush b1, SolidColorBrush f2, SolidColorBrush b2)
+        public static void SetContextMenu(this RichTextBox rtb, List<string> words,Regex rgx, SolidColorBrush f1, SolidColorBrush b1, SolidColorBrush f2, SolidColorBrush b2, SolidColorBrush cmBackground, SolidColorBrush mBackground, SolidColorBrush mForeground)
         {
 
             rtb.RemoveContextMenu();
@@ -88,12 +88,15 @@ namespace PolishDiacriticMarksRestorer
                 rtb.ContextMenu = null;
                 return;
             }
-            rtb.ContextMenu = new ContextMenu();
+            rtb.ContextMenu = new ContextMenu
+            {
+                Background = cmBackground,
+            };
             foreach (var word in words)
             {
                 rtb.ContextMenu?.Items.Add(rgx.IsMatch(word)
-                    ? CreateMenuItem(word, rtb, f1, b1)
-                    : CreateMenuItem(word, rtb, f2, b2));
+                    ? CreateMenuItem(word, rtb, f1, b1, mBackground, mForeground)
+                    : CreateMenuItem(word, rtb, f2, b2, mBackground, mForeground));
             }
         }
 
@@ -105,12 +108,14 @@ namespace PolishDiacriticMarksRestorer
                 items.RemoveAt(i);
         }
 
-        private static MenuItem CreateMenuItem(string word, RichTextBox rtb, SolidColorBrush foreground, SolidColorBrush background)
+        private static MenuItem CreateMenuItem(string word, RichTextBox rtb, SolidColorBrush foreground, SolidColorBrush background, SolidColorBrush menuBackground, SolidColorBrush menuForeground)
         {
             var m = new MenuItem
             {
                 Header = word,
-                Tag = rtb
+                Tag = rtb,
+                Background   = menuBackground,
+                Foreground = menuForeground,
             };
             m.Click += (sender,e) => ChangeWord(e,foreground,background);
             return m;

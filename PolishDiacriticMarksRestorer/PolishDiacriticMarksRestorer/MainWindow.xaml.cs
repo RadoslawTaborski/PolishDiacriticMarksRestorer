@@ -10,6 +10,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using NgramAnalyzer;
 using NgramAnalyzer.Common;
@@ -40,6 +41,7 @@ namespace PolishDiacriticMarksRestorer
         {
             InitializeComponent();
             RtbResult.IsReadOnly = true;
+            BtnSave.IsEnabled = false;
             Load(Path);
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
             var queryProvider = Settings.AlphabeticalTables
@@ -100,6 +102,8 @@ namespace PolishDiacriticMarksRestorer
             {
                 LoadingBar.Visibility = Visibility.Hidden;
                 BtnStart.IsEnabled = true;
+                BtnSave.IsEnabled = true;
+                BtnLoad.IsEnabled = true;
             });
         }
 
@@ -146,6 +150,8 @@ namespace PolishDiacriticMarksRestorer
             LoadingBar.Visibility = Visibility.Visible;
             BtnStart.IsEnabled = false;
             RtbResult.Document.Blocks.Clear();
+            BtnSave.IsEnabled = false;
+            BtnLoad.IsEnabled = false;
             var text = new TextRange(RtbInput.Document.ContentStart, RtbInput.Document.ContentEnd).Text;
             var count = _analyzer.SetWords(text);
             Info2.Content = $"Liczba słów: {count}";
@@ -195,7 +201,7 @@ namespace PolishDiacriticMarksRestorer
                     results = item;
             }
 
-            RtbResult.SetContextMenu(results, new Regex("[ĄĆĘŁŃÓŚŻŹąćęłńóśżź]"), new SolidColorBrush(Colors.Black), new SolidColorBrush(Colors.LimeGreen), (SolidColorBrush)(FindResource("MyAzure")), new SolidColorBrush(Colors.Transparent));
+            RtbResult.SetContextMenu(results, new Regex("[ĄĆĘŁŃÓŚŻŹąćęłńóśżź]"), new SolidColorBrush(Colors.Black), new SolidColorBrush(Colors.LimeGreen), (SolidColorBrush)(FindResource("MyAzure")), new SolidColorBrush(Colors.Transparent), (SolidColorBrush)(FindResource("MyLightGrey")), (SolidColorBrush)(FindResource("MyDarkGrey")), (SolidColorBrush)(FindResource("MyAzure")));
         }
 
         #region TITLE_BAR
@@ -307,6 +313,52 @@ namespace PolishDiacriticMarksRestorer
             Application.Current.Shutdown();
         }
         #endregion
+
         #endregion
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var window = new SaveFileDialog {Filter = "Pliki (txt)|*.txt"};
+                if (window.ShowDialog() == true && window.FileName != "")
+                {
+                    var path = window.FileName;
+                    var richText = new TextRange(RtbResult.Document.ContentStart, RtbResult.Document.ContentEnd).Text;
+                    using (var writetext = new StreamWriter(path))
+                    {
+                        writetext.Write(richText);
+                    }
+                }
+                var dialog = new Message("Komunikat", "Zapis do pliku udany");
+                dialog.ShowDialog();
+            }
+            catch (Exception)
+            {
+                var dialog = new Message("Komunikat", "Błąd zapisu pliku");
+                dialog.ShowDialog();
+            }
+        }
+
+        private void BtnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var window = new OpenFileDialog {Filter = "Pliki (txt)|*.txt"};
+                if (window.ShowDialog() != true) return;
+                var path = window.FileName;
+                using (var sr = new StreamReader(path))
+                {
+                    var line = sr.ReadToEnd();
+                    RtbInput.Document.Blocks.Clear();
+                    RtbInput.Document.Blocks.Add(new Paragraph(new Run(line)));
+                }
+            }
+            catch (Exception)
+            {
+                var dialog = new Message("Komunikat", "Błąd odczytu pliku");
+                dialog.ShowDialog();
+            }
+        }
     }
 }
