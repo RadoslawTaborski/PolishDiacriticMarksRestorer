@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace NgramAnalyzer.Common
@@ -109,6 +110,65 @@ namespace NgramAnalyzer.Common
                     return indexes;
                 indexes.Add(index);
             }
+        }
+
+        public static string RemoveDiacritics(this string s)
+        {
+            var rgx = new Regex("[ĄĆĘŁŃÓŚŻŹąćęłńóśżź]");
+            if (!rgx.IsMatch(s)) return s;
+            
+            var sb= new StringBuilder(s);
+            for (var i = 0; i < sb.Length; i++)
+            {
+                sb[i]=NormalizeChar(sb[i]);
+            }
+
+            return sb.ToString();
+        }
+        #endregion
+
+        #region PRIVATE
+        private static char NormalizeChar(char c)
+        {
+            switch (c)
+            {
+                case 'ą':
+                    return 'a';
+                case 'ć':
+                    return 'c';
+                case 'ę':
+                    return 'e';
+                case 'ł':
+                    return 'l';
+                case 'ń':
+                    return 'n';
+                case 'ó':
+                    return 'o';
+                case 'ś':
+                    return 's';
+                case 'ż':
+                case 'ź':
+                    return 'z';
+                case 'Ą':
+                    return 'A';
+                case 'Ć':
+                    return 'C';
+                case 'Ę':
+                    return 'E';
+                case 'Ł':
+                    return 'L';
+                case 'Ń':
+                    return 'N';
+                case 'Ó':
+                    return 'O';
+                case 'Ś':
+                    return 'S';
+                case 'Ź':
+                case 'Ż':
+                    return 'Z';
+            }
+
+            return c;
         }
         #endregion
     }

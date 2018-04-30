@@ -13,14 +13,7 @@ namespace NgramFilterTests.Unit
         public void IsCorrect_HasOnlyWords_True(string str)
         {
             var item = new OnlyWords();
-            var ngram = new NGram
-            {
-                WordsList = new List<string>
-                {
-                    str,
-                    "cat"
-                }
-            };
+            var ngram = new NGram(0, new List<string> { str, "cat" });
 
             var result = item.IsCorrect(ngram);
             Assert.True(result);
@@ -32,14 +25,7 @@ namespace NgramFilterTests.Unit
         public void IsCorrect_HasOnlyWords_False(string str)
         {
             var item = new OnlyWords();
-            var ngram = new NGram
-            {
-                WordsList = new List<string>
-                {
-                    str,
-                    "cat"
-                }
-            };
+            var ngram = new NGram(0, new List<string> { str, "cat" });
 
             var result = item.IsCorrect(ngram);
             Assert.False(result);

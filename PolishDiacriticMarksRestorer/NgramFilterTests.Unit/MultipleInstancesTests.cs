@@ -1,4 +1,5 @@
-﻿using NgramAnalyzer.Common;
+﻿using System.Collections.Generic;
+using NgramAnalyzer.Common;
 using NgramFilter.FilterItems;
 using Xunit;
 
@@ -13,10 +14,7 @@ namespace NgramFilterTests.Unit
         public void IsCorrect_HasMultipleInstances_False(int value)
         {
             var item = new MultipleInstances();
-            var ngram = new NGram
-            {
-                Value = value
-            };
+            var ngram = new NGram(value, new List<string>());
 
             var result = item.IsCorrect(ngram);
             Assert.False(result);
@@ -28,10 +26,7 @@ namespace NgramFilterTests.Unit
         public void IsCorrect_HasMultipleInstances_True(int value)
         {
             var item = new MultipleInstances();
-            var ngram = new NGram
-            {
-                Value = value
-            };
+            var ngram = new NGram(value, new List<string>());
 
             var result = item.IsCorrect(ngram);
             Assert.True(result);

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Moq;
 using NgramAnalyzer.Common;
 using Xunit;
@@ -36,8 +37,8 @@ namespace NgramFilterTests.Unit
         public void Start_NGramEdited()
         {
             var mock = new Mock<IModifierItem>();
-            var ngram1 = new NGram {Value = 10};
-            var ngram2 = new NGram{Value = 15};
+            var ngram1 = new NGram (10, new List<string>());
+            var ngram2 = new NGram(15, new List<string>());
             mock.Setup(foo => foo.Edit(ngram1)).Returns(ngram2);
             var modifier = new Modifier();
 
@@ -52,7 +53,7 @@ namespace NgramFilterTests.Unit
         public void Start_NGramUnedit()
         {
             var mock = new Mock<IModifierItem>();
-            var ngram1 = new NGram { Value = 10 };
+            var ngram1 = new NGram(10, new List<string>());
             mock.Setup(foo => foo.Edit(ngram1)).Returns(ngram1);
             var modifier = new Modifier();
 

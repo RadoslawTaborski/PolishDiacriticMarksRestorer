@@ -9,11 +9,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void ChangeSpecialCharacterToDataBaseStringFormat1()
         {
-            var ngram = new NGram
-            {
-                Value = 15,
-                WordsList = new List<string> { @"o\'fehn" }
-            };
+            var ngram = new NGram(15, new List<string> {@"o\'fehn"});
 
             ngram.ChangeSpecialCharacters();
 
@@ -23,11 +19,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void ChangeSpecialCharacterToDataBaseStringFormat2()
         {
-            var ngram = new NGram
-            {
-                Value = 15,
-                WordsList = new List<string> { @"milka's" }
-            };
+            var ngram = new NGram(15, new List<string> {@"milka's"});
 
             ngram.ChangeSpecialCharacters();
 
@@ -37,11 +29,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void ToStringTest_SpecialExample()
         {
-            var ngram = new NGram
-            {
-                Value = 15,
-                WordsList = new List<string> { "{small}", "cat"}
-            };
+            var ngram = new NGram(15, new List<string> {"{small}", "cat"});
 
             var result = ngram.ToString();
 
@@ -51,11 +39,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void ToStringTest_NormalExample()
         {
-            var ngram = new NGram
-            {
-                Value = 15,
-                WordsList = new List<string> { "small", "cat" }
-            };
+            var ngram = new NGram(15, new List<string> {"small", "cat"});
 
             var result = ngram.ToString();
 
@@ -65,11 +49,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void ToStringsTest()
         {
-            var ngram = new NGram
-            {
-                Value = 15,
-                WordsList = new List<string> { "small", "cat" }
-            };
+            var ngram = new NGram(15, new List<string> {"small", "cat"});
 
             var result = ngram.ToStrings();
 
@@ -79,13 +59,9 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void Equals_OneItemNull()
         {
-            var ngram = new NGram
-            {
-                Value = 15,
-                WordsList = new List<string> { "small", "cat" }
-            };
+            var ngram = new NGram(15, new List<string> {"small", "cat"});
 
-            var ngram2 = new NGram{Value = 15};
+            var ngram2 = new NGram(15, new List<string>());
 
             var result = ngram.Equals(ngram2);
             var result2 = ngram2.Equals(ngram);
@@ -97,13 +73,9 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void Equals_DifferentSizeOfWordsList()
         {
-            var ngram = new NGram
-            {
-                Value = 15,
-                WordsList = new List<string> { "small", "cat" }
-            };
+            var ngram = new NGram(15, new List<string> {"small", "cat"});
 
-            var ngram2 = new NGram{Value = 15, WordsList = new List<string>()};
+            var ngram2 = new NGram(15, new List<string>());
 
             var result = ngram.Equals(ngram2);
             var result2 = ngram2.Equals(ngram);

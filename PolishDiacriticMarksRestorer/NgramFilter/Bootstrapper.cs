@@ -64,11 +64,8 @@ namespace NgramFilter
                 while ((str = inputManager.ReadLine()) != null)
                 {
                     var list = str.Split(' ').ToList().Where(s => s != "").ToList();
-                    var ngram = new NGram
-                    {
-                        Value = int.Parse(list[0]),
-                        WordsList = list.GetRange(1, list.Count - 1)
-                    };
+                    var ngram = new NGram(int.Parse(list[0]), list.GetRange(1, list.Count - 1));
+
                     ngram = _modifier.Start(ngram);
                     var filterResult = _filter.Start(ngram);
                     ++counter;
@@ -107,11 +104,8 @@ namespace NgramFilter
                 while ((str = inputManager.ReadLine()) != null)
                 {
                     var list = str.Split(' ').ToList().Where(s => s != "").ToList();
-                    var ngram = new NGram
-                    {
-                        Value = int.Parse(list[0]),
-                        WordsList = list.GetRange(1, list.Count - 1)
-                    };
+                    var ngram = new NGram(int.Parse(list[0]), list.GetRange(1, list.Count - 1));
+
                     if (first)
                     {
                         wordListLength = ngram.WordsList.Count;

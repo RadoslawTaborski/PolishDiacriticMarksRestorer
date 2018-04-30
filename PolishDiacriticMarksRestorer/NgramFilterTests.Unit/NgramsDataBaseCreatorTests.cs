@@ -68,8 +68,8 @@ namespace NgramFilterTests.Unit
         {
             var ngrams = new List<NGram>
             {
-                new NGram {Value = 10, WordsList = new List<string> {"small", "cat"}},
-                new NGram {Value = 10, WordsList = new List<string> {"big", "cat"}}
+                new NGram (10, new List<string> {"small", "cat"}),
+                new NGram (10, new List<string> {"big", "cat"})
             };
 
             const string commandText = "ss";
@@ -121,8 +121,8 @@ namespace NgramFilterTests.Unit
         {
             var ngrams = new List<NGram>
             {
-                new NGram {Value = 10, WordsList = new List<string> {"small", "cat"}},
-                new NGram {Value = 10, WordsList = new List<string> {"big", "cat"}}
+                new NGram (10, new List<string> {"small", "cat"}),
+                new NGram (10, new List<string> {"big", "cat"})
             };
 
             var commandText = "aa";

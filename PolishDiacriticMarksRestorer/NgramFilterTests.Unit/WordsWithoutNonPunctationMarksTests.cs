@@ -20,14 +20,7 @@ namespace NgramFilterTests.Unit
         public void IsCorrect_HasNonPunctionMarks_False(string str)
         {
             var item = new WordsWithoutNonPunctationMarks();
-            var ngram = new NGram
-            {
-                WordsList = new List<string>
-                {
-                    str,
-                    "cat"
-                }
-            };
+            var ngram = new NGram(0, new List<string> { str, "cat" });
 
             var result = item.IsCorrect(ngram);
             Assert.False(result);
@@ -44,14 +37,7 @@ namespace NgramFilterTests.Unit
         public void IsCorrect_HasPunctionMarks_True(string str)
         {
             var item = new WordsWithoutNonPunctationMarks();
-            var ngram = new NGram
-            {
-                WordsList = new List<string>
-                {
-                    str,
-                    "cat"
-                }
-            };
+            var ngram = new NGram(0, new List<string> { str, "cat" });
 
             var result = item.IsCorrect(ngram);
             Assert.True(result);

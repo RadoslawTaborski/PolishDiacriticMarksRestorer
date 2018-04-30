@@ -14,6 +14,7 @@ using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using NgramAnalyzer;
 using NgramAnalyzer.Common;
+using NgramAnalyzer.Interfaces;
 using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 
 namespace PolishDiacriticMarksRestorer
@@ -28,7 +29,7 @@ namespace PolishDiacriticMarksRestorer
     {
         #region FIELDS
 
-        private Analyzer _analyzer;
+        private IAnalyzer _analyzer;
         private readonly Timer _timer = new Timer();
         private DateTime _start;
         private DateTime _stop;
@@ -125,7 +126,9 @@ namespace PolishDiacriticMarksRestorer
         private void ExceptionHandler(Task task1)
         {
             var exception = task1.Exception;
-            if (exception != null) MessageBox.Show(exception.Message);
+            if (exception == null) return;
+            var dialog = new Message("Komunikat", exception.Message);
+            dialog.ShowDialog();
         }
 
         private void OnTimerElapsed(object sender, ElapsedEventArgs e)
@@ -163,22 +166,27 @@ namespace PolishDiacriticMarksRestorer
             }
             catch (MySqlException ex)
             {
+                Message dialog;
                 switch (ex.Number)
                 {
                     case 0:
-                        MessageBox.Show("Nie można połączyć się z serwerem");
+                        dialog = new Message("Komunikat", "Nie można połączyć się z serwerem");
+                        dialog.ShowDialog();
                         break;
                     case 1045:
-                        MessageBox.Show("Nieprawidłowa nazwa użytkownika lub hasło do bazy danych");
+                        dialog = new Message("Komunikat", "Nieprawidłowa nazwa użytkownika lub hasło do bazy danych");
+                        dialog.ShowDialog();
                         break;
                     default:
-                        MessageBox.Show(ex.Message);
+                        dialog = new Message("Komunikat", ex.Message);
+                        dialog.ShowDialog();
                         break;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                var dialog = new Message("Komunikat", ex.Message);
+                dialog.ShowDialog();
             }
         }
 
@@ -197,11 +205,56 @@ namespace PolishDiacriticMarksRestorer
 
             foreach (var item in _lists)
             {
-                if(item.Contains(word.Text))
+                if (item.Contains(word.Text))
                     results = item;
             }
 
             RtbResult.SetContextMenu(results, new Regex("[ĄĆĘŁŃÓŚŻŹąćęłńóśżź]"), new SolidColorBrush(Colors.Black), new SolidColorBrush(Colors.LimeGreen), (SolidColorBrush)(FindResource("MyAzure")), new SolidColorBrush(Colors.Transparent), (SolidColorBrush)(FindResource("MyLightGrey")), (SolidColorBrush)(FindResource("MyDarkGrey")), (SolidColorBrush)(FindResource("MyAzure")));
+        }
+
+        private void BtnSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var window = new SaveFileDialog { Filter = "Pliki (txt)|*.txt" };
+                if (window.ShowDialog() == true && window.FileName != "")
+                {
+                    var path = window.FileName;
+                    var richText = new TextRange(RtbResult.Document.ContentStart, RtbResult.Document.ContentEnd).Text;
+                    using (var writetext = new StreamWriter(path))
+                    {
+                        writetext.Write(richText);
+                    }
+                }
+                var dialog = new Message("Komunikat", "Zapis do pliku udany");
+                dialog.ShowDialog();
+            }
+            catch (Exception)
+            {
+                var dialog = new Message("Komunikat", "Błąd zapisu pliku");
+                dialog.ShowDialog();
+            }
+        }
+
+        private void BtnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var window = new OpenFileDialog { Filter = "Pliki (txt)|*.txt" };
+                if (window.ShowDialog() != true) return;
+                var path = window.FileName;
+                using (var sr = new StreamReader(path))
+                {
+                    var line = sr.ReadToEnd();
+                    RtbInput.Document.Blocks.Clear();
+                    RtbInput.Document.Blocks.Add(new Paragraph(new Run(line)));
+                }
+            }
+            catch (Exception)
+            {
+                var dialog = new Message("Komunikat", "Błąd odczytu pliku");
+                dialog.ShowDialog();
+            }
         }
 
         #region TITLE_BAR
@@ -315,50 +368,5 @@ namespace PolishDiacriticMarksRestorer
         #endregion
 
         #endregion
-
-        private void BtnSave_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var window = new SaveFileDialog {Filter = "Pliki (txt)|*.txt"};
-                if (window.ShowDialog() == true && window.FileName != "")
-                {
-                    var path = window.FileName;
-                    var richText = new TextRange(RtbResult.Document.ContentStart, RtbResult.Document.ContentEnd).Text;
-                    using (var writetext = new StreamWriter(path))
-                    {
-                        writetext.Write(richText);
-                    }
-                }
-                var dialog = new Message("Komunikat", "Zapis do pliku udany");
-                dialog.ShowDialog();
-            }
-            catch (Exception)
-            {
-                var dialog = new Message("Komunikat", "Błąd zapisu pliku");
-                dialog.ShowDialog();
-            }
-        }
-
-        private void BtnLoad_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                var window = new OpenFileDialog {Filter = "Pliki (txt)|*.txt"};
-                if (window.ShowDialog() != true) return;
-                var path = window.FileName;
-                using (var sr = new StreamReader(path))
-                {
-                    var line = sr.ReadToEnd();
-                    RtbInput.Document.Blocks.Clear();
-                    RtbInput.Document.Blocks.Add(new Paragraph(new Run(line)));
-                }
-            }
-            catch (Exception)
-            {
-                var dialog = new Message("Komunikat", "Błąd odczytu pliku");
-                dialog.ShowDialog();
-            }
-        }
     }
 }

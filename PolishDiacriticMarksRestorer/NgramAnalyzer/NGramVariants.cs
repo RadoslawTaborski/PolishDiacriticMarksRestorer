@@ -77,7 +77,7 @@ namespace NgramAnalyzer
 
             foreach (var sequence in res)
             {
-                NgramVariants.Add(new NGram { Value = 0, WordsList = sequence.Split(' ').ToList() });
+                NgramVariants.Add(new NGram(0,sequence.Split(' ').ToList()));
             }
         }
 
@@ -93,7 +93,7 @@ namespace NgramAnalyzer
                 {
                     if (goodNGram.WordsList.SequenceEqual(NgramVariants[i].WordsList))
                     {
-                        NgramVariants[i] = goodNGram;
+                        NgramVariants[i] = new NGram(goodNGram.Value, new List<string>(goodNGram.WordsList));
                     }
                 }
             }

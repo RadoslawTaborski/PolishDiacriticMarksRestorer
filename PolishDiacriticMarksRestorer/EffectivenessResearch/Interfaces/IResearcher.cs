@@ -2,5 +2,6 @@
 {
     interface IResearcher
     {
+        ConfusionMatrix Count();
     }
 }

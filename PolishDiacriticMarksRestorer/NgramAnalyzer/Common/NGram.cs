@@ -11,8 +11,15 @@ namespace NgramAnalyzer.Common
     public struct NGram : IEquatable<NGram>
     {
         #region FIELDS
-        public int Value;
-        public List<string> WordsList;
+        public readonly int Value;
+        public readonly List<string> WordsList;
+
+        public NGram(int value, List<string> wordsList)
+        {
+            Value = value;
+            WordsList = wordsList;
+        }
+
         #endregion
 
         #region OVERRIDES

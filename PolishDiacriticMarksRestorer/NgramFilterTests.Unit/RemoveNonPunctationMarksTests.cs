@@ -12,14 +12,7 @@ namespace NgramFilterTests.Unit
         public void Edit_ReturnTheSameNgram_Equal(string str)
         {
             var item = new RemoveNonPunctationMarks();
-            var ngram = new NGram
-            {
-                WordsList = new List<string>
-                {
-                    str,
-                    "cat"
-                }
-            };
+            var ngram = new NGram(0, new List<string> { str, "cat" });
 
             var result = item.Edit(ngram);
             Assert.Equal(ngram,result);

@@ -13,7 +13,7 @@ namespace NgramAnalyzer
     /// Analyze class compare data form database and input and provides result of Analyze.
     /// </summary>
     /// <seealso cref="NgramAnalyzer.Interfaces.IAnalyzer" />
-    public class Analyzer : IAnalyzer
+    public class Analyzer : Interfaces.IAnalyzer
     {
         #region FIELDS
         private IDataAccess _db;
@@ -21,10 +21,11 @@ namespace NgramAnalyzer
         private readonly IDictionary _dictionary;
         private readonly IDiacriticMarksAdder _diacriticAdder;
         private NgramType _ngramType;
-        private readonly string[] _delimiters = { " ", "\r\n", "\t" };
+
         public List<string> Input { get; private set; }
         public List<string> InputWithWhiteMarks { get; private set; }
-       // public List<string> WordsCombinations { get; private set; }
+        public List<string> Output { get; private set; }
+        // public List<string> WordsCombinations { get; private set; }
         #endregion
 
         #region CONSTRUCTORS
@@ -82,8 +83,8 @@ namespace NgramAnalyzer
 
         public int SetWords(string text)
         {
-            Input = text.Split(_delimiters, StringSplitOptions.RemoveEmptyEntries).ToList();
-            InputWithWhiteMarks = text.SplitAndKeep(_delimiters).ToList();
+            Input = TextSpliter.Split(text).ToList();
+            InputWithWhiteMarks = TextSpliter.SplitAndKeep(text).ToList();
             return Input.Count();
         }
 
@@ -94,22 +95,19 @@ namespace NgramAnalyzer
             foreach (var item in InputWithWhiteMarks)
             {
                 var flag = false;
-                foreach (var elem in _delimiters)
+                foreach (var elem in TextSpliter.Delimiters)
                 {
-                    if (item == elem)
-                    {
-                        result.Add(new List<string>() { item });
-                        flag = true;
-                        break;
-                    }
+                    if (item != elem) continue;
+                    result.Add(new List<string>() { item });
+                    flag = true;
+                    break;
                 }
-                if (!flag)
-                {
-                    var list = CreateCombinationsWord(item);
-                    list =_dictionary != null ? _dictionary.CheckWords(list) : CheckWords(list);
-                    RestoreUpperLetter(item, ref list);
-                    result.Add(list);
-                }
+
+                if (flag) continue;
+                var list = CreateCombinationsWord(item);
+                list =_dictionary != null ? _dictionary.CheckWords(list) : CheckWords(list);
+                RestoreUpperLetter(item, ref list);
+                result.Add(list);
             }
 
             return result;
@@ -136,19 +134,19 @@ namespace NgramAnalyzer
             var combinationWords = CreateCombinationsWordList(Input);
             var stop = DateTime.Now;
             var time = stop - start;
-            Console.WriteLine($"Czas generowania kombinacji słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
+            //Console.WriteLine($"Czas generowania kombinacji słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
 
             start = DateTime.Now;
             combinationWords = _dictionary != null ? _dictionary.CheckWords(combinationWords) : CheckWords(combinationWords);
             stop = DateTime.Now;
             time = stop - start;
-            Console.WriteLine($"Czas sprawdzania słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
+            //Console.WriteLine($"Czas sprawdzania słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
 
             start = DateTime.Now;
             var ngramVariants = CreateNgramVariantsList(Input, combinationWords, length);
             stop = DateTime.Now;
             time = stop - start;
-            Console.WriteLine($"Czas generowania kombinacji ngramów: {new DateTime(time.Ticks):HH:mm:ss.f}");
+            //Console.WriteLine($"Czas generowania kombinacji ngramów: {new DateTime(time.Ticks):HH:mm:ss.f}");
             var ngrams = new List<NGram>();
             time = stop - stop;
             for (var i = 0; i < 1; ++i)
@@ -158,7 +156,7 @@ namespace NgramAnalyzer
                 stop = DateTime.Now;
                 time += stop - start;
             }
-            Console.WriteLine($"Czas pobierania danych SINGLE QUERY: {new DateTime(time.Ticks / 20):HH:mm:ss.f}");
+            //Console.WriteLine($"Czas pobierania danych SINGLE QUERY: {new DateTime(time.Ticks / 20):HH:mm:ss.f}");
 
             start = DateTime.Now;
             foreach (var variant in ngramVariants)
@@ -168,18 +166,18 @@ namespace NgramAnalyzer
             }
             stop = DateTime.Now;
             time = stop - start;
-            Console.WriteLine($"Czas aktualizowania ngramów: {new DateTime(time.Ticks):HH:mm:ss.f}");
+            //Console.WriteLine($"Czas aktualizowania ngramów: {new DateTime(time.Ticks):HH:mm:ss.f}");
 
             start = DateTime.Now;
             var finalVariants = FindTheBestNgramFromNgramsVariants(ngramVariants);
             stop = DateTime.Now;
             time = stop - start;
-            Console.WriteLine($"Czas analizowania: {new DateTime(time.Ticks):HH:mm:ss.f}");
-            Console.WriteLine("Koniec");
+            //Console.WriteLine($"Czas analizowania: {new DateTime(time.Ticks):HH:mm:ss.f}");
+            //Console.WriteLine("Koniec");
 
-            var tmp = AnalyzeNgramsList(finalVariants, length, Input.Count);
+            Output = AnalyzeNgramsList(finalVariants, length, Input.Count);
 
-            return ReturnForm(InputWithWhiteMarks, tmp);
+            return ReturnForm(InputWithWhiteMarks, Output);
         }
         #endregion
 
@@ -204,7 +202,7 @@ namespace NgramAnalyzer
                     ngramVariants.Add(elem);
                 }
             }
-            Console.WriteLine($"INPUT: {ngramVariants.Count}");
+            //Console.WriteLine($"INPUT: {ngramVariants.Count}");
 
             ngramVariants = ngramVariants.Distinct().ToList();
 
@@ -222,7 +220,7 @@ namespace NgramAnalyzer
             }
             _db.Disconnect();
 
-            Console.WriteLine($"OUTPUT: {ngramsList.Count}");
+            //Console.WriteLine($"OUTPUT: {ngramsList.Count}");
 
             //var sortedList = ngramsList.OrderBy(x => x.Value).ThenBy(x => x.WordsList[0]);
             //foreach (var item in sortedList)
@@ -249,17 +247,13 @@ namespace NgramAnalyzer
 
         private NGram? StringArrayToNgram(string[] strArray)
         {
-            var ngram = new NGram();
-            var good = int.TryParse(strArray[1], out ngram.Value);
-            ngram.WordsList = new List<string>();
+            var good = int.TryParse(strArray[1], out var value);
 
             if (!good) return null;
 
-            foreach (var item in strArray.Skip(2))
-            {
-                ngram.WordsList.Add(item);
-            }
+            var list = strArray.Skip(2).ToList();
 
+            var ngram = new NGram(value, list);
             return ngram;
         }
 
@@ -310,7 +304,7 @@ namespace NgramAnalyzer
             for (var j = 0; j < strList.Count - length + 1; j++)
             {
                 var tmp = strList.GetRange(j, length);
-                ngramVariants.Add(new NGramVariants(new NGram { Value = 0, WordsList = tmp }, _diacriticAdder));
+                ngramVariants.Add(new NGramVariants(new NGram(0,tmp), _diacriticAdder));
                 ngramVariants[ngramVariants.Count - 1].CreateVariants(dictionary);
             }
 
@@ -349,7 +343,7 @@ namespace NgramAnalyzer
             for (var i = indexOfWord - length + 1; i <= indexOfWord; ++i)
             {
                 if (i < 0 || i >= ngrams.Count)
-                    result.Add(new NGram { Value = -1 });
+                    result.Add(new NGram(-1,new List<string>()));
                 else
                     result.Add(ngrams[i]);
             }
@@ -364,15 +358,7 @@ namespace NgramAnalyzer
 
             for (var i = 0; i < copy.Count(); ++i)
             {
-                var flag = false;
-                foreach (var elem in _delimiters)
-                {
-                    if (copy[i] == elem)
-                    {
-                        flag = true;
-                        break;
-                    }
-                }
+                var flag = TextSpliter.Delimiters.Any(elem => copy[i] == elem);
                 if (!flag)
                 {
                     copy[i] = "X";

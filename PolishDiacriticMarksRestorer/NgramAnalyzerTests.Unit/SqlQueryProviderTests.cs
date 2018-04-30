@@ -423,8 +423,8 @@ namespace NgramAnalyzerTests.Unit
         {
             var ngrams = new List<NGram>
             {
-                new NGram{Value = 10, WordsList = new List<string>{"a","b"}},
-                new NGram{Value = 20, WordsList = new List<string>{"c","d"}}
+                new NGram(10, new List<string>{"a","b"}),
+                new NGram(20, new List<string>{"c","d"})
             };
             var provider = new SqlQueryProvider();
             var result = provider.InsertNgramsString("TableName", ngrams);
@@ -439,7 +439,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void InsertOrUpdateNgramString()
         {
-            var ngram=new NGram {Value = 10, WordsList = new List<string>{"a", "b"}};
+            var ngram=new NGram (10, new List<string>{"a", "b"});
 
             var provider = new SqlQueryProvider();
             var result = provider.InsertOrUpdateNgramString(ngram);

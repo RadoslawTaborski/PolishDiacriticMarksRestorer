@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
+using Google.Protobuf;
 using NgramAnalyzer.Common;
 
 namespace NgramAnalyzer.Interfaces
 {
-    internal interface IAnalyzer
+    public interface IAnalyzer
     {
+        List<string> Output { get; }
+        List<string> Input { get; }
+        List<string> InputWithWhiteMarks { get; }
         /// <summary>
         /// This method analyze correctness input.
         /// </summary>
