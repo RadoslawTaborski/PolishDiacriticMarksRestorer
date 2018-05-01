@@ -22,7 +22,7 @@ namespace EffectivenessResearch
             var matrix = new ConfusionMatrix();
             if (_orginalText.Count != _inputText.Count || _inputText.Count != _outputText.Count) throw new ArgumentException("One or more texts has wrong size");
 
-            for (var i = 0; i < _orginalText.Count ; i++)
+            for (var i = 0; i < _orginalText.Count; i++)
             {
                 if (_inputText[i] == _orginalText[i] && _orginalText[i] == _outputText[i]) matrix.TrueNegative++;
                 if (_inputText[i] != _orginalText[i] && _orginalText[i] == _outputText[i]) matrix.TruePositive++;

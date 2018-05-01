@@ -96,7 +96,7 @@ namespace NgramFilter
                 var numberOfLines = inputManager.CountLines();
                 var counter = 0;
                 inputManager.Open(FileManagerType.Read);
-                IDataBaseCreator creator = new NgramsDataBaseCreator(dbManager,_provider);
+                IDataBaseCreator creator = new NgramsDataBaseCreator(dbManager, _provider);
 
                 string str;
                 var ngrams = new List<NGram>();

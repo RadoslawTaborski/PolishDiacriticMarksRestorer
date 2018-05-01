@@ -57,7 +57,7 @@ namespace NgramAnalyzer.Common
         /// </returns>
         public IDataAdapter CreateDataAdapter(string query)
         {
-            var da = new MySqlDataAdapter(query, _dbConnection) {SelectCommand = {CommandTimeout = 2147483 } };
+            var da = new MySqlDataAdapter(query, _dbConnection) { SelectCommand = { CommandTimeout = 2147483 } };
             return da;
         }
         #endregion

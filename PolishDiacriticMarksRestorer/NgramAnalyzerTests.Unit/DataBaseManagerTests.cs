@@ -48,7 +48,7 @@ namespace NgramAnalyzerTests.Unit
         public void Disconnect_Verify()
         {
             var connectionMock = new Mock<IDbConnection>();
-            connectionMock.Setup(m=>m.Close()).Verifiable();
+            connectionMock.Setup(m => m.Close()).Verifiable();
 
             var connectionFactoryMock = new Mock<IDataBaseManagerFactory>();
             connectionFactoryMock
@@ -111,7 +111,7 @@ namespace NgramAnalyzerTests.Unit
             commandMock
                 .Setup(m => m.ExecuteNonQuery())
                 .Verifiable();
-            commandMock.SetupProperty(m=>m.CommandText);
+            commandMock.SetupProperty(m => m.CommandText);
 
             var connectionMock = new Mock<IDbConnection>();
             connectionMock

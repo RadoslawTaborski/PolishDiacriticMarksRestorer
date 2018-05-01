@@ -27,7 +27,7 @@ namespace PolishDiacriticMarksRestorer
 
             Name.Text = header;
             RtbInfo.Document.Blocks.Clear();
-            var paragraph = new Paragraph(new Run(body)) {TextAlignment = TextAlignment.Center};
+            var paragraph = new Paragraph(new Run(body)) { TextAlignment = TextAlignment.Center };
             RtbInfo.Document.Blocks.Add(paragraph);
         }
 

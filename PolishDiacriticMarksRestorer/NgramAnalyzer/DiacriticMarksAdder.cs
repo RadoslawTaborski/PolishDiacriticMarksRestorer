@@ -35,7 +35,7 @@ namespace NgramAnalyzer
         /// </returns>
         public List<KeyValuePair<string, int>> Start(string word, int howManyChanges)
         {
-            var result = new List<KeyValuePair<string, int>> {new KeyValuePair<string, int>(word, 0)};
+            var result = new List<KeyValuePair<string, int>> { new KeyValuePair<string, int>(word, 0) };
             foreach (var item in _letterPairs)
             {
                 var tmp = new List<KeyValuePair<string, int>>();

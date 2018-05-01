@@ -23,7 +23,7 @@ namespace PolishDiacriticMarksRestorer
         }
 
         public static int Bound { get; set; } = 14;
-        private static readonly char[] WhiteChars = {' ', '\n', '\t', '\r'};
+        private static readonly char[] WhiteChars = { ' ', '\n', '\t', '\r' };
 
         public static TextRange GetDocument(this RichTextBox rtb)
         {
@@ -37,7 +37,7 @@ namespace PolishDiacriticMarksRestorer
         }
 
         // zwraca słowo na którym jest aktualnie kursor
-            public static TextRange GetSelectedWord(this RichTextBox rtb)
+        public static TextRange GetSelectedWord(this RichTextBox rtb)
         {
             const int bound = 14;
             var x = rtb.Document.ContentStart.GetOffsetToPosition(rtb.CaretPosition);
@@ -62,7 +62,7 @@ namespace PolishDiacriticMarksRestorer
                     break;
                 }
             if (l != -1)
-                s1 = s1.Remove(0, l+1);
+                s1 = s1.Remove(0, l + 1);
 
             var r = -1;
             for (var i = 0; i < s2.Length; ++i)
@@ -79,45 +79,35 @@ namespace PolishDiacriticMarksRestorer
             return tr;
         }
 
-        public static void SetContextMenu(this RichTextBox rtb, List<string> words,Regex rgx, SolidColorBrush f1, SolidColorBrush b1, SolidColorBrush f2, SolidColorBrush b2, SolidColorBrush cmBackground, SolidColorBrush mBackground, SolidColorBrush mForeground)
+        public static void SetContextMenu(this RichTextBox rtb, List<string> words, Regex rgx, SolidColorBrush f1, SolidColorBrush b1, SolidColorBrush f2, SolidColorBrush b2)
         {
 
             rtb.RemoveContextMenu();
-            if (!words.Any())
-            {
-                rtb.ContextMenu = null;
-                return;
-            }
-            rtb.ContextMenu = new ContextMenu
-            {
-                Background = cmBackground,
-            };
+            rtb.ContextMenu?.Items.Add(new Separator());
             foreach (var word in words)
             {
                 rtb.ContextMenu?.Items.Add(rgx.IsMatch(word)
-                    ? CreateMenuItem(word, rtb, f1, b1, mBackground, mForeground)
-                    : CreateMenuItem(word, rtb, f2, b2, mBackground, mForeground));
+                    ? CreateMenuItem(word, rtb, f1, b1)
+                    : CreateMenuItem(word, rtb, f2, b2));
             }
         }
 
         public static void RemoveContextMenu(this RichTextBox rtb)
         {
             var items = rtb.ContextMenu?.Items;
-            if (!(items?.Count > 3)) return;
-            for (var i = items.Count - 1; i > 2; --i)
+            if (!(items?.Count > 1)) return;
+            for (var i = items.Count - 1; i > 0; --i)
                 items.RemoveAt(i);
         }
 
-        private static MenuItem CreateMenuItem(string word, RichTextBox rtb, SolidColorBrush foreground, SolidColorBrush background, SolidColorBrush menuBackground, SolidColorBrush menuForeground)
+        private static MenuItem CreateMenuItem(string word, RichTextBox rtb, SolidColorBrush foreground, SolidColorBrush background)
         {
             var m = new MenuItem
             {
                 Header = word,
                 Tag = rtb,
-                Background   = menuBackground,
-                Foreground = menuForeground,
             };
-            m.Click += (sender,e) => ChangeWord(e,foreground,background);
+            m.Click += (sender, e) => ChangeWord(e, foreground, background);
             return m;
         }
 

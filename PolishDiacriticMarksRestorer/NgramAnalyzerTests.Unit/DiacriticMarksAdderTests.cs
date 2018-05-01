@@ -36,9 +36,9 @@ namespace NgramAnalyzerTests.Unit
         };
 
         [Theory]
-        [InlineData(5,24)]
+        [InlineData(5, 24)]
         [InlineData(4, 24)]
-        [InlineData(2,15)]
+        [InlineData(2, 15)]
         public void Start_goodSize(int howManyChanges, int size)
         {
             var adder = new DiacriticMarksAdder();

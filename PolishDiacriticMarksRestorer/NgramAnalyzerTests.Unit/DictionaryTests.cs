@@ -31,10 +31,10 @@ namespace NgramAnalyzerTests.Unit
                 "mouse",
             };
 
-            var dictionary=new Dictionary(dict);
-            var result=dictionary.CheckWords(list);
+            var dictionary = new Dictionary(dict);
+            var result = dictionary.CheckWords(list);
 
-            Assert.Equal(res,result);
+            Assert.Equal(res, result);
         }
 
         [Fact]

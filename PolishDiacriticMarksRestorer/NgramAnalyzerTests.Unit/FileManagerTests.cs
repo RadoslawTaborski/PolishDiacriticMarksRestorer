@@ -88,7 +88,7 @@ namespace NgramAnalyzerTests.Unit
                 result = file.ReadLine();
             }
 
-            Assert.Equal(@"cat",result);
+            Assert.Equal(@"cat", result);
         }
 
         [Fact]

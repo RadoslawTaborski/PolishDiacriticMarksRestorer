@@ -29,7 +29,7 @@ namespace NgramAnalyzerTests.Unit
             });
 
             var variants = new NGramVariants(new NGram(5, new List<string> { "jest", "ktora" }), marksAdderMock.Object);
-            variants.CreateVariants(new List<string>{"jest", "która", "którą"});
+            variants.CreateVariants(new List<string> { "jest", "która", "którą" });
 
             var variantsResult = new List<NGram>
             {
@@ -75,7 +75,7 @@ namespace NgramAnalyzerTests.Unit
                 new NGram( 0,  new List<string>{"jest", "którą"}),
             };
 
-            var variants = new NGramVariants(new NGram ( 5,  new List<string> { "jest", "ktora" } ), marksAdderMock.Object);
+            var variants = new NGramVariants(new NGram(5, new List<string> { "jest", "ktora" }), marksAdderMock.Object);
             variants.CreateVariants(new List<string> { "jest", "która", "którą" });
             variants.UpdateNGramsVariants(list);
 
@@ -85,7 +85,7 @@ namespace NgramAnalyzerTests.Unit
                 Assert.True(content);
             }
 
-            Assert.Equal(2,variants.NgramVariants.Count);
+            Assert.Equal(2, variants.NgramVariants.Count);
         }
 
         [Fact]
@@ -113,9 +113,9 @@ namespace NgramAnalyzerTests.Unit
                 new List<string>{"która", "którą"}
             };
 
-            var variants = new NGramVariants(new NGram (5,  new List<string> { "jest", "ktora" }), marksAdderMock.Object);
+            var variants = new NGramVariants(new NGram(5, new List<string> { "jest", "ktora" }), marksAdderMock.Object);
             variants.CreateVariants(new List<string> { "jest", "która", "którą" });
-            var result=variants.VariantsToStringsLists();
+            var result = variants.VariantsToStringsLists();
 
             Assert.Equal(variantsResult, result);
         }
@@ -125,7 +125,7 @@ namespace NgramAnalyzerTests.Unit
         {
             var marksAdderMock = new Mock<IDiacriticMarksAdder>();
 
-            var variants = new NGramVariants(new NGram (5,  new List<string> { "jest", "ok" }), marksAdderMock.Object);
+            var variants = new NGramVariants(new NGram(5, new List<string> { "jest", "ok" }), marksAdderMock.Object);
             var result = variants.VariantsToStringsLists();
 
             Assert.Null(result);
@@ -155,7 +155,7 @@ namespace NgramAnalyzerTests.Unit
                 new NGram(0, new List<string>{"JeSt", "KtÓRą"}),
             };
 
-            var variants = new NGramVariants(new NGram (5,  new List<string> { "JeSt", "KtÓRa" }), marksAdderMock.Object);
+            var variants = new NGramVariants(new NGram(5, new List<string> { "JeSt", "KtÓRa" }), marksAdderMock.Object);
             variants.CreateVariants(new List<string> { "jest", "która", "którą" });
             variants.RestoreUpperLettersInVariants();
 

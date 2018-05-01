@@ -489,7 +489,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void InsertOrUpdateNgramString()
         {
-            var ngram = new NGram ( 10, new List<string> { "ą", "b" });
+            var ngram = new NGram(10, new List<string> { "ą", "b" });
 
             var provider = new SqlQueryProvider2();
             var result = provider.InsertOrUpdateNgramString(ngram);

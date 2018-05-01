@@ -407,11 +407,11 @@ namespace NgramAnalyzerTests.Unit
         public void CreateNgramsTableString_Digram()
         {
             var provider = new SqlQueryProvider();
-            var result = provider.CreateNgramsTableString("DbName","TableName",2);
+            var result = provider.CreateNgramsTableString("DbName", "TableName", 2);
 
             const string str = "CREATE TABLE IF NOT EXISTS `DbName`.`TableName` " +
                                "( `ID` INT NOT NULL AUTO_INCREMENT PRIMARY KEY, " +
-                               "`Value` INT NOT NULL, `Word1` VARCHAR(30) NOT NULL, "+
+                               "`Value` INT NOT NULL, `Word1` VARCHAR(30) NOT NULL, " +
                                "`Word2` VARCHAR(30) NOT NULL ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_polish_ci;";
             Assert.Equal(str, result);
         }
@@ -429,7 +429,7 @@ namespace NgramAnalyzerTests.Unit
             var provider = new SqlQueryProvider();
             var result = provider.InsertNgramsString("TableName", ngrams);
 
-            const string str = "INSERT INTO `TableName` (`Value`, `Word1`, `Word2`) "+
+            const string str = "INSERT INTO `TableName` (`Value`, `Word1`, `Word2`) " +
                 "VALUES('10', 'a', 'b'),('20', 'c', 'd');";
             Assert.Equal(str, result);
         }
@@ -439,7 +439,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void InsertOrUpdateNgramString()
         {
-            var ngram=new NGram (10, new List<string>{"a", "b"});
+            var ngram = new NGram(10, new List<string> { "a", "b" });
 
             var provider = new SqlQueryProvider();
             var result = provider.InsertOrUpdateNgramString(ngram);
@@ -454,7 +454,7 @@ namespace NgramAnalyzerTests.Unit
         public void CreateAddProcedureString_Digram()
         {
             var provider = new SqlQueryProvider();
-            var result = provider.CreateAddProcedureString("BaseName","TableName",2);
+            var result = provider.CreateAddProcedureString("BaseName", "TableName", 2);
 
             const string str = "DROP PROCEDURE IF EXISTS BaseName.Add2gram; CREATE PROCEDURE BaseName.Add2gram(in _value int, in _word1 varchar(30), in _word2 varchar(30)) " +
                                "BEGIN SELECT @id:=ID, @val:=Value FROM BaseName.TableName WHERE Word1 = _word1 AND Word2 = _word2; " +

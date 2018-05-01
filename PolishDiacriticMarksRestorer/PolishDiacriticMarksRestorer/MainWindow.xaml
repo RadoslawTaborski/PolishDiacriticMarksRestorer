@@ -58,6 +58,13 @@
                             <Run Text=""/>
                         </Paragraph>
                     </FlowDocument>
+                    <RichTextBox.ContextMenu>
+                        <ContextMenu Style="{StaticResource MyContextMenu}">
+                            <MenuItem Command="ApplicationCommands.Cut"/>
+                            <MenuItem Command="ApplicationCommands.Copy"/>
+                            <MenuItem Command="ApplicationCommands.Paste"/>
+                        </ContextMenu>
+                    </RichTextBox.ContextMenu>
                 </RichTextBox>
             </Border>
 
@@ -68,6 +75,12 @@
                             <Run Text=""/>
                         </Paragraph>
                     </FlowDocument>
+                    <RichTextBox.ContextMenu>
+                        <ContextMenu Style="{StaticResource MyContextMenu}">
+                            <MenuItem Command="ApplicationCommands.Copy"/>
+                            <Separator />
+                        </ContextMenu>
+                    </RichTextBox.ContextMenu>
                 </RichTextBox>
             </Border>
 

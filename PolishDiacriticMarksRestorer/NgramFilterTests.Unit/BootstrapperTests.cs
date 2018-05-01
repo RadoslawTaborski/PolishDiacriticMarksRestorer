@@ -28,7 +28,7 @@ namespace NgramFilterTests.Unit
             });
             var queryProvider = new Mock<IQueryProvider>();
 
-            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object,queryProvider.Object);
+            var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, dbMock.Object, queryProvider.Object);
             bootstrapper.Filter(@"C:\input", @"C:\output");
 
             Assert.True(mockFileSystem.FileExists(@"C:\output"));

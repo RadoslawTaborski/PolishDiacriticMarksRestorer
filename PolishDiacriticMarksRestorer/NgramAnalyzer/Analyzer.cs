@@ -105,7 +105,7 @@ namespace NgramAnalyzer
 
                 if (flag) continue;
                 var list = CreateCombinationsWord(item);
-                list =_dictionary != null ? _dictionary.CheckWords(list) : CheckWords(list);
+                list = _dictionary != null ? _dictionary.CheckWords(list) : CheckWords(list);
                 RestoreUpperLetter(item, ref list);
                 result.Add(list);
             }
@@ -304,7 +304,7 @@ namespace NgramAnalyzer
             for (var j = 0; j < strList.Count - length + 1; j++)
             {
                 var tmp = strList.GetRange(j, length);
-                ngramVariants.Add(new NGramVariants(new NGram(0,tmp), _diacriticAdder));
+                ngramVariants.Add(new NGramVariants(new NGram(0, tmp), _diacriticAdder));
                 ngramVariants[ngramVariants.Count - 1].CreateVariants(dictionary);
             }
 
@@ -343,7 +343,7 @@ namespace NgramAnalyzer
             for (var i = indexOfWord - length + 1; i <= indexOfWord; ++i)
             {
                 if (i < 0 || i >= ngrams.Count)
-                    result.Add(new NGram(-1,new List<string>()));
+                    result.Add(new NGram(-1, new List<string>()));
                 else
                     result.Add(ngrams[i]);
             }

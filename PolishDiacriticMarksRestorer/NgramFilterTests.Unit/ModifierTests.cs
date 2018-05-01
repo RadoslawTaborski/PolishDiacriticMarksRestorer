@@ -37,7 +37,7 @@ namespace NgramFilterTests.Unit
         public void Start_NGramEdited()
         {
             var mock = new Mock<IModifierItem>();
-            var ngram1 = new NGram (10, new List<string>());
+            var ngram1 = new NGram(10, new List<string>());
             var ngram2 = new NGram(15, new List<string>());
             mock.Setup(foo => foo.Edit(ngram1)).Returns(ngram2);
             var modifier = new Modifier();
@@ -46,7 +46,7 @@ namespace NgramFilterTests.Unit
 
             var result = modifier.Start(ngram1);
 
-            Assert.NotEqual(ngram1,result);
+            Assert.NotEqual(ngram1, result);
         }
 
         [Fact]

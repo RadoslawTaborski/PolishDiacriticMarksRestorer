@@ -42,7 +42,7 @@ namespace PolishDiacriticMarksRestorer
             BtnSave.IsEnabled = false;
             ChangeSettings = false;
             if (FileDict.IsChecked == null) return;
-            if ((bool) FileDict.IsChecked)
+            if ((bool)FileDict.IsChecked)
                 TbUni.IsEnabled = false;
         }
         #endregion
@@ -60,7 +60,7 @@ namespace PolishDiacriticMarksRestorer
             Settings.TableNames[1] = TbDi.Text;
             Settings.TableNames[2] = TbTri.Text;
             Settings.TableNames[3] = TbFour.Text;
-            if (AlphaTables.IsChecked != null) Settings.AlphabeticalTables = (bool) AlphaTables.IsChecked;
+            if (AlphaTables.IsChecked != null) Settings.AlphabeticalTables = (bool)AlphaTables.IsChecked;
         }
 
         private void GetSettings()
@@ -165,7 +165,7 @@ namespace PolishDiacriticMarksRestorer
             _changes[10] = !Settings.FileDictionary.Equals(FileDict.IsChecked);
             Update();
             if (FileDict.IsChecked == null) return;
-            if ((bool) FileDict.IsChecked)
+            if ((bool)FileDict.IsChecked)
                 TbUni.IsEnabled = false;
             else
                 TbUni.IsEnabled = true;

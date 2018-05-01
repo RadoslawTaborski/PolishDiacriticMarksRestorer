@@ -10,8 +10,8 @@ namespace NgramAnalyzerTests.Unit
 {
     public class AnalyzerTests
     {
-        private readonly DataSet _unigrams=new DataSet();
-        private readonly Mock<IDataAccess> _dataMock= new Mock<IDataAccess>();
+        private readonly DataSet _unigrams = new DataSet();
+        private readonly Mock<IDataAccess> _dataMock = new Mock<IDataAccess>();
         private readonly Mock<IQueryProvider> _queryProviderMock = new Mock<IQueryProvider>();
         private readonly Mock<IDiacriticMarksAdder> _diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
 
@@ -69,29 +69,29 @@ namespace NgramAnalyzerTests.Unit
             var four2 = four1.Clone();
             var four3 = four1.Clone();
             var four4 = four1.Clone();
-            four1.Rows.Add(1, 25, "za", "przyj璚iem", "nowej","uchwa造");
+            four1.Rows.Add(1, 25, "za", "przyj璚iem", "nowej", "uchwa造");
             four2.Rows.Add(2, 15, "za", "przyjeciem", "nowej", "uchwa造");
             four3.Rows.Add(1, 27, "przyj璚iem", "nowej", "uchwa造", "z");
             four4.Rows.Add(2, 12, "przyjeciem", "nowej", "uchwa造", "z");
 
             _dataMock.Setup(m => m.ExecuteSqlCommand("uni1")).Returns(_unigrams);
-            _dataMock.Setup(m => m.ExecuteSqlCommand("di1")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(di1); return tmp;});
-            _dataMock.Setup(m => m.ExecuteSqlCommand("di2")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(di2); return tmp;});
+            _dataMock.Setup(m => m.ExecuteSqlCommand("di1")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(di1); return tmp; });
+            _dataMock.Setup(m => m.ExecuteSqlCommand("di2")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(di2); return tmp; });
             _dataMock.Setup(m => m.ExecuteSqlCommand("di3")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(di3); return tmp; });
             _dataMock.Setup(m => m.ExecuteSqlCommand("di4")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(di4); return tmp; });
-            _dataMock.Setup(m => m.ExecuteSqlCommand("tri1")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri1); return tmp;});
-            _dataMock.Setup(m => m.ExecuteSqlCommand("tri2")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri2); return tmp;});
-            _dataMock.Setup(m => m.ExecuteSqlCommand("tri3")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri3); return tmp;});
-            _dataMock.Setup(m => m.ExecuteSqlCommand("tri4")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri4); return tmp;});
-            _dataMock.Setup(m => m.ExecuteSqlCommand("tri5")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri5); return tmp;});
-            _dataMock.Setup(m => m.ExecuteSqlCommand("tri6")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri6); return tmp;});
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri1")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri1); return tmp; });
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri2")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri2); return tmp; });
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri3")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri3); return tmp; });
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri4")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri4); return tmp; });
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri5")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri5); return tmp; });
+            _dataMock.Setup(m => m.ExecuteSqlCommand("tri6")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(tri6); return tmp; });
             _dataMock.Setup(m => m.ExecuteSqlCommand("four1")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(four1); return tmp; });
             _dataMock.Setup(m => m.ExecuteSqlCommand("four2")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(four2); return tmp; });
             _dataMock.Setup(m => m.ExecuteSqlCommand("four3")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(four3); return tmp; });
             _dataMock.Setup(m => m.ExecuteSqlCommand("four4")).Returns(() => { var tmp = new DataSet(); tmp.Tables.Add(four4); return tmp; });
 
             _queryProviderMock.Setup(m => m.CheckWordsInUnigramFromTable(It.IsAny<List<string>>())).Returns("uni1");
-            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Bigram, new List<string>() {"za", "przyj璚iem"})).Returns("di1");
+            _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Bigram, new List<string>() { "za", "przyj璚iem" })).Returns("di1");
             _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Bigram, new List<string>() { "za", "przyjeciem" })).Returns("di2");
             _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Bigram, new List<string>() { "przyjeciem", "uchwaly" })).Returns("di3");
             _queryProviderMock.Setup(m => m.GetTheSameNgramsFromTable(NgramType.Bigram, new List<string>() { "przyj璚iem", "uchwa造" })).Returns("di4");
@@ -142,7 +142,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Bigram);
             var result = analyze.AnalyzeString("za przyjeciem");
 
-            Assert.Equal(new List<string>{"za"," ","przyj璚iem"}, result);
+            Assert.Equal(new List<string> { "za", " ", "przyj璚iem" }, result);
         }
 
         [Fact]
@@ -154,7 +154,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Trigram);
             var result = analyze.AnalyzeString("za przyjeciem nowej");
 
-            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "nowej" }, result);
+            Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "nowej" }, result);
         }
 
         [Fact]
@@ -166,7 +166,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Trigram);
             var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly");
 
-            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "nowej"," ", "uchwa造" }, result);
+            Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "nowej", " ", "uchwa造" }, result);
         }
 
         [Fact]
@@ -178,7 +178,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Trigram);
             var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly z");
 
-            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "nowej"," ", "uchwa造"," ", "z" }, result);
+            Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "nowej", " ", "uchwa造", " ", "z" }, result);
         }
 
         [Fact]
@@ -190,7 +190,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Quadrigram);
             var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly");
 
-            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "nowej"," ", "uchwa造"}, result);
+            Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "nowej", " ", "uchwa造" }, result);
         }
 
         [Fact]
@@ -202,7 +202,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Quadrigram);
             var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly z");
 
-            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "nowej"," ", "uchwa造"," ", "z" }, result);
+            Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "nowej", " ", "uchwa造", " ", "z" }, result);
         }
 
         [Fact]
@@ -231,7 +231,7 @@ namespace NgramAnalyzerTests.Unit
                 "przyj璚iem",
                 "uchwaly",
                 "uchwa造"
-            })).Returns(new List<string> {"za", "przyj璚iem", "uchwa造"});
+            })).Returns(new List<string> { "za", "przyj璚iem", "uchwa造" });
 
             var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, dictionaryMock.Object);
             analyze.SetData(_dataMock.Object);
@@ -239,7 +239,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Bigram);
             var result = analyze.AnalyzeString("za przyjeciem uchwaly");
 
-            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"," ", "uchwa造" }, result);
+            Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "uchwa造" }, result);
         }
 
         [Fact]
@@ -273,7 +273,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Bigram);
             var result = analyze.AnalyzeString("za przyjeciem uchwaly");
 
-            Assert.Equal(new List<string> { "za"," ", "przyjeciem"," ", "uchwaly" }, result);
+            Assert.Equal(new List<string> { "za", " ", "przyjeciem", " ", "uchwaly" }, result);
         }
 
         [Fact]
@@ -285,7 +285,7 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetNgram(NgramType.Bigram);
             var result = analyze.AnalyzeString("za przyjeciem");
 
-            Assert.Equal(new List<string> { "za"," ", "przyj璚iem"}, result);
+            Assert.Equal(new List<string> { "za", " ", "przyj璚iem" }, result);
         }
     }
 }

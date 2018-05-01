@@ -34,7 +34,7 @@ namespace PolishDiacriticMarksRestorer
         private DateTime _start;
         private DateTime _stop;
         public static readonly string Path = "settings.dat";
-        private List<List<string>> _lists;
+        private List<List<string>> _lists = new List<List<string>>();
         #endregion
 
         #region CONSTRUCTORS
@@ -209,7 +209,7 @@ namespace PolishDiacriticMarksRestorer
                     results = item;
             }
 
-            RtbResult.SetContextMenu(results, new Regex("[ĄĆĘŁŃÓŚŻŹąćęłńóśżź]"), new SolidColorBrush(Colors.Black), new SolidColorBrush(Colors.LimeGreen), (SolidColorBrush)(FindResource("MyAzure")), new SolidColorBrush(Colors.Transparent), (SolidColorBrush)(FindResource("MyLightGrey")), (SolidColorBrush)(FindResource("MyDarkGrey")), (SolidColorBrush)(FindResource("MyAzure")));
+            RtbResult.SetContextMenu(results, new Regex("[ĄĆĘŁŃÓŚŻŹąćęłńóśżź]"), new SolidColorBrush(Colors.Black), new SolidColorBrush(Colors.LimeGreen), (SolidColorBrush)(FindResource("MyAzure")), new SolidColorBrush(Colors.Transparent));
         }
 
         private void BtnSave_Click(object sender, RoutedEventArgs e)

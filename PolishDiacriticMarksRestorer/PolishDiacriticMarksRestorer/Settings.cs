@@ -35,7 +35,7 @@ namespace PolishDiacriticMarksRestorer
         /// <summary>
         /// The table names list.
         /// </summary>
-        public static IList<string> TableNames = new []{"dictionary", "digrams", "trigrams", "fourgrams"};
+        public static IList<string> TableNames = new[] { "dictionary", "digrams", "trigrams", "fourgrams" };
         /// <summary>
         /// The alphabetical tables in database
         /// </summary>

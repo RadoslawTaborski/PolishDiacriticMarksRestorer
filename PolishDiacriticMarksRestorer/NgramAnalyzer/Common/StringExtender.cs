@@ -116,11 +116,11 @@ namespace NgramAnalyzer.Common
         {
             var rgx = new Regex("[ĄĆĘŁŃÓŚŻŹąćęłńóśżź]");
             if (!rgx.IsMatch(s)) return s;
-            
-            var sb= new StringBuilder(s);
+
+            var sb = new StringBuilder(s);
             for (var i = 0; i < sb.Length; i++)
             {
-                sb[i]=NormalizeChar(sb[i]);
+                sb[i] = NormalizeChar(sb[i]);
             }
 
             return sb.ToString();

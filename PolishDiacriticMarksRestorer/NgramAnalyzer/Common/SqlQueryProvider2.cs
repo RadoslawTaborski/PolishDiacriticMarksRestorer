@@ -200,7 +200,7 @@ namespace NgramAnalyzer.Common
                 {
                     commandsText[index] += " OR ";
                 }
-                
+
                 var j = 1;
 
                 commandsText[index] += "( ";
@@ -224,11 +224,11 @@ namespace NgramAnalyzer.Common
             var result = "";
             for (var index = 0; index < commandsText.Length; index++)
             {
-                if(commandsText[index]!="") commandsText[index] += " UNION ALL ";
+                if (commandsText[index] != "") commandsText[index] += " UNION ALL ";
                 result += commandsText[index];
             }
 
-            return result.Substring(0,result.Length-11)+";";
+            return result.Substring(0, result.Length - 11) + ";";
         }
 
         public string CreateDbString(string name)

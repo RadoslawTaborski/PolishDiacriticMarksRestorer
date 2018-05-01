@@ -15,7 +15,7 @@ namespace NgramFilterTests.Unit
             var ngram = new NGram(0, new List<string> { str, "cat" });
 
             var result = item.Edit(ngram);
-            Assert.Equal(ngram,result);
+            Assert.Equal(ngram, result);
         }
     }
 }

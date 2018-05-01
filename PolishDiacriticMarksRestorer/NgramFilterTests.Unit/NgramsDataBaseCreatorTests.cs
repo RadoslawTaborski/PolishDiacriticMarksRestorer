@@ -21,7 +21,7 @@ namespace NgramFilterTests.Unit
             var queryProviderMock = new Mock<IQueryProvider>();
             queryProviderMock.Setup(m => m.CreateDbString(name)).Returns(commandText);
 
-            var creator = new NgramsDataBaseCreator(dataAccessMock.Object,queryProviderMock.Object);
+            var creator = new NgramsDataBaseCreator(dataAccessMock.Object, queryProviderMock.Object);
             creator.CreateDataBase(name);
 
             dataAccessMock.Verify();
@@ -39,7 +39,7 @@ namespace NgramFilterTests.Unit
             dataAccessMock.Setup(m => m.ExecuteNonQueryServer(commandText2)).Verifiable();
 
             var queryProviderMock = new Mock<IQueryProvider>();
-            queryProviderMock.Setup(m => m.CreateNgramsTableString(dbName,tableName,1)).Returns(commandText);
+            queryProviderMock.Setup(m => m.CreateNgramsTableString(dbName, tableName, 1)).Returns(commandText);
             queryProviderMock.Setup(m => m.CreateAddProcedureString(dbName, tableName, 1)).Returns(commandText2);
 
             var creator = new NgramsDataBaseCreator(dataAccessMock.Object, queryProviderMock.Object);
@@ -78,7 +78,7 @@ namespace NgramFilterTests.Unit
             dataAccessMock.Setup(m => m.ExecuteNonQueryDb(commandText)).Verifiable();
 
             var queryProviderMock = new Mock<IQueryProvider>();
-            queryProviderMock.Setup(m => m.InsertNgramsString(tableName,ngrams)).Returns(commandText);
+            queryProviderMock.Setup(m => m.InsertNgramsString(tableName, ngrams)).Returns(commandText);
 
             var creator = new NgramsDataBaseCreator(dataAccessMock.Object, queryProviderMock.Object);
             creator.AddNgramsToTable(tableName, ngrams);

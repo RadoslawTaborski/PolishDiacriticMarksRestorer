@@ -77,7 +77,7 @@ namespace NgramAnalyzer
 
             foreach (var sequence in res)
             {
-                NgramVariants.Add(new NGram(0,sequence.Split(' ').ToList()));
+                NgramVariants.Add(new NGram(0, sequence.Split(' ').ToList()));
             }
         }
 
