@@ -44,5 +44,7 @@ namespace PolishDiacriticMarksRestorer
         /// Path to dictionary file
         /// </summary>
         public static string DictionaryPath = @"Resources/dictionary";
+
+        public static bool SentenceSpliterOn = true;
     }
 }

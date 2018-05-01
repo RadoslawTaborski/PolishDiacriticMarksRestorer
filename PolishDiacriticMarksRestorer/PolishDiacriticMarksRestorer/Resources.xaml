@@ -692,7 +692,7 @@
                                     Value="0,3,0,3" />
                             <Setter TargetName="Border"
                                     Property="CornerRadius"
-                                    Value="4" />
+                                    Value="0" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -18,9 +18,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeCoverage" Version="1.0.3" />
-    <PackageReference Include="morelinq" Version="2.10.0" />
+    <PackageReference Include="morelinq" Version="3.0.0-beta-1" />
     <PackageReference Include="MoreLinq.Source.MoreEnumerable.MaxBy" Version="1.0.2" />
-    <PackageReference Include="MySql.Data" Version="8.0.10-rc" />
+    <PackageReference Include="MySql.Data" Version="8.0.11" />
     <PackageReference Include="System.IO.Abstractions" Version="2.1.0.178" />
   </ItemGroup>
 

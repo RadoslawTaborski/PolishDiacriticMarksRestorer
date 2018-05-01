@@ -93,7 +93,7 @@ namespace NgramAnalyzer
                 {
                     if (goodNGram.WordsList.SequenceEqual(NgramVariants[i].WordsList))
                     {
-                        NgramVariants[i] = new NGram(goodNGram.Value, new List<string>(goodNGram.WordsList));
+                        NgramVariants[i] = new NGram(goodNGram);
                     }
                 }
             }

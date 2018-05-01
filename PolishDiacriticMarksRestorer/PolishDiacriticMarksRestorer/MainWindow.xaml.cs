@@ -50,8 +50,9 @@ namespace PolishDiacriticMarksRestorer
                 : new SqlQueryProvider(Settings.TableNames);
 
             _analyzer = Settings.FileDictionary
-                ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary())
-                : new Analyzer(new DiacriticMarksAdder());
+                ? (Settings.SentenceSpliterOn ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter()) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null))
+                : (Settings.SentenceSpliterOn ? new Analyzer(new DiacriticMarksAdder(), new SentenceSpliter()) : new Analyzer(new DiacriticMarksAdder(), null));
+
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);
@@ -276,8 +277,8 @@ namespace PolishDiacriticMarksRestorer
                 : new SqlQueryProvider(Settings.TableNames);
 
             _analyzer = Settings.FileDictionary
-                ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary())
-                : new Analyzer(new DiacriticMarksAdder());
+                ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null)
+                : new Analyzer(new DiacriticMarksAdder(), null);
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);

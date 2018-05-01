@@ -20,6 +20,12 @@ namespace NgramAnalyzer.Common
             WordsList = wordsList;
         }
 
+        public NGram(NGram ngram)
+        {
+            Value = ngram.Value;
+            WordsList = new List<string>(ngram.WordsList);
+        }
+
         #endregion
 
         #region OVERRIDES

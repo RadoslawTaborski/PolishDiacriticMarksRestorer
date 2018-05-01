@@ -170,6 +170,11 @@ namespace NgramAnalyzer.Common
 
             return c;
         }
+
+        public static string GetLast(this string source, int tailLength)
+        {
+            return tailLength >= source.Length ? source : source.Substring(source.Length - tailLength);
+        }
         #endregion
     }
 }
