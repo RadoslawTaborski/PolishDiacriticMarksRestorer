@@ -94,7 +94,7 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Label x:Name="Info" Content="" FontSize="10" Grid.Column="0" Foreground="{StaticResource MyWhite}" Margin="13,-3" />
-                <Label x:Name="Info2" Content="" FontSize="10" Grid.Column="1" Foreground="{StaticResource MyWhite}" Margin="13,-3" />
+                <Label x:Name="Info2" Content="" FontSize="10" Grid.Column="1" Grid.ColumnSpan="2" Foreground="{StaticResource MyWhite}" Margin="13,-3" />
             </Grid>
 
 

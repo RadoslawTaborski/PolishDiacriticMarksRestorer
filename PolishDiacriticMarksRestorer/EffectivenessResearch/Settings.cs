@@ -17,15 +17,15 @@ namespace EffectivenessResearch
         /// <summary>
         /// The server adress.
         /// </summary>
-        public static string Server = "localhost";
+        public static readonly string Server = "localhost";
         /// <summary>
         /// The database name.
         /// </summary>
-        public static string DbName = "alphabig";
+        public static readonly string DbName = "alphabig";
         /// <summary>
         /// The database user.
         /// </summary>
-        public static string DbUser = "root";
+        public static readonly string DbUser = "root";
         /// <summary>
         /// Use dictionary from file instead database.
         /// </summary>
@@ -33,7 +33,7 @@ namespace EffectivenessResearch
         /// <summary>
         /// The database password.
         /// </summary>
-        public static string DbPassword = "";
+        public static readonly string DbPassword = "";
         /// <summary>
         /// The table names list.
         /// </summary>
@@ -45,7 +45,7 @@ namespace EffectivenessResearch
         /// <summary>
         /// Path to dictionary file
         /// </summary>
-        public static string DictionaryPath = @"Resources/dictionary";
+        public static readonly string DictionaryPath = @"Resources/dictionary";
 
         public static bool SentenceSpliterOn=true;
     }

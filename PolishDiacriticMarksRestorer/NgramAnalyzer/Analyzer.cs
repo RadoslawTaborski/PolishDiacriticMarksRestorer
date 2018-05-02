@@ -132,7 +132,7 @@ namespace NgramAnalyzer
             if (Input == null)
                 SetWords(str);
 
-            Console.WriteLine("Start");
+            //Console.WriteLine("Start");
             var length = (int)_ngramType;
 
             var sentences = _spliter != null ? _spliter.Split(Input) : new List<Sentence> { new Sentence(Input, "") };
@@ -141,7 +141,12 @@ namespace NgramAnalyzer
             foreach (var sentence in sentences)
             {
                 var ngramVariants = new List<NGramVariants>();
-                //if (sentence.Text.Count < length) return Input; //TODO: naprawić ten warunek jakoś
+                if (sentence.Text.Count < length) {
+                    Output.AddRange(sentence.Text);
+                    Output[Output.Count - 1] = Output[Output.Count - 1] + sentence.EndMarks;
+                    Console.WriteLine(sentence);
+                    continue;
+                }   
                 start = DateTime.Now;
                 var combinationWords = CreateCombinationsWordList(sentence.Text);
                 stop = DateTime.Now;

@@ -5,21 +5,23 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolishDiacriticMarksRestorer", "PolishDiacriticMarksRestorer\PolishDiacriticMarksRestorer.csproj", "{17C8945B-2CF7-4653-9C67-275393C9973B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NgramFilter", "NgramFilter\NgramFilter.csproj", "{864D0929-88EB-4A0C-8368-A09806C658AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NgramFilter", "NgramFilter\NgramFilter.csproj", "{864D0929-88EB-4A0C-8368-A09806C658AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NgramAnalyzer", "NgramAnalyzer\NgramAnalyzer.csproj", "{2D963CE5-3EFD-4BF6-A69C-E5F5100A3BA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NgramAnalyzer", "NgramAnalyzer\NgramAnalyzer.csproj", "{2D963CE5-3EFD-4BF6-A69C-E5F5100A3BA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NgramAnalyzerTests.Unit", "NgramAnalyzerTests.Unit\NgramAnalyzerTests.Unit.csproj", "{50256F63-3D92-4B1A-B5AE-EC34199E081F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NgramAnalyzerTests.Unit", "NgramAnalyzerTests.Unit\NgramAnalyzerTests.Unit.csproj", "{50256F63-3D92-4B1A-B5AE-EC34199E081F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0E92ECCB-8343-4EBC-A565-72C39535DB22}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Unit", "Unit", "{83DE6348-B072-40CF-97D2-21C120EAFCD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NgramFilterTests.Unit", "NgramFilterTests.Unit\NgramFilterTests.Unit.csproj", "{BF59B903-3863-463F-B8B6-E4F3875CD454}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NgramFilterTests.Unit", "NgramFilterTests.Unit\NgramFilterTests.Unit.csproj", "{BF59B903-3863-463F-B8B6-E4F3875CD454}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EffectivenessResearch", "EffectivenessResearch\EffectivenessResearch.csproj", "{3C433038-4DCB-4123-A15B-5021A1FEFFEB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EffectivenessResearch", "EffectivenessResearch\EffectivenessResearch.csproj", "{3C433038-4DCB-4123-A15B-5021A1FEFFEB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EffectivenessResearchTests.Unit", "EffectivenessResearchTests.Unit\EffectivenessResearchTests.Unit.csproj", "{3E7409C7-5E4F-4F49-B6CB-E5A810983461}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EffectivenessResearchTests.Unit", "EffectivenessResearchTests.Unit\EffectivenessResearchTests.Unit.csproj", "{3E7409C7-5E4F-4F49-B6CB-E5A810983461}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolishDiacriticMarksRemover", "PolishDiacriticMarksRemover\PolishDiacriticMarksRemover.csproj", "{CB83553D-F333-43C8-ACB0-AC1EE3391293}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,6 +57,10 @@ Global
 		{3E7409C7-5E4F-4F49-B6CB-E5A810983461}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E7409C7-5E4F-4F49-B6CB-E5A810983461}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E7409C7-5E4F-4F49-B6CB-E5A810983461}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB83553D-F333-43C8-ACB0-AC1EE3391293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB83553D-F333-43C8-ACB0-AC1EE3391293}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB83553D-F333-43C8-ACB0-AC1EE3391293}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB83553D-F333-43C8-ACB0-AC1EE3391293}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

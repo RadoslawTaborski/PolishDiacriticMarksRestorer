@@ -9,12 +9,14 @@ namespace EffectivenessResearch
         private readonly List<string> _orginalText;
         private readonly List<string> _inputText;
         private readonly List<string> _outputText;
+        public List<ClassificationError> Errors { get; }
 
         public Researcher(List<string> orginalText, List<string> inputText, List<string> outputText)
         {
             _orginalText = orginalText;
             _outputText = outputText;
             _inputText = inputText;
+            Errors=new List<ClassificationError>();
         }
 
         public ConfusionMatrix Count()
@@ -29,12 +31,12 @@ namespace EffectivenessResearch
                 if (_inputText[i] == _orginalText[i] && _orginalText[i] != _outputText[i])
                 {
                     matrix.FalsePositive++;
-                    Console.WriteLine($"FP: {_orginalText[i]} {_inputText[i]} {_outputText[i]}");
+                    Errors.Add(new ClassificationError{Type = "FP", Original = _orginalText[i], Input = _inputText[i], Output = _outputText[i]});
                 }
                 if (_inputText[i] != _orginalText[i] && _orginalText[i] != _outputText[i])
                 {
                     matrix.FalseNegative++;
-                    Console.WriteLine($"FN: {_orginalText[i]} {_inputText[i]} {_outputText[i]}");
+                    Errors.Add(new ClassificationError { Type = "FN", Original = _orginalText[i], Input = _inputText[i], Output = _outputText[i] });
                 }
             }
 
