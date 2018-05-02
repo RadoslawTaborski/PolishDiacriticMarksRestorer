@@ -30,7 +30,6 @@ namespace EffectivenessResearch
             var path1 = "";
             var path2 = "";
 
-
             for (var index = 0; index < args.Length; index++)
             {
                 var argument = args[index];
@@ -40,14 +39,14 @@ namespace EffectivenessResearch
                         if (index + 1 < args.Length)
                         {
                             index++;
-                            path1 = args[index]+".txt";
+                            path1 = args[index] + ".txt";
                         }
                         break;
                     case "-o":
                         if (index + 1 < args.Length)
                         {
                             index++;
-                            path2 = args[index]+".txt";
+                            path2 = args[index];
                         }
                         break;
                     case "-n2":
@@ -130,7 +129,7 @@ namespace EffectivenessResearch
                 
                 var reports = Analyze(text);
 
-                Console.Write($"\r\n{reports[0]}\r\n Tekst wynikowy:\r\n{reports[1]}");
+                //Console.Write($"\r\n{reports[0]}\r\n Tekst wynikowy:\r\n{reports[1]}");
                 File.AppendAllText(pathR + pathRep, reports[0]);
                 File.WriteAllText(pathR + pathOut, reports[1]);
             }
