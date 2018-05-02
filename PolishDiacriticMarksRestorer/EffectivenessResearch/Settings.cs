@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NgramAnalyzer.Common;
 
 namespace EffectivenessResearch
@@ -21,7 +19,7 @@ namespace EffectivenessResearch
         /// <summary>
         /// The database name.
         /// </summary>
-        public static readonly string DbName = "alphabig";
+        public static string DbName = "alphabig";
         /// <summary>
         /// The database user.
         /// </summary>

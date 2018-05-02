@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Timers;
 using EffectivenessResearch.Interfaces;
 using MySql.Data.MySqlClient;
@@ -24,22 +23,101 @@ namespace EffectivenessResearch
         private static List<string> _outputText;
         private static IResearcher _reasercher;
 
-        private static void Main()
+        private static void Main(string[] args)
         {
-            Initialize();
-
             const string path = @"D:\PWr\magisterskie\magisterka\Teksty\";
             const string pathR = @"D:\PWr\magisterskie\magisterka\Raporty\";
-            Console.Write($"Podaj ścieżkę do tekstu: {path}");
-            var path1 = Console.ReadLine()+".txt";
-            Console.Write($"Podaj ścieżkę zapisu raportu: {pathR}");
-            var path2 = Console.ReadLine();
+            var path1 = "";
+            var path2 = "";
+
+
+            for (var index = 0; index < args.Length; index++)
+            {
+                var argument = args[index];
+                switch (argument)
+                {
+                    case "-i":
+                        if (index + 1 < args.Length)
+                        {
+                            index++;
+                            path1 = args[index]+".txt";
+                        }
+                        break;
+                    case "-o":
+                        if (index + 1 < args.Length)
+                        {
+                            index++;
+                            path2 = args[index]+".txt";
+                        }
+                        break;
+                    case "-n2":
+                        Settings.Type = NgramType.Bigram;
+                        break;
+                    case "-n3":
+                        Settings.Type = NgramType.Trigram;
+                        break;
+                    case "-n4":
+                        Settings.Type = NgramType.Quadrigram;
+                        break;
+                    case "-fdt":
+                        Settings.FileDictionary = true;
+                        break;
+                    case "-fdf":
+                        Settings.FileDictionary = false;
+                        break;
+                    case "-att":
+                        Settings.AlphabeticalTables = true;
+                        break;
+                    case "-atf":
+                        Settings.AlphabeticalTables = false;
+                        break;
+                    case "-sst":
+                        Settings.SentenceSpliterOn = true;
+                        break;
+                    case "-ssf":
+                        Settings.SentenceSpliterOn = false;
+                        break;
+                    case "-db":
+                        if (index + 1 < args.Length)
+                        {
+                            index++;
+                            Settings.DbName = args[index];
+                        }
+                        break;
+                    case "-tab":
+                        if (index + 4 < args.Length)
+                        {
+                            index++;
+                            Settings.TableNames[0] = args[index];
+                            index++;
+                            Settings.TableNames[1] = args[index];
+                            index++;
+                            Settings.TableNames[2] = args[index];
+                            index++;
+                            Settings.TableNames[3] = args[index];
+                        }
+                        break;
+                }
+            }
+
+            if (path1 == "" && path2 == "")
+            {
+                Console.Write($"Podaj ścieżkę do tekstu: {path}");
+                path1 = Console.ReadLine() + ".txt";
+                Console.Write($"Podaj ścieżkę zapisu raportu: {pathR}");
+                path2 = Console.ReadLine();
+            }
+
             var pathRep = $"{path2}-report.txt";
             var pathOut = $"{path2}-output.txt";
+
+            Initialize();
 
             try
             {
                 string text;
+
+                File.WriteAllText(pathR + pathRep, GenerateDescription());
 
                 using (var sr = new StreamReader(path+path1))
                 {
@@ -53,7 +131,7 @@ namespace EffectivenessResearch
                 var reports = Analyze(text);
 
                 Console.Write($"\r\n{reports[0]}\r\n Tekst wynikowy:\r\n{reports[1]}");
-                File.WriteAllText(pathR + pathRep, reports[0]);
+                File.AppendAllText(pathR + pathRep, reports[0]);
                 File.WriteAllText(pathR + pathOut, reports[1]);
             }
             catch (FileNotFoundException)
@@ -136,16 +214,16 @@ namespace EffectivenessResearch
         private static string[] GenerateReports(TimeSpan time, List<string> output)
         {
             var result = new string[2];
-            result[0] = "";
-            result[0] += " Raport: \r\n";
+            result[0] = "\r\n";
+            result[0] += "\tRaport: \r\n";
             result[0] += $"Czas wykonywania:\t{new DateTime(time.Ticks):HH:mm:ss.f}\r\n";
             result[0] += $"Czas wykonywania/słowo:\t{new DateTime(time.Ticks / _originalText.Count):ss.ffff}s\r\n";
 
-            result[0] += "\r\n Macierz pomyłek: \r\n";
+            result[0] += "\r\n\tMacierz pomyłek: \r\n";
             var res = _reasercher.Count();
             result[0] += res;
 
-            result[0] += "\r\n Lista błędów: \r\n";
+            result[0] += "\r\n\tLista błędów: \r\n";
             foreach (var error in _reasercher.Errors)
             {
                 result[0] += $"{error}\r\n";
@@ -156,6 +234,24 @@ namespace EffectivenessResearch
             {
                 result[1] += $"{output[i]}";
             }
+
+            return result;
+        }
+
+        private static string GenerateDescription()
+        {
+            var result = "\tOpis:\r\n";
+            result += $"Typ ngramów:\t{Settings.Type}\r\n";
+            result += $"Słownik z pliku:\t{Settings.FileDictionary}\r\n";
+            result += $"Tabele alfabetyczne:\t{Settings.AlphabeticalTables}\r\n";
+            result += $"Podział na zdania:\t{Settings.SentenceSpliterOn}\r\n";
+            result += $"Serwer:\t{Settings.Server}\r\n";
+            result += $"Użytkownik:\t{Settings.DbUser}\r\n";
+            result += $"Baza danych:\t{Settings.DbName}\r\n";
+            result += $"\t{Settings.TableNames[0]}\r\n";
+            result += $"\t{Settings.TableNames[1]}\r\n";
+            result += $"\t{Settings.TableNames[2]}\r\n";
+            result += $"\t{Settings.TableNames[3]}\r\n";
 
             return result;
         }

@@ -19,7 +19,7 @@
 
         public override string ToString()
         {
-            return $"\t{TruePositive}\t{FalsePositive}\r\n\t{FalseNegative}\t{TrueNegative}\r\nSensitivity:\t{Sensitivity():F3}\r\nSpecificity:\t{Specificity():F3}\r\nPrecision:\t{Precision():F3}\r\nNegativePredictiveValue:\t{NegativePredictiveValue():F3}\r\nFalseNegativeRate:\t{FalseNegativeRate():F3}\r\nFalsePositiveRate:\t{FalsePositiveRate():F3}\r\nFalseDiscoveryRate:\t{FalseDiscoveryRate():F3}\r\nFalseOmissionRate:\t{FalseOmissionRate():F3}\r\nAccuracy:\t{Accuracy():F3}\r\n";
+            return $"\t{TruePositive}\t{FalsePositive}\r\n\t{FalseNegative}\t{TrueNegative}\r\nSensitivity:\t{Sensitivity():F5}\r\nSpecificity:\t{Specificity():F5}\r\nPrecision:\t{Precision():F5}\r\nNegativePredictiveValue:\t{NegativePredictiveValue():F5}\r\nFalseNegativeRate:\t{FalseNegativeRate():F5}\r\nFalsePositiveRate:\t{FalsePositiveRate():F5}\r\nFalseDiscoveryRate:\t{FalseDiscoveryRate():F5}\r\nFalseOmissionRate:\t{FalseOmissionRate():F5}\r\nAccuracy:\t{Accuracy():F5}\r\n";
         }
     }
 }

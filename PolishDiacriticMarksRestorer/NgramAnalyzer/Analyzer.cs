@@ -144,7 +144,7 @@ namespace NgramAnalyzer
                 if (sentence.Text.Count < length) {
                     Output.AddRange(sentence.Text);
                     Output[Output.Count - 1] = Output[Output.Count - 1] + sentence.EndMarks;
-                    Console.WriteLine(sentence);
+                    //Console.WriteLine(sentence);
                     continue;
                 }   
                 start = DateTime.Now;
