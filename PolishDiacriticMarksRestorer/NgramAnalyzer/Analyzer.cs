@@ -19,6 +19,7 @@ namespace NgramAnalyzer
         private IDataAccess _db;
         private IQueryProvider _queryProvider;
         private readonly IDictionary _dictionary;
+        private readonly IDictionary _unigrams;
         private readonly ISentenceSpliter _spliter;
         private readonly IDiacriticMarksAdder _diacriticAdder;
         private NgramType _ngramType;
@@ -37,21 +38,10 @@ namespace NgramAnalyzer
         /// <param name="diacriticAdder">The diacritic adder.</param>
         /// <param name="dictionary">The dictionary.</param>
         /// <param name="spliter"></param>
-        public Analyzer(IDiacriticMarksAdder diacriticAdder, IDictionary dictionary, ISentenceSpliter spliter)
+        public Analyzer(IDiacriticMarksAdder diacriticAdder, IDictionary dictionary, IDictionary unigrams, ISentenceSpliter spliter)
         {
             _diacriticAdder = diacriticAdder;
             _dictionary = dictionary;
-            _spliter = spliter;
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Analyzer"/> class.
-        /// </summary>
-        /// <param name="diacriticAdder">The diacritic adder.</param>
-        /// <param name="spliter"></param>
-        public Analyzer(IDiacriticMarksAdder diacriticAdder, ISentenceSpliter spliter)
-        {
-            _diacriticAdder = diacriticAdder;
             _spliter = spliter;
         }
         #endregion
@@ -109,7 +99,7 @@ namespace NgramAnalyzer
 
                 if (flag) continue;
                 var list = CreateCombinationsWord(item);
-                list = _dictionary != null ? _dictionary.CheckWords(list) : CheckWords(list);
+                list = _dictionary.CheckWords(list);
                 RestoreUpperLetter(item, ref list);
                 result.Add(list);
             }
@@ -154,7 +144,7 @@ namespace NgramAnalyzer
                 //Console.WriteLine($"Czas generowania kombinacji słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
 
                 start = DateTime.Now;
-                combinationWords = _dictionary != null ? _dictionary.CheckWords(combinationWords) : CheckWords(combinationWords);
+                combinationWords = _dictionary.CheckWords(combinationWords);
                 stop = DateTime.Now;
                 time = stop - start;
                 //Console.WriteLine($"Czas sprawdzania słów: {new DateTime(time.Ticks):HH:mm:ss.f}");

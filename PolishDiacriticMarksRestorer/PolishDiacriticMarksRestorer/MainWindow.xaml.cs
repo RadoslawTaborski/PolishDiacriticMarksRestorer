@@ -35,6 +35,8 @@ namespace PolishDiacriticMarksRestorer
         private DateTime _stop;
         public static readonly string Path = "settings.dat";
         private List<List<string>> _lists = new List<List<string>>();
+        private readonly IDictionary _dictionary;
+        private readonly IDictionary _unigrams;
         #endregion
 
         #region CONSTRUCTORS
@@ -44,14 +46,17 @@ namespace PolishDiacriticMarksRestorer
             RtbResult.IsReadOnly = true;
             BtnSave.IsEnabled = false;
             Load(Path);
+
+            _dictionary = LoadDictionary();
+            _unigrams = LoadUnigrams();
+
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
             var queryProvider = Settings.AlphabeticalTables
                 ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
-            _analyzer = Settings.FileDictionary
-                ? (Settings.SentenceSpliterOn ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter()) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null))
-                : (Settings.SentenceSpliterOn ? new Analyzer(new DiacriticMarksAdder(), new SentenceSpliter()) : new Analyzer(new DiacriticMarksAdder(), null));
+            _analyzer =Settings.SentenceSpliterOn? new Analyzer(new DiacriticMarksAdder(), _dictionary, _unigrams, new SentenceSpliter())
+                    : new Analyzer(new DiacriticMarksAdder(), _dictionary, _unigrams, null);
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
@@ -115,13 +120,33 @@ namespace PolishDiacriticMarksRestorer
                 SerializeStatic.Load(typeof(Settings), path);
         }
 
-        private Dictionary LoadDictionary()
+        private IDictionary LoadDictionary()
         {
             if (!File.Exists(Settings.DictionaryPath))
-                return new Dictionary(new List<string>());
+                return new Dict(new Dictionary<string,int>());
             var logFile = File.ReadAllLines(Settings.DictionaryPath);
             var logList = new List<string>(logFile);
-            return new Dictionary(logList);
+            var result=new Dictionary<string,int>();
+            foreach (var item in logList)
+            {
+                result.Add(item, 0);
+            }
+            return new Dict(result);
+        }
+
+        private IDictionary LoadUnigrams()
+        {
+            if (!File.Exists(Settings.UnigramPath))
+                return new Dict(new Dictionary<string, int>());
+            var logFile = File.ReadAllLines(Settings.UnigramPath);
+            var logList = new List<string>(logFile);
+            var result = new Dictionary<string, int>();
+            foreach (var item in logList)
+            {
+                var str = item.Split(new []{" "}, StringSplitOptions.RemoveEmptyEntries);
+                result.Add(str[1], int.Parse(str[0]));
+            }
+            return new Dict(result);
         }
 
         private void ExceptionHandler(Task task1)
@@ -276,9 +301,8 @@ namespace PolishDiacriticMarksRestorer
                 ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
-            _analyzer = Settings.FileDictionary
-                ? (Settings.SentenceSpliterOn ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter()) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null))
-                : (Settings.SentenceSpliterOn ? new Analyzer(new DiacriticMarksAdder(), new SentenceSpliter()) : new Analyzer(new DiacriticMarksAdder(), null));
+            _analyzer = Settings.SentenceSpliterOn ? new Analyzer(new DiacriticMarksAdder(), _dictionary, _unigrams, new SentenceSpliter()) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), LoadUnigrams(), null);
+
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);

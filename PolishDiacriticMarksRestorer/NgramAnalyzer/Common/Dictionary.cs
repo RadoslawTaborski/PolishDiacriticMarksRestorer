@@ -3,27 +3,31 @@ using NgramAnalyzer.Interfaces;
 
 namespace NgramAnalyzer.Common
 {
-    public class Dictionary : IDictionary
+    public class Dict : IDictionary
     {
         #region PROPERTIES
+
         /// <summary>
         /// Gets the dictionary word list.
         /// </summary>
         /// <value>
         /// Dictionary word list.
         /// </value>
-        public HashSet<string> WordList { get; }
+        public Dictionary<string, int> WordList { get; }
+
         #endregion
 
         #region CONSTRUCTORS
-        public Dictionary(List<string> list)
+
+        public Dict(Dictionary<string, int> list)
         {
-            WordList = new HashSet<string>();
-            SetWordList(list);
+            WordList = list;
         }
+
         #endregion
 
         #region PUBLIC
+
         /// <summary>
         /// Checks if the words are in the dictionary.
         /// </summary>
@@ -35,7 +39,7 @@ namespace NgramAnalyzer.Common
 
             foreach (var word in str)
             {
-                if (WordList.Contains(word.WithoutPunctationMarks()))
+                if (WordList.ContainsKey(word.WithoutPunctationMarks()))
                     result.Add(word);
             }
 
@@ -49,18 +53,9 @@ namespace NgramAnalyzer.Common
         /// <returns>true if word is in the dictionary.</returns>
         public bool CheckWord(string str)
         {
-            return WordList.Contains(str.WithoutPunctationMarks());
+            return WordList.ContainsKey(str.WithoutPunctationMarks());
         }
-        #endregion
 
-        #region PRIVATE
-        private void SetWordList(List<string> list)
-        {
-            foreach (var item in list)
-            {
-                WordList.Add(item);
-            }
-        }
         #endregion
     }
 }

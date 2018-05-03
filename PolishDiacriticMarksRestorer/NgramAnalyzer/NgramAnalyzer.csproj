@@ -11,7 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\unigrams" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="Resources\dictionary">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\unigrams">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

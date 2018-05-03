@@ -86,8 +86,8 @@ namespace EffectivenessResearch
                     case "-tab":
                         if (index + 4 < args.Length)
                         {
-                            index++;
-                            Settings.TableNames[0] = args[index];
+                            //index++;
+                            //Settings.TableNames[0] = args[index];
                             index++;
                             Settings.TableNames[1] = args[index];
                             index++;
@@ -118,7 +118,7 @@ namespace EffectivenessResearch
 
                 File.WriteAllText(pathR + pathRep, GenerateDescription());
 
-                using (var sr = new StreamReader(path+path1))
+                using (var sr = new StreamReader(path + path1))
                 {
                     text = sr.ReadToEnd();
                 }
@@ -126,7 +126,7 @@ namespace EffectivenessResearch
                 _originalText = TextSpliter.Split(text).ToList();
                 text = text.RemoveDiacritics();
                 _inputText = TextSpliter.Split(text).ToList();
-                
+
                 var reports = Analyze(text);
 
                 //Console.Write($"\r\n{reports[0]}\r\n Tekst wynikowy:\r\n{reports[1]}");
@@ -161,9 +161,7 @@ namespace EffectivenessResearch
                 Console.WriteLine(ex.Message);
             }
 
-            Console.WriteLine("Koniec");
-
-            Console.Read();
+            Console.Write("\r\n");
         }
 
         private static void Initialize()
@@ -173,9 +171,9 @@ namespace EffectivenessResearch
                 ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
-            _analyzer = Settings.FileDictionary
-                ? (Settings.SentenceSpliterOn ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter()) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null))
-                : (Settings.SentenceSpliterOn ? new Analyzer(new DiacriticMarksAdder(), new SentenceSpliter()) : new Analyzer(new DiacriticMarksAdder(), null));
+            _analyzer = Settings.SentenceSpliterOn 
+                ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), LoadUnigrams(), new SentenceSpliter()) 
+                : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), LoadUnigrams(), null);
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
@@ -183,21 +181,40 @@ namespace EffectivenessResearch
             Timer.Interval = 90;
             Timer.Elapsed += OnTimerElapsed;
         }
-
-        private static Dictionary LoadDictionary()
+        private static IDictionary LoadDictionary()
         {
             if (!File.Exists(Settings.DictionaryPath))
-                return new Dictionary(new List<string>());
+                return new Dict(new Dictionary<string, int>());
             var logFile = File.ReadAllLines(Settings.DictionaryPath);
             var logList = new List<string>(logFile);
-            return new Dictionary(logList);
+            var result = new Dictionary<string, int>();
+            foreach (var item in logList)
+            {
+                result.Add(item, 0);
+            }
+            return new Dict(result);
+        }
+
+        private static IDictionary LoadUnigrams()
+        {
+            if (!File.Exists(Settings.UnigramPath))
+                return new Dict(new Dictionary<string, int>());
+            var logFile = File.ReadAllLines(Settings.UnigramPath);
+            var logList = new List<string>(logFile);
+            var result = new Dictionary<string, int>();
+            foreach (var item in logList)
+            {
+                var str = item.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                result.Add(str[1], int.Parse(str[0]));
+            }
+            return new Dict(result);
         }
 
         private static string[] Analyze(string text)
         {
             Timer.Start();
             _start = DateTime.Now;
-            var result =_analyzer.AnalyzeString(text);
+            var result = _analyzer.AnalyzeString(text);
             Timer.Stop();
 
             _outputText = _analyzer.Output;
@@ -205,7 +222,7 @@ namespace EffectivenessResearch
 
             var time = _stop - _start;
 
-            var reports = GenerateReports(time,result);
+            var reports = GenerateReports(time, result);
 
             return reports;
         }

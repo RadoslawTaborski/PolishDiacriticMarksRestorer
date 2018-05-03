@@ -9,13 +9,13 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void ChekWordsTests()
         {
-            var dict = new List<string>
+            var dict = new Dictionary<string, int>
             {
-                "small",
-                "cat",
-                "dog",
-                "mouse",
-                "fox"
+                {"small", 0},
+                {"cat", 0},
+                {"dog", 0},
+                {"mouse", 0},
+                {"fox", 0}
             };
             var list = new List<string>
             {
@@ -31,7 +31,7 @@ namespace NgramAnalyzerTests.Unit
                 "mouse",
             };
 
-            var dictionary = new Dictionary(dict);
+            var dictionary = new Dict(dict);
             var result = dictionary.CheckWords(list);
 
             Assert.Equal(res, result);
@@ -40,16 +40,16 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void ChekWordTests()
         {
-            var dict = new List<string>
+            var dict = new Dictionary<string, int>
             {
-                "small",
-                "cat",
-                "dog",
-                "mouse",
-                "fox"
+                {"small", 0},
+                {"cat", 0},
+                {"dog", 0},
+                {"mouse", 0},
+                {"fox", 0}
             };
 
-            var dictionary = new Dictionary(dict);
+            var dictionary = new Dict(dict);
             var result1 = dictionary.CheckWord("cat.");
             var result2 = dictionary.CheckWord("cats;");
 

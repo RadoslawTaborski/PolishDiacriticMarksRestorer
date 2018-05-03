@@ -44,6 +44,10 @@ namespace EffectivenessResearch
         /// Path to dictionary file
         /// </summary>
         public static readonly string DictionaryPath = @"Resources/dictionary";
+        /// <summary>
+        /// Path to unigrams file
+        /// </summary>
+        public static string UnigramPath = @"Resources/unigrams";
 
         public static bool SentenceSpliterOn=true;
     }

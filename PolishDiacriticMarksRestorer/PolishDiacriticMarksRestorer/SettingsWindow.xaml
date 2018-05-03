@@ -44,8 +44,8 @@
                             <ComboBox x:Name="CbType" Height="25" ItemsSource="{Binding Source={local:EnumBindingSource {x:Type common:NgramType}}}" 
                                        DisplayMemberPath="Value" SelectedValuePath="Value" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" SelectionChanged="NgramChanged" />
                             <Label Content="Rodzaj NGramu" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <Label Content="Słownik z pliku" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <CheckBox x:Name="FileDict" Height="15" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" Checked="FileDict_Checked" Unchecked="FileDict_Checked"/>
+                            <!--<Label Content="Słownik z pliku" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>-->
+                            <!--<CheckBox x:Name="FileDict" Height="15" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" Checked="FileDict_Checked" Unchecked="FileDict_Checked"/>-->
                         </Grid>
                     </Border>
                 </TabItem>
@@ -90,8 +90,8 @@
                                 <ColumnDefinition />
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <Label Content="Słownik" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <TextBox x:Name="TbUni" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
+                            <!--<Label Content="Słownik" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>-->
+                            <!--<TextBox x:Name="TbUni" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>-->
                             <Label Content="Digramy" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
                             <TextBox x:Name="TbDi" Style="{StaticResource MyTextBox}" Height="25" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" TextChanged="TextBoxs_Changed"/>
                             <Label Content="Trigramy" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
