@@ -53,7 +53,9 @@ namespace NgramAnalyzer.Common
         /// <returns>true if word is in the dictionary.</returns>
         public bool CheckWord(string str)
         {
-            return WordList.ContainsKey(str.WithoutPunctationMarks());
+            var result = WordList.ContainsKey(str.WithoutPunctationMarks());
+
+            return result;
         }
 
         #endregion

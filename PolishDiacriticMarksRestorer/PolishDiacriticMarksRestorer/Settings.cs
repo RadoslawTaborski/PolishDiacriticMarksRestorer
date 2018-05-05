@@ -24,10 +24,11 @@ namespace PolishDiacriticMarksRestorer
         /// The database user.
         /// </summary>
         public static string DbUser = "root";
-        /// <summary>
-        /// Use dictionary from file instead database.
-        /// </summary>
-        public static bool FileDictionary = true;
+        ///// <summary>
+        ///// Use dictionary from file instead database.
+        ///// </summary>
+        //public static bool FileDictionary = true;
+        public static bool UseDictionary = true;
         /// <summary>
         /// The database password.
         /// </summary>
@@ -35,7 +36,7 @@ namespace PolishDiacriticMarksRestorer
         /// <summary>
         /// The table names list.
         /// </summary>
-        public static IList<string> TableNames = new[] { "dictionary", "digrams", "trigrams", "fourgrams" };
+        public static IList<string> TableNames = new[] { "unigrams", "digrams", "trigrams", "fourgrams" };
         /// <summary>
         /// The alphabetical tables in database
         /// </summary>

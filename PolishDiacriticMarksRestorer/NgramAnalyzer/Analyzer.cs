@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using MoreLinq;
@@ -19,7 +18,6 @@ namespace NgramAnalyzer
         private IDataAccess _db;
         private IQueryProvider _queryProvider;
         private readonly IDictionary _dictionary;
-        private readonly IDictionary _unigrams;
         private readonly ISentenceSpliter _spliter;
         private readonly IDiacriticMarksAdder _diacriticAdder;
         private NgramType _ngramType;
@@ -37,8 +35,9 @@ namespace NgramAnalyzer
         /// </summary>
         /// <param name="diacriticAdder">The diacritic adder.</param>
         /// <param name="dictionary">The dictionary.</param>
+        /// <param name="unigrams">The unigrams.</param>
         /// <param name="spliter"></param>
-        public Analyzer(IDiacriticMarksAdder diacriticAdder, IDictionary dictionary, IDictionary unigrams, ISentenceSpliter spliter)
+        public Analyzer(IDiacriticMarksAdder diacriticAdder, IDictionary dictionary, ISentenceSpliter spliter)
         {
             _diacriticAdder = diacriticAdder;
             _dictionary = dictionary;
@@ -117,75 +116,23 @@ namespace NgramAnalyzer
         /// <inheritdoc />
         public List<string> AnalyzeString(string str)
         {
-            DateTime start, stop;
-            TimeSpan time;
             if (Input == null)
                 SetWords(str);
 
-            //Console.WriteLine("Start");
             var length = (int)_ngramType;
-
             var sentences = _spliter != null ? _spliter.Split(Input) : new List<Sentence> { new Sentence(Input, "") };
 
             Output = new List<string>();
             foreach (var sentence in sentences)
             {
-                var ngramVariants = new List<NGramVariants>();
-                if (sentence.Text.Count < length) {
-                    Output.AddRange(sentence.Text);
-                    Output[Output.Count - 1] = Output[Output.Count - 1] + sentence.EndMarks;
-                    //Console.WriteLine(sentence);
+                if (sentence.Text.Count < length)
+                {
+                    var type = (NgramType)sentence.Text.Count;
+                    Output.AddRange(AnalyzeSentence(sentence, type));
                     continue;
-                }   
-                start = DateTime.Now;
-                var combinationWords = CreateCombinationsWordList(sentence.Text);
-                stop = DateTime.Now;
-                time = stop - start;
-                //Console.WriteLine($"Czas generowania kombinacji słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
-
-                start = DateTime.Now;
-                combinationWords = _dictionary.CheckWords(combinationWords);
-                stop = DateTime.Now;
-                time = stop - start;
-                //Console.WriteLine($"Czas sprawdzania słów: {new DateTime(time.Ticks):HH:mm:ss.f}");
-
-                start = DateTime.Now;
-                ngramVariants.AddRange(CreateNgramVariantsList(sentence.Text, combinationWords, length));
-                stop = DateTime.Now;
-                time = stop - start;
-                //Console.WriteLine($"Czas generowania kombinacji ngramów: {new DateTime(time.Ticks):HH:mm:ss.f}");
-
-                var ngrams = new List<NGram>();
-                stop = DateTime.Now;
-                time = stop - stop;
-                for (var i = 0; i < 1; ++i)
-                {
-                    start = DateTime.Now;
-                    ngrams = GetAllData(ngramVariants).ToList();
-                    stop = DateTime.Now;
-                    time += stop - start;
                 }
-                //Console.WriteLine($"Czas pobierania danych SINGLE QUERY: {new DateTime(time.Ticks / 20):HH:mm:ss.f}");
 
-                start = DateTime.Now;
-                foreach (var variant in ngramVariants)
-                {
-                    variant.UpdateNGramsVariants(ngrams);
-                    variant.RestoreUpperLettersInVariants();
-                }
-                stop = DateTime.Now;
-                time = stop - start;
-                //Console.WriteLine($"Czas aktualizowania ngramów: {new DateTime(time.Ticks):HH:mm:ss.f}");
-
-                start = DateTime.Now;
-                var finalVariants = FindTheBestNgramFromNgramsVariants(ngramVariants);
-                stop = DateTime.Now;
-                time = stop - start;
-                //Console.WriteLine($"Czas analizowania: {new DateTime(time.Ticks):HH:mm:ss.f}");
-                //Console.WriteLine("Koniec");
-
-                Output.AddRange(AnalyzeNgramsList(finalVariants, length, sentence.Text.Count));
-                Output[Output.Count - 1] = Output[Output.Count - 1] + sentence.EndMarks;
+                Output.AddRange(AnalyzeSentence(sentence, _ngramType));
             }
 
             return ReturnForm(InputWithWhiteMarks, Output);
@@ -193,6 +140,30 @@ namespace NgramAnalyzer
         #endregion
 
         #region PRIVATE
+
+        private List<string> AnalyzeSentence(Sentence sentence, NgramType type)
+        {
+            var length = (int)type;
+            var result = new List<string>();
+            var ngramVariants = new List<NGramVariants>();
+
+            var combinationWords = CreateCombinationsWordList(sentence.Text);
+            combinationWords = _dictionary.CheckWords(combinationWords);
+            ngramVariants.AddRange(CreateNgramVariantsList(sentence.Text, combinationWords, length));
+            var ngrams = GetAllData(ngramVariants,type).ToList();
+            foreach (var variant in ngramVariants)
+            {
+                variant.UpdateNGramsVariants(ngrams);
+                variant.RestoreUpperLettersInVariants();
+            }
+            var finalVariants = FindTheBestNgramFromNgramsVariants(ngramVariants);
+
+            result.AddRange(AnalyzeNgramsList(finalVariants, length, sentence.Text.Count));
+            result[result.Count - 1] = result[result.Count - 1] + sentence.EndMarks;
+
+            return result;
+        }
+
         private string FindWordFromNgramList(List<NGram> ngrams)
         {
             var ngram = ngrams.MaxBy(x => x.Value).ElementAt(0);
@@ -201,7 +172,7 @@ namespace NgramAnalyzer
             return ngram.WordsList[ngram.WordsList.Count - index - 1];
         }
 
-        private IEnumerable<NGram> GetAllData(List<NGramVariants> wordLists)
+        private IEnumerable<NGram> GetAllData(List<NGramVariants> wordLists, NgramType type)
         {
             var ngramsList = new List<NGram>();
             var ngramVariants = new List<NGram>();
@@ -220,7 +191,7 @@ namespace NgramAnalyzer
             _db.ConnectToDb();
             foreach (var elem in ngramVariants)
             {
-                var data = _db.ExecuteSqlCommand(_queryProvider.GetTheSameNgramsFromTable(_ngramType, elem.WordsList));
+                var data = _db.ExecuteSqlCommand(_queryProvider.GetTheSameNgramsFromTable(type, elem.WordsList));
                 for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
                 {
                     var dataRow = data.Tables[0].Rows[i].ItemArray;

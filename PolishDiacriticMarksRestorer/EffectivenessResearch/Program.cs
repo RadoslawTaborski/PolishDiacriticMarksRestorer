@@ -58,11 +58,11 @@ namespace EffectivenessResearch
                     case "-n4":
                         Settings.Type = NgramType.Quadrigram;
                         break;
-                    case "-fdt":
-                        Settings.FileDictionary = true;
+                    case "-udt":
+                        Settings.UseDictionary = true;
                         break;
-                    case "-fdf":
-                        Settings.FileDictionary = false;
+                    case "-udf":
+                        Settings.UseDictionary = false;
                         break;
                     case "-att":
                         Settings.AlphabeticalTables = true;
@@ -86,8 +86,8 @@ namespace EffectivenessResearch
                     case "-tab":
                         if (index + 4 < args.Length)
                         {
-                            //index++;
-                            //Settings.TableNames[0] = args[index];
+                            index++;
+                            Settings.TableNames[0] = args[index];
                             index++;
                             Settings.TableNames[1] = args[index];
                             index++;
@@ -99,6 +99,8 @@ namespace EffectivenessResearch
                 }
             }
 
+            Initialize();
+
             if (path1 == "" && path2 == "")
             {
                 Console.Write($"Podaj ścieżkę do tekstu: {path}");
@@ -109,8 +111,6 @@ namespace EffectivenessResearch
 
             var pathRep = $"{path2}-report.txt";
             var pathOut = $"{path2}-output.txt";
-
-            Initialize();
 
             try
             {
@@ -162,6 +162,7 @@ namespace EffectivenessResearch
             }
 
             Console.Write("\r\n");
+           // Console.Read();
         }
 
         private static void Initialize()
@@ -171,9 +172,13 @@ namespace EffectivenessResearch
                 ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
-            _analyzer = Settings.SentenceSpliterOn 
-                ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), LoadUnigrams(), new SentenceSpliter()) 
-                : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), LoadUnigrams(), null);
+            _analyzer = Settings.UseDictionary
+                ? (Settings.SentenceSpliterOn
+                    ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter())
+                    : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null))
+                : (Settings.SentenceSpliterOn
+                    ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter())
+                    : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null));
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
@@ -258,7 +263,7 @@ namespace EffectivenessResearch
         {
             var result = "\tOpis:\r\n";
             result += $"Typ ngramów:\t{Settings.Type}\r\n";
-            result += $"Słownik z pliku:\t{Settings.FileDictionary}\r\n";
+            result += $"Wsparcie unigramami:\t{Settings.UseDictionary}\r\n";
             result += $"Tabele alfabetyczne:\t{Settings.AlphabeticalTables}\r\n";
             result += $"Podział na zdania:\t{Settings.SentenceSpliterOn}\r\n";
             result += $"Serwer:\t{Settings.Server}\r\n";

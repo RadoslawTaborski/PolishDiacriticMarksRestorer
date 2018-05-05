@@ -24,10 +24,12 @@ namespace EffectivenessResearch
         /// The database user.
         /// </summary>
         public static readonly string DbUser = "root";
-        /// <summary>
-        /// Use dictionary from file instead database.
-        /// </summary>
-        public static bool FileDictionary = true;
+
+        public static bool UseDictionary = true;
+        ///// <summary>
+        ///// Use dictionary from file instead database.
+        ///// </summary>
+        //public static bool FileDictionary = true;
         /// <summary>
         /// The database password.
         /// </summary>
@@ -35,7 +37,7 @@ namespace EffectivenessResearch
         /// <summary>
         /// The table names list.
         /// </summary>
-        public static IList<string> TableNames = new[] { "dictionary", "digrams", "trigrams", "fourgrams" };
+        public static IList<string> TableNames = new[] { "unigrams", "digrams", "trigrams", "fourgrams" };
         /// <summary>
         /// The alphabetical tables in database
         /// </summary>

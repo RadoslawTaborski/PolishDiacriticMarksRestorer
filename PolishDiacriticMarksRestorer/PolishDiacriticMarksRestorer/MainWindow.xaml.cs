@@ -35,8 +35,8 @@ namespace PolishDiacriticMarksRestorer
         private DateTime _stop;
         public static readonly string Path = "settings.dat";
         private List<List<string>> _lists = new List<List<string>>();
-        private readonly IDictionary _dictionary;
-        private readonly IDictionary _unigrams;
+        private IDictionary _dictionary;
+        private IDictionary _unigrams;
         #endregion
 
         #region CONSTRUCTORS
@@ -55,8 +55,24 @@ namespace PolishDiacriticMarksRestorer
                 ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
-            _analyzer =Settings.SentenceSpliterOn? new Analyzer(new DiacriticMarksAdder(), _dictionary, _unigrams, new SentenceSpliter())
-                    : new Analyzer(new DiacriticMarksAdder(), _dictionary, _unigrams, null);
+            if (Settings.UseDictionary)
+            {
+                if (_dictionary == null)
+                    _dictionary = LoadDictionary();
+            }
+            else
+            {
+                if (_unigrams == null)
+                    _unigrams = LoadUnigrams();
+            }
+
+            _analyzer = Settings.UseDictionary
+                ? (Settings.SentenceSpliterOn
+                    ? new Analyzer(new DiacriticMarksAdder(), _dictionary, new SentenceSpliter())
+                    : new Analyzer(new DiacriticMarksAdder(), _dictionary, null))
+                : (Settings.SentenceSpliterOn
+                    ? new Analyzer(new DiacriticMarksAdder(), _unigrams, new SentenceSpliter())
+                    : new Analyzer(new DiacriticMarksAdder(), _unigrams, null));
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
@@ -123,10 +139,10 @@ namespace PolishDiacriticMarksRestorer
         private IDictionary LoadDictionary()
         {
             if (!File.Exists(Settings.DictionaryPath))
-                return new Dict(new Dictionary<string,int>());
+                return new Dict(new Dictionary<string, int>());
             var logFile = File.ReadAllLines(Settings.DictionaryPath);
             var logList = new List<string>(logFile);
-            var result=new Dictionary<string,int>();
+            var result = new Dictionary<string, int>();
             foreach (var item in logList)
             {
                 result.Add(item, 0);
@@ -143,7 +159,7 @@ namespace PolishDiacriticMarksRestorer
             var result = new Dictionary<string, int>();
             foreach (var item in logList)
             {
-                var str = item.Split(new []{" "}, StringSplitOptions.RemoveEmptyEntries);
+                var str = item.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
                 result.Add(str[1], int.Parse(str[0]));
             }
             return new Dict(result);
@@ -301,7 +317,24 @@ namespace PolishDiacriticMarksRestorer
                 ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
-            _analyzer = Settings.SentenceSpliterOn ? new Analyzer(new DiacriticMarksAdder(), _dictionary, _unigrams, new SentenceSpliter()) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), LoadUnigrams(), null);
+            if (Settings.UseDictionary)
+            {
+                if (_dictionary == null)
+                    _dictionary = LoadDictionary();
+            }
+            else
+            {
+                if (_unigrams == null)
+                    _unigrams = LoadUnigrams();
+            }
+
+            _analyzer = Settings.UseDictionary
+                ? (Settings.SentenceSpliterOn
+                    ? new Analyzer(new DiacriticMarksAdder(), _dictionary, new SentenceSpliter())
+                    : new Analyzer(new DiacriticMarksAdder(), _dictionary, null))
+                : (Settings.SentenceSpliterOn
+                    ? new Analyzer(new DiacriticMarksAdder(), _unigrams, new SentenceSpliter())
+                    : new Analyzer(new DiacriticMarksAdder(), _unigrams, null));
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);

@@ -4,7 +4,8 @@ namespace NgramAnalyzer.Interfaces
 {
     public interface IDictionary
     {
-        /// <summary>
+        Dictionary<string,int> WordList { get; }
+            /// <summary>
         /// Checks if the words are in the dictionary.
         /// </summary>
         /// <param name="str">List of strings to investigate.</param>
