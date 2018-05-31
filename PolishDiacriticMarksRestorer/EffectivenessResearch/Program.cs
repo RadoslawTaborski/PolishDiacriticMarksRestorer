@@ -29,6 +29,7 @@ namespace EffectivenessResearch
             const string pathR = @"D:\PWr\magisterskie\magisterka\Raporty\";
             var path1 = "";
             var path2 = "";
+            var path3 = "";
 
             for (var index = 0; index < args.Length; index++)
             {
@@ -48,6 +49,16 @@ namespace EffectivenessResearch
                             index++;
                             path2 = args[index];
                         }
+                        break;
+                    case "-io":
+                        if (index + 1 < args.Length)
+                        {
+                            index++;
+                            path3 = args[index]+".txt";
+                        }
+                        break;
+                    case "-n1":
+                        Settings.Type = NgramType.Unigram;
                         break;
                     case "-n2":
                         Settings.Type = NgramType.Bigram;
@@ -101,7 +112,7 @@ namespace EffectivenessResearch
 
             Initialize();
 
-            if (path1 == "" && path2 == "")
+            if (path1 == "" || path2 == "")
             {
                 Console.Write($"Podaj ścieżkę do tekstu: {path}");
                 path1 = Console.ReadLine() + ".txt";
@@ -115,6 +126,7 @@ namespace EffectivenessResearch
             try
             {
                 string text;
+                string[] reports = null;
 
                 File.WriteAllText(pathR + pathRep, GenerateDescription());
 
@@ -127,7 +139,29 @@ namespace EffectivenessResearch
                 text = text.RemoveDiacritics();
                 _inputText = TextSpliter.Split(text).ToList();
 
-                var reports = Analyze(text);
+                if (path3 != "")
+                {
+                    using (var sr = new StreamReader(path + path3))
+                    {
+                        var outputText = sr.ReadToEnd();
+                        _outputText = TextSpliter.Split(outputText).ToList();
+                        var time = TimeSpan.Zero;
+                        var result = TextSpliter.SplitAndKeep(outputText).ToList();
+                        var times = new List<TimeSpan>();
+                        for (var i = 0; i < 10; ++i)
+                        {
+                            _start = _stop = DateTime.Now;
+                            times.Add(_stop - _start);
+                        }
+                        var counts = new List<int>{0,0,0,0,0,0,0};
+                        reports = Research(times, counts, result);
+                    }
+                }
+                else
+                {
+                    var result = Analyze(text, out var times, out var counts);
+                    reports = Research(times, counts, result);
+                }
 
                 //Console.Write($"\r\n{reports[0]}\r\n Tekst wynikowy:\r\n{reports[1]}");
                 File.AppendAllText(pathR + pathRep, reports[0]);
@@ -137,32 +171,10 @@ namespace EffectivenessResearch
             {
                 Console.WriteLine("Brak pliku z danymi");
             }
-            catch (FormatException)
-            {
-                Console.WriteLine("Błędna zawartość pliku z danymi");
-            }
-            catch (MySqlException ex)
-            {
-                switch (ex.Number)
-                {
-                    case 0:
-                        Console.WriteLine("Nie można połączyć się z serwerem");
-                        break;
-                    case 1045:
-                        Console.WriteLine("Nieprawidłowa nazwa użytkownika lub hasło do bazy danych");
-                        break;
-                    default:
-                        Console.WriteLine(ex.Message);
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+
 
             Console.Write("\r\n");
-           // Console.Read();
+            //Console.Read();
         }
 
         private static void Initialize()
@@ -215,30 +227,61 @@ namespace EffectivenessResearch
             return new Dict(result);
         }
 
-        private static string[] Analyze(string text)
+        private static List<string> Analyze(string text, out List<TimeSpan> times, out List<int> counts)
         {
+            times = new List<TimeSpan>();
+            for (var i = 0; i < 10; ++i)
+            {
+                _start = _stop = DateTime.Now;
+                times.Add(_stop - _start);
+            }
+
             Timer.Start();
             _start = DateTime.Now;
-            var result = _analyzer.AnalyzeString(text);
+            var result = _analyzer.AnalyzeString(text, ref times, out counts);
+            _stop = DateTime.Now;
             Timer.Stop();
 
             _outputText = _analyzer.Output;
+
+            times[9]=_stop - _start;
+
+            return result;
+        }
+
+        private static string[] Research(List<TimeSpan> times , List<int> counts, List<string> result)
+        {
             _reasercher = new Researcher(_originalText, _inputText, _outputText);
 
-            var time = _stop - _start;
-
-            var reports = GenerateReports(time, result);
+            var reports = GenerateReports(times, counts, result);
 
             return reports;
         }
 
-        private static string[] GenerateReports(TimeSpan time, List<string> output)
+        private static string[] GenerateReports(List<TimeSpan> times, List<int> counts, List<string> output)
         {
             var result = new string[2];
             result[0] = "\r\n";
             result[0] += "\tRaport: \r\n";
-            result[0] += $"Czas wykonywania:\t{new DateTime(time.Ticks):HH:mm:ss.f}\r\n";
-            result[0] += $"Czas wykonywania/słowo:\t{new DateTime(time.Ticks / _originalText.Count):ss.ffff}s\r\n";
+            result[0] += $"Czas wykonywania:\t{new DateTime(times[9].Ticks):HH:mm:ss.f}\r\n";
+            result[0] += $"Czas wykonywania/słowo:\t{new DateTime(times[9].Ticks / _originalText.Count):ss.ffff}s\r\n";
+            result[0] += $"Podział na zdania:\t{new DateTime(times[0].Ticks):HH:mm:ss.f}\r\n";
+            result[0] += $"Tworzenie kombinacji:\t{new DateTime(times[1].Ticks):HH:mm:ss.f}\r\n";
+            result[0] += $"Sprawdzanie w słowniku:\t{new DateTime(times[2].Ticks):HH:mm:ss.f}\r\n";
+            result[0] += $"Tworzenie ngramów:\t{new DateTime(times[3].Ticks):HH:mm:ss.f}\r\n";
+            result[0] += $"Wykluczanie jednoznacznych ngramów:\t{new DateTime(times[4].Ticks):HH:mm:ss.f}\r\n";
+            result[0] += $"Pobieranie danych:\t{new DateTime(times[5].Ticks):HH:mm:ss.f}\r\n";
+            result[0] += $"Aktualizacja ngramów:\t{new DateTime(times[6].Ticks):HH:mm:ss.f}\r\n";
+            result[0] += $"Znajdywanie najlepszych wariantów:\t{new DateTime(times[7].Ticks):HH:mm:ss.f}\r\n";
+            result[0] += $"Przywracanie formatu:\t{new DateTime(times[8].Ticks):HH:mm:ss.f}\r\n";
+
+            result[0] += $"Liczba zdań:\t{counts[0]}\r\n";
+            result[0] += $"Liczba kombinacji:\t{counts[1]}\r\n";
+            result[0] += $"Liczba poprawnych kombinacji:\t{counts[2]}\r\n";
+            result[0] += $"Liczba utworzonych ngramów:\t{counts[3]}\r\n";
+            result[0] += $"Liczba niejednoznacznych ngramów:\t{counts[4]}\r\n";
+            result[0] += $"Liczba ngramów w bazie:\t{counts[5]}\r\n";
+            result[0] += $"Liczba wybranych ngramów:\t{counts[6]}\r\n";
 
             result[0] += "\r\n\tMacierz pomyłek: \r\n";
             var res = _reasercher.Count();
@@ -251,7 +294,7 @@ namespace EffectivenessResearch
             }
 
             result[1] = "";
-            for (var i = 0; i < _analyzer.InputWithWhiteMarks.Count(); ++i)
+            for (var i = 0; i < output.Count(); ++i)
             {
                 result[1] += $"{output[i]}";
             }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
 using Moq;
@@ -151,7 +152,8 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Bigram);
-            var result = analyze.AnalyzeString("za przyjeciem");
+            var times = new List<TimeSpan>();
+            var result = analyze.AnalyzeString("za przyjeciem", ref times, out List<int> counts);
 
             Assert.Equal(new List<string> { "za", " ", "przyj璚iem" }, result);
         }
@@ -159,11 +161,12 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void AnalyzeStrings_Trigram_Only3Words()
         {
-            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null);
+            var analyze = new Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null);
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Trigram);
-            var result = analyze.AnalyzeString("za przyjeciem nowej");
+            var times = new List<TimeSpan>();
+            var result = analyze.AnalyzeString("za przyjeciem nowej", ref times, out List<int> counts);
 
             Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "nowej" }, result);
         }
@@ -175,7 +178,8 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Trigram);
-            var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly");
+            var times = new List<TimeSpan>();
+            var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly", ref times, out List<int> counts);
 
             Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "nowej", " ", "uchwa造" }, result);
         }
@@ -187,7 +191,8 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Trigram);
-            var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly z");
+            var times = new List<TimeSpan>();
+            var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly z", ref times, out List<int> counts);
 
             Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "nowej", " ", "uchwa造", " ", "z" }, result);
         }
@@ -199,7 +204,8 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Quadrigram);
-            var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly");
+            var times = new List<TimeSpan>();
+            var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly", ref times, out List<int> counts);
 
             Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "nowej", " ", "uchwa造" }, result);
         }
@@ -211,7 +217,8 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Quadrigram);
-            var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly z");
+            var times = new List<TimeSpan>();
+            var result = analyze.AnalyzeString("za przyjeciem nowej uchwaly z", ref times, out List<int> counts);
 
             Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "nowej", " ", "uchwa造", " ", "z" }, result);
         }
@@ -226,7 +233,8 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(queryProviderMock.Object);
             analyze.SetNgram(NgramType.Bigram);
-            var result = analyze.AnalyzeString("za");
+            var times = new List<TimeSpan>();
+            var result = analyze.AnalyzeString("za", ref times, out List<int> counts);
 
             Assert.Equal(new List<string> { "za" }, result);
         }
@@ -238,7 +246,8 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Bigram);
-            var result = analyze.AnalyzeString("za przyjeciem uchwaly");
+            var times = new List<TimeSpan>();
+            var result = analyze.AnalyzeString("za przyjeciem uchwaly", ref times, out List<int> counts);
 
             Assert.Equal(new List<string> { "za", " ", "przyj璚iem", " ", "uchwa造" }, result);
         }
@@ -272,7 +281,8 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetData(dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Bigram);
-            var result = analyze.AnalyzeString("za przyjeciem uchwaly");
+            var times = new List<TimeSpan>();
+            var result = analyze.AnalyzeString("za przyjeciem uchwaly", ref times, out List<int> counts);
 
             Assert.Equal(new List<string> { "za", " ", "przyjeciem", " ", "uchwaly" }, result);
         }
@@ -284,7 +294,8 @@ namespace NgramAnalyzerTests.Unit
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Bigram);
-            var result = analyze.AnalyzeString("za przyjeciem");
+            var times = new List<TimeSpan>();
+            var result = analyze.AnalyzeString("za przyjeciem",ref times, out List<int> counts);
 
             Assert.Equal(new List<string> { "za", " ", "przyj璚iem" }, result);
         }

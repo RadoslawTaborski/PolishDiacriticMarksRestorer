@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Google.Protobuf;
 using NgramAnalyzer.Common;
 
@@ -9,14 +10,16 @@ namespace NgramAnalyzer.Interfaces
         List<string> Output { get; }
         List<string> Input { get; }
         List<string> InputWithWhiteMarks { get; }
+
         /// <summary>
         /// This method analyze correctness input.
         /// </summary>
         /// <param name="text">text to analyze.</param>
+        /// <param name="times"></param>
         /// <returns>
         /// strings list with result of analyze together with white marks.
         /// </returns>
-        List<string> AnalyzeString(string text);
+        List<string> AnalyzeString(string text, ref List<TimeSpan> times, out List<int> counts);
         /// <summary>
         /// This method set a IQueryProvider.
         /// </summary>

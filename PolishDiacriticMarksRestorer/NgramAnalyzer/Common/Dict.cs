@@ -13,7 +13,7 @@ namespace NgramAnalyzer.Common
         /// <value>
         /// Dictionary word list.
         /// </value>
-        public Dictionary<string, int> WordList { get; }
+        private readonly Dictionary<string, int> _wordList;
 
         #endregion
 
@@ -21,7 +21,7 @@ namespace NgramAnalyzer.Common
 
         public Dict(Dictionary<string, int> list)
         {
-            WordList = list;
+            _wordList = list;
         }
 
         #endregion
@@ -39,7 +39,7 @@ namespace NgramAnalyzer.Common
 
             foreach (var word in str)
             {
-                if (WordList.ContainsKey(word.WithoutPunctationMarks()))
+                if (_wordList.ContainsKey(word.WithoutPunctationMarks()))
                     result.Add(word);
             }
 
@@ -53,7 +53,7 @@ namespace NgramAnalyzer.Common
         /// <returns>true if word is in the dictionary.</returns>
         public bool CheckWord(string str)
         {
-            var result = WordList.ContainsKey(str.WithoutPunctationMarks());
+            var result = _wordList.ContainsKey(str.WithoutPunctationMarks());
 
             return result;
         }

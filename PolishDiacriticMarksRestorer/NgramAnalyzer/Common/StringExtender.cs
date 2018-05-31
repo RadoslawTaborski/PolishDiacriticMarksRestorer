@@ -55,6 +55,9 @@ namespace NgramAnalyzer.Common
             target = target.Replace(@"""", @"");
             target = target.Replace(@".", @"");
             target = target.Replace(@":", @"");
+            target = target.Replace(@"'", @"");
+            target = target.Replace(@"„", @"");
+            target = target.Replace(@"”", @"");
             return target;
         }
 

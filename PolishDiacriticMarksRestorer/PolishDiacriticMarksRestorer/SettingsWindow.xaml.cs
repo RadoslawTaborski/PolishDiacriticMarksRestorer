@@ -14,7 +14,7 @@ namespace PolishDiacriticMarksRestorer
     public partial class SettingsWindow
     {
         #region FIELDS
-        private readonly bool[] _changes = new bool[11];
+        private readonly bool[] _changes = new bool[12];
         #endregion
 
         #region PROPERTIES
@@ -53,6 +53,7 @@ namespace PolishDiacriticMarksRestorer
             Settings.DbUser = TbUserName.Text;
             Settings.DbPassword = TbPassword.Text;
             if (FileDict.IsChecked != null) Settings.UseDictionary = (bool)FileDict.IsChecked;
+            if (SplitSentence.IsChecked != null) Settings.SentenceSpliterOn = (bool)SplitSentence.IsChecked;
             Settings.TableNames[0] = TbUni.Text;
             Settings.TableNames[1] = TbDi.Text;
             Settings.TableNames[2] = TbTri.Text;
@@ -73,6 +74,7 @@ namespace PolishDiacriticMarksRestorer
             TbFour.Text = Settings.TableNames[3];
             AlphaTables.IsChecked = Settings.AlphabeticalTables;
             FileDict.IsChecked = Settings.UseDictionary;
+            SplitSentence.IsChecked = Settings.SentenceSpliterOn;
         }
 
         private void Update()
@@ -162,6 +164,13 @@ namespace PolishDiacriticMarksRestorer
             _changes[10] = !Settings.UseDictionary.Equals(FileDict.IsChecked);
             Update();
             if (FileDict.IsChecked == null) return;
+        }
+
+        private void Split_Checked(object sender, RoutedEventArgs e)
+        {
+            _changes[11] = !Settings.SentenceSpliterOn.Equals(SplitSentence.IsChecked);
+            Update();
+            if (SplitSentence.IsChecked == null) return;
         }
 
         #region TITLE_BAR

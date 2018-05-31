@@ -86,7 +86,8 @@ namespace PolishDiacriticMarksRestorer
         {
             _timer.Start();
             _start = DateTime.Now;
-            var resultsArray = _analyzer.AnalyzeString(text);
+            var times = new List<TimeSpan>();
+            var resultsArray = _analyzer.AnalyzeString(text, ref times, out var counts);
             _lists = _analyzer.CreateWordsCombinations();
 
             Dispatcher.Invoke(() =>
@@ -150,6 +151,20 @@ namespace PolishDiacriticMarksRestorer
             return new Dict(result);
         }
 
+        private IDictionary LoadDictionary2()
+        {
+            if (!File.Exists(Settings.DictionaryPath))
+                return new Dict2(new Dictionary<string, int>());
+            var logFile = File.ReadAllLines(Settings.DictionaryPath);
+            var logList = new List<string>(logFile);
+            var result = new Dictionary<string, int>();
+            foreach (var item in logList)
+            {
+                result.Add(item, 0);
+            }
+            return new Dict2(result);
+        }
+
         private IDictionary LoadUnigrams()
         {
             if (!File.Exists(Settings.UnigramPath))
@@ -163,6 +178,21 @@ namespace PolishDiacriticMarksRestorer
                 result.Add(str[1], int.Parse(str[0]));
             }
             return new Dict(result);
+        }
+
+        private IDictionary LoadUnigrams2()
+        {
+            if (!File.Exists(Settings.UnigramPath))
+                return new Dict2(new Dictionary<string, int>());
+            var logFile = File.ReadAllLines(Settings.UnigramPath);
+            var logList = new List<string>(logFile);
+            var result = new Dictionary<string, int>();
+            foreach (var item in logList)
+            {
+                var str = item.Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries);
+                result.Add(str[1], int.Parse(str[0]));
+            }
+            return new Dict2(result);
         }
 
         private void ExceptionHandler(Task task1)
