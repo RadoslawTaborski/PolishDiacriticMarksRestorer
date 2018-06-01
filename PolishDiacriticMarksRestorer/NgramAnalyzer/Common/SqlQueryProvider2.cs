@@ -391,6 +391,7 @@ namespace NgramAnalyzer.Common
         private int GetIndexOfNames(string str)
         {
             string tmp;
+            if (str == "") return 0;
             switch (str[0])
             {
                 case 'ą':

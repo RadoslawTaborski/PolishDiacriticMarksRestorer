@@ -14,7 +14,7 @@ namespace PolishDiacriticMarksRestorer
     public partial class SettingsWindow
     {
         #region FIELDS
-        private readonly bool[] _changes = new bool[12];
+        private readonly bool[] _changes = new bool[13];
         #endregion
 
         #region PROPERTIES
@@ -54,6 +54,7 @@ namespace PolishDiacriticMarksRestorer
             Settings.DbPassword = TbPassword.Text;
             if (FileDict.IsChecked != null) Settings.UseDictionary = (bool)FileDict.IsChecked;
             if (SplitSentence.IsChecked != null) Settings.SentenceSpliterOn = (bool)SplitSentence.IsChecked;
+            if (IgnorePunctationMarks.IsChecked != null) Settings.IgnorePunctationMarks = (bool)IgnorePunctationMarks.IsChecked;
             Settings.TableNames[0] = TbUni.Text;
             Settings.TableNames[1] = TbDi.Text;
             Settings.TableNames[2] = TbTri.Text;
@@ -63,7 +64,7 @@ namespace PolishDiacriticMarksRestorer
 
         private void GetSettings()
         {
-            CbType.SelectedIndex = (int)Settings.Type - 2;
+            CbType.SelectedIndex = (int)Settings.Type - 1;
             TbServer.Text = Settings.Server;
             TbDbName.Text = Settings.DbName;
             TbUserName.Text = Settings.DbUser;
@@ -75,6 +76,7 @@ namespace PolishDiacriticMarksRestorer
             AlphaTables.IsChecked = Settings.AlphabeticalTables;
             FileDict.IsChecked = Settings.UseDictionary;
             SplitSentence.IsChecked = Settings.SentenceSpliterOn;
+            IgnorePunctationMarks.IsChecked = Settings.IgnorePunctationMarks;
         }
 
         private void Update()
@@ -171,6 +173,13 @@ namespace PolishDiacriticMarksRestorer
             _changes[11] = !Settings.SentenceSpliterOn.Equals(SplitSentence.IsChecked);
             Update();
             if (SplitSentence.IsChecked == null) return;
+        }
+
+        private void Punctation_Checked(object sender, RoutedEventArgs e)
+        {
+            _changes[12] = !Settings.IgnorePunctationMarks.Equals(IgnorePunctationMarks.IsChecked);
+            Update();
+            if (IgnorePunctationMarks.IsChecked == null) return;
         }
 
         #region TITLE_BAR

@@ -44,10 +44,12 @@
                             <ComboBox x:Name="CbType" Height="25" ItemsSource="{Binding Source={local:EnumBindingSource {x:Type common:NgramType}}}" 
                                        DisplayMemberPath="Value" SelectedValuePath="Value" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" SelectionChanged="NgramChanged" />
                             <Label Content="Rodzaj NGramu" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
-                            <Label Content="Słownik" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <Label Content="Słownik zamiast unigramów" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
                             <CheckBox x:Name="FileDict" Height="15" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" Checked="FileDict_Checked" Unchecked="FileDict_Checked"/>
                             <Label Content="Podział na zdania" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
                             <CheckBox x:Name="SplitSentence" Height="15" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8"  Unchecked="Split_Checked" Checked="Split_Checked"/>
+                            <Label Content="Ignorowanie interpunkcji" Style="{StaticResource MyLabel}" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"  Margin="8"/>
+                            <CheckBox x:Name="IgnorePunctationMarks" Height="15" Grid.Column="1" Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="8" Checked="Punctation_Checked"  Unchecked="Punctation_Checked" />
                         </Grid>
                     </Border>
                 </TabItem>

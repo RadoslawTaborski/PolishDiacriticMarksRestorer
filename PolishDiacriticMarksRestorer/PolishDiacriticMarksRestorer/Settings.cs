@@ -19,7 +19,7 @@ namespace PolishDiacriticMarksRestorer
         /// <summary>
         /// The database name.
         /// </summary>
-        public static string DbName = "ngrams";
+        public static string DbName = "alphabig";
         /// <summary>
         /// The database user.
         /// </summary>
@@ -40,7 +40,7 @@ namespace PolishDiacriticMarksRestorer
         /// <summary>
         /// The alphabetical tables in database
         /// </summary>
-        public static bool AlphabeticalTables = false;
+        public static bool AlphabeticalTables = true;
         /// <summary>
         /// Path to dictionary file
         /// </summary>
@@ -51,5 +51,7 @@ namespace PolishDiacriticMarksRestorer
         public static string UnigramPath = @"Resources/unigrams";
 
         public static bool SentenceSpliterOn = true;
+
+        public static bool IgnorePunctationMarks = true;
     }
 }

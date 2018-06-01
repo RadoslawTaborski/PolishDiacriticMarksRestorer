@@ -16,10 +16,11 @@ namespace NgramAnalyzer.Interfaces
         /// </summary>
         /// <param name="text">text to analyze.</param>
         /// <param name="times"></param>
+        /// <param name="counts"></param>
         /// <returns>
         /// strings list with result of analyze together with white marks.
         /// </returns>
-        List<string> AnalyzeString(string text, ref List<TimeSpan> times, out List<int> counts);
+        List<string> AnalyzeString(string text, out List<TimeSpan> times, out List<int> counts);
         /// <summary>
         /// This method set a IQueryProvider.
         /// </summary>

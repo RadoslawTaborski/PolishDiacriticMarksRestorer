@@ -50,6 +50,11 @@ namespace NgramAnalyzer.Common
             _connectionDb.Open();
         }
 
+        public bool DbIsOpen()
+        {
+            return _connectionDb.State == ConnectionState.Open;
+        }
+
         /// <summary>
         /// This method connects to server with databases.
         /// </summary>
@@ -132,7 +137,7 @@ namespace NgramAnalyzer.Common
                    "UID=" + _uid + ";" +
                    "PASSWORD=" + _password + ";" +
                    "SslMode=none; charset=utf8;" +
-                   "Allow User Variables=True";
+                   "Allow User Variables=True;";
         }
 
         private string InitializeServerString()

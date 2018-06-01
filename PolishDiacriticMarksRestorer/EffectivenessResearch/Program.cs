@@ -54,7 +54,7 @@ namespace EffectivenessResearch
                         if (index + 1 < args.Length)
                         {
                             index++;
-                            path3 = args[index]+".txt";
+                            path3 = args[index] + ".txt";
                         }
                         break;
                     case "-n1":
@@ -86,6 +86,12 @@ namespace EffectivenessResearch
                         break;
                     case "-ssf":
                         Settings.SentenceSpliterOn = false;
+                        break;
+                    case "-ipt":
+                        Settings.IgnorePunctationMarks = true;
+                        break;
+                    case "-ipf":
+                        Settings.IgnorePunctationMarks = false;
                         break;
                     case "-db":
                         if (index + 1 < args.Length)
@@ -145,7 +151,6 @@ namespace EffectivenessResearch
                     {
                         var outputText = sr.ReadToEnd();
                         _outputText = TextSpliter.Split(outputText).ToList();
-                        var time = TimeSpan.Zero;
                         var result = TextSpliter.SplitAndKeep(outputText).ToList();
                         var times = new List<TimeSpan>();
                         for (var i = 0; i < 10; ++i)
@@ -153,7 +158,7 @@ namespace EffectivenessResearch
                             _start = _stop = DateTime.Now;
                             times.Add(_stop - _start);
                         }
-                        var counts = new List<int>{0,0,0,0,0,0,0};
+                        var counts = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
                         reports = Research(times, counts, result);
                     }
                 }
@@ -186,11 +191,11 @@ namespace EffectivenessResearch
 
             _analyzer = Settings.UseDictionary
                 ? (Settings.SentenceSpliterOn
-                    ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter())
-                    : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null))
+                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), false))
+                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, false)))
                 : (Settings.SentenceSpliterOn
-                    ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter())
-                    : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null));
+                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), false))
+                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, false)));
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
@@ -229,27 +234,20 @@ namespace EffectivenessResearch
 
         private static List<string> Analyze(string text, out List<TimeSpan> times, out List<int> counts)
         {
-            times = new List<TimeSpan>();
-            for (var i = 0; i < 10; ++i)
-            {
-                _start = _stop = DateTime.Now;
-                times.Add(_stop - _start);
-            }
-
             Timer.Start();
             _start = DateTime.Now;
-            var result = _analyzer.AnalyzeString(text, ref times, out counts);
+            var result = _analyzer.AnalyzeString(text, out times, out counts);
             _stop = DateTime.Now;
             Timer.Stop();
 
             _outputText = _analyzer.Output;
 
-            times[9]=_stop - _start;
+            times[9] = _stop - _start;
 
             return result;
         }
 
-        private static string[] Research(List<TimeSpan> times , List<int> counts, List<string> result)
+        private static string[] Research(List<TimeSpan> times, List<int> counts, List<string> result)
         {
             _reasercher = new Researcher(_originalText, _inputText, _outputText);
 
@@ -264,7 +262,7 @@ namespace EffectivenessResearch
             result[0] = "\r\n";
             result[0] += "\tRaport: \r\n";
             result[0] += $"Czas wykonywania:\t{new DateTime(times[9].Ticks):HH:mm:ss.f}\r\n";
-            result[0] += $"Czas wykonywania/słowo:\t{new DateTime(times[9].Ticks / _originalText.Count):ss.ffff}s\r\n";
+            result[0] += $"Czas wykonywania/słowo:\t{new DateTime(times[9].Ticks / _originalText.Count):ss.ffff}\r\n";
             result[0] += $"Podział na zdania:\t{new DateTime(times[0].Ticks):HH:mm:ss.f}\r\n";
             result[0] += $"Tworzenie kombinacji:\t{new DateTime(times[1].Ticks):HH:mm:ss.f}\r\n";
             result[0] += $"Sprawdzanie w słowniku:\t{new DateTime(times[2].Ticks):HH:mm:ss.f}\r\n";
@@ -272,7 +270,7 @@ namespace EffectivenessResearch
             result[0] += $"Wykluczanie jednoznacznych ngramów:\t{new DateTime(times[4].Ticks):HH:mm:ss.f}\r\n";
             result[0] += $"Pobieranie danych:\t{new DateTime(times[5].Ticks):HH:mm:ss.f}\r\n";
             result[0] += $"Aktualizacja ngramów:\t{new DateTime(times[6].Ticks):HH:mm:ss.f}\r\n";
-            result[0] += $"Znajdywanie najlepszych wariantów:\t{new DateTime(times[7].Ticks):HH:mm:ss.f}\r\n";
+            result[0] += $"Analiza ngramów:\t{new DateTime(times[7].Ticks):HH:mm:ss.f}\r\n";
             result[0] += $"Przywracanie formatu:\t{new DateTime(times[8].Ticks):HH:mm:ss.f}\r\n";
 
             result[0] += $"Liczba zdań:\t{counts[0]}\r\n";
@@ -306,9 +304,10 @@ namespace EffectivenessResearch
         {
             var result = "\tOpis:\r\n";
             result += $"Typ ngramów:\t{Settings.Type}\r\n";
-            result += $"Wsparcie unigramami:\t{Settings.UseDictionary}\r\n";
+            result += $"Użycie słownika:\t{Settings.UseDictionary}\r\n";
             result += $"Tabele alfabetyczne:\t{Settings.AlphabeticalTables}\r\n";
             result += $"Podział na zdania:\t{Settings.SentenceSpliterOn}\r\n";
+            result += $"Ignorowanie znaków interpunkcyjnych:\t{Settings.IgnorePunctationMarks}\r\n";
             result += $"Serwer:\t{Settings.Server}\r\n";
             result += $"Użytkownik:\t{Settings.DbUser}\r\n";
             result += $"Baza danych:\t{Settings.DbName}\r\n";

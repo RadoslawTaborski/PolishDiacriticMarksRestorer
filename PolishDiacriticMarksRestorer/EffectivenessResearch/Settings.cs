@@ -52,5 +52,7 @@ namespace EffectivenessResearch
         public static string UnigramPath = @"Resources/unigrams";
 
         public static bool SentenceSpliterOn=true;
+
+        public static bool IgnorePunctationMarks = true;
     }
 }

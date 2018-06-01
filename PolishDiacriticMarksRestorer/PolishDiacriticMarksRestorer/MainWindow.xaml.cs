@@ -68,11 +68,11 @@ namespace PolishDiacriticMarksRestorer
 
             _analyzer = Settings.UseDictionary
                 ? (Settings.SentenceSpliterOn
-                    ? new Analyzer(new DiacriticMarksAdder(), _dictionary, new SentenceSpliter())
-                    : new Analyzer(new DiacriticMarksAdder(), _dictionary, null))
+                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), false))
+                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, false)))
                 : (Settings.SentenceSpliterOn
-                    ? new Analyzer(new DiacriticMarksAdder(), _unigrams, new SentenceSpliter())
-                    : new Analyzer(new DiacriticMarksAdder(), _unigrams, null));
+                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), false))
+                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, false)));
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
@@ -86,8 +86,7 @@ namespace PolishDiacriticMarksRestorer
         {
             _timer.Start();
             _start = DateTime.Now;
-            var times = new List<TimeSpan>();
-            var resultsArray = _analyzer.AnalyzeString(text, ref times, out var counts);
+            var resultsArray = _analyzer.AnalyzeString(text, out var times, out var counts);
             _lists = _analyzer.CreateWordsCombinations();
 
             Dispatcher.Invoke(() =>
@@ -360,11 +359,11 @@ namespace PolishDiacriticMarksRestorer
 
             _analyzer = Settings.UseDictionary
                 ? (Settings.SentenceSpliterOn
-                    ? new Analyzer(new DiacriticMarksAdder(), _dictionary, new SentenceSpliter())
-                    : new Analyzer(new DiacriticMarksAdder(), _dictionary, null))
+                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), false))
+                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, false)))
                 : (Settings.SentenceSpliterOn
-                    ? new Analyzer(new DiacriticMarksAdder(), _unigrams, new SentenceSpliter())
-                    : new Analyzer(new DiacriticMarksAdder(), _unigrams, null));
+                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), false))
+                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, false)));
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);

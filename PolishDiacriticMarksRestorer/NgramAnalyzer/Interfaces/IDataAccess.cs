@@ -9,6 +9,8 @@ namespace NgramAnalyzer.Interfaces
         /// This method connects with database.
         /// </summary>
         void ConnectToDb();
+
+        bool DbIsOpen();
         /// <summary>
         /// This method connects to server with databases.
         /// </summary>
