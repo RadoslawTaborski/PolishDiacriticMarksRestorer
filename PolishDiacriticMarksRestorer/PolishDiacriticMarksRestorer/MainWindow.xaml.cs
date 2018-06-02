@@ -34,7 +34,7 @@ namespace PolishDiacriticMarksRestorer
         private DateTime _start;
         private DateTime _stop;
         public static readonly string Path = "settings.dat";
-        private List<List<string>> _lists = new List<List<string>>();
+        private List<Tuple<List<string>, bool>> _lists = new List<Tuple<List<string>, bool>>();
         private IDictionary _dictionary;
         private IDictionary _unigrams;
         #endregion
@@ -101,9 +101,9 @@ namespace PolishDiacriticMarksRestorer
                 var i1 = i;
                 Dispatcher.Invoke(() =>
                 {
-                    switch (_lists[i1].Count())
+                    switch (_lists[i1].Item1.Count())
                     {
-                        case 0:
+                        case int n when n > 1 && !_lists[i1].Item2:
                             RtbResult.AppendTextColors(resultsArray[i1], new SolidColorBrush(Colors.Firebrick), new SolidColorBrush(Colors.White));
                             break;
                         case 1 when _analyzer.InputWithWhiteMarks[i1] != resultsArray[i1]:
@@ -276,8 +276,8 @@ namespace PolishDiacriticMarksRestorer
 
             foreach (var item in _lists)
             {
-                if (item.Contains(word.Text))
-                    results = item;
+                if (item.Item1.Contains(word.Text))
+                    results = item.Item1.Take(10).ToList();
             }
 
             RtbResult.SetContextMenu(results, new Regex("[ĄĆĘŁŃÓŚŻŹąćęłńóśżź]"), new SolidColorBrush(Colors.Black), new SolidColorBrush(Colors.LimeGreen), (SolidColorBrush)(FindResource("MyAzure")), new SolidColorBrush(Colors.Transparent));

@@ -37,6 +37,6 @@ namespace NgramAnalyzer.Interfaces
         /// <param name="db">The database.</param>
         void SetData(IDataAccess db);
         int SetWords(string text);
-        List<List<string>> CreateWordsCombinations();
+        List<Tuple<List<string>, bool>> CreateWordsCombinations();
     }
 }

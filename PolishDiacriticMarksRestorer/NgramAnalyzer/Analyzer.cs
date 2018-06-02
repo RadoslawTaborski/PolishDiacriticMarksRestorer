@@ -119,24 +119,31 @@ namespace NgramAnalyzer
             return Input.Count();
         }
 
-        public List<List<string>> CreateWordsCombinations()
+        public List<Tuple<List<string>,bool>> CreateWordsCombinations()
         {
-            var result = new List<List<string>>();
+            var result = new List<Tuple<List<string>, bool>>();
 
             foreach (var item in InputWithWhiteMarks)
             {
                 var flag = false;
                 if (TextSpliter.Delimiters.Any(elem => item == elem))
                 {
-                    result.Add(new List<string>() { item });
+                    result.Add(new Tuple<List<string>, bool>(new List<string>() { item }, true));
                     flag = true;
                 }
 
                 if (flag) continue;
                 var list = CreateCombinationsWord(item);
-                list = _dictionary.CheckWords(list);
+                var tmp = _dictionary.CheckWords(list);
+                var results = false;
+                if (tmp.Count != 0)
+                {
+                    list = tmp;
+                    results = true;
+                }
+
                 RestoreUpperLetter(item, ref list);
-                result.Add(list);
+                result.Add(new Tuple<List<string>, bool>(new List<string>(list), results));
             }
 
             return result;
@@ -439,7 +446,7 @@ namespace NgramAnalyzer
             for (var index = 0; index < ngramsVar.Count; index++)
             {
                 if (ngramsVar[index].NgramVariants.Count == 1)
-                    finalVariants[index] = ngramsVar[index].NgramVariants[0];
+                    finalVariants[index] = new NGram(int.MaxValue, ngramsVar[index].NgramVariants[0].WordsList);
             }
 
             var idx = new List<int>();
