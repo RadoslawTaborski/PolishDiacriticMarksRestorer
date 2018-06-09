@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
 
-namespace NgramAnalyzer
+namespace NgramAnalyzer.Common
 {
     public class DiacriticMarksAdder : IDiacriticMarksAdder
     {

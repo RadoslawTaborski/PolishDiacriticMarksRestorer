@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EffectivenessResearch", "Ef
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EffectivenessResearchTests.Unit", "EffectivenessResearchTests.Unit\EffectivenessResearchTests.Unit.csproj", "{3E7409C7-5E4F-4F49-B6CB-E5A810983461}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PolishDiacriticMarksRemover", "PolishDiacriticMarksRemover\PolishDiacriticMarksRemover.csproj", "{CB83553D-F333-43C8-ACB0-AC1EE3391293}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PolishDiacriticMarksRemover", "PolishDiacriticMarksRemover\PolishDiacriticMarksRemover.csproj", "{CB83553D-F333-43C8-ACB0-AC1EE3391293}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,7 +54,6 @@ Global
 		{3C433038-4DCB-4123-A15B-5021A1FEFFEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C433038-4DCB-4123-A15B-5021A1FEFFEB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3E7409C7-5E4F-4F49-B6CB-E5A810983461}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3E7409C7-5E4F-4F49-B6CB-E5A810983461}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E7409C7-5E4F-4F49-B6CB-E5A810983461}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E7409C7-5E4F-4F49-B6CB-E5A810983461}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CB83553D-F333-43C8-ACB0-AC1EE3391293}.Debug|Any CPU.ActiveCfg = Debug|Any CPU

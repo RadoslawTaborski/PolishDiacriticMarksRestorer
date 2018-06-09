@@ -2,7 +2,7 @@
 using System.Linq;
 using NgramAnalyzer.Interfaces;
 
-namespace NgramAnalyzer.Common
+namespace NgramAnalyzer.Common.Dictionaries
 {
     public class Dict2 : IDictionary
     {

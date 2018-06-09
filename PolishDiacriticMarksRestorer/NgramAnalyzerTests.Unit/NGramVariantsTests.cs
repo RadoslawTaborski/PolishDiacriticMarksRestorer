@@ -39,7 +39,7 @@ namespace NgramAnalyzerTests.Unit
 
             foreach (var item in variantsResult)
             {
-                var content = variants.NgramVariants.Contains(item);
+                var content = variants.NgramVariants.Exists(x=>x.Ngram.Equals(item));
                 Assert.True(content);
             }
             Assert.Equal(2, variants.NgramVariants.Count);
@@ -81,7 +81,7 @@ namespace NgramAnalyzerTests.Unit
 
             foreach (var item in variantsResult)
             {
-                var content = variants.NgramVariants.Contains(item);
+                var content = variants.NgramVariants.Exists(x => x.Ngram.Equals(item));
                 Assert.True(content);
             }
 
@@ -161,7 +161,7 @@ namespace NgramAnalyzerTests.Unit
 
             foreach (var item in variantsResult)
             {
-                var content = variants.NgramVariants.Contains(item);
+                var content = variants.NgramVariants.Exists(x => x.Ngram.Equals(item));
                 Assert.True(content);
             }
             Assert.Equal(2, variants.NgramVariants.Count);

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NgramAnalyzer.Common;
+using NgramAnalyzer.Common.Dictionaries;
 using Xunit;
 
 namespace NgramAnalyzerTests.Unit

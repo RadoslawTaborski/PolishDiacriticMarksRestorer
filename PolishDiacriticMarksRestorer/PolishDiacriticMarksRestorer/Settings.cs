@@ -53,5 +53,9 @@ namespace PolishDiacriticMarksRestorer
         public static bool SentenceSpliterOn = true;
 
         public static bool IgnorePunctationMarks = true;
+
+        public static string[] InferningMethod = {"metoda 1", "metoda 2"};
+
+        public static int NoOfMethod = 0;
     }
 }

@@ -4,10 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Timers;
 using EffectivenessResearch.Interfaces;
-using MySql.Data.MySqlClient;
 using NgramAnalyzer;
 using NgramAnalyzer.Interfaces;
 using NgramAnalyzer.Common;
+using NgramAnalyzer.Common.Dictionaries;
+using NgramAnalyzer.Common.IInterpunctionManager;
+using NgramAnalyzer.Common.NgramsConnectors;
+using NgramAnalyzer.Common.SentenceSplitters;
 using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 
 namespace EffectivenessResearch
@@ -22,6 +25,13 @@ namespace EffectivenessResearch
         private static List<string> _inputText;
         private static List<string> _outputText;
         private static IResearcher _reasercher;
+        private static IDictionary _dictionary;
+        private static IDictionary _main;
+        private static IDictionary _unigrams;
+        private static DiacriticMarksAdder _diacriticMarksAdder;
+        private static SentenceSpliter _spliter;
+        private static InclusionManager _iManager;
+        private static INgramsConnector _connector;
 
         private static void Main(string[] args)
         {
@@ -93,6 +103,12 @@ namespace EffectivenessResearch
                     case "-ipf":
                         Settings.IgnorePunctationMarks = false;
                         break;
+                    case "-m1":
+                        Settings.NoOfMethod = 0;
+                        break;
+                    case "-m2":
+                        Settings.NoOfMethod = 1;
+                        break;
                     case "-db":
                         if (index + 1 < args.Length)
                         {
@@ -132,7 +148,7 @@ namespace EffectivenessResearch
             try
             {
                 string text;
-                string[] reports = null;
+                string[] reports;
 
                 File.WriteAllText(pathR + pathRep, GenerateDescription());
 
@@ -189,13 +205,29 @@ namespace EffectivenessResearch
                 ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
-            _analyzer = Settings.UseDictionary
-                ? (Settings.SentenceSpliterOn
-                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), false))
-                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, false)))
-                : (Settings.SentenceSpliterOn
-                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), false))
-                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, false)));
+            if (Settings.UseDictionary)
+            {
+                if (_dictionary == null)
+                {
+                    _dictionary = LoadDictionary();
+                    _main = _dictionary;
+                }
+            }
+            else
+            {
+                if (_unigrams == null)
+                {
+                    _unigrams = LoadUnigrams();
+                    _main = _unigrams;
+                }
+            }
+
+            _diacriticMarksAdder = new DiacriticMarksAdder();
+            _spliter = Settings.SentenceSpliterOn ? new SentenceSpliter() : null;
+            _iManager = Settings.IgnorePunctationMarks ? new InclusionManager() : null;
+            _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector)new Variant1() : new Variant2();
+
+            _analyzer = new Analyzer(_diacriticMarksAdder, _main, _spliter, _iManager, _connector);
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);

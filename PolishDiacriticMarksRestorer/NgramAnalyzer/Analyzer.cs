@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using MoreLinq;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
 using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
@@ -22,40 +21,8 @@ namespace NgramAnalyzer
         private readonly ISentenceSpliter _spliter;
         private readonly IDiacriticMarksAdder _diacriticAdder;
         private NgramType _ngramType;
-        private readonly bool _ignorePunctationMarksInNgrams;
-        private readonly List<string> _preposition = new List<string>
-        {
-            //"o",
-            //"w",
-            //"we",
-            "z",
-            "ze",
-            //"na",
-            //"od",
-            //"ode",
-            //"do",
-            "za",
-            //"po",
-            //"dla",
-            //"bez",
-            //"beze",
-            "pod",
-            "pode",
-            "nad",
-            "nade",
-            //"obok",
-            //"przy",
-            //"przez",
-            //"przeze",
-            "przed",
-            "przede",
-            "między",
-            "pomiędzy",
-            //"według",
-            //"zamiast",
-            //"podczas",
-            "ja"
-        };
+        private readonly IInterpunctionManager _iManager;
+        private readonly INgramsConnector _ngramConnector;
 
         public List<string> Input { get; private set; }
         public List<string> InputWithWhiteMarks { get; private set; }
@@ -71,13 +38,15 @@ namespace NgramAnalyzer
         /// <param name="diacriticAdder">The diacritic adder.</param>
         /// <param name="dictionary">The dictionary.</param>
         /// <param name="spliter"></param>
-        /// <param name="ignorePunctationMarksInNgrams"></param>
-        public Analyzer(IDiacriticMarksAdder diacriticAdder, IDictionary dictionary, ISentenceSpliter spliter, bool ignorePunctationMarksInNgrams)
+        /// <param name="iManager"></param>
+        /// <param name="ngramConnector"></param>
+        public Analyzer(IDiacriticMarksAdder diacriticAdder, IDictionary dictionary, ISentenceSpliter spliter, IInterpunctionManager iManager, INgramsConnector ngramConnector)
         {
             _diacriticAdder = diacriticAdder;
             _dictionary = dictionary;
             _spliter = spliter;
-            _ignorePunctationMarksInNgrams = ignorePunctationMarksInNgrams;
+            _ngramConnector = ngramConnector;
+            _iManager = iManager;
         }
         #endregion
 
@@ -237,7 +206,8 @@ namespace NgramAnalyzer
             times[4] += stop - start;
 
             start = DateTime.Now;
-            var ngrams = GetAllData(tmp, type, _ignorePunctationMarksInNgrams).ToList();
+            var ngrams = GetAllData(tmp, type).ToList();
+            //var ngrams = new List<NGram>();
             stop = DateTime.Now;
             counts[5] += ngrams.Count;
             times[5] += stop - start;
@@ -247,12 +217,13 @@ namespace NgramAnalyzer
             {
                 variant.UpdateNGramsVariants(ngrams);
                 variant.RestoreUpperLettersInVariants();
+                variant.CountProbability(tmp.Contains(variant));
             }
             stop = DateTime.Now;
             times[6] += stop - start;
 
             start = DateTime.Now;
-            result.AddRange(AnalyzeNgramsVariants2(ngramVariants, length, sentence.Text.Count));
+            result.AddRange(_ngramConnector.AnalyzeNgramsVariants(ngramVariants, length, sentence.Text.Count));
             result[result.Count - 1] = result[result.Count - 1] + sentence.EndMarks;
             counts[6] = result.Count;
             stop = DateTime.Now;
@@ -261,15 +232,7 @@ namespace NgramAnalyzer
             return result;
         }
 
-        private string FindWordFromNgramList(List<NGram> ngrams)
-        {
-            var ngram = ngrams.MaxBy(x => x.Value).ElementAt(0);
-            var index = ngrams.IndexOf(ngram);
-
-            return ngram.WordsList[ngram.WordsList.Count - index - 1];
-        }
-
-        private IEnumerable<NGram> GetAllData(List<NGramVariants> wordLists, NgramType type, bool ignorePunctationMarks)
+        private IEnumerable<NGram> GetAllData(List<NGramVariants> wordLists, NgramType type)
         {
             var ngramsList = new List<NGram>();
             var ngramVariants = new List<NGram>();
@@ -278,7 +241,7 @@ namespace NgramAnalyzer
             {
                 foreach (var elem in item.NgramVariants)
                 {
-                    ngramVariants.Add(elem);
+                    ngramVariants.Add(elem.Ngram);
                 }
             }
 
@@ -294,11 +257,8 @@ namespace NgramAnalyzer
             {
                 var tmp = new NGram(elem);
 
-                if (ignorePunctationMarks)
-                    for (var i = 0; i < tmp.WordsList.Count; i++)
-                    {
-                        tmp.WordsList[i] = tmp.WordsList[i].WithoutPunctationMarks();
-                    }
+                if (_iManager != null)
+                    tmp = _iManager.Remove(tmp);
 
                 var data = _db.ExecuteSqlCommand(_queryProvider.GetTheSameNgramsFromTable(type, tmp.WordsList));
                 for (var i = 0; i < data.Tables[0].Rows.Count; ++i)
@@ -307,8 +267,8 @@ namespace NgramAnalyzer
                     var ngram = StringArrayToNgram(dataRow.Select(a => a.ToString()).ToArray());
                     if (ngram == null) continue;
                     var n = (NGram)ngram;
-                    if (ignorePunctationMarks)
-                        RestorePunctationMarks(n, elem);
+                    if (_iManager != null)
+                        n=_iManager.Restore(elem, n);
                     ngramsList.Add(n);
                 }
 
@@ -316,33 +276,6 @@ namespace NgramAnalyzer
             _db.Disconnect();
 
             return ngramsList;
-        }
-
-        private void RestorePunctationMarks(NGram ngram, NGram orginal)
-        {
-            for (var i = 0; i < orginal.WordsList.Count; i++)
-            {
-                var item = orginal.WordsList[i];
-                var indexes = new List<int>();
-                indexes.AddRange(item.AllIndexesOf("."));
-                indexes.AddRange(item.AllIndexesOf(","));
-                indexes.AddRange(item.AllIndexesOf("?"));
-                indexes.AddRange(item.AllIndexesOf("!"));
-                indexes.AddRange(item.AllIndexesOf(";"));
-                indexes.AddRange(item.AllIndexesOf("("));
-                indexes.AddRange(item.AllIndexesOf(")"));
-                indexes.AddRange(item.AllIndexesOf(":"));
-                indexes.AddRange(item.AllIndexesOf("\""));
-                indexes.AddRange(item.AllIndexesOf("'"));
-                indexes.AddRange(item.AllIndexesOf("”"));
-                indexes.AddRange(item.AllIndexesOf("„"));
-                indexes.Sort();
-
-                foreach (var ind in indexes)
-                {
-                    ngram.WordsList[i] = ngram.WordsList[i].Insert(ind, orginal.WordsList[i][ind].ToString());
-                }
-            }
         }
 
         private NGram? StringArrayToNgram(string[] strArray)
@@ -409,138 +342,6 @@ namespace NgramAnalyzer
             }
 
             return ngramVariants;
-        }
-
-        private List<NGram> FindTheBestNgramFromNgramsVariants(List<NGramVariants> variants)
-        {
-            var finalVariants = new List<NGram>();
-            foreach (var item in variants)
-            {
-                var ngram = item.NgramVariants.MaxBy(x => x.Value).ElementAt(0);
-                finalVariants.Add(ngram);
-            }
-
-            return finalVariants;
-        }
-
-        private List<string> AnalyzeNgramsVariants(List<NGramVariants> ngramsVar, int length, int countWords)
-        {
-            var result = new List<string>();
-
-            var finalVariants = FindTheBestNgramFromNgramsVariants(ngramsVar);
-
-            for (var i = 0; i < countWords; ++i)
-            {
-                var tmp = CreateFrame(finalVariants, length, i);
-                result.Add(FindWordFromNgramList(tmp));
-            }
-
-            return result;
-        }
-
-        private List<string> AnalyzeNgramsVariants2(List<NGramVariants> ngramsVar, int length, int countWords)
-        {
-            var result = new List<string>();
-
-            var finalVariants = new NGram[ngramsVar.Count];
-            for (var index = 0; index < ngramsVar.Count; index++)
-            {
-                if (ngramsVar[index].NgramVariants.Count == 1)
-                    finalVariants[index] = new NGram(int.MaxValue, ngramsVar[index].NgramVariants[0].WordsList);
-            }
-
-            var idx = new List<int>();
-            for (var i = 0; i < ngramsVar.Count; ++i)
-            {
-                foreach (var item in ngramsVar[i].OrginalNGram.WordsList.Take(ngramsVar[i].OrginalNGram.WordsList.Count-1))
-                {
-                    if(ngramsVar[i].NgramVariants.Count<2) continue;
-                    var flag = false;
-                    foreach (var prep in _preposition)
-                    {
-                        if (!item.WithoutPunctationMarks().Equals(prep)) continue;
-                        idx.Add(i);
-                        flag = true;
-                        break;
-                    }
-
-                    if (flag) break;
-                }
-            }
-
-            var param2 = 2;
-            var sorted = ngramsVar
-                .Select((x, i) => new KeyValuePair<double, int>(x.NgramVariants.MaxBy(a => a.Value).ElementAt(0).Value, i))
-                .OrderBy(x => x.Key)
-                .ToList();
-
-            var aa = sorted.Where(x => x.Key > param2);
-            var keyValuePairs = aa as KeyValuePair<double, int>[] ?? aa.ToArray();
-            if (keyValuePairs.Any())
-            {
-                var ee = keyValuePairs.ElementAt(0);
-                var ii = sorted.IndexOf(ee);
-                var sublist = sorted.GetRange(0, ii);
-                var sublist2 = sorted.GetRange(ii, sorted.Count() - sublist.Count);
-                sublist.Reverse();
-                sublist2.AddRange(sublist);
-                sorted = sublist2;
-            }
-
-            var idx2 = sorted.Select(x => x.Value).ToList();
-            idx.AddRange(idx2);
-
-            for (var i = 0; i < idx.Count; i++)
-            {
-                if (finalVariants[idx[i]].WordsList != null) continue;
-
-                var tmp = ngramsVar[idx[i]].NgramVariants;
-                if (idx[i] - 1 >= 0)
-                    if (finalVariants[idx[i] - 1].WordsList != null)
-                    {
-                        tmp = tmp.Where(x => x.WordsList[0] == finalVariants[idx[i] - 1].WordsList[1]).ToList();
-                    }
-                if (idx[i] + 1 < ngramsVar.Count && tmp.Count > 1)
-                    if (finalVariants[idx[i] + 1].WordsList != null)
-                    {
-                        tmp = tmp.Where(x => x.WordsList[1] == finalVariants[idx[i] + 1].WordsList[0]).ToList();
-                    }
-
-                if (tmp.Count > 0)
-                {
-                    var ngram = tmp.MaxBy(x => x.Value).ElementAt(0);
-                    finalVariants[idx[i]] = ngram;
-                }
-                else
-                {
-                    var ngram = ngramsVar[i].NgramVariants.MaxBy(x => x.Value).ElementAt(0);
-                    finalVariants[idx[i]] = ngram;
-                }
-            }
-
-
-            for (var i = 0; i < countWords; ++i)
-            {
-                var tmp = CreateFrame(finalVariants.ToList(), length, i);
-                result.Add(FindWordFromNgramList(tmp));
-            }
-
-            return result;
-        }
-
-        private List<NGram> CreateFrame(List<NGram> ngrams, int length, int indexOfWord)
-        {
-            var result = new List<NGram>();
-
-            for (var i = indexOfWord - length + 1; i <= indexOfWord; ++i)
-            {
-                if (i < 0 || i >= ngrams.Count)
-                    result.Add(new NGram(-1, new List<string>()));
-                else
-                    result.Add(ngrams[i]);
-            }
-
-            return result;
         }
 
         private List<string> ReturnForm(List<string> older, List<string> newer)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NgramAnalyzer.Interfaces;
 
-namespace NgramAnalyzer.Common
+namespace NgramAnalyzer.Common.SentenceSplitters
 {
     public class SentenceSpliter : ISentenceSpliter
     {

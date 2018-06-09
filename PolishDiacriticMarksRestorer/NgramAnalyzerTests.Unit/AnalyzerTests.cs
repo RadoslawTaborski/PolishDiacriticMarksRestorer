@@ -148,7 +148,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void AnalyzeStrings_Digram_Only2Words()
         {
-            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object,_dictionaryMock.Object, null, false);
+            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object,_dictionaryMock.Object, null, null, null);
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Bigram);
@@ -160,7 +160,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void AnalyzeStrings_Trigram_Only3Words()
         {
-            var analyze = new Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, false);
+            var analyze = new Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, null, null);
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Trigram);
@@ -172,7 +172,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void AnalyzeStrings_Trigram_Only4Words()
         {
-            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, false);
+            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, null, null);
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Trigram);
@@ -184,7 +184,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void AnalyzeStrings_Trigram_Only5Words()
         {
-            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, false);
+            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, null, null);
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Trigram);
@@ -196,7 +196,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void AnalyzeStrings_Fourgrams_Only4Words()
         {
-            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, false);
+            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, null, null);
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Quadrigram);
@@ -208,7 +208,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void AnalyzeStrings_Fourgrams_Only5Words()
         {
-            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, false);
+            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, null, null);
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Quadrigram);
@@ -223,7 +223,7 @@ namespace NgramAnalyzerTests.Unit
             var queryProviderMock = new Mock<IQueryProvider>();
             var diacriticAdderMock = new Mock<IDiacriticMarksAdder>();
 
-            var analyze = new NgramAnalyzer.Analyzer(diacriticAdderMock.Object, _dictionaryMock.Object, null, false);
+            var analyze = new NgramAnalyzer.Analyzer(diacriticAdderMock.Object, _dictionaryMock.Object, null, null, null);
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(queryProviderMock.Object);
             analyze.SetNgram(NgramType.Bigram);
@@ -235,7 +235,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void AnalyzeStrings_DigramAnalyze3Words_FileDictionary()
         {
-            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, false);
+            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, null, null);
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Bigram);
@@ -269,7 +269,7 @@ namespace NgramAnalyzerTests.Unit
             dataMock.Setup(m => m.ExecuteSqlCommand("di3")).Returns(ds1);
             dataMock.Setup(m => m.ExecuteSqlCommand("di4")).Returns(ds1);
 
-            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, false);
+            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, null, null);
             analyze.SetData(dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Bigram);
@@ -281,7 +281,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void AnalyzeStrings_TryParse_False()
         {
-            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, false);
+            var analyze = new NgramAnalyzer.Analyzer(_diacriticAdderMock.Object, _dictionaryMock.Object, null, null, null);
             analyze.SetData(_dataMock.Object);
             analyze.SetQueryProvider(_queryProviderMock.Object);
             analyze.SetNgram(NgramType.Bigram);

@@ -14,7 +14,7 @@ namespace PolishDiacriticMarksRestorer
     public partial class SettingsWindow
     {
         #region FIELDS
-        private readonly bool[] _changes = new bool[13];
+        private readonly bool[] _changes = new bool[14];
         #endregion
 
         #region PROPERTIES
@@ -31,6 +31,9 @@ namespace PolishDiacriticMarksRestorer
         public SettingsWindow()
         {
             InitializeComponent();
+            CbMethod.Items.Add(Settings.InferningMethod[0]);
+            CbMethod.Items.Add(Settings.InferningMethod[1]);
+            CbMethod.SelectedIndex = 0;
             var mainWindow = Application.Current.MainWindow;
 
             if (mainWindow == null) return;
@@ -60,6 +63,7 @@ namespace PolishDiacriticMarksRestorer
             Settings.TableNames[2] = TbTri.Text;
             Settings.TableNames[3] = TbFour.Text;
             if (AlphaTables.IsChecked != null) Settings.AlphabeticalTables = (bool)AlphaTables.IsChecked;
+            Settings.NoOfMethod = CbMethod.SelectedIndex;
         }
 
         private void GetSettings()
@@ -77,6 +81,7 @@ namespace PolishDiacriticMarksRestorer
             FileDict.IsChecked = Settings.UseDictionary;
             SplitSentence.IsChecked = Settings.SentenceSpliterOn;
             IgnorePunctationMarks.IsChecked = Settings.IgnorePunctationMarks;
+            CbMethod.SelectedIndex = Settings.NoOfMethod;
         }
 
         private void Update()
@@ -100,6 +105,12 @@ namespace PolishDiacriticMarksRestorer
         private void NgramChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             _changes[0] = !Settings.Type.Equals((NgramType)Enum.Parse(typeof(NgramType), CbType.SelectedValue.ToString()));
+            Update();
+        }
+
+        private void MethodChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            _changes[13] = !Settings.NoOfMethod.Equals(CbMethod.SelectedIndex);
             Update();
         }
 

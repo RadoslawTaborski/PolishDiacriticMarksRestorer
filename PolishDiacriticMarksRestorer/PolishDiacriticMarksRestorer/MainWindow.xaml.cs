@@ -14,6 +14,10 @@ using Microsoft.Win32;
 using MySql.Data.MySqlClient;
 using NgramAnalyzer;
 using NgramAnalyzer.Common;
+using NgramAnalyzer.Common.Dictionaries;
+using NgramAnalyzer.Common.SentenceSplitters;
+using NgramAnalyzer.Common.IInterpunctionManager;
+using NgramAnalyzer.Common.NgramsConnectors;
 using NgramAnalyzer.Interfaces;
 using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 
@@ -35,8 +39,15 @@ namespace PolishDiacriticMarksRestorer
         private DateTime _stop;
         public static readonly string Path = "settings.dat";
         private List<Tuple<List<string>, bool>> _lists = new List<Tuple<List<string>, bool>>();
+
         private IDictionary _dictionary;
         private IDictionary _unigrams;
+        private IDictionary _main;
+        private IDiacriticMarksAdder _diacriticMarksAdder;
+        private ISentenceSpliter _spliter;
+        private IInterpunctionManager _iManager;
+        private INgramsConnector _connector;
+
         #endregion
 
         #region CONSTRUCTORS
@@ -47,9 +58,6 @@ namespace PolishDiacriticMarksRestorer
             BtnSave.IsEnabled = false;
             Load(Path);
 
-            _dictionary = LoadDictionary();
-            _unigrams = LoadUnigrams();
-
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
             var queryProvider = Settings.AlphabeticalTables
                 ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
@@ -58,21 +66,26 @@ namespace PolishDiacriticMarksRestorer
             if (Settings.UseDictionary)
             {
                 if (_dictionary == null)
+                {
                     _dictionary = LoadDictionary();
+                    _main = _dictionary;
+                }
             }
             else
             {
                 if (_unigrams == null)
+                {
                     _unigrams = LoadUnigrams();
+                    _main = _unigrams;
+                }
             }
 
-            _analyzer = Settings.UseDictionary
-                ? (Settings.SentenceSpliterOn
-                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), false))
-                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, false)))
-                : (Settings.SentenceSpliterOn
-                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), false))
-                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, false)));
+            _diacriticMarksAdder = new DiacriticMarksAdder();
+            _spliter = Settings.SentenceSpliterOn ? new SentenceSpliter() : null;
+            _iManager = Settings.IgnorePunctationMarks ? new InclusionManager() : null;
+            _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector) new Variant1() : new Variant2();
+
+            _analyzer=new Analyzer(_diacriticMarksAdder,_main,_spliter,_iManager,_connector);
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
@@ -349,21 +362,26 @@ namespace PolishDiacriticMarksRestorer
             if (Settings.UseDictionary)
             {
                 if (_dictionary == null)
+                {
                     _dictionary = LoadDictionary();
+                    _main = _dictionary;
+                }
             }
             else
             {
                 if (_unigrams == null)
+                {
                     _unigrams = LoadUnigrams();
+                    _main = _unigrams;
+                }
             }
 
-            _analyzer = Settings.UseDictionary
-                ? (Settings.SentenceSpliterOn
-                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), new SentenceSpliter(), false))
-                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadDictionary(), null, false)))
-                : (Settings.SentenceSpliterOn
-                    ? (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), new SentenceSpliter(), false))
-                    : (Settings.IgnorePunctationMarks ? new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, true) : new Analyzer(new DiacriticMarksAdder(), LoadUnigrams(), null, false)));
+            _diacriticMarksAdder = new DiacriticMarksAdder();
+            _spliter = Settings.SentenceSpliterOn ? new SentenceSpliter() : null;
+            _iManager = Settings.IgnorePunctationMarks ? new InclusionManager() : null;
+            _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector)new Variant1() : new Variant2();
+
+            _analyzer = new Analyzer(_diacriticMarksAdder, _main, _spliter, _iManager, _connector);
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);

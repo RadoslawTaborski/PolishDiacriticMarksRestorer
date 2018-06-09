@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using NgramAnalyzer.Interfaces;
 
 namespace NgramAnalyzer.Common
@@ -17,6 +18,7 @@ namespace NgramAnalyzer.Common
         private readonly string _database;
         private readonly string _uid;
         private readonly string _password;
+        private Dictionary<string, DataSet> _cache;
         #endregion
 
         #region CONSTRUCTORS
@@ -35,7 +37,7 @@ namespace NgramAnalyzer.Common
             _uid = uid;
             _password = password;
             _connectionFactory = dbFactory;
-
+            _cache = new Dictionary<string, DataSet>();
         }
         #endregion
 
@@ -86,8 +88,15 @@ namespace NgramAnalyzer.Common
         public DataSet ExecuteSqlCommand(string query)
         {
             var ds = new DataSet();
-            var adp = _connectionFactory.CreateDataAdapter(query);
-            adp.Fill(ds);
+
+            if (_cache.ContainsKey(query))
+                ds = _cache[query];
+            else
+            {
+                var adp = _connectionFactory.CreateDataAdapter(query);
+                adp.Fill(ds);
+                _cache.Add(query,ds);
+            }
 
             return ds;
         }

@@ -4,12 +4,12 @@ using System.Text.RegularExpressions;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Interfaces;
 
-namespace NgramAnalyzer
+namespace NgramAnalyzer.Common
 {
     /// <summary>
     /// This class creates, stores and modifies variants of Ngram
     /// </summary>
-    internal class NGramVariants
+    public class NGramVariants
     {
         #region FIELDS
         private readonly IDiacriticMarksAdder _marksAdder;
@@ -29,7 +29,7 @@ namespace NgramAnalyzer
         /// <value>
         /// The Ngram variants.
         /// </value>
-        public List<NGram> NgramVariants { get; private set; }
+        public List<NGramVariant> NgramVariants { get; private set; }
         #endregion
 
         #region CONSTRUCTORS
@@ -37,7 +37,7 @@ namespace NgramAnalyzer
         {
             OrginalNGram = orginalNGram;
             _marksAdder = marksAdder;
-            NgramVariants = new List<NGram>();
+            NgramVariants = new List<NGramVariant>();
         }
         #endregion
 
@@ -47,7 +47,7 @@ namespace NgramAnalyzer
         /// </summary>
         internal void CreateVariants(List<string> dictionary)
         {
-            NgramVariants = new List<NGram>();
+            NgramVariants = new List<NGramVariant>();
             var lists = new List<List<string>>();
             foreach (var item in OrginalNGram.WordsList)
             {
@@ -77,7 +77,7 @@ namespace NgramAnalyzer
 
             foreach (var sequence in res)
             {
-                NgramVariants.Add(new NGram(0, sequence.Split(' ').ToList()));
+                NgramVariants.Add(new NGramVariant{Ngram = new NGram(0, sequence.Split(' ').ToList()), Probability = 0});
             }
         }
 
@@ -91,11 +91,30 @@ namespace NgramAnalyzer
             {
                 foreach (var goodNGram in goodNGrams)
                 {
-                    if (goodNGram.WordsList.SequenceEqual(NgramVariants[i].WordsList))
+                    if (goodNGram.WordsList.SequenceEqual(NgramVariants[i].Ngram.WordsList))
                     {
-                        NgramVariants[i] = new NGram(goodNGram);
+                        NgramVariants[i] = new NGramVariant { Ngram = new NGram(goodNGram), Probability = 0 } ;
                     }
                 }
+            }
+        }
+
+        internal void CountProbability(bool check)
+        {
+            var sum = NgramVariants.Sum(item => item.Ngram.Value);
+
+            for (var i = 0; i < NgramVariants.Count; i++)
+            {
+                if (sum == 0)
+                {
+                    if(check)
+                        NgramVariants[i] = new NGramVariant {Ngram = NgramVariants[i].Ngram, Probability = 0};
+                    else
+                        NgramVariants[i] = new NGramVariant { Ngram = NgramVariants[i].Ngram, Probability = 1};
+                    continue;
+                }
+
+                NgramVariants[i] = new NGramVariant { Ngram = NgramVariants[i].Ngram, Probability = (double)NgramVariants[i].Ngram.Value / sum };
             }
         }
 
@@ -115,10 +134,10 @@ namespace NgramAnalyzer
 
             foreach (var item in NgramVariants)
             {
-                for (var i = 0; i < item.WordsList.Count; i++)
+                for (var i = 0; i < item.Ngram.WordsList.Count; i++)
                 {
-                    if (!result[i].Contains(item.WordsList[i]))
-                        result[i].Add(item.WordsList[i]);
+                    if (!result[i].Contains(item.Ngram.WordsList[i]))
+                        result[i].Add(item.Ngram.WordsList[i]);
                 }
             }
 
@@ -139,11 +158,11 @@ namespace NgramAnalyzer
                     foreach (var ngramVariant in NgramVariants)
                     {
                         var strBuilder =
-                            new System.Text.StringBuilder(ngramVariant.WordsList[i])
+                            new System.Text.StringBuilder(ngramVariant.Ngram.WordsList[i])
                             {
-                                [j] = char.ToUpper(ngramVariant.WordsList[i][j])
+                                [j] = char.ToUpper(ngramVariant.Ngram.WordsList[i][j])
                             };
-                        ngramVariant.WordsList[i] = strBuilder.ToString();
+                        ngramVariant.Ngram.WordsList[i] = strBuilder.ToString();
                     }
                 }
             }
