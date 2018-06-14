@@ -20,7 +20,7 @@ namespace NgramAnalyzer.Interfaces
         /// <returns>
         /// strings list with result of analyze together with white marks.
         /// </returns>
-        List<string> AnalyzeString(string text, out List<TimeSpan> times, out List<int> counts);
+        List<string> AnalyzeText(string text, out List<TimeSpan> times, out List<int> counts);
         /// <summary>
         /// This method set a IQueryProvider.
         /// </summary>

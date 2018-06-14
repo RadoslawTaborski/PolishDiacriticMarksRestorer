@@ -35,7 +35,7 @@ namespace NgramFilter
 
             if (decisionTables != null && decisionTables == "T")
             {
-                _bootstrapper = new Bootstrapper(filter, modifier, new FileSystem(), new MySqlConnectionFactory(), new SqlQueryProvider2());
+                _bootstrapper = new Bootstrapper(filter, modifier, new FileSystem(), new MySqlConnectionFactory(), new SqlQueryProviderAlpha());
             }
             else
             {

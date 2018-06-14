@@ -27,7 +27,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void SqlQueryProvider2_NullListWithNames()
         {
-            Exception ex = Assert.Throws<ArgumentException>(() => new SqlQueryProvider2(null));
+            Exception ex = Assert.Throws<ArgumentException>(() => new SqlQueryProviderAlpha(null));
             Assert.Equal("IList<string> 'dbTableNames' has wrong size", ex.Message);
         }
 
@@ -40,7 +40,7 @@ namespace NgramAnalyzerTests.Unit
                 "di",
                 "tri",
             };
-            Exception ex = Assert.Throws<ArgumentException>(() => new SqlQueryProvider2(list));
+            Exception ex = Assert.Throws<ArgumentException>(() => new SqlQueryProviderAlpha(list));
             Assert.Equal("IList<string> 'dbTableNames' has wrong size", ex.Message);
         }
 
@@ -48,7 +48,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetTheSameNgramsFromTable_NullListWithNames()
         {
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.GetTheSameNgramsFromTable(NgramType.Bigram, null));
             Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
@@ -62,7 +62,7 @@ namespace NgramAnalyzerTests.Unit
             "a",
             };
 
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.GetTheSameNgramsFromTable(NgramType.Bigram, list));
             Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
@@ -71,7 +71,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetTheSameNgramsFromTable_Digrams()
         {
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var result = provider.GetTheSameNgramsFromTable(NgramType.Bigram, _wordList);
 
             const string str = @"SELECT * FROM `di[a]` WHERE Word1='a\\' AND Word2='b'";
@@ -81,7 +81,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetTheSameNgramsFromTable_Trigrams()
         {
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var result = provider.GetTheSameNgramsFromTable(NgramType.Trigram, _wordList);
 
             const string str = @"SELECT * FROM `tri[a]` WHERE Word1='a\\' AND Word2='b' AND Word3='\'c'";
@@ -91,7 +91,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetTheSameNgramsFromTable_Fourgrams()
         {
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var result = provider.GetTheSameNgramsFromTable(NgramType.Quadrigram, _wordList);
 
             const string str = @"SELECT * FROM `four[a]` WHERE Word1='a\\' AND Word2='b' AND Word3='\'c' AND Word4='d'";
@@ -103,7 +103,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetSimilarNgramsFromTable_NullListWithNames()
         {
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.GetSimilarNgramsFromTable(NgramType.Bigram, null));
             Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
@@ -118,7 +118,7 @@ namespace NgramAnalyzerTests.Unit
                 "b"
             };
 
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.GetSimilarNgramsFromTable(NgramType.Quadrigram, list));
             Assert.Equal("List<string> 'wordList' has wrong size", ex.Message);
@@ -134,7 +134,7 @@ namespace NgramAnalyzerTests.Unit
                 "c"
             };
 
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var ex = Record.Exception(() => provider.GetSimilarNgramsFromTable(NgramType.Quadrigram, list));
 
             Assert.IsNotType<ArgumentException>(ex);
@@ -143,7 +143,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetSimilarNgramsFromTable_Digrams()
         {
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var result = provider.GetSimilarNgramsFromTable(NgramType.Bigram, _wordList);
 
             const string str = @"SELECT * FROM di[a] WHERE Word1='a\\';";
@@ -153,7 +153,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetSimilarNgramsFromTable_Trigrams()
         {
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var result = provider.GetSimilarNgramsFromTable(NgramType.Trigram, _wordList);
 
             const string str = @"SELECT * FROM tri[a] WHERE Word1='a\\' AND Word2='b';";
@@ -163,7 +163,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetSimilarNgramsFromTable_Fourgrams()
         {
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var result = provider.GetSimilarNgramsFromTable(NgramType.Quadrigram, _wordList);
 
             const string str = @"SELECT * FROM four[a] WHERE Word1='a\\' AND Word2='b' AND Word3='\'c';";
@@ -175,7 +175,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetMultiNgramsFromTable_NullListWithWords()
         {
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var wordList = new List<string>
             {
                 "a",
@@ -203,7 +203,7 @@ namespace NgramAnalyzerTests.Unit
                 "b",
                 "c"
             };
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.GetMultiNgramsFromTable(NgramType.Quadrigram, wordList, new List<string>()));
             Assert.Equal("List<string> 'combinations' has wrong size", ex.Message);
@@ -228,7 +228,7 @@ namespace NgramAnalyzerTests.Unit
                 "c"
             };
 
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var ex = Record.Exception(() => provider.GetMultiNgramsFromTable(NgramType.Quadrigram, wordList, list));
 
             Assert.IsNotType<ArgumentException>(ex);
@@ -250,7 +250,7 @@ namespace NgramAnalyzerTests.Unit
                 @"'c"
             };
 
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var result = provider.GetMultiNgramsFromTable(NgramType.Quadrigram, wordList, list);
 
             const string str = @"SELECT * FROM `four[a]` WHERE Word1='a\\' AND Word2='b' AND Word3='\'c' AND ( Word4='\\or1' OR Word4='or2' );";
@@ -269,7 +269,7 @@ namespace NgramAnalyzerTests.Unit
                 @"baa'"
             };
 
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var result = provider.CheckWordsInUnigramFromTable(wordList);
 
             const string str = @"SELECT * FROM `uni[a]` WHERE Word1='a\\' UNION ALL SELECT * FROM `uni[b]` WHERE Word1='b' OR Word1='baa\'';";
@@ -279,7 +279,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void CheckWordsInUnigramFromTable_NullList()
         {
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.CheckWordsInUnigramFromTable(null));
             Assert.Equal("List<string> 'wordList' can't be null", ex.Message);
@@ -289,7 +289,7 @@ namespace NgramAnalyzerTests.Unit
         public void CheckWordsInUnigramFromTable_EmptyList()
         {
             var list = new List<string>();
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.CheckWordsInUnigramFromTable(list));
             Assert.Equal("List<string> 'wordList' can't be null", ex.Message);
@@ -316,7 +316,7 @@ namespace NgramAnalyzerTests.Unit
                 }
             };
 
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var result = provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists);
 
             const string str = "SELECT * FROM `tri[a]` WHERE ( " +
@@ -344,7 +344,7 @@ namespace NgramAnalyzerTests.Unit
                 }
             };
 
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
             var result = provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists);
 
             const string str = "SELECT * FROM `tri[a]` WHERE ( " +
@@ -357,7 +357,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void GetAllNecessaryNgramsFromTable_outsideList_Null()
         {
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, null));
             Assert.Equal("List<string> 'wordLists' has wrong size", ex.Message);
@@ -368,7 +368,7 @@ namespace NgramAnalyzerTests.Unit
         {
             var wordLists = new List<List<List<string>>>();
 
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists));
             Assert.Equal("List<string> 'wordLists' has wrong size", ex.Message);
@@ -388,7 +388,7 @@ namespace NgramAnalyzerTests.Unit
                 }
             };
 
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists));
             Assert.Equal("List<string> middle list has wrong size", ex.Message);
@@ -413,7 +413,7 @@ namespace NgramAnalyzerTests.Unit
                 }
             };
 
-            var provider = new SqlQueryProvider2(_names);
+            var provider = new SqlQueryProviderAlpha(_names);
 
             Exception ex = Assert.Throws<ArgumentException>(() => provider.GetAllNecessaryNgramsFromTable(NgramType.Trigram, wordLists));
             Assert.Equal("List<string> inside list has wrong size", ex.Message);
@@ -424,7 +424,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void CreateDbString()
         {
-            var provider = new SqlQueryProvider2();
+            var provider = new SqlQueryProviderAlpha();
             var result = provider.CreateDbString("name");
 
             const string str = "CREATE DATABASE IF NOT EXISTS `name` CHARACTER SET utf8 COLLATE utf8_polish_ci;";
@@ -436,7 +436,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void CreateNgramsTableString_Digram()
         {
-            var provider = new SqlQueryProvider2();
+            var provider = new SqlQueryProviderAlpha();
             var result = provider.CreateNgramsTableString("DbName", "TableName", 2);
 
             var names = new[]
@@ -474,7 +474,7 @@ namespace NgramAnalyzerTests.Unit
                 new NGram(15, new List<string>{"a","c"}),
                 new NGram(20, new List<string>{a,"d"})
             };
-            var provider = new SqlQueryProvider2();
+            var provider = new SqlQueryProviderAlpha();
             var result = provider.InsertNgramsString("TableName", ngrams);
 
             string str = "INSERT INTO `TableName[a]` (`Value`, `Word1`, `Word2`) " +
@@ -491,7 +491,7 @@ namespace NgramAnalyzerTests.Unit
         {
             var ngram = new NGram(10, new List<string> { "ą", "b" });
 
-            var provider = new SqlQueryProvider2();
+            var provider = new SqlQueryProviderAlpha();
             var result = provider.InsertOrUpdateNgramString(ngram);
 
             const string str = "CALL `Add2gram[a]`('10', 'ą', 'b');";
@@ -503,7 +503,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void CreateAddProcedureString_Digram()
         {
-            var provider = new SqlQueryProvider2();
+            var provider = new SqlQueryProviderAlpha();
             var result = provider.CreateAddProcedureString("BaseName", "TableName", 2);
 
             var names = new[]

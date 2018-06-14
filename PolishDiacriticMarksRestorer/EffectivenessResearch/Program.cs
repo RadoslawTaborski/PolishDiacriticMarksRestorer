@@ -8,9 +8,9 @@ using NgramAnalyzer;
 using NgramAnalyzer.Interfaces;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Common.Dictionaries;
-using NgramAnalyzer.Common.IInterpunctionManager;
+using NgramAnalyzer.Common.CharactersIgnorers;
 using NgramAnalyzer.Common.NgramsConnectors;
-using NgramAnalyzer.Common.SentenceSplitters;
+using NgramAnalyzer.Common.FragmentsSplitter;
 using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 
 namespace EffectivenessResearch
@@ -29,8 +29,8 @@ namespace EffectivenessResearch
         private static IDictionary _main;
         private static IDictionary _unigrams;
         private static DiacriticMarksAdder _diacriticMarksAdder;
-        private static SentenceSpliter _spliter;
-        private static InclusionManager _iManager;
+        private static SentencesSplitter _splitter;
+        private static InterpunctionManager _iManager;
         private static INgramsConnector _connector;
 
         private static void Main(string[] args)
@@ -202,7 +202,7 @@ namespace EffectivenessResearch
         {
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
             var queryProvider = Settings.AlphabeticalTables
-                ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
+                ? (IQueryProvider)new SqlQueryProviderAlpha(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
             if (Settings.UseDictionary)
@@ -223,11 +223,11 @@ namespace EffectivenessResearch
             }
 
             _diacriticMarksAdder = new DiacriticMarksAdder();
-            _spliter = Settings.SentenceSpliterOn ? new SentenceSpliter() : null;
-            _iManager = Settings.IgnorePunctationMarks ? new InclusionManager() : null;
+            _splitter = Settings.SentenceSpliterOn ? new SentencesSplitter() : null;
+            _iManager = Settings.IgnorePunctationMarks ? new InterpunctionManager() : null;
             _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector)new Variant1() : new Variant2();
 
-            _analyzer = new Analyzer(_diacriticMarksAdder, _main, _spliter, _iManager, _connector);
+            _analyzer = new DiacriticMarksRestorer(_diacriticMarksAdder, _main, _splitter, _iManager, _connector);
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
@@ -268,7 +268,7 @@ namespace EffectivenessResearch
         {
             Timer.Start();
             _start = DateTime.Now;
-            var result = _analyzer.AnalyzeString(text, out times, out counts);
+            var result = _analyzer.AnalyzeText(text, out times, out counts);
             _stop = DateTime.Now;
             Timer.Stop();
 

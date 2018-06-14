@@ -6,10 +6,10 @@ using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 namespace NgramAnalyzer.Common
 {
     /// <summary>
-    /// SqlQueryProvider2 Class provides MySql Query.
+    /// SqlQueryProviderAlpha Class provides MySql Query.
     /// </summary>
     /// <seealso cref="NgramAnalyzer.Interfaces.IQueryProvider" />
-    public class SqlQueryProvider2 : IQueryProvider
+    public class SqlQueryProviderAlpha : IQueryProvider
     {
         #region FIELDS
         private readonly IList<string> _dbTableDbTableName;
@@ -22,7 +22,7 @@ namespace NgramAnalyzer.Common
         /// </summary>
         /// <param name="dbTableNames">The database table names.</param>
         /// <exception cref="ArgumentException">IList (string) 'dbTableNames' has wrong size</exception>
-        public SqlQueryProvider2(IList<string> dbTableNames)
+        public SqlQueryProviderAlpha(IList<string> dbTableNames)
         {
             if (dbTableNames == null || dbTableNames.Count != 4)
                 throw new ArgumentException("IList<string> 'dbTableNames' has wrong size");
@@ -30,9 +30,9 @@ namespace NgramAnalyzer.Common
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SqlQueryProvider2"/> class.
+        /// Initializes a new instance of the <see cref="SqlQueryProviderAlpha"/> class.
         /// </summary>
-        public SqlQueryProvider2() { }
+        public SqlQueryProviderAlpha() { }
         #endregion
 
         #region  PUBLIC

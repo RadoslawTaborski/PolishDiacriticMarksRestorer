@@ -2,7 +2,7 @@
 
 namespace NgramAnalyzer.Interfaces
 {
-    public interface IDiacriticMarksAdder
+    public interface ILetterChanger
     {
         /// <summary>
         /// Adds diacritics to the word.

@@ -44,21 +44,10 @@ namespace NgramAnalyzer.Common
         /// </summary>
         /// <param name="target">The target.</param>
         /// <returns>String without punctation marks.</returns>
-        public static string WithoutPunctationMarks(this string target)
+        public static string WithoutPunctationMarks(this string input)
         {
-            target = target.Replace(@",", @"");
-            target = target.Replace(@";", @"");
-            target = target.Replace(@"!", @"");
-            target = target.Replace(@"?", @"");
-            target = target.Replace(@"(", @"");
-            target = target.Replace(@")", @"");
-            target = target.Replace(@"""", @"");
-            target = target.Replace(@".", @"");
-            target = target.Replace(@":", @"");
-            target = target.Replace(@"'", @"");
-            target = target.Replace(@"„", @"");
-            target = target.Replace(@"”", @"");
-            return target;
+            Regex reg = new Regex("[^a-zA-Z'\\- ąĄćĆęĘłŁńŃóÓźŹżŻśŚ]");
+            return reg.Replace(input, string.Empty);
         }
 
         public static int IndexOfAny(this string test, string[] anyOf, int startIndex, out string delimiter)

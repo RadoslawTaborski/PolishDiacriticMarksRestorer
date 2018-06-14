@@ -12,7 +12,7 @@ namespace NgramAnalyzer.Common
     public class NGramVariants
     {
         #region FIELDS
-        private readonly IDiacriticMarksAdder _marksAdder;
+        private readonly ILetterChanger _marksAdder;
         #endregion
 
         #region PROPERTIES
@@ -33,7 +33,7 @@ namespace NgramAnalyzer.Common
         #endregion
 
         #region CONSTRUCTORS
-        internal NGramVariants(NGram orginalNGram, IDiacriticMarksAdder marksAdder)
+        internal NGramVariants(NGram orginalNGram, ILetterChanger marksAdder)
         {
             OrginalNGram = orginalNGram;
             _marksAdder = marksAdder;

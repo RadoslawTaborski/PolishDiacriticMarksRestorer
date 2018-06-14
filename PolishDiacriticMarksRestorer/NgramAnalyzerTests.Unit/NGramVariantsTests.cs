@@ -12,7 +12,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void SetVariants()
         {
-            var marksAdderMock = new Mock<IDiacriticMarksAdder>();
+            var marksAdderMock = new Mock<ILetterChanger>();
             marksAdderMock.Setup(m => m.Start("jest", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
                 new KeyValuePair<string, int>("jest",0),
@@ -48,7 +48,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void UpdateNGramsVariantes()
         {
-            var marksAdderMock = new Mock<IDiacriticMarksAdder>();
+            var marksAdderMock = new Mock<ILetterChanger>();
             marksAdderMock.Setup(m => m.Start("jest", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
                 new KeyValuePair<string, int>("jest",0),
@@ -91,7 +91,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void VariantsToStringsLists_Normal()
         {
-            var marksAdderMock = new Mock<IDiacriticMarksAdder>();
+            var marksAdderMock = new Mock<ILetterChanger>();
             marksAdderMock.Setup(m => m.Start("jest", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
                 new KeyValuePair<string, int>("jest",0),
@@ -123,7 +123,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void VariantsToStringsLists_VariantsCount0()
         {
-            var marksAdderMock = new Mock<IDiacriticMarksAdder>();
+            var marksAdderMock = new Mock<ILetterChanger>();
 
             var variants = new NGramVariants(new NGram(5, new List<string> { "jest", "ok" }), marksAdderMock.Object);
             var result = variants.VariantsToStringsLists();
@@ -134,7 +134,7 @@ namespace NgramAnalyzerTests.Unit
         [Fact]
         public void RestoreUpperLettersInVariants_Normal()
         {
-            var marksAdderMock = new Mock<IDiacriticMarksAdder>();
+            var marksAdderMock = new Mock<ILetterChanger>();
             marksAdderMock.Setup(m => m.Start("jest", It.IsAny<int>())).Returns(new List<KeyValuePair<string, int>>
             {
                 new KeyValuePair<string, int>("jest",0),

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using NgramAnalyzer.Interfaces;
 
-namespace NgramAnalyzer.Common.SentenceSplitters
+namespace NgramAnalyzer.Common.FragmentsSplitter
 {
-    public class SentenceSpliter : ISentenceSpliter
+    public class SentencesSplitter : IFragmentsSplitter
     {
         private readonly Regex _rgx = new Regex(@"[\.\?\!]");
 

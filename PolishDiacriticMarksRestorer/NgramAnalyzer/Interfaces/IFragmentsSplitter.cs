@@ -3,7 +3,7 @@ using NgramAnalyzer.Common;
 
 namespace NgramAnalyzer.Interfaces
 {
-    public interface ISentenceSpliter
+    public interface IFragmentsSplitter
     {
         List<Sentence> Split(List<string> text);
     }

@@ -19,8 +19,8 @@ namespace NgramAnalyzer.Common.NgramsConnectors
             "nade",
             "przed",
             "przede",
-            "między",
-            "pomiędzy",
+            "miedzy",
+            "pomiedzy",
             "ja",
             "on",
             "ona",
@@ -34,7 +34,7 @@ namespace NgramAnalyzer.Common.NgramsConnectors
             var finalVariants = new NGram[ngramsVar.Count];
             for (var index = 0; index < ngramsVar.Count; index++)
             {
-                if (ngramsVar[index].NgramVariants.Exists(x=>Math.Abs(x.Probability - 1) < 0.000001))
+                if (ngramsVar[index].NgramVariants.Count == 1 && Math.Abs(ngramsVar[index].NgramVariants[0].Probability - 1) < 0.00001)
                     finalVariants[index] = new NGram(int.MaxValue, ngramsVar[index].NgramVariants[0].Ngram.WordsList);
             }
 
@@ -59,7 +59,7 @@ namespace NgramAnalyzer.Common.NgramsConnectors
                 }
             }
 
-            var param2 = 1;
+            var param2 = 3;
             var sorted = ngramsVar
                 .Select((x, i) => new KeyValuePair<double, int>(x.NgramVariants.MaxBy(a => a.Ngram.Value).ElementAt(0).Ngram.Value, i))
                 .OrderBy(x => x.Key)

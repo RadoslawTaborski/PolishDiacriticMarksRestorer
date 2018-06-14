@@ -15,8 +15,8 @@ using MySql.Data.MySqlClient;
 using NgramAnalyzer;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Common.Dictionaries;
-using NgramAnalyzer.Common.SentenceSplitters;
-using NgramAnalyzer.Common.IInterpunctionManager;
+using NgramAnalyzer.Common.FragmentsSplitter;
+using NgramAnalyzer.Common.CharactersIgnorers;
 using NgramAnalyzer.Common.NgramsConnectors;
 using NgramAnalyzer.Interfaces;
 using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
@@ -43,9 +43,9 @@ namespace PolishDiacriticMarksRestorer
         private IDictionary _dictionary;
         private IDictionary _unigrams;
         private IDictionary _main;
-        private IDiacriticMarksAdder _diacriticMarksAdder;
-        private ISentenceSpliter _spliter;
-        private IInterpunctionManager _iManager;
+        private ILetterChanger _letterChanger;
+        private IFragmentsSplitter _splitter;
+        private ICharactersIgnorer _iManager;
         private INgramsConnector _connector;
 
         #endregion
@@ -60,7 +60,7 @@ namespace PolishDiacriticMarksRestorer
 
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
             var queryProvider = Settings.AlphabeticalTables
-                ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
+                ? (IQueryProvider)new SqlQueryProviderAlpha(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
             if (Settings.UseDictionary)
@@ -80,12 +80,12 @@ namespace PolishDiacriticMarksRestorer
                 }
             }
 
-            _diacriticMarksAdder = new DiacriticMarksAdder();
-            _spliter = Settings.SentenceSpliterOn ? new SentenceSpliter() : null;
-            _iManager = Settings.IgnorePunctationMarks ? new InclusionManager() : null;
+            _letterChanger = new DiacriticMarksAdder();
+            _splitter = Settings.SentenceSpliterOn ? new SentencesSplitter() : null;
+            _iManager = Settings.IgnorePunctationMarks ? new InterpunctionManager() : null;
             _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector) new Variant1() : new Variant2();
 
-            _analyzer=new Analyzer(_diacriticMarksAdder,_main,_spliter,_iManager,_connector);
+            _analyzer=new DiacriticMarksRestorer(_letterChanger,_main,_splitter,_iManager,_connector);
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);
@@ -99,7 +99,7 @@ namespace PolishDiacriticMarksRestorer
         {
             _timer.Start();
             _start = DateTime.Now;
-            var resultsArray = _analyzer.AnalyzeString(text, out var times, out var counts);
+            var resultsArray = _analyzer.AnalyzeText(text, out var times, out var counts);
             _lists = _analyzer.CreateWordsCombinations();
 
             Dispatcher.Invoke(() =>
@@ -356,7 +356,7 @@ namespace PolishDiacriticMarksRestorer
 
             var data = new DataBaseManager(new MySqlConnectionFactory(), Settings.Server, Settings.DbName, Settings.DbUser, Settings.DbPassword);
             var queryProvider = Settings.AlphabeticalTables
-                ? (IQueryProvider)new SqlQueryProvider2(Settings.TableNames)
+                ? (IQueryProvider)new SqlQueryProviderAlpha(Settings.TableNames)
                 : new SqlQueryProvider(Settings.TableNames);
 
             if (Settings.UseDictionary)
@@ -376,12 +376,12 @@ namespace PolishDiacriticMarksRestorer
                 }
             }
 
-            _diacriticMarksAdder = new DiacriticMarksAdder();
-            _spliter = Settings.SentenceSpliterOn ? new SentenceSpliter() : null;
-            _iManager = Settings.IgnorePunctationMarks ? new InclusionManager() : null;
+            _letterChanger = new DiacriticMarksAdder();
+            _splitter = Settings.SentenceSpliterOn ? new SentencesSplitter() : null;
+            _iManager = Settings.IgnorePunctationMarks ? new InterpunctionManager() : null;
             _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector)new Variant1() : new Variant2();
 
-            _analyzer = new Analyzer(_diacriticMarksAdder, _main, _spliter, _iManager, _connector);
+            _analyzer = new DiacriticMarksRestorer(_letterChanger, _main, _splitter, _iManager, _connector);
 
             _analyzer.SetData(data);
             _analyzer.SetQueryProvider(queryProvider);

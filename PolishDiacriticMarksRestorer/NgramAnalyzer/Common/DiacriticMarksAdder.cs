@@ -7,7 +7,7 @@ using NgramAnalyzer.Interfaces;
 
 namespace NgramAnalyzer.Common
 {
-    public class DiacriticMarksAdder : IDiacriticMarksAdder
+    public class DiacriticMarksAdder : ILetterChanger
     {
         #region Fields
         private readonly List<KeyValuePair<string, string>> _letterPairs = new List<KeyValuePair<string, string>>()

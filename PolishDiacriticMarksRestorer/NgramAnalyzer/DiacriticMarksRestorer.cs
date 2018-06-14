@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using NgramAnalyzer.Common;
+using NgramAnalyzer.Common.Dictionaries;
+using NgramAnalyzer.Common.CharactersIgnorers;
+using NgramAnalyzer.Common.NgramsConnectors;
+using NgramAnalyzer.Common.FragmentsSplitter;
 using NgramAnalyzer.Interfaces;
 using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 
@@ -12,16 +18,16 @@ namespace NgramAnalyzer
     /// Analyze class compare data form database and input and provides result of Analyze.
     /// </summary>
     /// <seealso cref="NgramAnalyzer.Interfaces.IAnalyzer" />
-    public class Analyzer : IAnalyzer
+    public class DiacriticMarksRestorer : IAnalyzer
     {
         #region FIELDS
         private IDataAccess _db;
         private IQueryProvider _queryProvider;
         private readonly IDictionary _dictionary;
-        private readonly ISentenceSpliter _spliter;
-        private readonly IDiacriticMarksAdder _diacriticAdder;
+        private readonly IFragmentsSplitter _splitter;
+        private readonly ILetterChanger _diacriticAdder;
         private NgramType _ngramType;
-        private readonly IInterpunctionManager _iManager;
+        private readonly ICharactersIgnorer _iManager;
         private readonly INgramsConnector _ngramConnector;
 
         public List<string> Input { get; private set; }
@@ -33,20 +39,36 @@ namespace NgramAnalyzer
         #region CONSTRUCTORS
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="Analyzer"/> class.
+        /// Initializes a new instance of the <see cref="DiacriticMarksRestorer"/> class.
         /// </summary>
         /// <param name="diacriticAdder">The diacritic adder.</param>
         /// <param name="dictionary">The dictionary.</param>
-        /// <param name="spliter"></param>
+        /// <param name="splitter"></param>
         /// <param name="iManager"></param>
         /// <param name="ngramConnector"></param>
-        public Analyzer(IDiacriticMarksAdder diacriticAdder, IDictionary dictionary, ISentenceSpliter spliter, IInterpunctionManager iManager, INgramsConnector ngramConnector)
+        public DiacriticMarksRestorer(ILetterChanger diacriticAdder=null, IDictionary dictionary=null, IFragmentsSplitter splitter=null, ICharactersIgnorer iManager=null, INgramsConnector ngramConnector=null)
         {
-            _diacriticAdder = diacriticAdder;
+            _diacriticAdder = diacriticAdder ?? new DiacriticMarksAdder();
+            if(dictionary == null)
+            {
+                var executableLocation = Path.GetDirectoryName(
+                    Assembly.GetExecutingAssembly().Location);
+                var location = Path.Combine(executableLocation, "Resources/dictionary");
+                var logFile = File.ReadAllLines(location);
+                var logList = new List<string>(logFile);
+                var result = new Dictionary<string, int>();
+                foreach (var item in logList)
+                {
+                    result.Add(item, 0);
+                }
+                dictionary= new Dict(result);
+            }
+
             _dictionary = dictionary;
-            _spliter = spliter;
-            _ngramConnector = ngramConnector;
-            _iManager = iManager;
+            _splitter = splitter;
+            _ngramConnector = ngramConnector ?? new Variant2();
+            _iManager = iManager ;
+            _ngramType = NgramType.Bigram;
         }
         #endregion
 
@@ -128,7 +150,7 @@ namespace NgramAnalyzer
         /// String array with result of analyze toghether with white marks.
         /// </returns>
         /// <inheritdoc />
-        public List<string> AnalyzeString(string str, out List<TimeSpan> times, out List<int> counts)
+        public List<string> AnalyzeText(string str, out List<TimeSpan> times, out List<int> counts)
         {
             counts = new List<int>();
             for (var i = 0; i < 7; i++)
@@ -147,7 +169,7 @@ namespace NgramAnalyzer
 
             var length = (int)_ngramType;
             var start = DateTime.Now;
-            var sentences = _spliter != null ? _spliter.Split(Input) : new List<Sentence> { new Sentence(Input, "") };
+            var sentences = _splitter != null ? _splitter.Split(Input) : new List<Sentence> { new Sentence(Input, "") };
             counts[0] = sentences.Count;
             var stop = DateTime.Now;
             times[0] = stop - start;
@@ -225,7 +247,7 @@ namespace NgramAnalyzer
             start = DateTime.Now;
             result.AddRange(_ngramConnector.AnalyzeNgramsVariants(ngramVariants, length, sentence.Text.Count));
             result[result.Count - 1] = result[result.Count - 1] + sentence.EndMarks;
-            counts[6] = result.Count;
+            counts[6] += result.Count;
             stop = DateTime.Now;
             times[7] += stop - start;
 
