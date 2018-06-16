@@ -6,7 +6,7 @@ using NgramAnalyzer.Interfaces;
 
 namespace NgramAnalyzer.Common.NgramsConnectors
 {
-    public class Variant2 : INgramsConnector
+    public class Hierarchy : INgramsConnector
     {
         private readonly List<string> _preposition = new List<string>
         {
@@ -49,8 +49,8 @@ namespace NgramAnalyzer.Common.NgramsConnectors
                     {
                         if (!item.WithoutPunctationMarks().ToLower().Equals(prep)) continue;
                         idx.Add(i);
-                        if(i+1<ngramsVar.Count-1)
-                            idx.Add(i+1);
+                        if (i + 1 < ngramsVar.Count - 1)
+                            idx.Add(i + 1);
                         flag = true;
                         break;
                     }
@@ -86,16 +86,36 @@ namespace NgramAnalyzer.Common.NgramsConnectors
                 if (finalVariants[idx[i]].WordsList != null) continue;
 
                 var tmp = ngramsVar[idx[i]].NgramVariants;
-                if (idx[i] - 1 >= 0)
-                    if (finalVariants[idx[i] - 1].WordsList != null)
+                for (var k = 1; k < length; ++k)
+                {
+                    if (idx[i] - k >= 0)
                     {
-                        tmp = tmp.Where(x => x.Ngram.WordsList[0] == finalVariants[idx[i] - 1].WordsList[1]).ToList();
+                        if (finalVariants[idx[i] - k].WordsList != null)
+                        {
+                            var a = 0;
+                            for (var m = k; m < length; m++)
+                            {
+                                tmp = tmp.Where(x => x.Ngram.WordsList[a] == finalVariants[idx[i] - k].WordsList[m]).ToList();
+                                if (tmp.Count <= 1) break;
+                                ++a;
+                            }
+                        }
                     }
-                if (idx[i] + 1 < ngramsVar.Count && tmp.Count > 1)
-                    if (finalVariants[idx[i] + 1].WordsList != null)
+
+                    if (idx[i] + k < ngramsVar.Count)
                     {
-                        tmp = tmp.Where(x => x.Ngram.WordsList[1] == finalVariants[idx[i] + 1].WordsList[0]).ToList();
+                        if (finalVariants[idx[i] + k].WordsList != null)
+                        {
+                            var a = 0;
+                            for (var m = k; m < length; m++)
+                            {
+                                tmp = tmp.Where(x => x.Ngram.WordsList[m] == finalVariants[idx[i] + k].WordsList[a]).ToList();
+                                if (tmp.Count <= 1) break;
+                                ++a;
+                            }
+                        }
                     }
+                }
 
                 if (tmp.Count > 0)
                 {

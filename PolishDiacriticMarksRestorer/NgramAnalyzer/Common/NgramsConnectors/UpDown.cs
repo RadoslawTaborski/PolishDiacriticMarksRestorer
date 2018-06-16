@@ -7,7 +7,7 @@ using NgramAnalyzer.Interfaces;
 
 namespace NgramAnalyzer.Common.NgramsConnectors
 {
-    public class Variant1 : INgramsConnector
+    public class UpDown : INgramsConnector
     {
         public List<string> AnalyzeNgramsVariants(List<NGramVariants> ngramsVar, int length, int countWords)
         {

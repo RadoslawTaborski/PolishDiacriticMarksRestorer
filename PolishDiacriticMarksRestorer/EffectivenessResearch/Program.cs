@@ -225,7 +225,7 @@ namespace EffectivenessResearch
             _diacriticMarksAdder = new DiacriticMarksAdder();
             _splitter = Settings.SentenceSpliterOn ? new SentencesSplitter() : null;
             _iManager = Settings.IgnorePunctationMarks ? new InterpunctionManager() : null;
-            _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector)new Variant1() : new Variant2();
+            _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector)new UpDown() : new Hierarchy();
 
             _analyzer = new DiacriticMarksRestorer(_diacriticMarksAdder, _main, _splitter, _iManager, _connector);
 
@@ -305,13 +305,15 @@ namespace EffectivenessResearch
             result[0] += $"Analiza ngramów:\t{new DateTime(times[7].Ticks):HH:mm:ss.f}\r\n";
             result[0] += $"Przywracanie formatu:\t{new DateTime(times[8].Ticks):HH:mm:ss.f}\r\n";
 
-            result[0] += $"Liczba zdań:\t{counts[0]}\r\n";
-            result[0] += $"Liczba kombinacji:\t{counts[1]}\r\n";
-            result[0] += $"Liczba poprawnych kombinacji:\t{counts[2]}\r\n";
-            result[0] += $"Liczba utworzonych ngramów:\t{counts[3]}\r\n";
-            result[0] += $"Liczba niejednoznacznych ngramów:\t{counts[4]}\r\n";
-            result[0] += $"Liczba ngramów w bazie:\t{counts[5]}\r\n";
-            result[0] += $"Liczba wybranych ngramów:\t{counts[6]}\r\n";
+            result[0] += $"Liczba słów:\t{counts[0]}\r\n";
+            result[0] += $"Liczba zdań:\t{counts[1]}\r\n";
+            result[0] += $"Liczba kombinacji:\t{counts[2]}\r\n";
+            result[0] += $"Liczba poprawnych kombinacji:\t{counts[3]}\r\n";
+            result[0] += $"Liczba utworzonych ngramów:\t{counts[4]}\r\n";
+            result[0] += $"Liczba niejednoznacznych ngramów:\t{counts[5]}\r\n";
+            result[0] += $"Liczba szukanych ngramów:\t{counts[6]}\r\n";
+            result[0] += $"Liczba ngramów w bazie:\t{counts[7]}\r\n";
+            result[0] += $"Liczba wybranych ngramów:\t{counts[8]}\r\n";
 
             result[0] += "\r\n\tMacierz pomyłek: \r\n";
             var res = _reasercher.Count();

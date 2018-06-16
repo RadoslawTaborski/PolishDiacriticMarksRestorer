@@ -6,9 +6,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using NgramAnalyzer.Common;
 using NgramAnalyzer.Common.Dictionaries;
-using NgramAnalyzer.Common.CharactersIgnorers;
 using NgramAnalyzer.Common.NgramsConnectors;
-using NgramAnalyzer.Common.FragmentsSplitter;
 using NgramAnalyzer.Interfaces;
 using IQueryProvider = NgramAnalyzer.Interfaces.IQueryProvider;
 
@@ -51,10 +49,7 @@ namespace NgramAnalyzer
             _diacriticAdder = diacriticAdder ?? new DiacriticMarksAdder();
             if(dictionary == null)
             {
-                var executableLocation = Path.GetDirectoryName(
-                    Assembly.GetExecutingAssembly().Location);
-                var location = Path.Combine(executableLocation, "Resources/dictionary");
-                var logFile = File.ReadAllLines(location);
+                var logFile = File.ReadAllLines(@"Resources\dictionary");
                 var logList = new List<string>(logFile);
                 var result = new Dictionary<string, int>();
                 foreach (var item in logList)
@@ -66,7 +61,7 @@ namespace NgramAnalyzer
 
             _dictionary = dictionary;
             _splitter = splitter;
-            _ngramConnector = ngramConnector ?? new Variant2();
+            _ngramConnector = ngramConnector ?? new Hierarchy();
             _iManager = iManager ;
             _ngramType = NgramType.Bigram;
         }
@@ -153,7 +148,7 @@ namespace NgramAnalyzer
         public List<string> AnalyzeText(string str, out List<TimeSpan> times, out List<int> counts)
         {
             counts = new List<int>();
-            for (var i = 0; i < 7; i++)
+            for (var i = 0; i < 9; i++)
             {
                 counts.Add(0);
             }
@@ -167,10 +162,12 @@ namespace NgramAnalyzer
             if (Input == null)
                 SetWords(str);
 
+            counts[0] = Input.Count;
+
             var length = (int)_ngramType;
             var start = DateTime.Now;
             var sentences = _splitter != null ? _splitter.Split(Input) : new List<Sentence> { new Sentence(Input, "") };
-            counts[0] = sentences.Count;
+            counts[1] = sentences.Count;
             var stop = DateTime.Now;
             times[0] = stop - start;
             Output = new List<string>();
@@ -205,33 +202,37 @@ namespace NgramAnalyzer
 
             var start = DateTime.Now;
             var combinationWords = CreateCombinationsWordList(sentence.Text);
-            counts[1] += combinationWords.Count;
+            counts[2] += combinationWords.Count;
             var stop = DateTime.Now;
             times[1] += stop - start;
 
             start = DateTime.Now;
             combinationWords = _dictionary.CheckWords(combinationWords);
             stop = DateTime.Now;
-            counts[2] += combinationWords.Count;
+            counts[3] += combinationWords.Count;
             times[2] += stop - start;
 
             start = DateTime.Now;
             ngramVariants.AddRange(CreateNgramVariantsList(sentence.Text, combinationWords, length));
             stop = DateTime.Now;
-            counts[3] += ngramVariants.Count;
+            counts[4] += ngramVariants.Count;
             times[3] += stop - start;
 
             start = DateTime.Now;
             var tmp = ngramVariants.Where(x => x.NgramVariants.Count > 1).ToList();
             stop = DateTime.Now;
-            counts[4] += tmp.Count;
+            counts[5] += tmp.Count;
             times[4] += stop - start;
 
+            foreach (var item in tmp)
+            {
+                counts[6] += item.NgramVariants.Count;
+            }
             start = DateTime.Now;
             var ngrams = GetAllData(tmp, type).ToList();
             //var ngrams = new List<NGram>();
             stop = DateTime.Now;
-            counts[5] += ngrams.Count;
+            counts[7] += ngrams.Count;
             times[5] += stop - start;
 
             start = DateTime.Now;
@@ -247,7 +248,7 @@ namespace NgramAnalyzer
             start = DateTime.Now;
             result.AddRange(_ngramConnector.AnalyzeNgramsVariants(ngramVariants, length, sentence.Text.Count));
             result[result.Count - 1] = result[result.Count - 1] + sentence.EndMarks;
-            counts[6] += result.Count;
+            counts[8] += result.Count;
             stop = DateTime.Now;
             times[7] += stop - start;
 

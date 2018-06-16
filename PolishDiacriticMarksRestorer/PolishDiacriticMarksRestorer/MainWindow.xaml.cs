@@ -83,7 +83,7 @@ namespace PolishDiacriticMarksRestorer
             _letterChanger = new DiacriticMarksAdder();
             _splitter = Settings.SentenceSpliterOn ? new SentencesSplitter() : null;
             _iManager = Settings.IgnorePunctationMarks ? new InterpunctionManager() : null;
-            _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector) new Variant1() : new Variant2();
+            _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector) new UpDown() : new Hierarchy();
 
             _analyzer=new DiacriticMarksRestorer(_letterChanger,_main,_splitter,_iManager,_connector);
 
@@ -379,7 +379,7 @@ namespace PolishDiacriticMarksRestorer
             _letterChanger = new DiacriticMarksAdder();
             _splitter = Settings.SentenceSpliterOn ? new SentencesSplitter() : null;
             _iManager = Settings.IgnorePunctationMarks ? new InterpunctionManager() : null;
-            _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector)new Variant1() : new Variant2();
+            _connector = (Settings.NoOfMethod == 0) ? (INgramsConnector)new UpDown() : new Hierarchy();
 
             _analyzer = new DiacriticMarksRestorer(_letterChanger, _main, _splitter, _iManager, _connector);
 
