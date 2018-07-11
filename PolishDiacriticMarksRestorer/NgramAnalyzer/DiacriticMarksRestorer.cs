@@ -144,8 +144,8 @@ namespace NgramAnalyzer
         /// <returns>
         /// String array with result of analyze toghether with white marks.
         /// </returns>
-        /// <inheritdoc />
-        public List<string> AnalyzeText(string str, out List<TimeSpan> times, out List<int> counts)
+        /// <inheritdoc cref="" />
+        public List<string> AnalyzeText2(string str, out List<TimeSpan> times, out List<int> counts)
         {
             counts = new List<int>();
             for (var i = 0; i < 9; i++)
@@ -176,11 +176,11 @@ namespace NgramAnalyzer
                 if (sentence.Text.Count < length)
                 {
                     var type = (NgramType)sentence.Text.Count;
-                    Output.AddRange(AnalyzeSentence(sentence, type, ref times, ref counts));
+                    Output.AddRange(AnalyzeSentence2(sentence, type, ref times, ref counts));
                     continue;
                 }
 
-                Output.AddRange(AnalyzeSentence(sentence, _ngramType, ref times, ref counts));
+                Output.AddRange(AnalyzeSentence(sentence, _ngramType));
             }
 
             start = DateTime.Now;
@@ -190,11 +190,44 @@ namespace NgramAnalyzer
 
             return result;
         }
+
+        /// <summary>
+        /// This method analyze correctness input.
+        /// </summary>
+        /// <param name="str">text to analyze.</param>
+        /// <returns>
+        /// String array with result of analyze toghether with white marks.
+        /// </returns>
+        /// <inheritdoc cref="" />
+        public List<string> AnalyzeText(string str)
+        {
+            if (Input == null)
+                SetWords(str);
+
+            var length = (int)_ngramType;
+            var sentences = _splitter != null ? _splitter.Split(Input) : new List<Sentence> { new Sentence(Input, "") };
+            Output = new List<string>();
+            foreach (var sentence in sentences)
+            {
+                if (sentence.Text.Count < length)
+                {
+                    var type = (NgramType)sentence.Text.Count;
+                    Output.AddRange(AnalyzeSentence(sentence, type));
+                    continue;
+                }
+
+                Output.AddRange(AnalyzeSentence(sentence, _ngramType));
+            }
+
+            var result = ReturnForm(InputWithWhiteMarks, Output);
+
+            return result;
+        }
         #endregion
 
         #region PRIVATE
 
-        private List<string> AnalyzeSentence(Sentence sentence, NgramType type, ref List<TimeSpan> times, ref List<int> counts)
+        private List<string> AnalyzeSentence2(Sentence sentence, NgramType type, ref List<TimeSpan> times, ref List<int> counts)
         {
             var length = (int)type;
             var result = new List<string>();
@@ -230,7 +263,6 @@ namespace NgramAnalyzer
             }
             start = DateTime.Now;
             var ngrams = GetAllData(tmp, type).ToList();
-            //var ngrams = new List<NGram>();
             stop = DateTime.Now;
             counts[7] += ngrams.Count;
             times[5] += stop - start;
@@ -251,6 +283,35 @@ namespace NgramAnalyzer
             counts[8] += result.Count;
             stop = DateTime.Now;
             times[7] += stop - start;
+
+            return result;
+        }
+
+        private List<string> AnalyzeSentence(Sentence sentence, NgramType type)
+        {
+            var length = (int)type;
+            var result = new List<string>();
+            var ngramVariants = new List<NGramVariants>();
+
+            var combinationWords = CreateCombinationsWordList(sentence.Text);
+
+            combinationWords = _dictionary.CheckWords(combinationWords);
+
+            ngramVariants.AddRange(CreateNgramVariantsList(sentence.Text, combinationWords, length));
+
+            var tmp = ngramVariants.Where(x => x.NgramVariants.Count > 1).ToList();
+
+            var ngrams = GetAllData(tmp, type).ToList();
+
+            foreach (var variant in ngramVariants)
+            {
+                variant.UpdateNGramsVariants(ngrams);
+                variant.RestoreUpperLettersInVariants();
+                variant.CountProbability(tmp.Contains(variant));
+            }
+
+            result.AddRange(_ngramConnector.AnalyzeNgramsVariants(ngramVariants, length, sentence.Text.Count));
+            result[result.Count - 1] = result[result.Count - 1] + sentence.EndMarks;
 
             return result;
         }

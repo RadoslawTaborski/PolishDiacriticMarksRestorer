@@ -54,7 +54,7 @@ namespace PolishDiacriticMarksRestorer
 
         public static bool IgnorePunctationMarks = true;
 
-        public static string[] InferningMethod = {"metoda 1", "metoda 2"};
+        public static string[] InferningMethod = {"Góra-Dół", "Hierarchia"};
 
         public static int NoOfMethod = 0;
     }

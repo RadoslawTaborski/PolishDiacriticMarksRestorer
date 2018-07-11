@@ -86,12 +86,12 @@ namespace NgramFilter
         /// <param name="input">Path to input file.</param>
         /// <param name="dbName">Name of database.</param>
         /// <param name="tableName">Name of table.</param>
-        public void CreateDb(string input, string dbName, string tableName)
+        public void CreateDb(string input, string server, string user, string password, string dbName, string tableName)
         {
             var first = true;
             using (var inputManager = new FileManager(_fileSystem, input))
             using (var dbManager =
-                new DataBaseManager(_dataAccess, "localhost", dbName, "root", ""))
+                new DataBaseManager(_dataAccess, server, dbName, user, password))
             {
                 var numberOfLines = inputManager.CountLines();
                 var counter = 0;

@@ -174,7 +174,7 @@ namespace EffectivenessResearch
                             _start = _stop = DateTime.Now;
                             times.Add(_stop - _start);
                         }
-                        var counts = new List<int> { 0, 0, 0, 0, 0, 0, 0 };
+                        var counts = new List<int> { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
                         reports = Research(times, counts, result);
                     }
                 }
@@ -268,7 +268,7 @@ namespace EffectivenessResearch
         {
             Timer.Start();
             _start = DateTime.Now;
-            var result = _analyzer.AnalyzeText(text, out times, out counts);
+            var result = _analyzer.AnalyzeText2(text, out times, out counts);
             _stop = DateTime.Now;
             Timer.Stop();
 

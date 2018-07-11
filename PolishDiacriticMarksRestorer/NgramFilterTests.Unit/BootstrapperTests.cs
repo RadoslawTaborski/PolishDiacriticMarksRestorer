@@ -125,7 +125,7 @@ namespace NgramFilterTests.Unit
             var queryProvider = new Mock<IQueryProvider>();
 
             var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, connectionFactoryMock.Object, queryProvider.Object);
-            bootstrapper.CreateDb(@"C:\input", "dbName", "tableName");
+            bootstrapper.CreateDb(@"C:\input", "","","", "dbName", "tableName");
 
             commandMock.Verify();
         }
@@ -163,7 +163,7 @@ namespace NgramFilterTests.Unit
             var queryProvider = new Mock<IQueryProvider>();
 
             var bootstrapper = new Bootstrapper(filterMock.Object, modifierMock.Object, mockFileSystem, connectionFactoryMock.Object, queryProvider.Object);
-            bootstrapper.CreateDb(@"C:\input", "dbName", "tableName");
+            bootstrapper.CreateDb(@"C:\input", "","","","dbName", "tableName");
 
             commandMock.Verify();
         }

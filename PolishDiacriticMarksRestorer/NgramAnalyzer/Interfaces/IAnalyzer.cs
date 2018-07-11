@@ -15,12 +15,20 @@ namespace NgramAnalyzer.Interfaces
         /// This method analyze correctness input.
         /// </summary>
         /// <param name="text">text to analyze.</param>
+        /// <returns>
+        /// strings list with result of analyze together with white marks.
+        /// </returns>
+        List<string> AnalyzeText(string text);
+        /// <summary>
+        /// This method analyze correctness input.
+        /// </summary>
+        /// <param name="text">text to analyze.</param>
         /// <param name="times"></param>
         /// <param name="counts"></param>
         /// <returns>
         /// strings list with result of analyze together with white marks.
         /// </returns>
-        List<string> AnalyzeText(string text, out List<TimeSpan> times, out List<int> counts);
+        List<string> AnalyzeText2(string text, out List<TimeSpan> times, out List<int> counts);
         /// <summary>
         /// This method set a IQueryProvider.
         /// </summary>

@@ -91,6 +91,11 @@ namespace PolishDiacriticMarksRestorer
             _analyzer.SetQueryProvider(queryProvider);
             _analyzer.SetNgram(Settings.Type);
             _timer.Elapsed += OnTimerElapsed;
+
+            Style noSpaceStyle = new Style(typeof(Paragraph));
+            noSpaceStyle.Setters.Add(new Setter(Paragraph.MarginProperty, new Thickness(0)));
+            RtbInput.Resources.Add(typeof(Paragraph), noSpaceStyle);
+            RtbResult.Resources.Add(typeof(Paragraph), noSpaceStyle);
         }
         #endregion
 
@@ -99,7 +104,7 @@ namespace PolishDiacriticMarksRestorer
         {
             _timer.Start();
             _start = DateTime.Now;
-            var resultsArray = _analyzer.AnalyzeText(text, out var times, out var counts);
+            var resultsArray = _analyzer.AnalyzeText(text);
             _lists = _analyzer.CreateWordsCombinations();
 
             Dispatcher.Invoke(() =>

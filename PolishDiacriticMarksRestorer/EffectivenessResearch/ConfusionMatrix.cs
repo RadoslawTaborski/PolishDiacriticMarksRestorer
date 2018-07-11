@@ -7,7 +7,7 @@
         public int FalseNegative;
         public int TrueNegative;
 
-        public double Sensitivity() => (double)TruePositive / (TruePositive + TrueNegative);
+        public double Sensitivity() => (double)TruePositive / (TruePositive + FalseNegative);
         public double Specificity() => (double)TrueNegative / (FalsePositive + TrueNegative);
         public double Precision() => (double)TruePositive / (TruePositive + FalsePositive);
         public double NegativePredictiveValue() => (double)TrueNegative / (FalseNegative + TrueNegative);
